@@ -1,0 +1,20 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="base_datos">
+		<properties>
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
+			
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@156.35.94.99:1521:DESA" />
+			<property name="javax.persistence.jdbc.user" value="IPS_2017_2" />
+			<property name="javax.persistence.jdbc.password" value="IPS_2017_2" />
+		</properties>
+	</persistence-unit>
+
+</persistence>
