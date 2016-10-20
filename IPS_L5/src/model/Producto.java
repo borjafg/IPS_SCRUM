@@ -39,7 +39,7 @@ public class Producto implements Serializable {
 	private CategoriasProducto categoria = CategoriasProducto.Ninguna;
 
 	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_posicion")
+	@JoinColumn(name = "id_posicion", referencedColumnName="id_posicion")
 	private PosicionProducto posicion;
 
 	@OneToMany(mappedBy = "producto")

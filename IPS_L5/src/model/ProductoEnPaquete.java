@@ -34,7 +34,7 @@ public class ProductoEnPaquete implements Serializable {
 
 	@Id
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_paquete")
+	@JoinColumn(name = "id_paquete", referencedColumnName="id_paquete")
 	private Paquete paquete;
 
 	@Column(name = "unidades_producto")

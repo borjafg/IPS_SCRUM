@@ -41,7 +41,7 @@ public class Pedido {
 	private EstadoPedido estado;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_cliente")
+	@JoinColumn(name = "id_cliente", referencedColumnName="id_cliente")
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "pedido")

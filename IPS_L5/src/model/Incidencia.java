@@ -28,7 +28,7 @@ public class Incidencia implements Serializable {
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_ordenTrabajo")
+	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName="id_orden_trabajo")
 	private OrdenTrabajo ordenTrabajo;
 
 	@Temporal(TemporalType.DATE)

@@ -23,7 +23,7 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 
 	@Id
 	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_ordenTrabajo")
+	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName="id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
 	/*

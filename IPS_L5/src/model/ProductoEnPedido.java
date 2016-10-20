@@ -24,12 +24,12 @@ public class ProductoEnPedido implements Serializable {
 
 	@Id
 	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_pedido")
+	@JoinColumn(name = "id_pedido", referencedColumnName="id_pedido")
 	private Pedido pedido;
 
 	@Id
 	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_producto")
+	@JoinColumn(name = "id_producto", referencedColumnName="id_producto")
 	private Producto producto;
 
 	@OneToMany(mappedBy = "productoPedido")
