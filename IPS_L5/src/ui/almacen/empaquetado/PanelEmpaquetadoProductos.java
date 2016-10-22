@@ -21,7 +21,7 @@ import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.empaquetado.modelosTabla.ModeloTablaProductos;
 
-public class EmpaquetadoProductos extends JPanel {
+public class PanelEmpaquetadoProductos extends JPanel {
 
 	private static final long serialVersionUID = -45321105L;
 
@@ -37,12 +37,13 @@ public class EmpaquetadoProductos extends JPanel {
 	private OrdenTrabajo ordenTrabajoActual;
 	private Paquete paqueteActual;
 
-	public EmpaquetadoProductos(JFrame ventanaPrincipal) throws BusinessException {
-		modeloTablaProductos = new ModeloTablaProductos();
+	public PanelEmpaquetadoProductos(JFrame ventanaPrincipal) throws BusinessException {
+		super();
 		
+		modeloTablaProductos = new ModeloTablaProductos();
 		this.ventanaPrincipal = ventanaPrincipal;
 
-		this.setLayout(new BorderLayout(3, 3));
+		this.setLayout(new BorderLayout(0, 0));
 		this.add(getPanelAsignacionProductos_Centro(), BorderLayout.CENTER);
 		this.add(getPanelAsignacionProductos_Sur(), BorderLayout.SOUTH);
 	}
@@ -53,7 +54,7 @@ public class EmpaquetadoProductos extends JPanel {
 	 * @throws BusinessException
 	 * 
 	 */
-	public void inicializar(OrdenTrabajo ordenTrabajo) throws BusinessException {
+	public void inicializarDatos(OrdenTrabajo ordenTrabajo) throws BusinessException {
 		this.ordenTrabajoActual = ordenTrabajo;
 		
 		List<ProductoEnOrdenTrabajo> listaProductos = ServiceFactory.getEmpaquetadoService()

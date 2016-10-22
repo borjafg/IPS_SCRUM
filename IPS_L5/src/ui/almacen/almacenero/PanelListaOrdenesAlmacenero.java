@@ -38,20 +38,20 @@ public class PanelListaOrdenesAlmacenero extends JPanel {
 	private JScrollPane scrollPaneTabla;
 	private GestionAlmacen frame;
 
-	/**
-	 * Create the panel.
-	 * @throws BusinessException 
-	 */
-	public PanelListaOrdenesAlmacenero(GestionAlmacen frame) throws BusinessException {
-		this.frame = frame;
+	public PanelListaOrdenesAlmacenero() //throws BusinessException
+	{
+		super();
+		
 		setLayout(new BorderLayout(0, 0));
+		
 		listaModelo =  new DefaultListModel<MyPedido>();
-		crearTerminalPedido();
+		
+		
 		add(getPanelBoton(), BorderLayout.SOUTH);
 		add(getScrollPaneTabla(), BorderLayout.CENTER);
 	}
 
-	private void crearTerminalPedido() throws BusinessException {
+	public void inicializarDatos() throws BusinessException {
 		terminalPedido = new TerminalPedido();
 		
 		for (Pedido pedido : terminalPedido.getPedidos()) 
@@ -131,6 +131,10 @@ public class PanelListaOrdenesAlmacenero extends JPanel {
 	
 	public TerminalPedido getTerminalPedido() {
 		return terminalPedido;
+	}
+	
+	public void setMainFrame(GestionAlmacen frame) {
+		this.frame = frame;
 	}
 	
 	public GestionAlmacen getMainFrame() {

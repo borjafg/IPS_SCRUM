@@ -3,20 +3,15 @@ package test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import model.Cliente;
-import model.Incidencia;
 import model.OrdenTrabajo;
-import model.Paquete;
 import model.Pedido;
 import model.PosicionProducto;
 import model.Producto;
 import model.ProductoEnOrdenTrabajo;
-import model.ProductoEnPaquete;
 import model.ProductoEnPedido;
 import model.types.CategoriasProducto;
 import model.types.EstanteriaProducto;
 import persistence.PedidoFinder;
-import persistence.ProductoFinder;
 import persistence.util.Jpa;
 
 public class ClasePruebas {
@@ -101,54 +96,6 @@ public class ClasePruebas {
 		prod3.setPrecio(30.0);
 
 		en.persist(prod3);
-	}
-
-	private static void probarAccesoMapeador(EntityManager en) {
-		System.out.println("===========================");
-		System.out
-				.println("Probando acceso a las tablas de la base de datos\n");
-
-		en.createQuery("select c from Cliente c", Cliente.class)
-				.getResultList();
-		System.out.println("---- Cliente correcto ----");
-
-		en.createQuery("select i from Incidencia i", Incidencia.class)
-				.getResultList();
-		System.out.println("---- Incidencia correcto ----");
-
-		en.createQuery("select o from OrdenTrabajo o", OrdenTrabajo.class)
-				.getResultList();
-		System.out.println("---- OrdenTrabajo correcto ----");
-
-		en.createQuery("select p from Paquete p", Paquete.class)
-				.getResultList();
-		System.out.println("---- Paquete correcto ----");
-
-		PedidoFinder.findAll();
-		System.out.println("---- Pedido correcto ----");
-
-		en.createQuery("select p from PosicionProducto p",
-				PosicionProducto.class).getResultList();
-		System.out.println("---- PosicionProducto correcto ----");
-
-		ProductoFinder.findAll();
-		System.out.println("---- Producto correcto ----");
-
-		en.createQuery("select p from ProductoEnOrdenTrabajo p",
-				ProductoEnOrdenTrabajo.class).getResultList();
-		System.out.println("---- ProductoEnOrdenTrabajo correcto ----");
-
-		en.createQuery("select p from ProductoEnPaquete p",
-				ProductoEnPaquete.class).getResultList();
-		System.out.println("---- ProductoEnPaquete correcto ----");
-
-		en.createQuery("select p from ProductoEnPedido p",
-				ProductoEnPedido.class).getResultList();
-		System.out.println("---- ProductoEnPedido correcto ----");
-
-		System.out.println();
-		System.out.println("===========================");
-		System.out.println();
 	}
 
 	private static void probarCreacionObjetosBaseDatos(EntityManager en) {
