@@ -5,9 +5,11 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,15 +17,33 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import test.business.LogicaTest;
+import test.business.TestExecutor;
+import test.business.acciones.ProbarAccesoMapeador;
+import test.ui.panelesCentro.PanelCreacionProductos;
 
 public class MenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	// =====================
+	// Opciones test
+	// =====================
+
+	private TestExecutor procesadorTest;
+
+	public static final String TEST_1_ACCESO = "Probar acceso a la base de datos";
+	public static final String TEST_2_CREAR_PRODUCTO = "Crear un nuevo producto";
+	public static final String TEST_3_NUEVO_CLIENTE = "Añadir un nuevo cliente";
+
+	// =====================
+	// Content pane
+	// =====================
 
 	private JPanel contentPane;
 
@@ -31,10 +51,7 @@ public class MenuPrincipal extends JFrame {
 	// Panel norte
 	// =====================
 
-	private JPanel panelNorte;
-	private JButton botonAñadirProducto;
-	private JButton botonBorrarProducto;
-	private JButton botonProbarAcceso;
+	private JPanel panelEste;
 
 	// =====================
 	// Paneles centro
@@ -46,10 +63,14 @@ public class MenuPrincipal extends JFrame {
 	// Panel resultados
 
 	private JPanel panelResultados;
+	private JPanel panelResultados_norte;
 	private JTextArea textAreaResultados;
 	private JLabel labelResultado;
-	private JPanel panelResultados_norte;
-	private JButton botonCambiarStock;
+	private JButton botonAccesoBaseDatos;
+	private JButton botonAñadirUsuario;
+	private JButton botonConfirmarPago;
+	private JButton botonAñadirProducto;
+	private JScrollPane scrollPaneResultados;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -65,16 +86,19 @@ public class MenuPrincipal extends JFrame {
 	}
 
 	public MenuPrincipal() {
+		procesadorTest = new TestExecutor();
+
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 780, 540);
+		setBounds(100, 100, 1300, 620);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 
 		setContentPane(contentPane);
+
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(getPanelNorte(), BorderLayout.NORTH);
+		contentPane.add(getPanelEste(), BorderLayout.EAST);
 		contentPane.add(getPanelCentro(), BorderLayout.CENTER);
 	}
 
@@ -83,97 +107,76 @@ public class MenuPrincipal extends JFrame {
 			panelCentro = new JPanel();
 			panelCentro.setBorder(new LineBorder(new Color(192, 192, 192)));
 			panelCentro.setLayout(new CardLayout(5, 0));
-			
+
 			añadirPanelesCentro();
 		}
 
 		return panelCentro;
 	}
-	
+
+	/**
+	 * Añade al panel del centro los paneles que se asocian con test
+	 * 
+	 */
 	private void añadirPanelesCentro() {
 		panelCentro.add(getPanelResultados(), "panelResultados");
 		panelCentro.add(getPanelCreacionProductos(), "panelCreacionProductos");
 	}
 
-	// ====================
-	// Panel norte
-	// ====================
-
-	private JButton getBotonAñadirProducto() {
-		if (botonAñadirProducto == null) {
-			botonAñadirProducto = new JButton("Crear producto");
-			botonAñadirProducto.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		}
-
-		return botonAñadirProducto;
-	}
-
-	private JButton getBotonBorrarProducto() {
-		if (botonBorrarProducto == null) {
-			botonBorrarProducto = new JButton("Borrar producto");
-			botonBorrarProducto.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		}
-
-		return botonBorrarProducto;
-	}
-
-	private JButton getBotonProbarAcceso() {
-		if (botonProbarAcceso == null) {
-			botonProbarAcceso = new JButton("Probar acceso a base datos");
-			botonProbarAcceso.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					
-					getBotonAñadirProducto().setEnabled(false);
-					getBotonBorrarProducto().setEnabled(false);
-					getBotonCambiarStock().setEnabled(false);
-					
-					String resultado = new LogicaTest().ejecutarPrueba(LogicaTest.TEST_ACCESO);
-					textAreaResultados.setText(resultado);
-					
-					getBotonAñadirProducto().setEnabled(true);
-					getBotonBorrarProducto().setEnabled(true);
-					getBotonCambiarStock().setEnabled(true);
-				}
-			});
-			botonProbarAcceso.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		}
-
-		return botonProbarAcceso;
-	}
-
-	private JPanel getPanelNorte() {
-		if (panelNorte == null) {
-			panelNorte = new JPanel();
-			panelNorte.setBorder(null);
-			FlowLayout fl_panelNorte = (FlowLayout) panelNorte.getLayout();
-			fl_panelNorte.setVgap(8);
-			panelNorte.add(getBotonAñadirProducto());
-			panelNorte.add(getBotonBorrarProducto());
-			panelNorte.add(getBotonCambiarStock());
-			panelNorte.add(getBotonProbarAcceso());
-		}
-
-		return panelNorte;
-	}
-
-	// ====================
+	// =============================
 	// Panel de resultados
-	// ====================
+	// =============================
+
+	private JLabel getLabelResultado() {
+		if (labelResultado == null) {
+			labelResultado = new JLabel("Resultado de la ejecuci\u00F3n:");
+
+			labelResultado.setAlignmentX(Component.CENTER_ALIGNMENT);
+			labelResultado.setHorizontalTextPosition(SwingConstants.CENTER);
+			labelResultado.setHorizontalAlignment(SwingConstants.CENTER);
+			labelResultado.setFont(new Font("Tahoma", Font.BOLD, 22));
+		}
+
+		return labelResultado;
+	}
+
+	private JPanel getPanelResultados_norte() {
+		if (panelResultados_norte == null) {
+			panelResultados_norte = new JPanel();
+			panelResultados_norte.setBorder(null);
+			FlowLayout flowLayout = (FlowLayout) panelResultados_norte.getLayout();
+			flowLayout.setVgap(10);
+			panelResultados_norte.add(getLabelResultado());
+		}
+
+		return panelResultados_norte;
+	}
 
 	private JPanel getPanelResultados() {
 		if (panelResultados == null) {
 			panelResultados = new JPanel();
 			panelResultados.setLayout(new BorderLayout(0, 0));
 			panelResultados.add(getPanelResultados_norte(), BorderLayout.NORTH);
-			panelResultados.add(getTextAreaResultados());
+			panelResultados.add(getScrollPaneResultados(), BorderLayout.CENTER);
 		}
 
 		return panelResultados;
 	}
 
+	private JScrollPane getScrollPaneResultados() {
+		if (scrollPaneResultados == null) {
+			scrollPaneResultados = new JScrollPane(getTextAreaResultados(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		}
+
+		return scrollPaneResultados;
+	}
+
 	private JTextArea getTextAreaResultados() {
 		if (textAreaResultados == null) {
 			textAreaResultados = new JTextArea();
+
+			textAreaResultados.setWrapStyleWord(true);
 			textAreaResultados.setLineWrap(true);
 			textAreaResultados.setName("");
 			textAreaResultados.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -184,9 +187,9 @@ public class MenuPrincipal extends JFrame {
 		return textAreaResultados;
 	}
 
-	// =======================
+	// =============================
 	// Paneles del centro
-	// =======================
+	// =============================
 
 	private PanelCreacionProductos getPanelCreacionProductos() {
 		if (panelCreacionProductos == null) {
@@ -196,31 +199,74 @@ public class MenuPrincipal extends JFrame {
 
 		return panelCreacionProductos;
 	}
-	private JLabel getLabelResultado() {
-		if (labelResultado == null) {
-			labelResultado = new JLabel("Resultado de la ejecuci\u00F3n:");
-			labelResultado.setAlignmentX(Component.CENTER_ALIGNMENT);
-			labelResultado.setHorizontalTextPosition(SwingConstants.CENTER);
-			labelResultado.setHorizontalAlignment(SwingConstants.CENTER);
-			labelResultado.setFont(new Font("Tahoma", Font.BOLD, 22));
+
+	// =============================
+	// Panel de acciones
+	// =============================
+
+	private JPanel getPanelEste() {
+		if (panelEste == null) {
+			panelEste = new JPanel();
+
+			panelEste.setPreferredSize(new Dimension(450, 450));
+			panelEste.setMinimumSize(new Dimension(450, 450));
+			panelEste.setBorder(new EmptyBorder(5, 5, 5, 5));
+			panelEste.setLayout(new GridLayout(0, 1, 0, 0));
+			panelEste.add(getBotonAccesoBaseDatos());
+			panelEste.add(getBotonAñadirUsuario());
+			panelEste.add(getBotonConfirmarPago());
+			panelEste.add(getBotonAñadirProducto());
 		}
-		return labelResultado;
+
+		return panelEste;
 	}
-	private JPanel getPanelResultados_norte() {
-		if (panelResultados_norte == null) {
-			panelResultados_norte = new JPanel();
-			panelResultados_norte.setBorder(null);
-			FlowLayout flowLayout = (FlowLayout) panelResultados_norte.getLayout();
-			flowLayout.setVgap(10);
-			panelResultados_norte.add(getLabelResultado());
+
+	private JButton getBotonAccesoBaseDatos() {
+		if (botonAccesoBaseDatos == null) {
+			botonAccesoBaseDatos = new JButton(TEST_1_ACCESO);
+			botonAccesoBaseDatos.setFont(new Font("Tahoma", Font.BOLD, 21));
+
+			botonAccesoBaseDatos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String resultado = procesadorTest.ejecutarPrueba(new ProbarAccesoMapeador());
+					textAreaResultados.setText(resultado);
+				}
+			});
+
+			botonAccesoBaseDatos.setBorder(null);
+			botonAccesoBaseDatos.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
-		return panelResultados_norte;
+
+		return botonAccesoBaseDatos;
 	}
-	private JButton getBotonCambiarStock() {
-		if (botonCambiarStock == null) {
-			botonCambiarStock = new JButton("Cambiar stock");
-			botonCambiarStock.setFont(new Font("Tahoma", Font.PLAIN, 18));
+
+	private JButton getBotonAñadirUsuario() {
+		if (botonAñadirUsuario == null) {
+			botonAñadirUsuario = new JButton("A\u00F1adir nuevo usuario");
+			botonAñadirUsuario.setFont(new Font("Tahoma", Font.BOLD, 21));
+			botonAñadirUsuario.setEnabled(false);
 		}
-		return botonCambiarStock;
+
+		return botonAñadirUsuario;
+	}
+
+	private JButton getBotonConfirmarPago() {
+		if (botonConfirmarPago == null) {
+			botonConfirmarPago = new JButton("Confirmar pago de un pedido");
+			botonConfirmarPago.setFont(new Font("Tahoma", Font.BOLD, 21));
+			botonConfirmarPago.setEnabled(false);
+		}
+
+		return botonConfirmarPago;
+	}
+
+	private JButton getBotonAñadirProducto() {
+		if (botonAñadirProducto == null) {
+			botonAñadirProducto = new JButton("A\u00F1adir nuevo producto");
+			botonAñadirProducto.setFont(new Font("Tahoma", Font.BOLD, 21));
+			botonAñadirProducto.setEnabled(false);
+		}
+
+		return botonAñadirProducto;
 	}
 }

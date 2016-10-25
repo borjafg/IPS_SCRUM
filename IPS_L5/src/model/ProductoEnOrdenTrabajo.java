@@ -5,37 +5,46 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import model.keys.ProductoEnOrdenTrabajoKey;
 
 @Entity
-@Table(name = "ProductosOrdenTrabajo")
+@Table(name = "ProductosOrdenTrabajo", uniqueConstraints = @UniqueConstraint(columnNames = { "id_ordenTrabajo",
+		"ref_ordenTrabajo" }))
 @IdClass(ProductoEnOrdenTrabajoKey.class)
 public class ProductoEnOrdenTrabajo implements Serializable {
 
 	private static final long serialVersionUID = -45732110L;
 
 	@Id
-	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName="id_ordenTrabajo")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName = "id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
 	/*
-	 * name = nombre de la columna en esta tabla
-	 * referencedColumnName = nombre de la columna de la tabla referenciada
+	 * name = nombre de la columna en esta tabla referencedColumnName = nombre
+	 * de la columna de la tabla referenciada
 	 */
 	@Id
-	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumns({
-		@JoinColumn(name = "id_pedido", referencedColumnName="id_pedido"),
-		@JoinColumn(name = "id_producto", referencedColumnName="id_producto")})
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumns({ @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido"),
+			@JoinColumn(name = "id_producto", referencedColumnName = "id_producto") })
 	private ProductoEnPedido productoPedido;
+
+	@Column(nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REF_ORDEN_TRABAJO_SEQ")
+	@SequenceGenerator(name = "REF_ORDEN_TRABAJO_SEQ", sequenceName = "REF_ORDEN_TRABAJO_SEQ", allocationSize = 1)
+	private long ref_OrdenTrabajo;
 
 	@Column(name = "unidades_recoger")
 	private int unidadesRecoger;
@@ -66,6 +75,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 
 	void _setProducto(ProductoEnPedido productoPedido) {
 		this.productoPedido = productoPedido;
+	}
+	
+	public long getRef_OrdenTrabajo() {
+		return ref_OrdenTrabajo;
 	}
 
 	public int getUnidadesRecoger() {

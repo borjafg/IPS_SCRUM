@@ -1,31 +1,47 @@
-CREATE TABLE Clientes(id_cliente number(32), nombre varchar(64), metodo_pago varchar(64), direccion varchar(255), PRIMARY KEY(id_cliente));
+-- ======================================
+-- Parte de usuario (y de recogida)
+-- ======================================
+
+CREATE TABLE Clientes(id_cliente number(32), nombre varchar(64), tipoCliente varchar(64), metodo_pago varchar(64), direccion varchar(255), PRIMARY KEY(id_cliente));
 
 
-CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha date, estado varchar(64), direccion varchar(255), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
+CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha date, estado varchar(64), pagado varchar(16), direccion varchar(255), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
 
 
 CREATE TABLE PosicionProductos(id_posicion number (32), pasillo number(10), estanteria varchar(32),altura number(10), posicionX number(10), primary key (id_posicion));
 
 
-CREATE TABLE Productos(id_producto number(32), id_posicion number(32), nombre varchar(64), categoria varchar(64), precio number(10,2), PRIMARY KEY(id_producto), foreign key(id_posicion) references Posicionproductos(id_posicion));
+CREATE TABLE Categorias(id_categoria number(32), id_categoria_padre number(32), nombre varchar(64), PRIMARY KEY(id_categoria), foreign key(id_categoria_padre) references Categorias(id_categoria));
+
+
+CREATE TABLE Productos(id_producto number(32), id_posicion number(32), nombre varchar(64), id_categoria number(32), precio number(10,2), PRIMARY KEY(id_producto), foreign key(id_posicion) references Posicionproductos(id_posicion), foreign key(id_categoria) references Categorias(id_categoria));
 
 
 CREATE TABLE ProductosPedido(id_producto number(32), id_pedido number (32), cantidad number(10), primary key(id_producto, id_pedido), foreign key (id_producto) references Productos(id_producto), foreign key (id_pedido) references Pedidos(id_pedido));
 
 
-CREATE TABLE OrdenesTrabajo(id_ordenTrabajo number(32), fecha date, estado varchar(64), primary key(id_ordenTrabajo));
+-- ======================================
+-- Parte de recogida (y de empaquetado)
+-- ======================================
+
+CREATE TABLE Almaceneros(id_almacenero number(32), login varchar(64) NOT NULL, UNIQUE(login), PRIMARY KEY(id_almacenero));
 
 
-CREATE TABLE ProductosOrdenTrabajo(id_ordenTrabajo number(32), id_producto number(32), id_pedido number(32), unidades_recoger number(10), unidades_recogidas number(10), primary key(id_ordenTrabajo, id_producto,id_pedido), foreign key (id_producto, id_pedido) references ProductosPedido(id_producto, id_pedido), foreign key(id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
+CREATE TABLE OrdenesTrabajo(id_ordenTrabajo number(32), fecha date, estado varchar(64), id_almacenero_recoger number(32), id_almacenero_empaquetar number(32), primary key(id_ordenTrabajo), foreign key(id_almacenero_recoger) references Almaceneros(id_almacenero), foreign key(id_almacenero_empaquetar) references Almaceneros(id_almacenero));
+
+
+CREATE TABLE ProductosOrdenTrabajo(id_ordenTrabajo number(32), id_producto number(32), id_pedido number(32), ref_ordenTrabajo number(32) not null, unidades_recoger number(10), unidades_recogidas number(10), primary key(id_ordenTrabajo, id_producto, id_pedido), foreign key (id_producto, id_pedido) references ProductosPedido(id_producto, id_pedido), foreign key(id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo), unique(id_ordenTrabajo, ref_ordenTrabajo));
 
 
 CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), fecha date, causa varchar(64), primary key(id_incidencia), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
 
 
+-- ======================================
+-- Parte de empaquetado
+-- ======================================
+
 CREATE TABLE Paquetes(id_paquete number(32), destinatario varchar(255), direccion varchar (255), primary key (id_paquete));
 
 
 CREATE TABLE ProductosPaquete(id_producto number(32), id_pedido number (32), id_paquete number(32), unidades_Producto number(10), primary key(id_producto, id_pedido, id_paquete), foreign key(id_paquete) references Paquetes(id_paquete), foreign key(id_producto, id_pedido) references ProductosPedido(id_producto, id_pedido));
-
-
 

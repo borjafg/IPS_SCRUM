@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import model.types.MetodosPago;
+import model.types.TipoCliente;
 
 @Entity
 @Table(name = "Clientes")
@@ -26,10 +27,13 @@ public class Cliente implements Serializable {
 	@Id
 	@Column(name = "id_cliente")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLIENTES_SEQ")
-	@SequenceGenerator(name = "CLIENTES_SEQ", sequenceName = "CLIENTES_SEQ", allocationSize=1,initialValue=1)
+	@SequenceGenerator(name = "CLIENTES_SEQ", sequenceName = "CLIENTES_SEQ", allocationSize = 1, initialValue = 1)
 	private long id;
 
 	private String nombre;
+
+	@Enumerated(EnumType.STRING)
+	private TipoCliente tipoCliente;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "metodo_pago")
@@ -48,7 +52,7 @@ public class Cliente implements Serializable {
 	public long getId() {
 		return id;
 	}
-	
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -59,6 +63,14 @@ public class Cliente implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public TipoCliente getTipoCliente() {
+		return tipoCliente;
+	}
+
+	public void setTipoCliente(TipoCliente tipoCliente) {
+		this.tipoCliente = tipoCliente;
 	}
 
 	public MetodosPago getMetodoPago() {

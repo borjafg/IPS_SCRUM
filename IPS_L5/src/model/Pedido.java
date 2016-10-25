@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import model.types.EstadoPedido;
+import model.types.PedidoPagado;
 
 @Entity
 @Table(name = "Pedidos")
@@ -39,6 +40,9 @@ public class Pedido {
 
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estado;
+	
+	@Enumerated(EnumType.STRING)
+	private PedidoPagado pagado;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName="id_cliente")
@@ -81,6 +85,14 @@ public class Pedido {
 	
 	public void setEstado(EstadoPedido estado) {
 		this.estado = estado;
+	}
+	
+	public PedidoPagado getPagado() {
+		return pagado;
+	}
+	
+	public void setPagado(PedidoPagado pagado) {
+		this.pagado = pagado;
 	}
 	
 	public Cliente getCliente() {

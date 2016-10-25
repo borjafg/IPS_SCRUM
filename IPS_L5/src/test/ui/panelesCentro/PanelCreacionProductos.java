@@ -1,18 +1,21 @@
-package test.ui;
+package test.ui.panelesCentro;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Font;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import test.ui.MenuPrincipal;
 
 public class PanelCreacionProductos extends JPanel {
 
@@ -33,6 +36,11 @@ public class PanelCreacionProductos extends JPanel {
 	public PanelCreacionProductos() {
 		super();
 		setLayout(new BorderLayout(0, 0));
+		
+		// Definir el tamaño aproximado que debería tener el panel
+		//
+		setPreferredSize( new Dimension( 640, 480 ) );
+		
 		add(getPanelCentro());
 		add(getPanelSur(), BorderLayout.SOUTH);
 	}

@@ -6,19 +6,16 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import model.types.CategoriasProducto;
 
 @Entity
 @Table(name = "Productos")
@@ -29,28 +26,30 @@ public class Producto implements Serializable {
 	@Id
 	@Column(name = "id_producto")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCTOS_SEQ")
-	@SequenceGenerator(name = "PRODUCTOS_SEQ", sequenceName = "PRODUCTOS_SEQ", allocationSize=1)
+	@SequenceGenerator(name = "PRODUCTOS_SEQ", sequenceName = "PRODUCTOS_SEQ", allocationSize = 1)
 	private long id;
 
 	private String nombre;
 	private double precio;
 
-	@Enumerated(EnumType.STRING)
-	private CategoriasProducto categoria = CategoriasProducto.Ninguna;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
+	private Categoria categoria;
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_posicion", referencedColumnName="id_posicion")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_posicion", referencedColumnName = "id_posicion")
 	private PosicionProducto posicion;
 
 	@OneToMany(mappedBy = "producto")
 	private Set<ProductoEnPedido> listaProductosPedidos = new HashSet<ProductoEnPedido>();
 
 	Producto() {
-		
+
 	}
-	
-	public Producto(PosicionProducto posicion) {
+
+	public Producto(PosicionProducto posicion, Categoria categoria) {
 		Asociacion.Situar.link(this, posicion);
+		Asociacion.Categorizar.link(this, categoria);
 	}
 
 	public long getId() {
@@ -73,11 +72,11 @@ public class Producto implements Serializable {
 		this.precio = precio;
 	}
 
-	public CategoriasProducto getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(CategoriasProducto categoria) {
+	void _setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 
@@ -96,12 +95,10 @@ public class Producto implements Serializable {
 	Set<ProductoEnPedido> _getListaProductosPedidos() {
 		return listaProductosPedidos;
 	}
-	
-	
 
 	@Override
 	public String toString() {
-		return  nombre + ", precio=" + precio + "  euros  , categoria=" + categoria ;
+		return nombre + ", precio=" + precio + "  euros  , categoria=" + categoria;
 	}
 
 	@Override

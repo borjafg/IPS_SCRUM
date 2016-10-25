@@ -2,6 +2,8 @@ package business.impl.almacen;
 
 import java.util.Date;
 
+import org.hibernate.cfg.NotYetImplementedException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.OrdenTrabajo;
@@ -27,21 +29,22 @@ public class InsertOrdenTrabajo implements Command {
 
 		Pedido pedido = Jpa.getManager().merge(this.pedido);
 
-		OrdenTrabajo ordenTrabajo = new OrdenTrabajo();
-		ordenTrabajo.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.PENDIENTE);
-		Date date = new Date();
-		ordenTrabajo.setFecha(date);
+//		OrdenTrabajo ordenTrabajo = new OrdenTrabajo(); TODO
+//		ordenTrabajo.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.RECOGIDA);
+//		Date date = new Date();
+//		ordenTrabajo.setFecha(date);
 
-		ProductoEnPedido productoEnPedido; 
+//		ProductoEnPedido productoEnPedido; 
 		
-		for (ProductoEnPedido producto : pedido.getListaProductosPedidos()) {
-			productoEnPedido = Jpa.getManager().merge(producto);
-			Jpa.getManager().persist(new ProductoEnOrdenTrabajo(ordenTrabajo, productoEnPedido, productoEnPedido.getCantidad()));
-		}
-		
-		Jpa.getManager().persist(ordenTrabajo);
-
-		return ordenTrabajo;
+//		for (ProductoEnPedido producto : pedido.getListaProductosPedidos()) {
+//			productoEnPedido = Jpa.getManager().merge(producto);
+//			Jpa.getManager().persist(new ProductoEnOrdenTrabajo(ordenTrabajo, productoEnPedido, productoEnPedido.getCantidad()));
+//		}
+//		
+//		Jpa.getManager().persist(ordenTrabajo);
+//
+//		return ordenTrabajo;
+		throw new NotYetImplementedException("Hay que asignar a un almacenero a la orden de trabajo D:");
 	}
 
 }

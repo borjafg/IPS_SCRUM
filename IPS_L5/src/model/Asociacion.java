@@ -77,4 +77,48 @@ public class Asociacion {
 			posicion._setProducto(producto);
 		}
 	}
+	
+	/**
+	 * Asocia un producto con su categoria
+	 *
+	 */
+	public static class Categorizar {
+		public static void link(Producto producto, Categoria categoria) {
+			producto._setCategoria(categoria);
+			categoria._getProductos().add(producto);
+		}
+	}
+
+	/**
+	 * Asocia una categoria con su subcategoria
+	 * 
+	 */
+	public static class NuevaCategoria {
+		public static void link(Categoria subcategoria, Categoria categoriaPadre) {
+			subcategoria._setCategoriaPadre(categoriaPadre);
+			categoriaPadre._getSubCategorias().add(subcategoria);
+		}
+	}
+
+	/**
+	 * Asocia un almacenero con una orden de trabajo cuyos productos tiene que recoger
+	 * 
+	 */
+	public static class AlmaceneroRecogerOrdenTrabajo {
+		public static void link(OrdenTrabajo ordenTrabajo, Almacenero almacenero) {
+			ordenTrabajo._setAlmaceneroRecoger(almacenero);
+			almacenero._getOrdenesTrabajoRecoger().add(ordenTrabajo);
+		}
+	}
+	
+	/**
+	 * Asocia un almacenero con una orden de trabajo cuyos productos tiene que empaquetar
+	 * 
+	 */
+	public static class AlmaceneroEmpaquetarOrdenTrabajo {
+		public static void link(OrdenTrabajo ordenTrabajo, Almacenero almacenero) {
+			ordenTrabajo._setAlmaceneroEmpaquetar(almacenero);
+			almacenero._getOrdenesTrabajoEmpaquetar().add(ordenTrabajo);
+		}
+	}
 }

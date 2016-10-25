@@ -9,9 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -31,7 +34,7 @@ public class OrdenTrabajo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDENES_TRABAJO_SEQ")
 	@SequenceGenerator(name = "ORDENES_TRABAJO_SEQ", sequenceName = "ORDENES_TRABAJO_SEQ", allocationSize=1)
 	private long id;
-
+	
 	@OneToMany(mappedBy = "ordenTrabajo")
 	private Set<ProductoEnOrdenTrabajo> productosOrdenTrabajo = new HashSet<ProductoEnOrdenTrabajo>();
 
@@ -42,10 +45,22 @@ public class OrdenTrabajo implements Serializable {
 	private Date fecha;
 
 	@Enumerated(EnumType.STRING)
-	private EstadoOrdenTrabajo estado = EstadoOrdenTrabajo.EN_CURSO;
+	private EstadoOrdenTrabajo estado = EstadoOrdenTrabajo.RECOGIDA;
+	
+	@ManyToOne (fetch=FetchType.EAGER)
+	@JoinColumn(name = "id_almacenero_recoger", referencedColumnName="id_almacenero")
+	private Almacenero almaceneroRecoger;
+	
+	@ManyToOne (fetch=FetchType.EAGER)
+	@JoinColumn(name = "id_almacenero_empaquetar", referencedColumnName="id_almacenero")
+	private Almacenero almaceneroEmpaquetar;
 
-	public OrdenTrabajo() {
-
+	OrdenTrabajo() {
+		
+	}
+	
+	public OrdenTrabajo(Almacenero almacenero) {
+		Asociacion.AlmaceneroRecogerOrdenTrabajo.link(this, almacenero);
 	}
 
 	public long getId() {
@@ -82,6 +97,26 @@ public class OrdenTrabajo implements Serializable {
 
 	public void setEstadoOrdenTrabajo(EstadoOrdenTrabajo estado) {
 		this.estado = estado;
+	}
+	
+	public Almacenero getAlmaceneroRecoger() {
+		return almaceneroRecoger;
+	}
+	
+	void _setAlmaceneroRecoger(Almacenero almaceneroRecoger) {
+		this.almaceneroRecoger = almaceneroRecoger;
+	}
+	
+	public Almacenero getAlmaceneroEmpaquetar() {
+		return almaceneroEmpaquetar;
+	}
+	
+	public void setAlmaceneroEmpaquetar(Almacenero almacenero) {
+		Asociacion.AlmaceneroEmpaquetarOrdenTrabajo.link(this, almacenero);
+	}
+	
+	void _setAlmaceneroEmpaquetar(Almacenero almaceneroEmpaquetar) {
+		this.almaceneroEmpaquetar = almaceneroEmpaquetar;
 	}
 
 	@Override
