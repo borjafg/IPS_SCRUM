@@ -70,17 +70,14 @@ public class LogicaVentanaPrincipalUsuario {
 	 * 
 	 * @param productoPedido
 	 */
-	public DefaultListModel<ModeloProductosPedidos> sumarProductoACesta(
-			ModeloProductosPedidos productoPedido,
-			DefaultListModel<ModeloProductosPedidos> modeloListaCesta) {
+	public DefaultListModel<ModeloProductosPedidos> sumarProductoACesta(ModeloProductosPedidos productoPedido,DefaultListModel<ModeloProductosPedidos> modeloListaCesta) {
 		if (listaCesta.isEmpty()) {// cuando esta vacia
 			listaCesta.add(productoPedido);
 			modeloListaCesta.addElement(productoPedido);
 		} else {
 			if (contieneProducto(productoPedido)) {// true si contiene al
 													// elemento
-				getProductoPedido(productoPedido.getProducto().getId())
-						.sumarUnidades(productoPedido.getUnidades());
+				getProductoPedido(productoPedido.getProducto().getId()).sumarUnidades(productoPedido.getUnidades());
 				return cargarModeloListaCesta();
 			} else {
 				listaCesta.add(productoPedido);
@@ -90,17 +87,23 @@ public class LogicaVentanaPrincipalUsuario {
 		return modeloListaCesta;
 	}
 
-	public boolean verificarResta(int unidades,
-			ModeloProductosPedidos productoCesta) {
+	public boolean verificarResta(int unidades,ModeloProductosPedidos productoCesta) {
 		return (productoCesta.getUnidades() - unidades >= 0) ? true : false;
 	}
 
-	public DefaultListModel<ModeloProductosPedidos> restarProductoCesta(
-			int unidades, ModeloProductosPedidos productoCesta) {
+	public DefaultListModel<ModeloProductosPedidos> restarProductoCesta(int unidades, ModeloProductosPedidos productoCesta) {
 		getProductoPedido(productoCesta.getProducto().getId()).restarUnidades(
 				unidades);
 
 		return cargarModeloListaCesta();
+	}
+	
+	
+	public DefaultListModel<ModeloProductosPedidos> EliminarProducto(int index){
+		listaCesta.remove(index);
+		return cargarModeloListaCesta();
+		//si seleccionado, es que ya lo contiene
+		
 	}
 
 	private boolean contieneProducto(ModeloProductosPedidos productoPedido) {

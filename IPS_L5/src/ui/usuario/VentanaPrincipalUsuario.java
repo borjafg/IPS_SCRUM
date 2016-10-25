@@ -27,6 +27,7 @@ import model.types.MetodosPago;
 import ui.usuario.logica.LogicaVentanaPrincipalUsuario;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 import business.exception.BusinessException;
+import javax.swing.ScrollPaneConstants;
 
 public class VentanaPrincipalUsuario extends JFrame {
 	
@@ -57,22 +58,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JLabel lblGastoTotal;
 	private JTextField textGastoTotal;
 	private JPanel panelBase;
-	private JPanel panelAceparPedido;
+	private JPanel panelAceparPedidoNoRegistrados;
 	private JPanel panelBotonesAceptarPedido;
 	private JButton btnCancelarPedido;
 	private JButton btnFinalizarPedido;
 	private JList listCesta;
 	private JList listProductos;
-	private JPanel panelBotonesUnidades;
-	private JPanel panelAuxiliarBotonesUnidades1;
-	private JPanel panelBotonesUnidades_1;
-	private JPanel panelAuxiliarBotonesUnidades3;
-	private JPanel panelUnidadesDeproducto;
-	private JPanel panelBotonesUnidades_2;
-	private JButton btnEliminarUnidades;
-	private JButton btnSumarUnidades;
-	private JTextField textFieldUnidadesProducto;
-	private JLabel lblUnidadesProducto;
 	private JPanel panelAceptarPedidoBase;
 	private JPanel panelAuxAceptarPedido1;
 	private JPanel panelDireccionCliente;
@@ -85,6 +76,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JLabel lblNombreCliente;
 	private JTextField textFieldNombreCliente;
 	private JComboBox comboBox;
+	private JPanel panelCesta2;
+	private JPanel panelBotonQuitar;
+	private JButton btnQuitar;
+	private JPanel panelAñadirProductos;
+	private JButton btnAñadir;
+	private JTextField textFieldUnidadesProducto;
 	
 	
 	
@@ -102,6 +99,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					
 					
 					frame.setVisible(true);//lo ultimo
+					System.out.println("pase por set visible");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -139,9 +137,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelCesta = new JPanel();
 			panelCesta.setLayout(new BorderLayout(0, 0));
 			panelCesta.add(getLblCesta(), BorderLayout.NORTH);
-			panelCesta.add(getScrollPaneCesta(), BorderLayout.CENTER);
 
 			panelCesta.add(getPanelGastosTotales(), BorderLayout.SOUTH);
+			panelCesta.add(getPanelCesta2(), BorderLayout.WEST);
 			
 		}
 		return panelCesta;
@@ -186,6 +184,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JScrollPane getScrollPaneCesta() {
 		if (scrollPaneCesta == null) {
 			scrollPaneCesta = new JScrollPane();
+			scrollPaneCesta.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPaneCesta.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			scrollPaneCesta.setViewportView(getListCesta());
 		}
 		return scrollPaneCesta;
@@ -198,7 +198,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	 */
 	private JButton getBtnAceptarPedido() {
 		if (btnAceptarPedido == null) {
-			btnAceptarPedido = new JButton("Aceptar");
+			btnAceptarPedido = new JButton("Comprar");
 			
 			btnAceptarPedido.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -207,6 +207,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					if(modeloListaCesta.isEmpty()){
 						JOptionPane.showMessageDialog(getBtnAceptarPedido(), "Para confirmar pedido, la cesta tiene que tener por lo menos un artículo", "Error", JOptionPane.ERROR_MESSAGE);
 					}else{
+						//Aqui luego ira si se a registrado un usuario
 					((CardLayout)panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
 					}}
 			});
@@ -220,13 +221,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelCentro.setLayout(new BorderLayout(0, 0));
 			panelCentro.add(getPanelCesta(), BorderLayout.EAST);
 			panelCentro.add(getPanelProductos(), BorderLayout.WEST);
-			panelCentro.add(getPanelBotonesUnidades(), BorderLayout.CENTER);
 		}
 		return panelCentro;
 	}
 	private JScrollPane getScrollPaneProductos() {
 		if (scrollPaneProductos == null) {
 			scrollPaneProductos = new JScrollPane();
+			scrollPaneProductos.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPaneProductos.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			scrollPaneProductos.setViewportView(getListProductos());
 		}
 		return scrollPaneProductos;
@@ -271,18 +273,18 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelBase = new JPanel();
 			panelBase.setLayout(new CardLayout(0, 0));
 			panelBase.add(getPanelPrincipal(), "panelPrincipal");//se añade el panel de la tienda al card layout
-			panelBase.add(getPanelAceparPedido(), "panelAceptarPedido");//se añade el panel de aceptar pedido al card layout
+			panelBase.add(getPanelAceparPedidoNoRegistrados(), "panelAceptarPedido");//se añade el panel de aceptar pedido al card layout
 		}
 		return panelBase;
 	}
-	private JPanel getPanelAceparPedido() {
-		if (panelAceparPedido == null) {
-			panelAceparPedido = new JPanel();
-			panelAceparPedido.setLayout(new BorderLayout(0, 0));
-			panelAceparPedido.add(getPanelBotonesAceptarPedido(), BorderLayout.SOUTH);
-			panelAceparPedido.add(getPanelAceptarPedidoBase(), BorderLayout.CENTER);
+	private JPanel getPanelAceparPedidoNoRegistrados() {
+		if (panelAceparPedidoNoRegistrados == null) {
+			panelAceparPedidoNoRegistrados = new JPanel();
+			panelAceparPedidoNoRegistrados.setLayout(new BorderLayout(0, 0));
+			panelAceparPedidoNoRegistrados.add(getPanelBotonesAceptarPedido(), BorderLayout.SOUTH);
+			panelAceparPedidoNoRegistrados.add(getPanelAceptarPedidoBase(), BorderLayout.CENTER);
 		}
-		return panelAceparPedido;
+		return panelAceparPedidoNoRegistrados;
 	}
 	private JPanel getPanelBotonesAceptarPedido() {
 		if (panelBotonesAceptarPedido == null) {
@@ -357,135 +359,13 @@ public class VentanaPrincipalUsuario extends JFrame {
 			listProductos = new JList();
 			listProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			modeloListaProductos = logVOUser.getModeloListaProductos();
+			modeloListaProductos = new DefaultListModel<Producto>();
 			listProductos.setModel(modeloListaProductos);
 			
 			
 			
 		}
 		return listProductos;
-	}
-	private JPanel getPanelBotonesUnidades() {
-		if (panelBotonesUnidades == null) {
-			panelBotonesUnidades = new JPanel();
-			panelBotonesUnidades.setLayout(new GridLayout(3, 0, 0, 0));
-			panelBotonesUnidades.add(getPanelAuxiliarBotonesUnidades1());
-			panelBotonesUnidades.add(getPanelBotonesUnidades_1());
-		}
-		return panelBotonesUnidades;
-	}
-	private JPanel getPanelAuxiliarBotonesUnidades1() {
-		if (panelAuxiliarBotonesUnidades1 == null) {
-			panelAuxiliarBotonesUnidades1 = new JPanel();
-		}
-		return panelAuxiliarBotonesUnidades1;
-	}
-	private JPanel getPanelBotonesUnidades_1() {
-		if (panelBotonesUnidades_1 == null) {
-			panelBotonesUnidades_1 = new JPanel();
-			panelBotonesUnidades_1.setLayout(new GridLayout(3, 0, 0, 0));
-			panelBotonesUnidades_1.add(getPanelAuxiliarBotonesUnidades3());
-			panelBotonesUnidades_1.add(getPanelUnidadesDeproducto());
-			panelBotonesUnidades_1.add(getPanelBotonesUnidades_2());
-		}
-		return panelBotonesUnidades_1;
-	}
-	private JPanel getPanelAuxiliarBotonesUnidades3() {
-		if (panelAuxiliarBotonesUnidades3 == null) {
-			panelAuxiliarBotonesUnidades3 = new JPanel();
-		}
-		return panelAuxiliarBotonesUnidades3;
-	}
-	private JPanel getPanelUnidadesDeproducto() {
-		if (panelUnidadesDeproducto == null) {
-			panelUnidadesDeproducto = new JPanel();
-			panelUnidadesDeproducto.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-			panelUnidadesDeproducto.add(getLblUnidadesProducto());
-			panelUnidadesDeproducto.add(getTextFieldUnidadesProducto());
-		}
-		return panelUnidadesDeproducto;
-	}
-	private JPanel getPanelBotonesUnidades_2() {
-		if (panelBotonesUnidades_2 == null) {
-			panelBotonesUnidades_2 = new JPanel();
-			panelBotonesUnidades_2.add(getBtnSumarUnidades());
-			panelBotonesUnidades_2.add(getBtnEliminarUnidades());
-		}
-		return panelBotonesUnidades_2;
-	}
-	private JButton getBtnEliminarUnidades() {
-		if (btnEliminarUnidades == null) {
-			btnEliminarUnidades = new JButton("Quitar");
-			btnEliminarUnidades.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					getListProductos().setSelectedIndex(-1);
-					ModeloProductosPedidos cestaSeleccionado = (ModeloProductosPedidos) getListCesta().getSelectedValue();
-					getListProductos().setSelectedValue(null, false);
-					if(cestaSeleccionado == null){
-						JOptionPane.showMessageDialog(getBtnEliminarUnidades(), "Se tiene que seleccionar un producto de la cesta", "Error", JOptionPane.ERROR_MESSAGE);
-					}else{
-					 if(!logVOUser.isnumber(getTextFieldUnidadesProducto().getText())){
-						JOptionPane.showMessageDialog(getBtnEliminarUnidades(), "Se tiene que escribir un número entero positivo", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					if(!logVOUser.verificarResta(Integer.parseInt(getTextFieldUnidadesProducto().getText()), cestaSeleccionado)){
-						JOptionPane.showMessageDialog(getBtnEliminarUnidades(), "No se pueden eliminar tantos productos de la cesta", "Error", JOptionPane.ERROR_MESSAGE);
-					}else{
-					modeloListaCesta = logVOUser.restarProductoCesta(Integer.parseInt(getTextFieldUnidadesProducto().getText()), cestaSeleccionado);
-					getListCesta().setModel(modeloListaCesta);
-					getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
-					getListCesta().setSelectedIndex(-1);
-					}
-				}}
-			});
-		}
-		return btnEliminarUnidades;
-	
-	
-	}
-		
-
-	
-	
-	private JButton getBtnSumarUnidades() {
-		if (btnSumarUnidades == null) {
-			btnSumarUnidades = new JButton("A\u00F1adir");
-			btnSumarUnidades.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					getListCesta().setSelectedIndex(-1);
-					Producto productoSeleccionado = (Producto) getListProductos().getSelectedValue();//el producto seleccionado, porque solo permito seleccionar uno
-					
-					if(productoSeleccionado == null){
-						JOptionPane.showMessageDialog(getBtnSumarUnidades(), "Se tiene que seleccionar un producto de la lista de productos", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					if(!logVOUser.isnumber(getTextFieldUnidadesProducto().getText())){
-						JOptionPane.showMessageDialog(getBtnSumarUnidades(), "Se tiene que escribir un número entero positivo", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					//validaciones hasta ahora
-					ModeloProductosPedidos productopedido = new ModeloProductosPedidos((Producto) getListProductos().getSelectedValue(), Integer.parseInt(getTextFieldUnidadesProducto().getText()));
-					modeloListaCesta = logVOUser.sumarProductoACesta(productopedido,modeloListaCesta);
-					getListCesta().setModel(modeloListaCesta);
-					getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
-					getListProductos().setSelectedIndex(-1);
-					getListCesta().setSelectedIndex(-1);
-				}
-			});
-		}
-		return btnSumarUnidades;
-	}
-	private JTextField getTextFieldUnidadesProducto() {
-		if (textFieldUnidadesProducto == null) {
-			textFieldUnidadesProducto = new JTextField();
-			textFieldUnidadesProducto.setHorizontalAlignment(SwingConstants.RIGHT);
-			textFieldUnidadesProducto.setText("1");
-			textFieldUnidadesProducto.setColumns(10);
-		}
-		return textFieldUnidadesProducto;
-	}
-	private JLabel getLblUnidadesProducto() {
-		if (lblUnidadesProducto == null) {
-			lblUnidadesProducto = new JLabel("Unidades: ");
-			lblUnidadesProducto.setLabelFor(getTextFieldUnidadesProducto());
-		}
-		return lblUnidadesProducto;
 	}
 	private JPanel getPanelAceptarPedidoBase() {
 		if (panelAceptarPedidoBase == null) {
@@ -545,6 +425,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelProductosContenedor = new JPanel();
 			panelProductosContenedor.setLayout(new BorderLayout(0, 0));
 			panelProductosContenedor.add(getScrollPaneProductos());
+			panelProductosContenedor.add(getPanelAñadirProductos(), BorderLayout.SOUTH);
 			
 		}
 		return panelProductosContenedor;
@@ -567,5 +448,83 @@ public class VentanaPrincipalUsuario extends JFrame {
 			comboBox = new JComboBox(MetodosPago.values());
 		}
 		return comboBox;
+	}
+	private JPanel getPanelCesta2() {
+		if (panelCesta2 == null) {
+			panelCesta2 = new JPanel();
+			panelCesta2.setLayout(new BorderLayout(0, 0));
+			panelCesta2.add(getScrollPaneCesta());
+			panelCesta2.add(getPanelBotonQuitar(), BorderLayout.SOUTH);
+			
+		}
+		return panelCesta2;
+	}
+	private JPanel getPanelBotonQuitar() {
+		if (panelBotonQuitar == null) {
+			panelBotonQuitar = new JPanel();
+			panelBotonQuitar.add(getBtnQuitar());
+		}
+		return panelBotonQuitar;
+	}
+	private JButton getBtnQuitar() {
+		if (btnQuitar == null) {
+			btnQuitar = new JButton("Quitar");
+			btnQuitar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ModeloProductosPedidos cestaSeleccionado = (ModeloProductosPedidos) getListCesta().getSelectedValue();
+					getListProductos().setSelectedValue(null, false);//puede uqe esto sea lo que funciona
+					if(cestaSeleccionado == null){
+						JOptionPane.showMessageDialog(getBtnQuitar(), "Se tiene que seleccionar un producto de la cesta", "Error", JOptionPane.ERROR_MESSAGE);
+					}else{
+						modeloListaCesta = logVOUser.EliminarProducto(getListCesta().getSelectedIndex());
+						getListCesta().setModel(modeloListaCesta);
+						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
+						getListCesta().setSelectedValue(null, false);
+					}
+				}
+			});
+		}
+		return btnQuitar;
+	}
+	private JPanel getPanelAñadirProductos() {
+		if (panelAñadirProductos == null) {
+			panelAñadirProductos = new JPanel();
+			panelAñadirProductos.add(getTextFieldUnidadesProducto());
+			panelAñadirProductos.add(getBtnAñadir());
+			
+		}
+		return panelAñadirProductos;
+	}
+	private JButton getBtnAñadir() {
+		if (btnAñadir == null) {
+			btnAñadir = new JButton("A\u00F1adir");
+			btnAñadir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int index = getListProductos().getSelectedIndex();
+					if(index == -1){
+						JOptionPane.showMessageDialog(getBtnAceptarPedido(), "Seleccione un producto", "Error", JOptionPane.ERROR_MESSAGE);
+					}else if(!logVOUser.isnumber(getTextFieldUnidadesProducto().getText())){
+						JOptionPane.showMessageDialog(getBtnAñadir(), "Se tiene que escribir un número entero positivo", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+						ModeloProductosPedidos productopedido = new ModeloProductosPedidos((Producto) getListProductos().getSelectedValue(), Integer.parseInt(getTextFieldUnidadesProducto().getText()));
+						modeloListaCesta = logVOUser.sumarProductoACesta(productopedido,modeloListaCesta);
+						getListCesta().setModel(modeloListaCesta);
+						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal())); 
+						getListProductos().setSelectedValue(null,false);//no muy seguro
+						
+					}
+				}
+			});
+		}
+		return btnAñadir;
+	}
+	private JTextField getTextFieldUnidadesProducto() {
+		if (textFieldUnidadesProducto == null) {
+			textFieldUnidadesProducto = new JTextField();
+			textFieldUnidadesProducto.setText("1");
+			textFieldUnidadesProducto.setColumns(10);
+		}
+		return textFieldUnidadesProducto;
 	}
 }
