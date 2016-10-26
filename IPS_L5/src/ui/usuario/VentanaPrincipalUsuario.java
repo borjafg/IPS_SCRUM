@@ -224,7 +224,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return panelCentro;
 	}
-	private JScrollPane getScrollPaneProductos() {
+	private JScrollPane getScrollPaneProductos() {//meter card layout
 		if (scrollPaneProductos == null) {
 			scrollPaneProductos = new JScrollPane();
 			scrollPaneProductos.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -349,6 +349,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (listCesta == null) {
 			listCesta = new JList();
 			listCesta.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			listCesta.putClientProperty("List.isFileList", Boolean.TRUE);
 			modeloListaCesta = new DefaultListModel<ModeloProductosPedidos>();
 			listCesta.setModel(modeloListaCesta);
 		}
@@ -358,6 +359,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (listProductos == null) {
 			listProductos = new JList();
 			listProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			listProductos.putClientProperty("List.isFileList", Boolean.TRUE);
 			modeloListaProductos = logVOUser.getModeloListaProductos();
 			modeloListaProductos = new DefaultListModel<Producto>();
 			listProductos.setModel(modeloListaProductos);
@@ -480,7 +482,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getListCesta().setModel(modeloListaCesta);
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
 						getListCesta().setSelectedValue(null, false);
+						
 					}
+					getListProductos().setSelectedIndex(-1);
+					getListCesta().setSelectedIndex(-1);
 				}
 			});
 		}
@@ -511,9 +516,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 						modeloListaCesta = logVOUser.sumarProductoACesta(productopedido,modeloListaCesta);
 						getListCesta().setModel(modeloListaCesta);
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal())); 
-						getListProductos().setSelectedValue(null,false);//no muy seguro
+						//getListProductos().setSelectedValue(null,false);//no muy seguro
+						
 						
 					}
+					getListProductos().setSelectedIndex(-1);
+					getListCesta().setSelectedIndex(-1);
 				}
 			});
 		}

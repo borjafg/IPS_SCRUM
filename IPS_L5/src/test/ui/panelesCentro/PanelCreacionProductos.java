@@ -39,7 +39,7 @@ public class PanelCreacionProductos extends JPanel {
 		
 		// Definir el tamaño aproximado que debería tener el panel
 		//
-		setPreferredSize( new Dimension( 640, 480 ) );
+		setPreferredSize( new Dimension( 640, 480 ) );//definir tamaño por defecto
 		
 		add(getPanelCentro());
 		add(getPanelSur(), BorderLayout.SOUTH);
