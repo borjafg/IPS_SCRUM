@@ -1,4 +1,4 @@
-package ui.almacen.almacenero.redefinicion;
+package ui.almacen.almacenero.util;
 
 import model.PosicionProducto;
 import model.ProductoEnOrdenTrabajo;

@@ -11,6 +11,10 @@
 	<named-query name="Pedido.findAll">
 		<query>select p from Pedido p</query>
 	</named-query>
+	
+	<named-query name="Pedido.findPosibleRecoger">
+		<query>select p from Pedido p where p.estado = EstadoPedido.POSIBLE_ASOCIAR_OT</query>
+	</named-query>
 
 	<!-- - - - - - - - - -->
 	<!-- - - Producto - - -->

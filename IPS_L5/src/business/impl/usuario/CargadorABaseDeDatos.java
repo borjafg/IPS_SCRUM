@@ -44,7 +44,7 @@ public class CargadorABaseDeDatos implements Command{
 
 		
 		Pedido pedido = new Pedido(cliente);
-		pedido.setEstado(EstadoPedido.SIN_ORDEN_TRABAJO);
+		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
 		pedido.setDireccionCompleta(direccion);
 		pedido.setFecha(new Date());
 		Jpa.getManager().persist(pedido);

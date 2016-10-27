@@ -25,7 +25,7 @@ public class InsertOrdenTrabajo implements Command {
 	@Override
 	public Object execute() throws BusinessException {
 		
-		pedido.setEstado(EstadoPedido.EN_ORDEN_TRABAJO);
+		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
 
 		Pedido pedido = Jpa.getManager().merge(this.pedido);
 

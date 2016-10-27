@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
 import model.OrdenTrabajo;
-import ui.almacen.almacenero.PanelListaOrdenesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 
 public class GestionAlmacen extends JFrame {
@@ -21,7 +20,7 @@ public class GestionAlmacen extends JFrame {
 	// Paneles que están en el panel principal de la aplicación
 	
 	private PanelEmpaquetadoProductos panelEmpaquetadoProductos;
-	private PanelListaOrdenesAlmacenero panelOrdenesTrabajo;
+	//private PanelListaOrdenesAlmacenero panelOrdenesTrabajo;
 
 	/**
 	 * Lanza la aplicación
@@ -68,13 +67,13 @@ public class GestionAlmacen extends JFrame {
 	private void añadirPaneles() throws BusinessException {
 		panelEmpaquetadoProductos = new PanelEmpaquetadoProductos(this);
 		
-		panelOrdenesTrabajo = new PanelListaOrdenesAlmacenero();
+	//	panelOrdenesTrabajo = new PanelListaOrdenesAlmacenero();
 		
-		panelOrdenesTrabajo.setMainFrame(this);
-		panelOrdenesTrabajo.inicializarDatos();
+		//panelOrdenesTrabajo.setMainFrame(this);
+	//	panelOrdenesTrabajo.inicializarDatos();
 		
 
-		contentPane.add(panelOrdenesTrabajo, "panelOrdenesTrabajo");
+	//	contentPane.add(panelOrdenesTrabajo, "panelOrdenesTrabajo");
 		contentPane.add(panelEmpaquetadoProductos, "panelAsignacionProductosPaquete");
 	}
 

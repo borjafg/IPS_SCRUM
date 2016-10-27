@@ -15,4 +15,10 @@ public class PedidoFinder {
 	public static List<Pedido> findAll() {
 		return Jpa.getManager().createNamedQuery("Pedido.findAll", Pedido.class).getResultList();
 	}
+	
+	public static List<Pedido> findPosibleRecoger() {
+		return Jpa.getManager()
+				.createNamedQuery("Pedido.findPosibleRecoger", Pedido.class)
+				.getResultList();
+	}
 }

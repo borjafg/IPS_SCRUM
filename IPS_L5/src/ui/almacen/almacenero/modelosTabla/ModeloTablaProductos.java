@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.almacenero.redefinicion.MyPosicionProducto;
+import ui.almacen.almacenero.util.MyPosicionProducto;
 
 public class ModeloTablaProductos extends AbstractModeloTablaNoEditable {
 	private static final long serialVersionUID = 1L;

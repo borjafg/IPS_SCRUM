@@ -9,7 +9,7 @@ import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.OrdenTrabajo;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.almacenero.redefinicion.MyPosicionProducto;
+import ui.almacen.almacenero.util.MyPosicionProducto;
 
 /**
  * Clase que obtiene todos los productos de una orden y los ordena de forma que se minimice el recorrido del almacén.
