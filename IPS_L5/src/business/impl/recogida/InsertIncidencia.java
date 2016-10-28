@@ -1,4 +1,4 @@
-package business.impl.almacen;
+package business.impl.recogida;
 
 import java.util.Date;
 import business.exception.BusinessException;

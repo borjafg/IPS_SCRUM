@@ -1,4 +1,4 @@
-package ui.almacen.almacenero.logica;
+package ui.almacen.recogida.logica;
 
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
@@ -21,6 +21,6 @@ public class TerminalIncidencia {
 	
 	
 	public Incidencia generarIncidencia(String causa) throws BusinessException { 
-		return ServiceFactory.getAlmacenService().insertarIncidencia(ordenTrabajo, causa);
+		return ServiceFactory.getRecogidaService().insertarIncidencia(ordenTrabajo, causa);
 	}
 }

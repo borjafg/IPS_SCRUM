@@ -6,7 +6,6 @@ import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
 import model.ProductoEnPaquete;
 import persistence.PaqueteFinder;
-import persistence.ProductoEnOrdenTrabajoFinder;
 import persistence.util.Jpa;
 
 public class AsignarProductoPaquete implements Command {
@@ -23,7 +22,7 @@ public class AsignarProductoPaquete implements Command {
 	public Object execute() throws BusinessException {
 		// Sincronizar el paquete y el producto con la base de datos
 		
-		ProductoEnOrdenTrabajo prot = ProductoEnOrdenTrabajoFinder.findByIds(producto.getOrdenTrabajo().getId(), producto.getproductoPedido().getPedido().getId(), producto.getproductoPedido().getProducto().getId());
+		ProductoEnOrdenTrabajo prot = Jpa.getManager().merge(producto);
 
 		// Si se acaba de crear el paquete
 		

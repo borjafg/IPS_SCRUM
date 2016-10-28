@@ -1,4 +1,4 @@
-package business.impl.almacen;
+package business.impl.recogida;
 
 import business.exception.BusinessException;
 import business.impl.util.Command;

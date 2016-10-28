@@ -6,6 +6,6 @@ package model.types;
  * 
  */
 public enum EstadoPedido {
-	COMPLETAMENTE_ASOCIADO_OT,
-	POSIBLE_ASOCIAR_OT	
+	POSIBLE_ASOCIAR_OT,
+	COMPLETAMENTE_ASOCIADO_OT
 }

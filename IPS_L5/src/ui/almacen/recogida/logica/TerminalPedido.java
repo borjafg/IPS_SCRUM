@@ -1,4 +1,4 @@
-package ui.almacen.almacenero.logica;
+package ui.almacen.recogida.logica;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +20,7 @@ public class TerminalPedido {
 	
 	private List<Pedido> pedidos;
 	private OrdenTrabajo ot;
+	
 	public TerminalPedido() throws BusinessException {
 		new AlmacenServiceImpl();
 		cargarPedidos();
@@ -57,7 +58,7 @@ public class TerminalPedido {
 	}
 	
 	private List<Pedido> obtenerPedidos() throws BusinessException { 
-		return ServiceFactory.getAlmacenService().getAllPedidos();
+		return ServiceFactory.getRecogidaService().getAllPedidos();
 	}
 	
 
@@ -73,7 +74,7 @@ public class TerminalPedido {
 	
 	
 	private OrdenTrabajo insertarOrdenTrabajo(Pedido pedido) throws BusinessException {
-		return ServiceFactory.getAlmacenService().insertOrdenTrabajo(pedido);
+		return ServiceFactory.getRecogidaService().insertOrdenTrabajo(pedido);
 	}
 
 }

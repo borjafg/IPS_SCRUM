@@ -1,9 +1,14 @@
 package infrastructure;
 
-import business.AlmacenService;
+import business.AlmaceneroService;
 import business.EmpaquetadoService;
+import business.RecogidaService;
+import business.UserService;
+
 import business.impl.AlmacenServiceImpl;
+import business.impl.AlmaceneroServiceImpl;
 import business.impl.EmpaquetadoServiceImpl;
+import business.impl.UserServiceImpl;
 
 public class ServiceFactory {
 
@@ -15,11 +20,19 @@ public class ServiceFactory {
 
 	}
 
-	public static AlmacenService getAlmacenService() {
+	public static AlmaceneroService getAlmaceneroService() {
+		return new AlmaceneroServiceImpl();
+	}
+
+	public static RecogidaService getRecogidaService() {
 		return new AlmacenServiceImpl();
 	}
 
 	public static EmpaquetadoService getEmpaquetadoService() {
 		return new EmpaquetadoServiceImpl();
+	}
+
+	public static UserService getUserService() {
+		return new UserServiceImpl();
 	}
 }

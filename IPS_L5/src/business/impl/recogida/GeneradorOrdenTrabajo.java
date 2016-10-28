@@ -1,4 +1,4 @@
-package business.impl.almacen;
+package business.impl.recogida;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 import model.ProductoEnPedido;
 import business.exception.BusinessException;
-import business.impl.almacen.util.ProductoRecoger;
+import business.impl.recogida.util.ProductoRecoger;
 import business.impl.util.Command;
 
 public class GeneradorOrdenTrabajo implements Command {

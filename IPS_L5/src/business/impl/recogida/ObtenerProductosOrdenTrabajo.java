@@ -1,4 +1,4 @@
-package business.impl.almacen;
+package business.impl.recogida;
 
 import java.util.ArrayList;
 import java.util.Set;

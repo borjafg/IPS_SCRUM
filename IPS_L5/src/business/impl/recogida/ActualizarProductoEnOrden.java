@@ -1,8 +1,8 @@
-package business.impl.almacen;
+package business.impl.recogida;
 
 import business.impl.util.Command;
 import model.ProductoEnOrdenTrabajo;
-import persistence.ProductoEnOrdenTrabajoFinder;
+import persistence.util.Jpa;
 
 public class ActualizarProductoEnOrden implements Command {
 
@@ -14,11 +14,11 @@ public class ActualizarProductoEnOrden implements Command {
 
 	@Override
 	public Object execute() {
-		ProductoEnOrdenTrabajo prot = ProductoEnOrdenTrabajoFinder.findByIds(producto.getOrdenTrabajo().getId(),
-				producto.getproductoPedido().getPedido().getId(), producto.getproductoPedido().getProducto().getId());
+		ProductoEnOrdenTrabajo prot = Jpa.getManager().merge(producto);
+		
 		prot.recoger(prot.getUnidadesRecoger());
+		
 		return null;
-
 	}
 
 }

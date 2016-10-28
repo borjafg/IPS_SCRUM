@@ -4,32 +4,44 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
 	version="2.0">
 
-	<!-- - - - - - - - -->
-	<!-- - - Pedido - - -->
-	<!-- - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - - Pedido - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<named-query name="Pedido.findAll">
 		<query>select p from Pedido p</query>
 	</named-query>
-	
+
 	<named-query name="Pedido.findPosibleRecoger">
-		<query>select p from Pedido p where p.estado = EstadoPedido.POSIBLE_ASOCIAR_OT</query>
+		<query>select p from Pedido p where p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT</query>
 	</named-query>
 
-	<!-- - - - - - - - - -->
-	<!-- - - Producto - - -->
-	<!-- - - - - - - - - -->
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - Producto - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<named-query name="Producto.findAll">
 		<query>select p from Producto p</query>
 	</named-query>
 
-	<!-- - - - - - - - - - - - - - - - - - - -->
-	<!-- - - Producto en orden de trabajo - - -->
-	<!-- - - - - - - - - - - - - - - - - - - -->
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - Almacenero - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<named-query name="Almacenero.findByLogin">
+		<query>select a from Almacenero a where login = :login</query>
+	</named-query>
+
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - Producto en orden de trabajo - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<named-query name="ProductoEnOrdenTrabajo.findByOrdenTrabajo">
 		<query>select p from ProductoEnOrdenTrabajo p where p.ordenTrabajo.id = :id </query>
 	</named-query>
+
 
 </entity-mappings>

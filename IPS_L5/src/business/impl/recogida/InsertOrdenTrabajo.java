@@ -1,16 +1,10 @@
-package business.impl.almacen;
-
-import java.util.Date;
+package business.impl.recogida;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
 import business.exception.BusinessException;
 import business.impl.util.Command;
-import model.OrdenTrabajo;
 import model.Pedido;
-import model.ProductoEnOrdenTrabajo;
-import model.ProductoEnPedido;
-import model.types.EstadoOrdenTrabajo;
 import model.types.EstadoPedido;
 import persistence.util.Jpa;
 

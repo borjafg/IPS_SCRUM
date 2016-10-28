@@ -1,4 +1,4 @@
-package ui.almacen.almacenero.modelosTabla;
+package ui.almacen.recogida.modelosTabla;
 
 import javax.swing.table.*;
 

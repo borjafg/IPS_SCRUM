@@ -1,4 +1,4 @@
-package ui.almacen.almacenero.logica;
+package ui.almacen.recogida.logica;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.OrdenTrabajo;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.almacenero.util.MyPosicionProducto;
+import ui.almacen.recogida.util.MyPosicionProducto;
 
 /**
  * Clase que obtiene todos los productos de una orden y los ordena de forma que se minimice el recorrido del almacén.
@@ -76,7 +76,7 @@ public class TerminalOT {
 	
 
 	private void obtenerOrden() throws BusinessException { 
-		this.productos = ServiceFactory.getAlmacenService().obtenerProductosPorOrdenTrabajo(this.ordenTrabajo);
+		this.productos = ServiceFactory.getRecogidaService().obtenerProductosPorOrdenTrabajo(this.ordenTrabajo);
 	}
 
 }

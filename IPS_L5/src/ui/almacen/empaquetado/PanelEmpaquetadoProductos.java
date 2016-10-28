@@ -1,11 +1,11 @@
 package ui.almacen.empaquetado;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,6 +40,8 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	public PanelEmpaquetadoProductos(JFrame ventanaPrincipal) throws BusinessException {
 		super();
 		
+		setPreferredSize(new Dimension(374, 530));
+		
 		modeloTablaProductos = new ModeloTablaProductos();
 		this.ventanaPrincipal = ventanaPrincipal;
 
@@ -54,17 +56,17 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	 * @throws BusinessException
 	 * 
 	 */
-	public void inicializarDatos(OrdenTrabajo ordenTrabajo) throws BusinessException {
-		this.ordenTrabajoActual = ordenTrabajo;
-		
-		List<ProductoEnOrdenTrabajo> listaProductos = ServiceFactory.getEmpaquetadoService()
-				.getListaProductosOrdenTrabajo(ordenTrabajoActual.getId());
-
-		for (ProductoEnOrdenTrabajo producto : listaProductos) {
-			modeloTablaProductos.addProducto(producto);
-		}
-
-		paqueteActual = new Paquete();
+	public void inicializarDatos() throws BusinessException {
+//		this.ordenTrabajoActual = ordenTrabajo;
+//		
+//		List<ProductoEnOrdenTrabajo> listaProductos = ServiceFactory.getEmpaquetadoService()
+//				.getListaProductosOrdenTrabajo(ordenTrabajoActual.getId());
+//
+//		for (ProductoEnOrdenTrabajo producto : listaProductos) {
+//			modeloTablaProductos.addProducto(producto);
+//		}
+//
+//		paqueteActual = new Paquete();
 	}
 
 	/* ================================================= */

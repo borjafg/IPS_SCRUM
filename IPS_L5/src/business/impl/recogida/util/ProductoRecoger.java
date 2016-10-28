@@ -1,4 +1,4 @@
-package business.impl.almacen.util;
+package business.impl.recogida.util;
 
 import model.ProductoEnPedido;
 

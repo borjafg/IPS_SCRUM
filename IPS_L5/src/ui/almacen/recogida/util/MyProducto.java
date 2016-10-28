@@ -1,4 +1,4 @@
-package ui.almacen.almacenero.util;
+package ui.almacen.recogida.util;
 
 import model.Producto;
 

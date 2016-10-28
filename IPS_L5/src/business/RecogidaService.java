@@ -11,7 +11,7 @@ import model.PosicionProducto;
 import model.Producto;
 import model.ProductoEnOrdenTrabajo;
 
-public interface AlmacenService {
+public interface RecogidaService {
 
 	public List<Pedido> getAllPedidos() throws BusinessException;
 	

@@ -3,15 +3,16 @@ package business.impl;
 import java.util.HashMap;
 import java.util.List;
 
-import business.AlmacenService;
+import business.RecogidaService;
 import business.exception.BusinessException;
-import business.impl.almacen.ActualizarProductoEnOrden;
-import business.impl.almacen.GetAllPedidos;
-import business.impl.almacen.InsertIncidencia;
-import business.impl.almacen.InsertOrdenTrabajo;
-import business.impl.almacen.ObtenerPosicionProductosOrdenTrabajo;
-import business.impl.almacen.ObtenerProductosOrdenTrabajo;
+import business.impl.recogida.ActualizarProductoEnOrden;
+import business.impl.recogida.GetAllPedidos;
+import business.impl.recogida.InsertIncidencia;
+import business.impl.recogida.InsertOrdenTrabajo;
+import business.impl.recogida.ObtenerPosicionProductosOrdenTrabajo;
+import business.impl.recogida.ObtenerProductosOrdenTrabajo;
 import business.impl.util.CommandExecutor;
+
 import model.Incidencia;
 import model.OrdenTrabajo;
 import model.Pedido;
@@ -20,7 +21,7 @@ import model.Producto;
 import model.ProductoEnOrdenTrabajo;
 
 @SuppressWarnings("unchecked")
-public class AlmacenServiceImpl implements AlmacenService {
+public class AlmacenServiceImpl implements RecogidaService {
 	
 	private CommandExecutor executor = new CommandExecutor();
 
