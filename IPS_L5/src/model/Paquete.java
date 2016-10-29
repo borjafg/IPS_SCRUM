@@ -27,6 +27,8 @@ public class Paquete implements Serializable {
 
 	private String destinatario;
 
+	private int numCaja;
+	
 	@Column(name = "direccion")
 	private String direccionCompleta;
 
@@ -47,6 +49,14 @@ public class Paquete implements Serializable {
 
 	public void setDestinatario(String destinatario) {
 		this.destinatario = destinatario;
+	}
+	
+	public int getNumCaja() {
+		return numCaja;
+	}
+	
+	public void setNumCaja(int numCaja) {
+		this.numCaja = numCaja;
 	}
 
 	public String getDireccionCompleta() {

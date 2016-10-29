@@ -41,7 +41,7 @@ public class OrdenTrabajo implements Serializable {
 	@OneToMany(mappedBy = "ordenTrabajo")
 	private Set<Incidencia> incidencias = new HashSet<Incidencia>();
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 
 	@Enumerated(EnumType.STRING)

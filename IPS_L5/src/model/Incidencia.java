@@ -31,7 +31,7 @@ public class Incidencia implements Serializable {
 	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName="id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 
 	private String causa;

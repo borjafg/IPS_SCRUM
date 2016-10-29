@@ -32,7 +32,7 @@ public class Pedido {
 	@SequenceGenerator(name = "PEDIDOS_SEQ", sequenceName = "PEDIDOS_SEQ", allocationSize=1)
 	private long id;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 
 	@Column(name = "direccion")
