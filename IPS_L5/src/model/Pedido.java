@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.cfg.NotYetImplementedException;
+
 import model.types.EstadoPedido;
 import model.types.PedidoPagado;
 
@@ -29,7 +31,7 @@ public class Pedido {
 	@Id
 	@Column(name = "id_pedido")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PEDIDOS_SEQ")
-	@SequenceGenerator(name = "PEDIDOS_SEQ", sequenceName = "PEDIDOS_SEQ", allocationSize=1)
+	@SequenceGenerator(name = "PEDIDOS_SEQ", sequenceName = "PEDIDOS_SEQ", allocationSize = 1)
 	private long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -40,12 +42,12 @@ public class Pedido {
 
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estado;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PedidoPagado pagado;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "id_cliente", referencedColumnName="id_cliente")
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "pedido")
@@ -78,23 +80,23 @@ public class Pedido {
 	public void setDireccionCompleta(String direccionCompleta) {
 		this.direccionCompleta = direccionCompleta;
 	}
-	
+
 	public EstadoPedido getEstado() {
 		return estado;
 	}
-	
+
 	public void setEstado(EstadoPedido estado) {
 		this.estado = estado;
 	}
-	
+
 	public PedidoPagado getPagado() {
 		return pagado;
 	}
-	
+
 	public void setPagado(PedidoPagado pagado) {
 		this.pagado = pagado;
 	}
-	
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -110,6 +112,18 @@ public class Pedido {
 	Set<ProductoEnPedido> _getListaProductosPedidos() {
 		return listaProductosPedidos;
 	}
+
+	// ==================================================
+	// Comprobar estado del pedido (Recogida productos)
+	// ==================================================
+
+	public int getNumProductosRecoger() {
+		throw new NotYetImplementedException("Hay que devolver el número de productos a recoger");
+	}
+
+	// ==============================
+	// Equals y HashCode
+	// ==============================
 
 	@Override
 	public int hashCode() {

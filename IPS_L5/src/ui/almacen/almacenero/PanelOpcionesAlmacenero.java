@@ -15,13 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import business.exception.BusinessException;
-import ui.almacen.GestionAlmacen;
+import ui.almacen.VentanaPrincipalAlmacenero;
 
 public class PanelOpcionesAlmacenero extends JPanel {
 
 	private static final long serialVersionUID = -150397767532128L;
 
-	private GestionAlmacen ventanaPrincipal;
+	private VentanaPrincipalAlmacenero ventanaPrincipal;
 
 	private JButton botonGenerar;
 	private JButton botonRetomar;
@@ -110,6 +110,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JLabel getLabelErrores() {
 		if (labelErrores == null) {
 			labelErrores = new JLabel();
+
 			labelErrores.setForeground(new Color(165, 42, 42));
 			labelErrores.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			labelErrores.setHorizontalAlignment(SwingConstants.CENTER);
@@ -128,7 +129,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 						ventanaPrincipal.mostrarPanelSeleccionPedidos();
 						reiniciar();
 					} catch (BusinessException excep) {
-						getLabelErrores().setText("Error de conexi\u00F3n");
+						mostrarErrorConexion();
 					}
 				}
 			});
@@ -192,11 +193,15 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	// Controlar el estado del panel
 	// ==============================================
 
+	public void mostrarErrorConexion() {
+		getLabelErrores().setText("Error de conexi\u00F3n");
+	}
+
 	private void reiniciar() {
 		getLabelErrores().setText("");
 	}
 
-	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }

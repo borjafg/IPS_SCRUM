@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.cfg.NotYetImplementedException;
+
 import model.types.EstadoOrdenTrabajo;
 
 @Entity
@@ -119,27 +121,74 @@ public class OrdenTrabajo implements Serializable {
 		this.almaceneroEmpaquetar = almaceneroEmpaquetar;
 	}
 
-	// ===========================================================
-	// Comprobar estado de la Orden de Trabajo
-	// ===========================================================
+	// ==============================================================
+	// Comprobar estado de la Orden de Trabajo (Recogida productos)
+	// ==============================================================
 
-	public boolean estaPreparadaEmpaquetar() {
-		if(estado == EstadoOrdenTrabajo.TERMINADA) {
+	public boolean seTerminoRecoger() {
+		if (estado == EstadoOrdenTrabajo.TERMINADA) {
 			return false;
 		}
-		
+
 		if (incidencias.size() > 0) {
 			return false;
 		}
 
 		for (ProductoEnOrdenTrabajo producto : productosOrdenTrabajo) {
-			// ¿Falta algún producto por empaquetar?
+			// ¿Falta algún producto por recoger?
 			if (producto.getUnidadesRecoger() > producto.getUnidadesRecogidas()) {
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	// ==== Productos ====
+	
+	public int getNumProductosFaltanRecoger() {
+		throw new NotYetImplementedException("Hay que implementar el recuento de productos a recoger");
+	}
+	
+	// ==== Pedidos ====
+
+	public int getNumPedidosConProductosRecoger() {
+		throw new NotYetImplementedException("Hay que implementar el recuento de productos a recoger");
+	}
+
+	// ================================================================
+	// Comprobar estado de la Orden de Trabajo (Empaquetado productos)
+	// ================================================================
+
+	public boolean seTerminoEmpaquetar() {
+		if (estado == EstadoOrdenTrabajo.TERMINADA) {
+			return false;
+		}
+
+		if (incidencias.size() > 0) {
+			return false;
+		}
+
+		for (ProductoEnOrdenTrabajo producto : productosOrdenTrabajo) {
+			// ¿Falta algún producto por recoger?
+			if (producto.getUnidadesRecoger() > producto.getUnidadesRecogidas()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	// ==== Productos ====
+
+	public int getNumProductosFaltanEmpaquetar() {
+		throw new NotYetImplementedException("Hay que implementar el recuento de productos a empaquetar");
+	}
+	
+	// ==== Pedidos ====
+
+	public int getNumPedidosFaltanEmpaquetar() {
+		throw new NotYetImplementedException("Hay que implementar el recuento de productos a empaquetar");
 	}
 
 	// ==============================

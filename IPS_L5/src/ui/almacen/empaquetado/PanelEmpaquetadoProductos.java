@@ -18,14 +18,14 @@ import model.Cliente;
 import model.OrdenTrabajo;
 import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.GestionAlmacen;
+import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.modelosTabla.ModeloTablaProductosRecoger;
 
 public class PanelEmpaquetadoProductos extends JPanel {
 
 	private static final long serialVersionUID = -45321105L;
 
-	private GestionAlmacen ventanaPrincipal;
+	private VentanaPrincipalAlmacenero ventanaPrincipal;
 
 	private JPanel panelAsignacionProductos_Centro;
 	private JPanel panelAsignacionProductos_Sur;
@@ -176,7 +176,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	}
 
-	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }

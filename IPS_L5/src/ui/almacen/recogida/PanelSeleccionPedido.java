@@ -4,13 +4,13 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-import ui.almacen.GestionAlmacen;
+import ui.almacen.VentanaPrincipalAlmacenero;
 
 public class PanelSeleccionPedido extends JPanel {
 
 	private static final long serialVersionUID = -5092160186351L;
 
-	private GestionAlmacen ventanaPrincipal;
+	private VentanaPrincipalAlmacenero ventanaPrincipal;
 
 	public PanelSeleccionPedido() {
 		super();
@@ -30,7 +30,7 @@ public class PanelSeleccionPedido extends JPanel {
 		
 	}
 	
-	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }

@@ -13,7 +13,7 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 	private List<ProductoEnOrdenTrabajo> productos;
 
 	public ModeloTablaProductosRecoger() {
-		super(new String[] { "referencia", "descripcion", "unidades",  "posición" }, new Class[] { String.class, Long.class, String.class, Integer.class, MyPosicionProducto.class });
+		super(new String[] { "referencia", "descripcion", "unidades",  "posición" }, new Class[] { String.class, String.class, Integer.class, MyPosicionProducto.class });
 
 		productos = new ArrayList<ProductoEnOrdenTrabajo>();
 	}
@@ -36,7 +36,7 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 			return productos.get(rowIndex).getUnidadesRecoger() - productos.get(rowIndex).getUnidadesRecogidas();
 			
 		case 3: // Posición del producto
-			return new MyPosicionProducto(productos.get(rowIndex));
+			return new MyPosicionProducto(productos.get(rowIndex)).toString();
 
 		default:
 			return null;

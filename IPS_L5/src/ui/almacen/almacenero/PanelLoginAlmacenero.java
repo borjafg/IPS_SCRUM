@@ -18,13 +18,13 @@ import javax.swing.SwingConstants;
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.Almacenero;
-import ui.almacen.GestionAlmacen;
+import ui.almacen.VentanaPrincipalAlmacenero;
 
 public class PanelLoginAlmacenero extends JPanel {
 
 	private static final long serialVersionUID = -9924654007024L;
 
-	private GestionAlmacen ventanaPrincipal;
+	private VentanaPrincipalAlmacenero ventanaPrincipal;
 
 	private JLabel labelAlmacenero;
 	private JTextField textFieldAlmacenero;
@@ -183,7 +183,7 @@ public class PanelLoginAlmacenero extends JPanel {
 		getTextFieldAlmacenero().setText("");
 	}
 	
-	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }

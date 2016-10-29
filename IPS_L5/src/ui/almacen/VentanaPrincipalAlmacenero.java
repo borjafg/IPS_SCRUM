@@ -19,7 +19,7 @@ import ui.almacen.recogida.PanelRecogidaProductos;
 import ui.almacen.recogida.PanelRetomarOrdenTrabajo;
 import ui.almacen.recogida.PanelSeleccionPedido;
 
-public class GestionAlmacen extends JFrame {
+public class VentanaPrincipalAlmacenero extends JFrame {
 
 	private static final long serialVersionUID = -45321105L;
 
@@ -56,7 +56,7 @@ public class GestionAlmacen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GestionAlmacen frame = new GestionAlmacen();
+					VentanaPrincipalAlmacenero frame = new VentanaPrincipalAlmacenero();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +71,7 @@ public class GestionAlmacen extends JFrame {
 	 * @throws BusinessException
 	 * 
 	 */
-	public GestionAlmacen() throws BusinessException {
+	public VentanaPrincipalAlmacenero() throws BusinessException {
 		setTitle("Gestión del almacén");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,7 +98,7 @@ public class GestionAlmacen extends JFrame {
 
 		panelLoginAlmacenero = new PanelLoginAlmacenero();
 		panelLoginAlmacenero.setVentanaPrincipal(this);
-		
+
 		panelOpcionesAlmacenero = new PanelOpcionesAlmacenero();
 		panelOpcionesAlmacenero.setVentanaPrincipal(this);
 
@@ -111,10 +111,10 @@ public class GestionAlmacen extends JFrame {
 
 		panelSelecionPedido = new PanelSeleccionPedido();
 		panelSelecionPedido.setVentanaPrincipal(this);
-		
+
 		panelOrdenesTrabajoRetomar = new PanelRetomarOrdenTrabajo();
 		panelOrdenesTrabajoRetomar.setVentanaPrincipal(this);
-		
+
 		panelRecogidaProductos = new PanelRecogidaProductos();
 		panelRecogidaProductos.setVentanaPrincipal(this);
 
@@ -128,10 +128,9 @@ public class GestionAlmacen extends JFrame {
 
 		panelOrdenesTrabajoEmpaquetar = new PanelOrdenesTrabajoEmpaquetar();
 		panelOrdenesTrabajoEmpaquetar.setVentanaPrincipal(this);
-		
+
 		panelEmpaquetadoProductos = new PanelEmpaquetadoProductos();
 		panelEmpaquetadoProductos.setVentanaPrincipal(this);
-		
 
 		contentPane.add(panelEmpaquetadoProductos, "panelOrdenesTrabajoEmpaquetar");
 		contentPane.add(panelEmpaquetadoProductos, "panelAsignacionProductosPaquete");
@@ -256,6 +255,16 @@ public class GestionAlmacen extends JFrame {
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelAsignacionProductosPaquete");
 	}
 
+	// =======================================================================
+	// ===== Ha habido un error mientras el almacenero estaba trabajando =====
+	// =======================================================================
+
+	public void gestionarErrorConexion() {
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelAsignacionProductosPaquete");
+
+		panelOpcionesAlmacenero.mostrarErrorConexion();
+	}
+
 	// ================================
 	// ==== Datos de la aplicación ====
 	// ================================
@@ -267,7 +276,7 @@ public class GestionAlmacen extends JFrame {
 	public OrdenTrabajo getOrdenTrabajo() {
 		return ordenTrabajo;
 	}
-	
+
 	public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
 		this.ordenTrabajo = ordenTrabajo;
 	}

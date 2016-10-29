@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-import ui.almacen.GestionAlmacen;
+import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.modelosTabla.ModeloTablaProductosRecoger;
 
 import java.awt.BorderLayout;
@@ -23,13 +23,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
 
 public class PanelRecogidaProductos extends JPanel {
 
 	private static final long serialVersionUID = -2481078673400949799L;
 
-	private GestionAlmacen ventanaPrincipal;
-
+	private VentanaPrincipalAlmacenero ventanaPrincipal;
+	
 	// ===========================================
 	// Componentes de este panel
 	// ===========================================
@@ -74,7 +75,6 @@ public class PanelRecogidaProductos extends JPanel {
 	}
 
 	public void inicializarDatos() {
-		getModeloTablaProductos();
 		// Cargar lista de productos en la Orden de Trabajo
 	}
 
@@ -127,6 +127,8 @@ public class PanelRecogidaProductos extends JPanel {
 	private JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
+			
+			panelCentro.setLayout(new GridLayout(0, 1, 0, 0));
 			panelCentro.add(getTablaProductos());
 		}
 
@@ -135,7 +137,8 @@ public class PanelRecogidaProductos extends JPanel {
 
 	private JTable getTablaProductos() {
 		if (tablaProductos == null) {
-			tablaProductos = new JTable();
+			modeloTablaProductos = new ModeloTablaProductosRecoger();
+			tablaProductos = new JTable(modeloTablaProductos);
 			tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		}
 
@@ -232,7 +235,7 @@ public class PanelRecogidaProductos extends JPanel {
 
 			botonAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					reiniciar();
+					reiniciarPanel();
 					ventanaPrincipal.volverPanelOpciones();
 				}
 			});
@@ -270,22 +273,14 @@ public class PanelRecogidaProductos extends JPanel {
 		getLabelIncidencias().setText("Ha habido incidencias");
 	}
 
-	private void reiniciar() {
+	private void reiniciarPanel() {
 		getLabelIncidencias().setText("");
 		getTextFieldCodOrdenTrabajo().setText("");
 
-		getModeloTablaProductos().removeAll();
+		modeloTablaProductos.removeAll();
 	}
 
-	private ModeloTablaProductosRecoger getModeloTablaProductos() {
-		if (modeloTablaProductos == null) {
-			modeloTablaProductos = new ModeloTablaProductosRecoger();
-		}
-
-		return modeloTablaProductos;
-	}
-
-	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }
