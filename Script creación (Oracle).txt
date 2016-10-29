@@ -40,7 +40,7 @@ CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), f
 -- Parte de empaquetado
 -- ======================================
 
-CREATE TABLE Paquetes(id_paquete number(32), number(10), destinatario varchar(255), direccion varchar (255), primary key (id_paquete));
+CREATE TABLE Paquetes(id_paquete number(32), numCaja number(10), destinatario varchar(255), direccion varchar (255), primary key (id_paquete));
 
 
 CREATE TABLE ProductosPaquete(id_producto number(32), id_pedido number (32), id_paquete number(32), unidades_Producto number(10), primary key(id_producto, id_pedido, id_paquete), foreign key(id_paquete) references Paquetes(id_paquete), foreign key(id_producto, id_pedido) references ProductosPedido(id_producto, id_pedido));
