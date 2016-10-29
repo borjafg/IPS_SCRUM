@@ -579,3 +579,11 @@ org.hibernate.hql.ast.QuerySyntaxException: Invalid path: 'EstadoPedido.POSIBLE_
 21:21:33,346  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
 21:23:28,524  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
 21:23:28,526  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+19:17:28,091  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+19:17:28,093  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+19:17:28,673  WARN JDBCExceptionReporter:233 - SQL Error: 904, SQLState: 42000
+19:17:28,674 ERROR JDBCExceptionReporter:234 - ORA-00904: "PRODUCTO0_"."DESCRIPCION": identificador no válido
+
+19:17:34,666  WARN JDBCExceptionReporter:233 - SQL Error: 904, SQLState: 42000
+19:17:34,667 ERROR JDBCExceptionReporter:234 - ORA-00904: "PRODUCTO0_"."DESCRIPCION": identificador no válido
+

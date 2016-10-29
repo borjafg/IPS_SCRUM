@@ -26,6 +26,9 @@ import javax.swing.border.LineBorder;
 import test.business.TestExecutor;
 import test.business.acciones.ProbarAccesoMapeador;
 import test.ui.panelesCentro.PanelCreacionProductos;
+import test.ui.panelesCentro.PanelCreacionUsuarios;
+
+import javax.swing.JTextField;
 
 public class MenuPrincipal extends JFrame {
 
@@ -59,6 +62,7 @@ public class MenuPrincipal extends JFrame {
 
 	private JPanel panelCentro;
 	private PanelCreacionProductos panelCreacionProductos;
+	private PanelCreacionUsuarios panelCreacionUsuarios;
 
 	// Panel resultados
 
@@ -199,6 +203,15 @@ public class MenuPrincipal extends JFrame {
 
 		return panelCreacionProductos;
 	}
+	
+	
+	private PanelCreacionUsuarios getPanelCreacionUsuarios(){
+		if(panelCreacionUsuarios == null){
+			panelCreacionUsuarios = new PanelCreacionUsuarios();
+			panelCreacionUsuarios.setVentanaPrincipal(this);
+		}
+		return panelCreacionUsuarios;
+	}
 
 	// =============================
 	// Panel de acciones
@@ -263,8 +276,14 @@ public class MenuPrincipal extends JFrame {
 	private JButton getBotonAñadirProducto() {
 		if (botonAñadirProducto == null) {
 			botonAñadirProducto = new JButton("A\u00F1adir nuevo producto");
+			botonAñadirProducto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					
+					
+				}
+			});
 			botonAñadirProducto.setFont(new Font("Tahoma", Font.BOLD, 21));
-			botonAñadirProducto.setEnabled(false);
 		}
 
 		return botonAñadirProducto;
