@@ -29,23 +29,26 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JButton botonLogout;
 	private JLabel labelErrores;
 
-	public PanelOpcionesAlmacenero(GestionAlmacen ventanaPrincipal) {
+	public PanelOpcionesAlmacenero() {
 		super();
-
-		this.ventanaPrincipal = ventanaPrincipal;
 
 		setPreferredSize(new Dimension(374, 530));
 		colocarLayout();
-		GridBagConstraints gbc_labelErrores = new GridBagConstraints();
-		gbc_labelErrores.fill = GridBagConstraints.BOTH;
-		gbc_labelErrores.insets = new Insets(0, 0, 5, 5);
-		gbc_labelErrores.gridx = 1;
-		gbc_labelErrores.gridy = 1;
-		add(getLabelErrores(), gbc_labelErrores);
 
 		// -------------------------------------
 		// Añadir componentes dentro del layout
 		// -------------------------------------
+
+		// ====== labelErrores ======
+
+		GridBagConstraints gbc_labelErrores = new GridBagConstraints();
+
+		gbc_labelErrores.fill = GridBagConstraints.BOTH;
+		gbc_labelErrores.insets = new Insets(0, 0, 5, 5);
+		gbc_labelErrores.gridx = 1;
+		gbc_labelErrores.gridy = 1;
+
+		add(getLabelErrores(), gbc_labelErrores);
 
 		// ====== botonGenerar ======
 
@@ -185,7 +188,15 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		return botonLogout;
 	}
 
+	// ==============================================
+	// Controlar el estado del panel
+	// ==============================================
+
 	private void reiniciar() {
 		getLabelErrores().setText("");
+	}
+
+	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }

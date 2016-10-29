@@ -42,9 +42,7 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	private ProductoEnPedido productoPedido;
 
 	@Column(nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REF_ORDEN_TRABAJO_SEQ")
-	@SequenceGenerator(name = "REF_ORDEN_TRABAJO_SEQ", sequenceName = "REF_ORDEN_TRABAJO_SEQ", allocationSize = 1)
-	private long ref_OrdenTrabajo;
+	private String ref_OrdenTrabajo;
 
 	@Column(name = "unidades_recoger")
 	private int unidadesRecoger;
@@ -77,8 +75,12 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		this.productoPedido = productoPedido;
 	}
 	
-	public long getRef_OrdenTrabajo() {
+	public String getRef_OrdenTrabajo() {
 		return ref_OrdenTrabajo;
+	}
+	
+	public void setRef_OrdenTrabajo(String ref_OrdenTrabajo) {
+		this.ref_OrdenTrabajo = ref_OrdenTrabajo;
 	}
 
 	public int getUnidadesRecoger() {

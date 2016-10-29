@@ -1,4 +1,4 @@
-package ui.almacen.empaquetado.modelosTabla;
+package ui.almacen.modelosTabla;
 
 import javax.swing.table.*;
 
@@ -53,4 +53,6 @@ public abstract class AbstractModeloTablaNoEditable extends AbstractTableModel {
 	public int getColumnCount() {
 		return nombreColumnas.length;
 	}
+	
+	public abstract void removeAll();
 }

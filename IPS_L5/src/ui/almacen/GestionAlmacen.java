@@ -96,8 +96,11 @@ public class GestionAlmacen extends JFrame {
 		// ===== Inicio de la aplicación =====
 		// ===================================
 
-		panelLoginAlmacenero = new PanelLoginAlmacenero(this);
-		panelOpcionesAlmacenero = new PanelOpcionesAlmacenero(this);
+		panelLoginAlmacenero = new PanelLoginAlmacenero();
+		panelLoginAlmacenero.setVentanaPrincipal(this);
+		
+		panelOpcionesAlmacenero = new PanelOpcionesAlmacenero();
+		panelOpcionesAlmacenero.setVentanaPrincipal(this);
 
 		contentPane.add(panelLoginAlmacenero, "panelLoginAlmacenero");
 		contentPane.add(panelOpcionesAlmacenero, "panelOpcionesAlmacenero");
@@ -106,9 +109,14 @@ public class GestionAlmacen extends JFrame {
 		// ===== Recogida de productos en una Orden de Trabajo =====
 		// =========================================================
 
-		panelSelecionPedido = new PanelSeleccionPedido(this);
-		panelOrdenesTrabajoRetomar = new PanelRetomarOrdenTrabajo(this);
-		panelRecogidaProductos = new PanelRecogidaProductos(this);
+		panelSelecionPedido = new PanelSeleccionPedido();
+		panelSelecionPedido.setVentanaPrincipal(this);
+		
+		panelOrdenesTrabajoRetomar = new PanelRetomarOrdenTrabajo();
+		panelOrdenesTrabajoRetomar.setVentanaPrincipal(this);
+		
+		panelRecogidaProductos = new PanelRecogidaProductos();
+		panelRecogidaProductos.setVentanaPrincipal(this);
 
 		contentPane.add(panelSelecionPedido, "panelSelecionPedido");
 		contentPane.add(panelOrdenesTrabajoRetomar, "panelOrdenesTrabajoRetomar");
@@ -118,8 +126,12 @@ public class GestionAlmacen extends JFrame {
 		// ===== Empaquetado de productos en una Orden de Trabajo =====
 		// ============================================================
 
-		panelOrdenesTrabajoEmpaquetar = new PanelOrdenesTrabajoEmpaquetar(this);
-		panelEmpaquetadoProductos = new PanelEmpaquetadoProductos(this);
+		panelOrdenesTrabajoEmpaquetar = new PanelOrdenesTrabajoEmpaquetar();
+		panelOrdenesTrabajoEmpaquetar.setVentanaPrincipal(this);
+		
+		panelEmpaquetadoProductos = new PanelEmpaquetadoProductos();
+		panelEmpaquetadoProductos.setVentanaPrincipal(this);
+		
 
 		contentPane.add(panelEmpaquetadoProductos, "panelOrdenesTrabajoEmpaquetar");
 		contentPane.add(panelEmpaquetadoProductos, "panelAsignacionProductosPaquete");

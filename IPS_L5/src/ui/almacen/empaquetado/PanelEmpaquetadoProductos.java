@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -19,31 +18,31 @@ import model.Cliente;
 import model.OrdenTrabajo;
 import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.empaquetado.modelosTabla.ModeloTablaProductos;
+import ui.almacen.GestionAlmacen;
+import ui.almacen.modelosTabla.ModeloTablaProductosRecoger;
 
 public class PanelEmpaquetadoProductos extends JPanel {
 
 	private static final long serialVersionUID = -45321105L;
 
-	private JFrame ventanaPrincipal;
+	private GestionAlmacen ventanaPrincipal;
 
 	private JPanel panelAsignacionProductos_Centro;
 	private JPanel panelAsignacionProductos_Sur;
 	private JTable tablaProductosOrdenTrabajo;
 	private JButton botonSimularLecturaProducto;
 
-	private ModeloTablaProductos modeloTablaProductos;
+	private ModeloTablaProductosRecoger modeloTablaProductos;
 
 	private OrdenTrabajo ordenTrabajoActual;
 	private Paquete paqueteActual;
 
-	public PanelEmpaquetadoProductos(JFrame ventanaPrincipal) throws BusinessException {
+	public PanelEmpaquetadoProductos() throws BusinessException {
 		super();
-		
+
 		setPreferredSize(new Dimension(374, 530));
-		
-		modeloTablaProductos = new ModeloTablaProductos();
-		this.ventanaPrincipal = ventanaPrincipal;
+
+		modeloTablaProductos = new ModeloTablaProductosRecoger();
 
 		this.setLayout(new BorderLayout(0, 0));
 		this.add(getPanelAsignacionProductos_Centro(), BorderLayout.CENTER);
@@ -57,16 +56,17 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	 * 
 	 */
 	public void inicializarDatos() throws BusinessException {
-//		this.ordenTrabajoActual = ordenTrabajo;
-//		
-//		List<ProductoEnOrdenTrabajo> listaProductos = ServiceFactory.getEmpaquetadoService()
-//				.getListaProductosOrdenTrabajo(ordenTrabajoActual.getId());
-//
-//		for (ProductoEnOrdenTrabajo producto : listaProductos) {
-//			modeloTablaProductos.addProducto(producto);
-//		}
-//
-//		paqueteActual = new Paquete();
+		// this.ordenTrabajoActual = ordenTrabajo;
+		//
+		// List<ProductoEnOrdenTrabajo> listaProductos =
+		// ServiceFactory.getEmpaquetadoService()
+		// .getListaProductosOrdenTrabajo(ordenTrabajoActual.getId());
+		//
+		// for (ProductoEnOrdenTrabajo producto : listaProductos) {
+		// modeloTablaProductos.addProducto(producto);
+		// }
+		//
+		// paqueteActual = new Paquete();
 	}
 
 	/* ================================================= */
@@ -122,8 +122,8 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private void simularLecturaReferencia() {
 		ProductoEnOrdenTrabajo producto = modeloTablaProductos.getProducto(0);
 
-		String seleccion = JOptionPane.showInputDialog(ventanaPrincipal,
-				producto.getOrdenTrabajo().getId() + "", "Ref. orden trabajo", JOptionPane.QUESTION_MESSAGE);
+		String seleccion = JOptionPane.showInputDialog(ventanaPrincipal, producto.getOrdenTrabajo().getId() + "",
+				"Ref. orden trabajo", JOptionPane.QUESTION_MESSAGE);
 
 		try {
 			Long valor = Long.parseLong(seleccion);
@@ -133,7 +133,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			}
 
 			else {
-				JOptionPane.showMessageDialog(ventanaPrincipal, "Las referencias no coinciden", "Error", 
+				JOptionPane.showMessageDialog(ventanaPrincipal, "Las referencias no coinciden", "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 
@@ -143,8 +143,8 @@ public class PanelEmpaquetadoProductos extends JPanel {
 				Cliente destinatario = ServiceFactory.getEmpaquetadoService()
 						.getClientePedido(producto.getproductoPedido().getPedido());
 
-				JOptionPane.showMessageDialog(ventanaPrincipal, 
-						generarEtiquetas(producto, destinatario), "Generando etiquetas",  JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(ventanaPrincipal, generarEtiquetas(producto, destinatario),
+						"Generando etiquetas", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 
@@ -153,7 +153,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		}
 
 		catch (BusinessException excep) {
-			JOptionPane.showMessageDialog(ventanaPrincipal, "No se ha podido realizar la operación", "Error", 
+			JOptionPane.showMessageDialog(ventanaPrincipal, "No se ha podido realizar la operación", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -168,4 +168,15 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		return sb.toString();
 	}
 
+	// ==============================================
+	// Controlar el estado del panel
+	// ==============================================
+
+	private void reiniciarPanel() {
+
+	}
+
+	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
+	}
 }

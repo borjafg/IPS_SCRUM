@@ -31,6 +31,7 @@ public class Producto implements Serializable {
 
 	private String nombre;
 	private double precio;
+	private String descripcion;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
@@ -70,6 +71,14 @@ public class Producto implements Serializable {
 
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+	
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public Categoria getCategoria() {

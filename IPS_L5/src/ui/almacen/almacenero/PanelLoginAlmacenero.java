@@ -35,11 +35,9 @@ public class PanelLoginAlmacenero extends JPanel {
 	 * Constructor sin parámetros de la clase PanelLoginAlmacenero
 	 * 
 	 */
-	public PanelLoginAlmacenero(GestionAlmacen ventanaPrincipal) {
+	public PanelLoginAlmacenero() {
 		super();
 
-		this.ventanaPrincipal = ventanaPrincipal;
-		
 		setPreferredSize(new Dimension(374, 530));
 		colocarLayout();
 
@@ -79,16 +77,16 @@ public class PanelLoginAlmacenero extends JPanel {
 		gbc_botonLogin.gridy = 5;
 
 		add(getBotonLogin(), gbc_botonLogin);
-		
+
 		// ====== labelResultado ======
-		
+
 		GridBagConstraints gbc_labelResultado = new GridBagConstraints();
-		
+
 		gbc_labelResultado.fill = GridBagConstraints.BOTH;
 		gbc_labelResultado.insets = new Insets(0, 0, 5, 5);
 		gbc_labelResultado.gridx = 1;
 		gbc_labelResultado.gridy = 7;
-		
+
 		add(getLabelResultado(), gbc_labelResultado);
 	}
 
@@ -148,7 +146,7 @@ public class PanelLoginAlmacenero extends JPanel {
 								ventanaPrincipal.login(almacenero);
 								reiniciarPanel();
 							}
-							
+
 							else {
 								getLabelResultado().setText("Usuario incorrecto");
 							}
@@ -163,14 +161,8 @@ public class PanelLoginAlmacenero extends JPanel {
 		}
 
 		return botonLogin;
-
 	}
 
-	private void reiniciarPanel() {
-		getLabelResultado().setText("");
-		getTextFieldAlmacenero().setText("");
-	}
-	
 	private JLabel getLabelResultado() {
 		if (labelResultado == null) {
 			labelResultado = new JLabel("");
@@ -178,7 +170,20 @@ public class PanelLoginAlmacenero extends JPanel {
 			labelResultado.setForeground(new Color(220, 20, 60));
 			labelResultado.setHorizontalAlignment(SwingConstants.CENTER);
 		}
-		
+
 		return labelResultado;
+	}
+
+	// ==============================================
+	// Controlar el estado del panel
+	// ==============================================
+
+	private void reiniciarPanel() {
+		getLabelResultado().setText("");
+		getTextFieldAlmacenero().setText("");
+	}
+	
+	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }

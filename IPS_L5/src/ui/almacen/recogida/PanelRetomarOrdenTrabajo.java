@@ -11,16 +11,26 @@ public class PanelRetomarOrdenTrabajo extends JPanel {
 	private static final long serialVersionUID = -2179720108518020612L;
 
 	private GestionAlmacen ventanaPrincipal;
-	
-	public PanelRetomarOrdenTrabajo(GestionAlmacen ventanaPrincipal) {
+
+	public PanelRetomarOrdenTrabajo() {
 		super();
-		
-		this.ventanaPrincipal = ventanaPrincipal;
-		
+
 		setPreferredSize(new Dimension(374, 530));
 	}
 
 	public void inicializarDatos() {
 		// Cargar lista de ordenes de trabajo con productos para recoger
+	}
+
+	// ==============================================
+	// Controlar el estado del panel
+	// ==============================================
+
+	private void reiniciarPanel() {
+		// TODO
+	}
+
+	public void setVentanaPrincipal(GestionAlmacen ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }
