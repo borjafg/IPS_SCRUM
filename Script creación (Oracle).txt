@@ -33,7 +33,7 @@ CREATE TABLE OrdenesTrabajo(id_ordenTrabajo number(32), fecha date, estado varch
 CREATE TABLE ProductosOrdenTrabajo(id_ordenTrabajo number(32), id_producto number(32), id_pedido number(32), ref_ordenTrabajo varchar(32) not null, unidades_recoger number(10), unidades_recogidas number(10), primary key(id_ordenTrabajo, id_producto, id_pedido), foreign key (id_producto, id_pedido) references ProductosPedido(id_producto, id_pedido), foreign key(id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo), unique(id_ordenTrabajo, ref_ordenTrabajo));
 
 
-CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), fecha date, causa varchar(64), primary key(id_incidencia), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
+CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), fecha date, causa varchar(255), primary key(id_incidencia), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
 
 
 -- ======================================
