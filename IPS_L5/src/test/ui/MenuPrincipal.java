@@ -30,19 +30,15 @@ import test.ui.panelesCentro.PanelCreacionCategorias;
 import test.ui.panelesCentro.PanelCreacionProductos;
 import test.ui.panelesCentro.PanelCreacionUsuarios;
 
-import javax.swing.JTextField;
-
 public class MenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	
-	//====================
+	// ====================
 	// Logica para los test
-	//======================
+	// ======================
 	private CargadorComponentes cargadorComp;
-	
-	
+
 	// =====================
 	// Opciones test
 	// =====================
@@ -74,7 +70,6 @@ public class MenuPrincipal extends JFrame {
 	private PanelCreacionUsuarios panelCreacionUsuarios;
 	private PanelCreacionCategorias panelCreacionCategorias;
 
-
 	// Panel resultados
 
 	private JPanel panelResultados;
@@ -104,6 +99,7 @@ public class MenuPrincipal extends JFrame {
 	public MenuPrincipal() {
 		procesadorTest = new TestExecutor();
 		cargadorComp = new CargadorComponentes();
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 620);
@@ -117,18 +113,19 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(getPanelEste(), BorderLayout.EAST);
 		contentPane.add(getPanelCentro(), BorderLayout.CENTER);
 	}
-	
-	public CargadorComponentes getCargadorComponentes(){
+
+	public CargadorComponentes getCargadorComponentes() {
 		return cargadorComp;
 	}
-	
-	public TestExecutor getProcesadorTest(){
+
+	public TestExecutor getProcesadorTest() {
 		return procesadorTest;
 	}
 
 	public JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
+			
 			panelCentro.setBorder(new LineBorder(new Color(192, 192, 192)));
 			panelCentro.setLayout(new CardLayout(5, 0));
 
@@ -145,7 +142,7 @@ public class MenuPrincipal extends JFrame {
 	private void añadirPanelesCentro() {
 		panelCentro.add(getPanelResultados(), "panelResultados");
 		panelCentro.add(getPanelCreacionProductos(), "panelCreacionProductos");
-		panelCentro.add(getPanelCreacionUsuarios(),"panelCreacionUsuarios");
+		panelCentro.add(getPanelCreacionUsuarios(), "panelCreacionUsuarios");
 		panelCentro.add(getPanelCreacionCategorias(), "panelCreacionCategorias");
 	}
 
@@ -170,10 +167,10 @@ public class MenuPrincipal extends JFrame {
 		if (panelResultados_norte == null) {
 			panelResultados_norte = new JPanel();
 			panelResultados_norte.setBorder(null);
-			
+
 			FlowLayout flowLayout = (FlowLayout) panelResultados_norte.getLayout();
 			flowLayout.setVgap(10);
-			
+
 			panelResultados_norte.add(getLabelResultado());
 		}
 
@@ -183,7 +180,7 @@ public class MenuPrincipal extends JFrame {
 	private JPanel getPanelResultados() {
 		if (panelResultados == null) {
 			panelResultados = new JPanel();
-			
+
 			panelResultados.setLayout(new BorderLayout(0, 0));
 			panelResultados.add(getPanelResultados_norte(), BorderLayout.NORTH);
 			panelResultados.add(getScrollPaneResultados(), BorderLayout.CENTER);
@@ -228,27 +225,24 @@ public class MenuPrincipal extends JFrame {
 
 		return panelCreacionProductos;
 	}
-	
-	
-	private PanelCreacionUsuarios getPanelCreacionUsuarios(){
-		if(panelCreacionUsuarios == null){
+
+	private PanelCreacionUsuarios getPanelCreacionUsuarios() {
+		if (panelCreacionUsuarios == null) {
 			panelCreacionUsuarios = new PanelCreacionUsuarios();
 			panelCreacionUsuarios.setVentanaPrincipal(this);
 		}
+
 		return panelCreacionUsuarios;
 	}
-	
-	
-	private PanelCreacionCategorias getPanelCreacionCategorias(){
-		if(panelCreacionCategorias == null){
+
+	private PanelCreacionCategorias getPanelCreacionCategorias() {
+		if (panelCreacionCategorias == null) {
 			panelCreacionCategorias = new PanelCreacionCategorias();
 			panelCreacionCategorias.setVentanaPrincipal(this);
 		}
+
 		return panelCreacionCategorias;
 	}
-	
-	
-	
 
 	// =============================
 	// Panel de acciones
@@ -262,6 +256,7 @@ public class MenuPrincipal extends JFrame {
 			panelEste.setMinimumSize(new Dimension(450, 450));
 			panelEste.setBorder(new EmptyBorder(5, 5, 5, 5));
 			panelEste.setLayout(new GridLayout(0, 1, 0, 0));
+			
 			panelEste.add(getBotonAccesoBaseDatos());
 			panelEste.add(getBotonAñadirUsuario());
 			panelEste.add(getBotonAñadirProducto());
@@ -294,12 +289,14 @@ public class MenuPrincipal extends JFrame {
 	private JButton getBotonAñadirUsuario() {
 		if (botonAñadirUsuario == null) {
 			botonAñadirUsuario = new JButton("A\u00F1adir nuevo usuario");
+
 			botonAñadirUsuario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionUsuarios");
-					
+
 				}
 			});
+
 			botonAñadirUsuario.setFont(new Font("Tahoma", Font.BOLD, 21));
 		}
 
@@ -309,6 +306,7 @@ public class MenuPrincipal extends JFrame {
 	private JButton getBotonConfirmarPago() {
 		if (botonConfirmarPago == null) {
 			botonConfirmarPago = new JButton("Confirmar pago de un pedido");
+			
 			botonConfirmarPago.setFont(new Font("Tahoma", Font.BOLD, 21));
 			botonConfirmarPago.setEnabled(false);
 		}
@@ -319,36 +317,40 @@ public class MenuPrincipal extends JFrame {
 	private JButton getBotonAñadirProducto() {
 		if (botonAñadirProducto == null) {
 			botonAñadirProducto = new JButton("A\u00F1adir nuevo producto");
+
 			botonAñadirProducto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//carga de datos
-					
-					panelCreacionProductos.cargarDatos();//cargo datos de la base de datos
-					
-					
+					// carga de datos
+
+					panelCreacionProductos.cargarDatos();// cargo datos de la
+															// base de datos
+
 					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionProductos");
-					
-					
+
 				}
 			});
+
 			botonAñadirProducto.setFont(new Font("Tahoma", Font.BOLD, 21));
 		}
 
 		return botonAñadirProducto;
 	}
+
 	private JButton getBotonAñadirCategorias() {
 		if (botonAñadirCategorias == null) {
 			botonAñadirCategorias = new JButton("A\u00F1adir Categorias");
+
 			botonAñadirCategorias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					panelCreacionCategorias.cargarDatos();
+
 					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionCategorias");
-					
-					
 				}
 			});
+
 			botonAñadirCategorias.setFont(new Font("Tahoma", Font.BOLD, 21));
 		}
+
 		return botonAñadirCategorias;
 	}
 }

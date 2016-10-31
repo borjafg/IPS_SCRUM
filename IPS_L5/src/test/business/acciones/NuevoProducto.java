@@ -26,13 +26,16 @@ public class NuevoProducto implements TestAction {
 
 	@Override
 	public String doTest(EntityManager ent) {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder("Se ha creado el producto con su posición");
 		
+		Categoria cat = ent.merge(categoria);
 		
-		Producto producto = new Producto(posicion, categoria);
+		Producto producto = new Producto(posicion, cat);
+		
 		producto.setDescripcion(descripcion);
 		producto.setNombre(nombre);
 		producto.setPrecio(precio);
+		
 		ent.persist(posicion);
 		ent.persist(producto);
 

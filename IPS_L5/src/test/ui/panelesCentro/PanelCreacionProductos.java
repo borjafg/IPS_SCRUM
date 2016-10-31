@@ -264,23 +264,33 @@ public class PanelCreacionProductos extends JPanel {
 			botonConfirmar = new JButton("Confirmar");
 			botonConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					
+					// Crear la posicion del producto
+					
 					PosicionProducto posicion = new PosicionProducto();
+					
 					posicion.setAltura(Integer.parseInt(getTextFieldAltura().getText()));
 					posicion.setEstanteriaPoducto((EstanteriaProducto) getComboBoxEstanteria().getSelectedItem());
 					posicion.setPosicionX(Integer.parseInt(getTextFieldPosicionX().getText()));
 					posicion.setPasillo(Integer.parseInt(getTextFieldPasillo().getText()));
-
+					
+					// Sacar los datos del producto
+					
 					String nombre = getTextFieldNombre().getText();
 					Categoria categoria = (Categoria) getComboBoxCategoria().getSelectedItem();
 					Double precio = Double.parseDouble(getTextFieldPrecio().getText());
 					String descripcion = getTextFieldDescripcion().getText();
 
+					// Creamos el producto
+					
 					String resultado = menuPrincipal.getProcesadorTest()
 							.ejecutarPrueba(new NuevoProducto(nombre, categoria, precio, descripcion, posicion));
 
+					// Mostramos el resultado de la ejecución
+					
 					menuPrincipal.getTextAreaResultados().setText(resultado);
-					((CardLayout)menuPrincipal.getPanelCentro().getLayout()).show(menuPrincipal.getPanelCentro(),"panelResultados" );
+					((CardLayout) menuPrincipal.getPanelCentro().getLayout()).show(menuPrincipal.getPanelCentro(),
+							"panelResultados");
 				}
 			});
 		}
@@ -315,11 +325,10 @@ public class PanelCreacionProductos extends JPanel {
 
 	public void cargarDatos() {
 		List<Categoria> listaCategorias = menuPrincipal.getCargadorComponentes().cargarCategorias();
+
 		for (Categoria cat : listaCategorias) {
 			modeloComboCategoria.addElement(cat);
 		}
-
-		
 	}
 
 	private JLabel getLabel() {
@@ -327,6 +336,7 @@ public class PanelCreacionProductos extends JPanel {
 			label = new JLabel("Datos posicion");
 			label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		}
+
 		return label;
 	}
 
@@ -335,6 +345,7 @@ public class PanelCreacionProductos extends JPanel {
 			labelAltura = new JLabel("Altura: ");
 			labelAltura.setFont(new Font("Tahoma", Font.BOLD, 18));
 		}
+
 		return labelAltura;
 	}
 
@@ -343,6 +354,7 @@ public class PanelCreacionProductos extends JPanel {
 			textFieldAltura = new JTextField();
 			textFieldAltura.setColumns(10);
 		}
+
 		return textFieldAltura;
 	}
 

@@ -29,13 +29,12 @@ public class CargadorComponentes {
 
 		return listado;
 	}
-	
-	
-	public List<Categoria> cargarCategoriasSinProductos(){
+
+	public List<Categoria> cargarCategoriasSinProductos() {
 		List<Categoria> listado = null;
 
 		try {
-			listado = testService.getListaCategorias();
+			listado = testService.getListCategoriasSinProductos();
 
 		} catch (BusinessException e) {
 
@@ -44,9 +43,8 @@ public class CargadorComponentes {
 
 		return listado;
 	}
-	
-	
-	public List<PosicionProducto> cargarPosicionesSinProducto(){
+
+	public List<PosicionProducto> cargarPosicionesSinProducto() {
 		List<PosicionProducto> listado = null;
 
 		try {

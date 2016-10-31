@@ -615,3 +615,112 @@ org.hibernate.hql.ast.QuerySyntaxException: Invalid path: 'EstadoPedido.POSIBLE_
 16:57:23,725  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
 17:00:48,830  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
 17:00:48,834  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:32:12,892  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+20:32:12,898  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:33:01,757 ERROR LazyInitializationException:42 - failed to lazily initialize a collection of role: model.Categoria.productos, no session or session was closed
+org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: model.Categoria.productos, no session or session was closed
+	at org.hibernate.collection.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:383)
+	at org.hibernate.collection.AbstractPersistentCollection.throwLazyInitializationExceptionIfNotConnected(AbstractPersistentCollection.java:375)
+	at org.hibernate.collection.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:368)
+	at org.hibernate.collection.PersistentSet.add(PersistentSet.java:212)
+	at model.Asociacion$Categorizar.link(Asociacion.java:88)
+	at model.Producto.<init>(Producto.java:53)
+	at test.business.acciones.NuevoProducto.doTest(NuevoProducto.java:31)
+	at test.business.TestExecutor.ejecutarPrueba(TestExecutor.java:45)
+	at test.ui.panelesCentro.PanelCreacionProductos$1.actionPerformed(PanelCreacionProductos.java:287)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$500(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+20:35:43,388  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+20:35:43,391  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:42:55,283  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+20:42:55,287  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:48:33,879  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+20:48:33,882  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:50:41,751  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+20:50:41,755  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:51:07,521 ERROR LazyInitializationException:42 - failed to lazily initialize a collection of role: model.Categoria.subcategorias, no session or session was closed
+org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: model.Categoria.subcategorias, no session or session was closed
+	at org.hibernate.collection.AbstractPersistentCollection.throwLazyInitializationException(AbstractPersistentCollection.java:383)
+	at org.hibernate.collection.AbstractPersistentCollection.throwLazyInitializationExceptionIfNotConnected(AbstractPersistentCollection.java:375)
+	at org.hibernate.collection.AbstractPersistentCollection.initialize(AbstractPersistentCollection.java:368)
+	at org.hibernate.collection.PersistentSet.add(PersistentSet.java:212)
+	at model.Asociacion$NuevaCategoria.link(Asociacion.java:99)
+	at model.Categoria.<init>(Categoria.java:60)
+	at test.business.acciones.NuevaCategoria.<init>(NuevaCategoria.java:17)
+	at test.ui.panelesCentro.PanelCreacionCategorias$1.actionPerformed(PanelCreacionCategorias.java:200)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$500(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+21:00:33,132  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+21:00:33,134  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+21:01:03,737  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+21:01:03,740  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+21:01:52,882  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+21:01:52,886  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
