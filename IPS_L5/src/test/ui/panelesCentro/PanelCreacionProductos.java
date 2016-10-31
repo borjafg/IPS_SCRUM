@@ -1,6 +1,7 @@
 package test.ui.panelesCentro;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -8,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -15,7 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import model.Categoria;
+import model.PosicionProducto;
+import test.business.acciones.NuevoProducto;
+import test.business.acciones.ProbarAccesoMapeador;
 import test.ui.MenuPrincipal;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelCreacionProductos extends JPanel {
 
@@ -26,12 +34,18 @@ public class PanelCreacionProductos extends JPanel {
 	private JTextField textFieldNombre;
 	private JLabel labelCategoria;
 	private JComboBox comboBoxCategoria;
-	private JLabel labelDireccion;
-	private JTextField textFieldDireccion;
+	private JLabel labelPrecio;
+	private JTextField textFieldPrecio;
 	private JPanel panelCentro;
 	private JPanel panelSur;
 	private JButton botonConfirmar;
 	private JLabel labelDatos;
+	private JLabel lblDescripcin;
+	private JTextField textFieldDescripcion;
+	private JLabel lblPosicionProducto;
+	private DefaultComboBoxModel<PosicionProducto> modeloCombo;
+	private DefaultComboBoxModel<Categoria> modeloComboCategoria;
+	private JComboBox comboBoxPosicionesProducto;
 	
 	public PanelCreacionProductos() {
 		super();
@@ -81,28 +95,29 @@ public class PanelCreacionProductos extends JPanel {
 	
 	private JComboBox getComboBoxCategoria() {
 		if (comboBoxCategoria == null) {
-			comboBoxCategoria = new JComboBox();
+			comboBoxCategoria = new JComboBox();//modelo tienen que ser todas las categorias que no tengan hijos
 		}
-		
+		modeloComboCategoria = new DefaultComboBoxModel<Categoria>();
+		comboBoxCategoria.setModel(modeloComboCategoria);
 		return comboBoxCategoria;
 	}
 	
-	private JLabel getLabelDireccion() {
-		if (labelDireccion == null) {
-			labelDireccion = new JLabel("Direcci\u00F3n");
-			labelDireccion.setFont(new Font("Tahoma", Font.BOLD, 18));
+	private JLabel getLabelPrecio() {
+		if (labelPrecio == null) {
+			labelPrecio = new JLabel("Precio");
+			labelPrecio.setFont(new Font("Tahoma", Font.BOLD, 18));
 		}
 		
-		return labelDireccion;
+		return labelPrecio;
 	}
 	
-	private JTextField getTextFieldDireccion() {
-		if (textFieldDireccion == null) {
-			textFieldDireccion = new JTextField();
-			textFieldDireccion.setColumns(10);
+	private JTextField getTextFieldPrecio() {
+		if (textFieldPrecio == null) {
+			textFieldPrecio = new JTextField();
+			textFieldPrecio.setColumns(10);
 		}
 		
-		return textFieldDireccion;
+		return textFieldPrecio;
 	}
 	
 	private JPanel getPanelCentro() {
@@ -110,9 +125,9 @@ public class PanelCreacionProductos extends JPanel {
 			panelCentro = new JPanel();
 			GridBagLayout gbl_panelCentro = new GridBagLayout();
 			gbl_panelCentro.columnWidths = new int[]{10, 95, 10, 255, 10, 0};
-			gbl_panelCentro.rowHeights = new int[]{0, 0, 10, 30, 10, 30, 10, 30, 0};
+			gbl_panelCentro.rowHeights = new int[]{0, 0, 10, 30, 10, 30, 10, 30, 0, 0, 0, 0, 0};
 			gbl_panelCentro.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-			gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 			panelCentro.setLayout(gbl_panelCentro);
 			GridBagConstraints gbc_labelDatos = new GridBagConstraints();
 			gbc_labelDatos.gridwidth = 3;
@@ -143,17 +158,41 @@ public class PanelCreacionProductos extends JPanel {
 			gbc_comboBoxCategoria.gridx = 3;
 			gbc_comboBoxCategoria.gridy = 5;
 			panelCentro.add(getComboBoxCategoria(), gbc_comboBoxCategoria);
-			GridBagConstraints gbc_labelDireccion = new GridBagConstraints();
-			gbc_labelDireccion.insets = new Insets(0, 0, 0, 5);
-			gbc_labelDireccion.gridx = 1;
-			gbc_labelDireccion.gridy = 7;
-			panelCentro.add(getLabelDireccion(), gbc_labelDireccion);
-			GridBagConstraints gbc_textFieldDireccion = new GridBagConstraints();
-			gbc_textFieldDireccion.fill = GridBagConstraints.BOTH;
-			gbc_textFieldDireccion.insets = new Insets(0, 0, 0, 5);
-			gbc_textFieldDireccion.gridx = 3;
-			gbc_textFieldDireccion.gridy = 7;
-			panelCentro.add(getTextFieldDireccion(), gbc_textFieldDireccion);
+			GridBagConstraints gbc_labelPrecio = new GridBagConstraints();
+			gbc_labelPrecio.insets = new Insets(0, 0, 5, 5);
+			gbc_labelPrecio.gridx = 1;
+			gbc_labelPrecio.gridy = 7;
+			panelCentro.add(getLabelPrecio(), gbc_labelPrecio);
+			GridBagConstraints gbc_textFieldPrecio = new GridBagConstraints();
+			gbc_textFieldPrecio.fill = GridBagConstraints.BOTH;
+			gbc_textFieldPrecio.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldPrecio.gridx = 3;
+			gbc_textFieldPrecio.gridy = 7;
+			panelCentro.add(getTextFieldPrecio(), gbc_textFieldPrecio);
+			GridBagConstraints gbc_lblDescripcin = new GridBagConstraints();
+			gbc_lblDescripcin.insets = new Insets(0, 0, 5, 5);
+			gbc_lblDescripcin.gridx = 1;
+			gbc_lblDescripcin.gridy = 9;
+			panelCentro.add(getLblDescripcin(), gbc_lblDescripcin);
+			GridBagConstraints gbc_textFieldDescripcion = new GridBagConstraints();
+			gbc_textFieldDescripcion.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldDescripcion.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldDescripcion.gridx = 3;
+			gbc_textFieldDescripcion.gridy = 9;
+			panelCentro.add(getTextFieldDescripcion(), gbc_textFieldDescripcion);
+			GridBagConstraints gbc_lblPosicionProducto = new GridBagConstraints();
+			gbc_lblPosicionProducto.insets = new Insets(0, 0, 0, 5);
+			gbc_lblPosicionProducto.gridx = 1;
+			gbc_lblPosicionProducto.gridy = 11;
+			panelCentro.add(getLblPosicionProducto(), gbc_lblPosicionProducto);
+			GridBagConstraints gbc_comboBoxPosicionesProducto = new GridBagConstraints();
+			gbc_comboBoxPosicionesProducto.insets = new Insets(0, 0, 0, 5);
+			gbc_comboBoxPosicionesProducto.fill = GridBagConstraints.HORIZONTAL;
+			gbc_comboBoxPosicionesProducto.gridx = 3;
+			gbc_comboBoxPosicionesProducto.gridy = 11;
+			panelCentro.add(getComboBoxPosicionesProducto(), gbc_comboBoxPosicionesProducto);
+			GridBagConstraints gbc_comboBoxPosicionesProducto1 = new GridBagConstraints();
+	
 		}
 		
 		return panelCentro;
@@ -171,6 +210,14 @@ public class PanelCreacionProductos extends JPanel {
 	private JButton getBotonConfirmar() {
 		if (botonConfirmar == null) {
 			botonConfirmar = new JButton("Confirmar");
+			botonConfirmar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String resultado = menuPrincipal.getProcesadorTest().ejecutarPrueba(new NuevoProducto(getTextFieldNombre().getText(), (Categoria)getComboBoxCategoria().getSelectedItem(), Double.parseDouble(getTextFieldPrecio().getText()), getTextFieldDescripcion().getText(),(PosicionProducto)getComboBoxPosicionesProducto().getSelectedItem()));
+					menuPrincipal.getTextAreaResultados().setText(resultado);
+					((CardLayout)menuPrincipal.getPanelCentro().getLayout()).show(menuPrincipal.getPanelCentro(),"panelResultados" );
+				}
+			});
 		}
 		
 		return botonConfirmar;
@@ -183,5 +230,35 @@ public class PanelCreacionProductos extends JPanel {
 		}
 		
 		return labelDatos;
+	}
+	private JLabel getLblDescripcin() {
+		if (lblDescripcin == null) {
+			lblDescripcin = new JLabel("Descripci\u00F3n:");
+			lblDescripcin.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblDescripcin;
+	}
+	private JTextField getTextFieldDescripcion() {
+		if (textFieldDescripcion == null) {
+			textFieldDescripcion = new JTextField();
+			textFieldDescripcion.setColumns(10);
+		}
+		return textFieldDescripcion;
+	}
+	private JLabel getLblPosicionProducto() {
+		if (lblPosicionProducto == null) {
+			lblPosicionProducto = new JLabel("Posicion");
+			lblPosicionProducto.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblPosicionProducto;
+	}
+	
+	private JComboBox getComboBoxPosicionesProducto() {
+		if (comboBoxPosicionesProducto == null) {
+			comboBoxPosicionesProducto = new JComboBox();
+		}
+		modeloCombo = new DefaultComboBoxModel<PosicionProducto>();
+		comboBoxPosicionesProducto.setModel(modeloCombo);
+		return comboBoxPosicionesProducto;
 	}
 }

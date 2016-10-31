@@ -25,6 +25,8 @@ import javax.swing.border.LineBorder;
 
 import test.business.TestExecutor;
 import test.business.acciones.ProbarAccesoMapeador;
+import test.ui.panelesCentro.PanelCreacionCategorias;
+import test.ui.panelesCentro.PanelCreacionPosicion;
 import test.ui.panelesCentro.PanelCreacionProductos;
 import test.ui.panelesCentro.PanelCreacionUsuarios;
 
@@ -63,6 +65,8 @@ public class MenuPrincipal extends JFrame {
 	private JPanel panelCentro;
 	private PanelCreacionProductos panelCreacionProductos;
 	private PanelCreacionUsuarios panelCreacionUsuarios;
+	private PanelCreacionCategorias panelCreacionCategorias;
+	private PanelCreacionPosicion panelCreacionPosicion;
 
 	// Panel resultados
 
@@ -75,6 +79,8 @@ public class MenuPrincipal extends JFrame {
 	private JButton botonConfirmarPago;
 	private JButton botonAñadirProducto;
 	private JScrollPane scrollPaneResultados;
+	private JButton botonAñadirCategorias;
+	private JButton btnAñadirPosicion;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -105,8 +111,12 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(getPanelEste(), BorderLayout.EAST);
 		contentPane.add(getPanelCentro(), BorderLayout.CENTER);
 	}
+	
+	public TestExecutor getProcesadorTest(){
+		return procesadorTest;
+	}
 
-	private JPanel getPanelCentro() {
+	public JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
 			panelCentro.setBorder(new LineBorder(new Color(192, 192, 192)));
@@ -125,6 +135,9 @@ public class MenuPrincipal extends JFrame {
 	private void añadirPanelesCentro() {
 		panelCentro.add(getPanelResultados(), "panelResultados");
 		panelCentro.add(getPanelCreacionProductos(), "panelCreacionProductos");
+		panelCentro.add(getPanelCreacionUsuarios(),"panelCreacionUsuarios");
+		panelCentro.add(getPanelCreacionCategorias(), "panelCreacionCategorias");
+		panelCentro.add(getPanelCreacionPosicion(), "panelCreacionPosicion");
 	}
 
 	// =============================
@@ -176,7 +189,7 @@ public class MenuPrincipal extends JFrame {
 		return scrollPaneResultados;
 	}
 
-	private JTextArea getTextAreaResultados() {
+	public JTextArea getTextAreaResultados() {
 		if (textAreaResultados == null) {
 			textAreaResultados = new JTextArea();
 
@@ -212,6 +225,24 @@ public class MenuPrincipal extends JFrame {
 		}
 		return panelCreacionUsuarios;
 	}
+	
+	
+	private PanelCreacionCategorias getPanelCreacionCategorias(){
+		if(panelCreacionCategorias == null){
+			panelCreacionCategorias = new PanelCreacionCategorias();
+			panelCreacionCategorias.setVentanaPrincipal(this);
+		}
+		return panelCreacionCategorias;
+	}
+	
+	
+	private PanelCreacionPosicion getPanelCreacionPosicion(){
+		if(panelCreacionPosicion == null){
+			panelCreacionPosicion = new PanelCreacionPosicion();
+			panelCreacionPosicion.setVentanaPrincipal(this);
+		}
+		return panelCreacionPosicion;
+	}
 
 	// =============================
 	// Panel de acciones
@@ -227,8 +258,10 @@ public class MenuPrincipal extends JFrame {
 			panelEste.setLayout(new GridLayout(0, 1, 0, 0));
 			panelEste.add(getBotonAccesoBaseDatos());
 			panelEste.add(getBotonAñadirUsuario());
-			panelEste.add(getBotonConfirmarPago());
 			panelEste.add(getBotonAñadirProducto());
+			panelEste.add(getBotonAñadirCategorias());
+			panelEste.add(getBtnAñadirPosicion());
+			panelEste.add(getBotonConfirmarPago());
 		}
 
 		return panelEste;
@@ -256,8 +289,13 @@ public class MenuPrincipal extends JFrame {
 	private JButton getBotonAñadirUsuario() {
 		if (botonAñadirUsuario == null) {
 			botonAñadirUsuario = new JButton("A\u00F1adir nuevo usuario");
+			botonAñadirUsuario.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionUsuarios");
+					
+				}
+			});
 			botonAñadirUsuario.setFont(new Font("Tahoma", Font.BOLD, 21));
-			botonAñadirUsuario.setEnabled(false);
 		}
 
 		return botonAñadirUsuario;
@@ -278,7 +316,7 @@ public class MenuPrincipal extends JFrame {
 			botonAñadirProducto = new JButton("A\u00F1adir nuevo producto");
 			botonAñadirProducto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
+					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionProductos");
 					
 					
 				}
@@ -287,5 +325,33 @@ public class MenuPrincipal extends JFrame {
 		}
 
 		return botonAñadirProducto;
+	}
+	private JButton getBotonAñadirCategorias() {
+		if (botonAñadirCategorias == null) {
+			botonAñadirCategorias = new JButton("A\u00F1adir Categorias");
+			botonAñadirCategorias.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionCategorias");
+					
+					
+				}
+			});
+			botonAñadirCategorias.setFont(new Font("Tahoma", Font.BOLD, 21));
+		}
+		return botonAñadirCategorias;
+	}
+	private JButton getBtnAñadirPosicion() {
+		if (btnAñadirPosicion == null) {
+			btnAñadirPosicion = new JButton("A\u00F1adir posici\u00F3n");
+			btnAñadirPosicion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionPosicion");
+				}
+			});
+			btnAñadirPosicion.setFont(new Font("Tahoma", Font.BOLD, 21));
+		}
+		return btnAñadirPosicion;
 	}
 }

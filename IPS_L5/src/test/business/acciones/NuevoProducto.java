@@ -11,21 +11,20 @@ public class NuevoProducto implements TestAction {
 
 	private Producto producto;
 
-	public NuevoProducto(Object... producto) {
-		PosicionProducto posProd = new PosicionProducto();
-		Categoria cat = new Categoria();
-
-		Producto prod = new Producto(posProd, cat);
-
-		this.producto = prod;
+	public NuevoProducto(String nombre, Categoria categoria, double precio, String descripcion, PosicionProducto posicion) {
+		producto = new Producto(posicion, categoria);//faltan parametros???
 	}
 
 	@Override
 	public String doTest(EntityManager ent) {
-		
-//		ent.persist(producto);
-		
-		
-		return "Todavia no esta implementado";
+		StringBuilder sb = new StringBuilder();
+
+		try{
+			ent.persist(producto);
+			sb.append("Se ha creado el producto correctamente \n\n");
+		}catch(Exception ex){
+			sb.append("\n Ha ocurrido un error \n");
+		}
+		return sb.toString();
 	}
 }
