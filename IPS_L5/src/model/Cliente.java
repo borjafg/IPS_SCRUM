@@ -35,10 +35,6 @@ public class Cliente implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoCliente tipoCliente;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "metodo_pago")
-	private MetodosPago metodoPago;
-
 	@Column(name = "direccion")
 	private String direccionCompleta;
 
@@ -71,14 +67,6 @@ public class Cliente implements Serializable {
 
 	public void setTipoCliente(TipoCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
-	}
-
-	public MetodosPago getMetodoPago() {
-		return metodoPago;
-	}
-
-	public void setMetodoPago(MetodosPago metodoPago) {
-		this.metodoPago = metodoPago;
 	}
 
 	public String getDireccionCompleta() {

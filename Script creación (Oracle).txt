@@ -2,10 +2,10 @@
 -- Parte de usuario (y de recogida)
 -- ======================================
 
-CREATE TABLE Clientes(id_cliente number(32), nombre varchar(64), tipoCliente varchar(64), metodo_pago varchar(64), direccion varchar(255), PRIMARY KEY(id_cliente));
+CREATE TABLE Clientes(id_cliente number(32), nombre varchar(64), tipoCliente varchar(64), direccion varchar(255), PRIMARY KEY(id_cliente));
 
 
-CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha date, estado varchar(64), pagado varchar(16), direccion varchar(255), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
+CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha date, estado varchar(64), pagado varchar(16), direccion varchar(255), metodo_pago varchar(64), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
 
 
 CREATE TABLE PosicionProductos(id_posicion number (32), pasillo number(10), estanteria varchar(32),altura number(10), posicionX number(10), primary key (id_posicion));

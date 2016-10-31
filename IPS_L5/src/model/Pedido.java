@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.cfg.NotYetImplementedException;
 
 import model.types.EstadoPedido;
+import model.types.MetodosPago;
 import model.types.PedidoPagado;
 
 @Entity
@@ -40,6 +41,10 @@ public class Pedido {
 	@Column(name = "direccion")
 	private String direccionCompleta;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "metodo_pago")
+	private MetodosPago metodoPago;
+	
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estado;
 
@@ -79,6 +84,14 @@ public class Pedido {
 
 	public void setDireccionCompleta(String direccionCompleta) {
 		this.direccionCompleta = direccionCompleta;
+	}
+	
+	public MetodosPago getMetodoPago() {
+		return metodoPago;
+	}
+
+	public void setMetodoPago(MetodosPago metodoPago) {
+		this.metodoPago = metodoPago;
 	}
 
 	public EstadoPedido getEstado() {
