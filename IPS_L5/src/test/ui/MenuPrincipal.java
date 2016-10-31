@@ -148,8 +148,10 @@ public class MenuPrincipal extends JFrame {
 		if (panelResultados_norte == null) {
 			panelResultados_norte = new JPanel();
 			panelResultados_norte.setBorder(null);
+			
 			FlowLayout flowLayout = (FlowLayout) panelResultados_norte.getLayout();
 			flowLayout.setVgap(10);
+			
 			panelResultados_norte.add(getLabelResultado());
 		}
 
@@ -159,6 +161,7 @@ public class MenuPrincipal extends JFrame {
 	private JPanel getPanelResultados() {
 		if (panelResultados == null) {
 			panelResultados = new JPanel();
+			
 			panelResultados.setLayout(new BorderLayout(0, 0));
 			panelResultados.add(getPanelResultados_norte(), BorderLayout.NORTH);
 			panelResultados.add(getScrollPaneResultados(), BorderLayout.CENTER);

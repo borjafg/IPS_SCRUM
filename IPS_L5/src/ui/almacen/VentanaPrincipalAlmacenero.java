@@ -57,7 +57,10 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipalAlmacenero frame = new VentanaPrincipalAlmacenero();
+					
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,6 +79,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 581);
+		setResizable(false);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -132,8 +136,8 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		panelEmpaquetadoProductos = new PanelEmpaquetadoProductos();
 		panelEmpaquetadoProductos.setVentanaPrincipal(this);
 
-		contentPane.add(panelEmpaquetadoProductos, "panelOrdenesTrabajoEmpaquetar");
-		contentPane.add(panelEmpaquetadoProductos, "panelAsignacionProductosPaquete");
+		contentPane.add(panelOrdenesTrabajoEmpaquetar, "panelOrdenesTrabajoEmpaquetar");
+		contentPane.add(panelEmpaquetadoProductos, "panelEmpaquetadoProductos");
 	}
 
 	// ===================================
@@ -231,7 +235,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * @throws BusinessException
 	 * 
 	 */
-	public void mostrarOrdenesTrabajoEmpaquetar() throws BusinessException {
+	public void mostrarPanelOrdenesTrabajoEmpaquetar() throws BusinessException {
 		// (1) Inicializar
 		panelOrdenesTrabajoEmpaquetar.inicializarDatos();
 
@@ -252,7 +256,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		panelEmpaquetadoProductos.inicializarDatos();
 
 		// (2) Mostrar
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelAsignacionProductosPaquete");
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelEmpaquetadoProductos");
 	}
 
 	// =======================================================================

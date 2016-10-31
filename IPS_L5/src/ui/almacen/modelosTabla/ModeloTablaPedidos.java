@@ -1,25 +1,25 @@
 package ui.almacen.modelosTabla;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import model.Pedido;
 
-public class ModeloTablaPedidosOrdenTrabajo extends AbstractModeloTablaNoEditable {
+public class ModeloTablaPedidos extends AbstractModeloTablaNoEditable {
+
+	private static final long serialVersionUID = 3500989514105896058L;
 
 	private List<Pedido> pedidos;
-
-	public ModeloTablaPedidosOrdenTrabajo() {
+	
+	public ModeloTablaPedidos() {
 		super(new String[] { "Cod. Pedido", "Fecha", "Num Productos" },
 				new Class[] { Long.class, Date.class, Integer.class });
 
 		pedidos = new ArrayList<Pedido>();
 	}
-
-	private static final long serialVersionUID = -3774601264438710150L;
-
+	
 	@Override
 	public int getRowCount() {
 		return pedidos.size();
@@ -42,7 +42,7 @@ public class ModeloTablaPedidosOrdenTrabajo extends AbstractModeloTablaNoEditabl
 			return null;
 		}
 	}
-
+	
 	public void addPedido(Pedido pedido) {
 		pedidos.add(pedido);
 

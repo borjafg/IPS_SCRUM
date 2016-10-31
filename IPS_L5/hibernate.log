@@ -587,3 +587,31 @@ org.hibernate.hql.ast.QuerySyntaxException: Invalid path: 'EstadoPedido.POSIBLE_
 19:17:34,666  WARN JDBCExceptionReporter:233 - SQL Error: 904, SQLState: 42000
 19:17:34,667 ERROR JDBCExceptionReporter:234 - ORA-00904: "PRODUCTO0_"."DESCRIPCION": identificador no válido
 
+16:22:51,720  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:22:51,737  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:24:36,646  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:24:36,650  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:25:57,560  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:25:57,564  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:26:44,987  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:26:44,991  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:33:09,648  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:33:09,652  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:33:51,470  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:33:51,473  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:34:30,889  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:34:30,893  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:44:30,858  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:44:30,862  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:49:15,270  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:49:15,275  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:50:41,180  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:50:41,184  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:54:35,878  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:54:35,882  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:57:01,368  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:57:01,372  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+16:57:23,720  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+16:57:23,725  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+17:00:48,830  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+17:00:48,834  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead

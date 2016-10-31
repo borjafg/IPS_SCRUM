@@ -133,7 +133,7 @@ public class PanelLoginAlmacenero extends JPanel {
 	private JButton getBotonLogin() {
 		if (botonLogin == null) {
 			botonLogin = new JButton("Log in");
-
+			
 			botonLogin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					String user = textFieldAlmacenero.getText();

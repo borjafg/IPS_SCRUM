@@ -146,7 +146,12 @@ public class PanelOpcionesAlmacenero extends JPanel {
 
 			botonRetomar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					try {
+						ventanaPrincipal.mostrarPanelOrdenesTrabajoRetomar();
+						reiniciar();
+					} catch (BusinessException excep) {
+						mostrarErrorConexion();
+					}
 				}
 			});
 
@@ -162,7 +167,12 @@ public class PanelOpcionesAlmacenero extends JPanel {
 
 			botonEmpaquetar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					try {
+						ventanaPrincipal.mostrarPanelOrdenesTrabajoEmpaquetar();
+						reiniciar();
+					} catch (BusinessException excep) {
+						mostrarErrorConexion();
+					}
 				}
 			});
 
