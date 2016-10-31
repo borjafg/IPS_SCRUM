@@ -10,5 +10,5 @@ import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 public interface UserService {
 	public List<Producto> getListaProducto() throws BusinessException;
 	
-	public  void cargarBaseDeDatos(String direccion, MetodosPago pago, String nombre, List<ModeloProductosPedidos> listaCesta)throws BusinessException;
+	public  void cargarBaseDeDatos(String direccion,  String nombre, List<ModeloProductosPedidos> listaCesta)throws BusinessException;
 }

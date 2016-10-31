@@ -9,23 +9,34 @@ import test.business.TestAction;
 
 public class NuevoProducto implements TestAction {
 
-	private Producto producto;
+	private String nombre;
+	private Categoria categoria;
+	private Double precio;
+	private String descripcion;
+	private PosicionProducto posicion;
 
-	public NuevoProducto(Object... producto) {
-		PosicionProducto posProd = new PosicionProducto();
-		Categoria cat = new Categoria();
-
-		Producto prod = new Producto(posProd, cat);
-
-		this.producto = prod;
+	public NuevoProducto(String nombre, Categoria categoria, double precio, String descripcion,
+			PosicionProducto posicion) {
+		this.nombre = nombre;
+		this.categoria = categoria;
+		this.precio = precio;
+		this.descripcion = descripcion;
+		this.posicion = posicion;
 	}
 
 	@Override
 	public String doTest(EntityManager ent) {
+		StringBuilder sb = new StringBuilder();
 		
-//		ent.persist(producto);
 		
+		Producto producto = new Producto(posicion, categoria);
+		producto.setDescripcion(descripcion);
+		producto.setNombre(nombre);
+		producto.setPrecio(precio);
+		ent.persist(posicion);
+		ent.persist(producto);
+
 		
-		return "Todavia no esta implementado";
+		return sb.toString();
 	}
 }
