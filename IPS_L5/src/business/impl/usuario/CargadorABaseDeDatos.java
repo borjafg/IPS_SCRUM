@@ -19,15 +19,13 @@ import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 public class CargadorABaseDeDatos implements Command{
 	String direccion;
-	MetodosPago pago;
 	String nombre;
 	List<ModeloProductosPedidos> listaCesta;
 	
 
-	public CargadorABaseDeDatos(String direccion, MetodosPago pago, String nombre,
+	public CargadorABaseDeDatos(String direccion,  String nombre,
 			List<ModeloProductosPedidos> listaCesta) {
 		this.direccion = direccion;
-		this.pago = pago;
 		this.nombre = nombre;
 		this.listaCesta = listaCesta;
 	}
@@ -37,7 +35,6 @@ public class CargadorABaseDeDatos implements Command{
 	public Object execute() throws BusinessException {
 		//añado el cliente
 		Cliente cliente = new Cliente();
-		cliente.setMetodoPago(pago);
 		cliente.setNombre(nombre);
 		cliente.setDireccionCompleta(direccion);
 		Jpa.getManager().persist(cliente);

@@ -136,10 +136,10 @@ public class LogicaVentanaPrincipalUsuario {
 		return precio;
 	}
 
-	public void generarTodo(String direccion, MetodosPago pago, String nombre)
+	public void generarTodo(String direccion,  String nombre)
 			throws BusinessException {
 		userService = new UserServiceImpl();
-		userService.cargarBaseDeDatos(direccion, pago, nombre, listaCesta);
+		userService.cargarBaseDeDatos(direccion,  nombre, listaCesta);
 
 	}
 

@@ -7,7 +7,7 @@ import test.business.TestAction;
 
 public class NuevaCategoria implements TestAction{
 
-	Categoria categoria;
+	private Categoria categoria;
 	
 	
 	public NuevaCategoria(String nombre, Categoria padre) {
@@ -16,6 +16,7 @@ public class NuevaCategoria implements TestAction{
 		}else{
 			categoria = new Categoria(padre);
 		}
+		categoria.setNombre(nombre);
 		
 	}
 	

@@ -328,7 +328,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					}else{
 						//subir a la base de datos y reiniciar la aplicacion;
 						try {
-							logVOUser.generarTodo(textoDireccion,combometodo,textoNombre);
+							logVOUser.generarTodo(textoDireccion,textoNombre);
 						} catch (BusinessException e1) {
 							System.err.println(e1.getMessage());
 						}

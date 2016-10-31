@@ -11,8 +11,11 @@ public class NuevoCliente implements TestAction {
 	
 	Cliente clientenuevo;
 	
-	public NuevoCliente(String Nombre,String direccion, MetodosPago metodoPago, TipoCliente tipo) {
-		clientenuevo = new Cliente();//constructor tiene paramteros??
+	public NuevoCliente(String nombre,String direccion, TipoCliente tipo) {
+		clientenuevo = new Cliente();
+		clientenuevo.setDireccionCompleta(direccion);
+		clientenuevo.setNombre(nombre);
+		clientenuevo.setTipoCliente(tipo);
 	}
 	
 	

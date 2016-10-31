@@ -9,22 +9,34 @@ import test.business.TestAction;
 
 public class NuevoProducto implements TestAction {
 
-	private Producto producto;
+	private String nombre;
+	private Categoria categoria;
+	private Double precio;
+	private String descripcion;
+	private PosicionProducto posicion;
 
-	public NuevoProducto(String nombre, Categoria categoria, double precio, String descripcion, PosicionProducto posicion) {
-		producto = new Producto(posicion, categoria);//faltan parametros???
+	public NuevoProducto(String nombre, Categoria categoria, double precio, String descripcion,
+			PosicionProducto posicion) {
+		this.nombre = nombre;
+		this.categoria = categoria;
+		this.precio = precio;
+		this.descripcion = descripcion;
+		this.posicion = posicion;
 	}
 
 	@Override
 	public String doTest(EntityManager ent) {
 		StringBuilder sb = new StringBuilder();
+		
+		
+		Producto producto = new Producto(posicion, categoria);
+		producto.setDescripcion(descripcion);
+		producto.setNombre(nombre);
+		producto.setPrecio(precio);
+		ent.persist(posicion);
+		ent.persist(producto);
 
-		try{
-			ent.persist(producto);
-			sb.append("Se ha creado el producto correctamente \n\n");
-		}catch(Exception ex){
-			sb.append("\n Ha ocurrido un error \n");
-		}
+		
 		return sb.toString();
 	}
 }

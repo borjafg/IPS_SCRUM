@@ -25,8 +25,8 @@ import javax.swing.border.LineBorder;
 
 import test.business.TestExecutor;
 import test.business.acciones.ProbarAccesoMapeador;
+import test.business.logica.CargadorComponentes;
 import test.ui.panelesCentro.PanelCreacionCategorias;
-import test.ui.panelesCentro.PanelCreacionPosicion;
 import test.ui.panelesCentro.PanelCreacionProductos;
 import test.ui.panelesCentro.PanelCreacionUsuarios;
 
@@ -36,6 +36,13 @@ public class MenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	
+	//====================
+	// Logica para los test
+	//======================
+	private CargadorComponentes cargadorComp;
+	
+	
 	// =====================
 	// Opciones test
 	// =====================
@@ -66,7 +73,7 @@ public class MenuPrincipal extends JFrame {
 	private PanelCreacionProductos panelCreacionProductos;
 	private PanelCreacionUsuarios panelCreacionUsuarios;
 	private PanelCreacionCategorias panelCreacionCategorias;
-	private PanelCreacionPosicion panelCreacionPosicion;
+
 
 	// Panel resultados
 
@@ -80,7 +87,6 @@ public class MenuPrincipal extends JFrame {
 	private JButton botonAñadirProducto;
 	private JScrollPane scrollPaneResultados;
 	private JButton botonAñadirCategorias;
-	private JButton btnAñadirPosicion;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -97,7 +103,7 @@ public class MenuPrincipal extends JFrame {
 
 	public MenuPrincipal() {
 		procesadorTest = new TestExecutor();
-
+		cargadorComp = new CargadorComponentes();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 620);
@@ -110,6 +116,10 @@ public class MenuPrincipal extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPanelEste(), BorderLayout.EAST);
 		contentPane.add(getPanelCentro(), BorderLayout.CENTER);
+	}
+	
+	public CargadorComponentes getCargadorComponentes(){
+		return cargadorComp;
 	}
 	
 	public TestExecutor getProcesadorTest(){
@@ -137,7 +147,6 @@ public class MenuPrincipal extends JFrame {
 		panelCentro.add(getPanelCreacionProductos(), "panelCreacionProductos");
 		panelCentro.add(getPanelCreacionUsuarios(),"panelCreacionUsuarios");
 		panelCentro.add(getPanelCreacionCategorias(), "panelCreacionCategorias");
-		panelCentro.add(getPanelCreacionPosicion(), "panelCreacionPosicion");
 	}
 
 	// =============================
@@ -236,13 +245,7 @@ public class MenuPrincipal extends JFrame {
 	}
 	
 	
-	private PanelCreacionPosicion getPanelCreacionPosicion(){
-		if(panelCreacionPosicion == null){
-			panelCreacionPosicion = new PanelCreacionPosicion();
-			panelCreacionPosicion.setVentanaPrincipal(this);
-		}
-		return panelCreacionPosicion;
-	}
+	
 
 	// =============================
 	// Panel de acciones
@@ -260,7 +263,6 @@ public class MenuPrincipal extends JFrame {
 			panelEste.add(getBotonAñadirUsuario());
 			panelEste.add(getBotonAñadirProducto());
 			panelEste.add(getBotonAñadirCategorias());
-			panelEste.add(getBtnAñadirPosicion());
 			panelEste.add(getBotonConfirmarPago());
 		}
 
@@ -316,6 +318,11 @@ public class MenuPrincipal extends JFrame {
 			botonAñadirProducto = new JButton("A\u00F1adir nuevo producto");
 			botonAñadirProducto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					//carga de datos
+					
+					panelCreacionProductos.cargarDatos();//cargo datos de la base de datos
+					
+					
 					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionProductos");
 					
 					
@@ -340,18 +347,5 @@ public class MenuPrincipal extends JFrame {
 			botonAñadirCategorias.setFont(new Font("Tahoma", Font.BOLD, 21));
 		}
 		return botonAñadirCategorias;
-	}
-	private JButton getBtnAñadirPosicion() {
-		if (btnAñadirPosicion == null) {
-			btnAñadirPosicion = new JButton("A\u00F1adir posici\u00F3n");
-			btnAñadirPosicion.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelCreacionPosicion");
-				}
-			});
-			btnAñadirPosicion.setFont(new Font("Tahoma", Font.BOLD, 21));
-		}
-		return btnAñadirPosicion;
 	}
 }

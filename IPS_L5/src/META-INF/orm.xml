@@ -42,6 +42,25 @@
 	<named-query name="ProductoEnOrdenTrabajo.findByOrdenTrabajo">
 		<query>select p from ProductoEnOrdenTrabajo p where p.ordenTrabajo.id = :id </query>
 	</named-query>
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - Categorias - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	<named-query name="Categoria.findAll">
+		<query>select p from Categoria p</query>
+	</named-query>
+	
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - PosicionesProducto - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	<named-query name="PosicionProducto.findAll">
+		<query>select p from PosicionProducto p</query>
+	</named-query>
 
 
 </entity-mappings>

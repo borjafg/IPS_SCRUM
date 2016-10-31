@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void cargarBaseDeDatos(String direccion, MetodosPago pago, String nombre, List<ModeloProductosPedidos> listaCesta) throws BusinessException {
-		 executor.execute(new CargadorABaseDeDatos(direccion, pago, nombre, listaCesta));
+	public void cargarBaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta) throws BusinessException {
+		 executor.execute(new CargadorABaseDeDatos(direccion,  nombre, listaCesta));
 		
 	}
 		

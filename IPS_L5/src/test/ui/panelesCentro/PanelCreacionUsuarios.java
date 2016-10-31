@@ -39,8 +39,6 @@ public class PanelCreacionUsuarios extends JPanel {
 	private JTextField textFieldNombre;
 	private JLabel lblDireccion;
 	private JTextField textFieldDireccion;
-	private JLabel lblMetodoPago;
-	private JComboBox comboBoxMetodoDepago;
 	private JLabel lblTipoUsuario;
 	private JComboBox comboBox;
 	private JLabel lblDatosUsuario;
@@ -103,27 +101,16 @@ public class PanelCreacionUsuarios extends JPanel {
 			gbc_textFieldDireccion.gridx = 4;
 			gbc_textFieldDireccion.gridy = 5;
 			panelCentro.add(getTextField_2(), gbc_textFieldDireccion);
-			GridBagConstraints gbc_lblMetodoPago = new GridBagConstraints();
-			gbc_lblMetodoPago.insets = new Insets(0, 0, 5, 5);
-			gbc_lblMetodoPago.gridx = 2;
-			gbc_lblMetodoPago.gridy = 7;
-			panelCentro.add(getLblMetodoPago(), gbc_lblMetodoPago);
-			GridBagConstraints gbc_comboBoxMetodoDepago = new GridBagConstraints();
-			gbc_comboBoxMetodoDepago.insets = new Insets(0, 0, 5, 5);
-			gbc_comboBoxMetodoDepago.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBoxMetodoDepago.gridx = 4;
-			gbc_comboBoxMetodoDepago.gridy = 7;
-			panelCentro.add(getComboBoxMetodoDepago(), gbc_comboBoxMetodoDepago);
 			GridBagConstraints gbc_lblTipoUsuario = new GridBagConstraints();
-			gbc_lblTipoUsuario.insets = new Insets(0, 0, 0, 5);
+			gbc_lblTipoUsuario.insets = new Insets(0, 0, 5, 5);
 			gbc_lblTipoUsuario.gridx = 2;
-			gbc_lblTipoUsuario.gridy = 9;
+			gbc_lblTipoUsuario.gridy = 7;
 			panelCentro.add(getLblTipoUsuario(), gbc_lblTipoUsuario);
 			GridBagConstraints gbc_comboBox = new GridBagConstraints();
-			gbc_comboBox.insets = new Insets(0, 0, 0, 5);
+			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 			gbc_comboBox.gridx = 4;
-			gbc_comboBox.gridy = 9;
+			gbc_comboBox.gridy = 7;
 			panelCentro.add(getComboBox_1(), gbc_comboBox);
 		}
 		return panelCentro;
@@ -142,8 +129,7 @@ public class PanelCreacionUsuarios extends JPanel {
 			btnConfirmar = new JButton("Confirmar");
 			btnConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					String resultado = menuPrincipal.getProcesadorTest().ejecutarPrueba(new NuevoCliente(getTextField_1().getText(), getTextField_2().getText(),
-							(MetodosPago)getComboBoxMetodoDepago().getSelectedItem(), (TipoCliente)getComboBox_1().getSelectedItem()));					
+					String resultado = menuPrincipal.getProcesadorTest().ejecutarPrueba(new NuevoCliente(getTextField_1().getText(), getTextField_2().getText(), (TipoCliente)getComboBox_1().getSelectedItem()));					
 					menuPrincipal.getTextAreaResultados().setText(resultado);
 					((CardLayout)menuPrincipal.getPanelCentro().getLayout()).show(menuPrincipal.getPanelCentro(),"panelResultados" );
 					
@@ -179,20 +165,6 @@ public class PanelCreacionUsuarios extends JPanel {
 			textFieldDireccion.setColumns(10);
 		}
 		return textFieldDireccion;
-	}
-	private JLabel getLblMetodoPago() {
-		if (lblMetodoPago == null) {
-			lblMetodoPago = new JLabel("M\u00E9todo de Pago:");
-			lblMetodoPago.setFont(new Font("Tahoma", Font.BOLD, 18));
-		}
-		return lblMetodoPago;
-	}
-	private JComboBox getComboBoxMetodoDepago() {
-		if (comboBoxMetodoDepago == null) {
-			comboBoxMetodoDepago = new JComboBox();
-			comboBoxMetodoDepago.setModel(new DefaultComboBoxModel(MetodosPago.values()));
-		}
-		return comboBoxMetodoDepago;
 	}
 	private JLabel getLblTipoUsuario() {
 		if (lblTipoUsuario == null) {
