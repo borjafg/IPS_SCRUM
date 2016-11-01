@@ -57,10 +57,10 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipalAlmacenero frame = new VentanaPrincipalAlmacenero();
-					
+
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -186,12 +186,17 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * @throws BusinessException
 	 * 
 	 */
-	public void mostrarPanelSeleccionPedidos() throws BusinessException {
-		// (1) Hay que cargar la lista de posibles pedidos
-		panelSelecionPedido.inicializarDatos();
+	public void mostrarPanelSeleccionPedidos() {
+		try {
+			// (1) Hay que cargar la lista de posibles pedidos
+			panelSelecionPedido.inicializarDatos();
 
-		// (2) Se muestra el panel de selección de pedidos
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelSelecionPedido");
+			// (2) Se muestra el panel de selección de pedidos
+			((CardLayout) contentPane.getLayout()).show(contentPane, "panelSelecionPedido");
+
+		} catch (BusinessException e) {
+			gestionarErrorConexion();
+		}
 	}
 
 	/**
@@ -263,10 +268,20 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	// ===== Ha habido un error mientras el almacenero estaba trabajando =====
 	// =======================================================================
 
+	/**
+	 * Pasa a la pantalla de opciones del almacenero y le indica que hubo un
+	 * error de conexión, lo que implica que no podrá continuar con la tarea que
+	 * estuvo realizando. </br>
+	 * </br>
+	 * No tiene sentido que el almacenero trabaje sin estar conectado a la base
+	 * de datos, ya que los datos de lo que esté haciendo no podrán ser
+	 * guardados ni validados.
+	 * 
+	 */
 	public void gestionarErrorConexion() {
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelAsignacionProductosPaquete");
-
 		panelOpcionesAlmacenero.mostrarErrorConexion();
+		
+		volverPanelOpciones();
 	}
 
 	// ================================

@@ -5,5 +5,5 @@ package model.types;
  * 
  */
 public enum PedidoPagado {
-	SI, No
+	SI, NO
 }

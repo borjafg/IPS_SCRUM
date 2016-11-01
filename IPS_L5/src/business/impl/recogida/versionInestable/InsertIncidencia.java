@@ -1,4 +1,4 @@
-package business.impl.recogida;
+package business.impl.recogida.versionInestable;
 
 import java.util.Date;
 import business.exception.BusinessException;

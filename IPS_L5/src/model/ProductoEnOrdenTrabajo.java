@@ -5,14 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -31,10 +28,8 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName = "id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
-	/*
-	 * name = nombre de la columna en esta tabla referencedColumnName = nombre
-	 * de la columna de la tabla referenciada
-	 */
+	/* name = nombre de la columna en esta tabla */
+	/* referencedColumnName = nombre de la columna de la tabla referenciada */
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido"),
@@ -74,11 +69,11 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	void _setProducto(ProductoEnPedido productoPedido) {
 		this.productoPedido = productoPedido;
 	}
-	
+
 	public String getRef_OrdenTrabajo() {
 		return ref_OrdenTrabajo;
 	}
-	
+
 	public void setRef_OrdenTrabajo(String ref_OrdenTrabajo) {
 		this.ref_OrdenTrabajo = ref_OrdenTrabajo;
 	}

@@ -1,8 +1,7 @@
-package ui.almacen.modelosTabla;
+package ui.almacen.myTypes.tablas.modelosTabla;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import model.OrdenTrabajo;
@@ -15,7 +14,7 @@ public class ModeloTablaOrdenesTrabajo extends AbstractModeloTablaNoEditable {
 
 	public ModeloTablaOrdenesTrabajo() {
 		super(new String[] { "Cod. OT", "Fecha", "Num Pedidos", "Num Productos" },
-				new Class[] { Long.class, Date.class, Integer.class, Integer.class });
+				new Class[] { Long.class, String.class, Integer.class, Integer.class });
 
 		ordenesTrabajo = new ArrayList<OrdenTrabajo>();
 	}

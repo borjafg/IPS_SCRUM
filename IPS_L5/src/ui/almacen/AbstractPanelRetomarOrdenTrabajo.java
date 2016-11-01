@@ -20,8 +20,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import ui.almacen.modelosTabla.ModeloTablaOrdenesTrabajo;
-import ui.almacen.modelosTabla.ModeloTablaPedidosOrdenTrabajo;
+import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaOrdenesTrabajo;
+import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPedidosOrdenTrabajo;
 
 /**
  * Evita que se duplique la mayor parte del código de las pantallas en las que

@@ -2,21 +2,20 @@ package ui.almacen.recogida;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Color;
-import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
 
 public class PanelRegistroIncidencias extends JPanel {
 
@@ -51,6 +50,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JLabel getLabelRegistrarIncidencia() {
 		if (labelRegistrarIncidencia == null) {
 			labelRegistrarIncidencia = new JLabel("Registrar incidencia");
+			
 			labelRegistrarIncidencia.setFont(new Font("Tahoma", Font.BOLD, 17));
 			labelRegistrarIncidencia.setHorizontalAlignment(SwingConstants.CENTER);
 		}
@@ -65,6 +65,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JPanel getPanelNorte() {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
+			
 			panelNorte.setBorder(new EmptyBorder(4, 0, 8, 0));
 			panelNorte.add(getLabelRegistrarIncidencia());
 		}
@@ -80,6 +81,7 @@ public class PanelRegistroIncidencias extends JPanel {
 		if (scrollPaneCentro == null) {
 			scrollPaneCentro = new JScrollPane(getTextAreaIncidencia(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			
 			scrollPaneCentro.setBorder(new EmptyBorder(0, 5, 0, 5));
 		}
 

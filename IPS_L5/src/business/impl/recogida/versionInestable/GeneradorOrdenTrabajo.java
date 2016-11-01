@@ -1,4 +1,4 @@
-package business.impl.recogida;
+package business.impl.recogida.versionInestable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +27,30 @@ public class GeneradorOrdenTrabajo implements Command {
 	@Override
 	public Object execute() throws BusinessException {
 		List<ProductoRecoger> productosRecoger = new ArrayList<ProductoRecoger>();
-		Pedido p = Jpa.getManager().merge(pedido); // pedidos enlazados a la
-													// base de datos
+
+		// Se sincroniza el pedido con la base de datos
+		Pedido p = Jpa.getManager().merge(pedido);
 
 		Pedido sigPedido = null;
 		ProductoRecoger productoRecoger = null;
 
 		while (cabenProductosOtroPedido() && numPedidosComprobados <= 3) {
+
+			// Si ya se comprobo un pedido y hay sitio en el carrito
+
 			if (numPedidosComprobados >= 1) {
 				sigPedido = obtenerSiguientePedido();
 
 				if (sigPedido != null) {
 					p = Jpa.getManager().merge(sigPedido);
 				}
-				
+
 				else {
 					break; // No quedan más pedidos que evaluar
 				}
 			}
+
+			// Para cada producto en el pedido
 
 			for (ProductoEnPedido aux : p.getListaProductosPedidos()) {
 				productoRecoger = ComprobarProducto(Jpa.getManager().merge(aux));
@@ -71,8 +77,7 @@ public class GeneradorOrdenTrabajo implements Command {
 
 	private ProductoRecoger ComprobarProducto(ProductoEnPedido prodPedido) {
 		int unidadesPedidas = prodPedido.getCantidad();
-		int unidadesEnOT = calcularUnidadesOT(prodPedido
-				.getProductosEnOrdenTrabajo());
+		int unidadesEnOT = calcularUnidadesOT(prodPedido.getProductosEnOrdenTrabajo());
 
 		int unidadesFaltan = unidadesPedidas - unidadesEnOT;
 		int unidadesRecoger = 0;
@@ -86,8 +91,7 @@ public class GeneradorOrdenTrabajo implements Command {
 		return new ProductoRecoger(prodPedido, unidadesRecoger);
 	}
 
-	private int calcularUnidadesOT(
-			Set<ProductoEnOrdenTrabajo> productosEnOrdenTrabajo) {
+	private int calcularUnidadesOT(Set<ProductoEnOrdenTrabajo> productosEnOrdenTrabajo) {
 		int unidadesOT = 0;
 
 		for (ProductoEnOrdenTrabajo prodOT : productosEnOrdenTrabajo) {

@@ -5,32 +5,22 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 
-import model.Producto;
-import model.types.MetodosPago;
-import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
-import business.UserService;
 import business.exception.BusinessException;
-import business.impl.UserServiceImpl;
+import infrastructure.ServiceFactory;
+import model.Producto;
+import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 public class LogicaVentanaPrincipalUsuario {
 
-	private UserService userService;
-
-	private List<ModeloProductosPedidos> listaCesta = new ArrayList<ModeloProductosPedidos>();// Aqui
-																								// voy
-																								// añadiendo
-																								// los
-																								// productos
-																								// y
-																								// sus
-																								// unidades
+	// Aqui voy añadiendo los productos y sus unidades
+	private List<ModeloProductosPedidos> listaCesta = new ArrayList<ModeloProductosPedidos>();
 
 	public DefaultListModel<Producto> getModeloListaProductos() {
 		DefaultListModel<Producto> modeloListaProducto = new DefaultListModel<Producto>();
-		userService = new UserServiceImpl();
 
 		try {
-			List<Producto> listaProductos = userService.getListaProducto();
+			List<Producto> listaProductos = ServiceFactory.getUserService().getListaProducto();
+
 			for (Producto producto : listaProductos) {
 				modeloListaProducto.addElement(producto);
 			}
@@ -70,40 +60,43 @@ public class LogicaVentanaPrincipalUsuario {
 	 * 
 	 * @param productoPedido
 	 */
-	public DefaultListModel<ModeloProductosPedidos> sumarProductoACesta(ModeloProductosPedidos productoPedido,DefaultListModel<ModeloProductosPedidos> modeloListaCesta) {
-		if (listaCesta.isEmpty()) {// cuando esta vacia
+	public DefaultListModel<ModeloProductosPedidos> sumarProductoACesta(ModeloProductosPedidos productoPedido,
+			DefaultListModel<ModeloProductosPedidos> modeloListaCesta) {
+
+		if (listaCesta.isEmpty()) { // cuando esta vacia
 			listaCesta.add(productoPedido);
 			modeloListaCesta.addElement(productoPedido);
 		} else {
-			if (contieneProducto(productoPedido)) {// true si contiene al
-													// elemento
+			// true si contiene el elemento
+			if (contieneProducto(productoPedido)) {
 				getProductoPedido(productoPedido.getProducto().getId()).sumarUnidades(productoPedido.getUnidades());
+
 				return cargarModeloListaCesta();
 			} else {
 				listaCesta.add(productoPedido);
 				modeloListaCesta.addElement(productoPedido);
 			}
 		}
+
 		return modeloListaCesta;
 	}
 
-	public boolean verificarResta(int unidades,ModeloProductosPedidos productoCesta) {
+	public boolean verificarResta(int unidades, ModeloProductosPedidos productoCesta) {
 		return (productoCesta.getUnidades() - unidades >= 0) ? true : false;
 	}
 
-	public DefaultListModel<ModeloProductosPedidos> restarProductoCesta(int unidades, ModeloProductosPedidos productoCesta) {
-		getProductoPedido(productoCesta.getProducto().getId()).restarUnidades(
-				unidades);
+	public DefaultListModel<ModeloProductosPedidos> restarProductoCesta(int unidades,
+			ModeloProductosPedidos productoCesta) {
+		getProductoPedido(productoCesta.getProducto().getId()).restarUnidades(unidades);
 
 		return cargarModeloListaCesta();
 	}
-	
-	
-	public DefaultListModel<ModeloProductosPedidos> EliminarProducto(int index){
+
+	public DefaultListModel<ModeloProductosPedidos> EliminarProducto(int index) {
 		listaCesta.remove(index);
+
+		// si seleccionado, es que ya lo contiene
 		return cargarModeloListaCesta();
-		//si seleccionado, es que ya lo contiene
-		
 	}
 
 	private boolean contieneProducto(ModeloProductosPedidos productoPedido) {
@@ -136,18 +129,14 @@ public class LogicaVentanaPrincipalUsuario {
 		return precio;
 	}
 
-	public void generarTodo(String direccion,  String nombre)
-			throws BusinessException {
-		userService = new UserServiceImpl();
-		userService.cargarBaseDeDatos(direccion,  nombre, listaCesta);
-
+	public void generarTodo(String direccion, String nombre) throws BusinessException {
+		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta);
 	}
 
 	public DefaultListModel<ModeloProductosPedidos> resetear() {
 		listaCesta = new ArrayList<ModeloProductosPedidos>();
 
 		return new DefaultListModel<ModeloProductosPedidos>();
-
 	}
 
 }

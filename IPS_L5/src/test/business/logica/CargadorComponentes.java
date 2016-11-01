@@ -1,12 +1,7 @@
 package test.business.logica;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-
-import business.UserService;
 import business.exception.BusinessException;
 import model.Categoria;
 import model.PosicionProducto;
@@ -56,7 +51,6 @@ public class CargadorComponentes {
 		}
 
 		return listado;
-
 	}
 
 }

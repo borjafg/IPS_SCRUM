@@ -1,4 +1,4 @@
-package ui.almacen.modelosTabla;
+package ui.almacen.myTypes.tablas.modelosTabla;
 
 import java.util.ArrayList;
 import java.util.List;

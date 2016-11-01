@@ -1,19 +1,20 @@
-package ui.almacen.modelosTabla;
+package ui.almacen.myTypes.tablas.modelosTabla;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.recogida.util.MyPosicionProducto;
+import ui.almacen.myTypes.model.MyPosicionProducto;
 
 public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private List<ProductoEnOrdenTrabajo> productos;
 
 	public ModeloTablaProductosRecoger() {
-		super(new String[] { "referencia", "descripcion", "unidades",  "posición" }, new Class[] { String.class, String.class, Integer.class, MyPosicionProducto.class });
+		super(new String[] { "referencia", "descripcion", "unidades", "posición" },
+				new Class[] { String.class, String.class, Integer.class, MyPosicionProducto.class });
 
 		productos = new ArrayList<ProductoEnOrdenTrabajo>();
 	}
@@ -31,12 +32,12 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 
 		case 1: // Descripcion del producto
 			return productos.get(rowIndex).getproductoPedido().getProducto().getDescripcion();
-		
+
 		case 2: // Unidades que qudan por recoger
 			return productos.get(rowIndex).getUnidadesRecoger() - productos.get(rowIndex).getUnidadesRecogidas();
-			
+
 		case 3: // Posición del producto
-			return new MyPosicionProducto(productos.get(rowIndex)).toString();
+			return new MyPosicionProducto(productos.get(rowIndex));
 
 		default:
 			return null;
@@ -49,18 +50,18 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();
 	}
-	
+
 	public void removeProducto(int fila) {
 		productos.remove(fila);
-		
+
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();
 	}
-	
+
 	public ProductoEnOrdenTrabajo getProducto(int fila) {
 		return productos.get(fila);
 	}
-	
+
 	@Override
 	public void removeAll() {
 		productos.clear();

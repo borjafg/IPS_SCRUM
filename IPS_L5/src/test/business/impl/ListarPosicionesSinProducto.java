@@ -4,7 +4,6 @@ import java.util.List;
 
 import business.exception.BusinessException;
 import business.impl.util.Command;
-import model.Categoria;
 import model.PosicionProducto;
 import persistence.util.Jpa;
 

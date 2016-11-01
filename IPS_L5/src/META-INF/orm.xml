@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
 	version="2.0">
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - - Pedido - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -13,7 +14,7 @@
 	</named-query>
 
 	<named-query name="Pedido.findPosibleRecoger">
-		<query>select p from Pedido p where p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT</query>
+		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT</query>
 	</named-query>
 
 
@@ -42,22 +43,21 @@
 	<named-query name="ProductoEnOrdenTrabajo.findByOrdenTrabajo">
 		<query>select p from ProductoEnOrdenTrabajo p where p.ordenTrabajo.id = :id </query>
 	</named-query>
-	
-	
+
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
-	<!-- - - - - Categorias - - - - - -->
+	<!-- - - - - - - - - - Categorias - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
-	
+
 	<named-query name="Categoria.findAll">
 		<query>select p from Categoria p</query>
 	</named-query>
-	
-	
-	
+
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
-	<!-- - - - - PosicionesProducto - - - - - -->
+	<!-- - - - - - - - PosicionesProducto - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
-	
+
 	<named-query name="PosicionProducto.findAll">
 		<query>select p from PosicionProducto p</query>
 	</named-query>

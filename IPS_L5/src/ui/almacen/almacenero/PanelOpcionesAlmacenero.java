@@ -125,12 +125,8 @@ public class PanelOpcionesAlmacenero extends JPanel {
 
 			botonGenerar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
 						ventanaPrincipal.mostrarPanelSeleccionPedidos();
 						reiniciar();
-					} catch (BusinessException excep) {
-						mostrarErrorConexion();
-					}
 				}
 			});
 

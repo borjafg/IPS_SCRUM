@@ -10,10 +10,13 @@ import model.Pedido;
 import model.PosicionProducto;
 import model.Producto;
 import model.ProductoEnOrdenTrabajo;
+import ui.almacen.myTypes.model.MyPedido;
 
 public interface RecogidaService {
 
-	public List<Pedido> getAllPedidos() throws BusinessException;
+	public List<MyPedido> obtenerListaPedidosSinOrdenTrabajo() throws BusinessException;
+	
+	// Métodos de un versión inestable de la aplicación (Pendientes de depuración)
 	
 	public OrdenTrabajo insertOrdenTrabajo(Pedido pedido) throws BusinessException;
 	

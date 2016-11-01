@@ -724,3 +724,87 @@ org.hibernate.LazyInitializationException: failed to lazily initialize a collect
 21:01:03,740  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
 21:01:52,882  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
 21:01:52,886  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+17:03:22,890  WARN SettingsFactory:147 - Could not obtain connection to query metadata
+java.sql.SQLRecoverableException: Error de E/S: Connection reset
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:428)
+	at oracle.jdbc.driver.PhysicalConnection.<init>(PhysicalConnection.java:536)
+	at oracle.jdbc.driver.T4CConnection.<init>(T4CConnection.java:228)
+	at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:32)
+	at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:521)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.connection.DriverManagerConnectionProvider.getConnection(DriverManagerConnectionProvider.java:133)
+	at org.hibernate.cfg.SettingsFactory.buildSettings(SettingsFactory.java:114)
+	at org.hibernate.cfg.Configuration.buildSettingsInternal(Configuration.java:2833)
+	at org.hibernate.cfg.Configuration.buildSettings(Configuration.java:2829)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1840)
+	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:902)
+	at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:57)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:48)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:32)
+	at persistence.util.Jpa.getEmf(Jpa.java:35)
+	at persistence.util.Jpa.createEntityManager(Jpa.java:23)
+	at test.business.TestExecutor.ejecutarPrueba(TestExecutor.java:30)
+	at test.ui.MenuPrincipal$2.actionPerformed(MenuPrincipal.java:277)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$500(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(Unknown Source)
+	at java.net.SocketInputStream.read(Unknown Source)
+	at oracle.net.ns.Packet.receive(Packet.java:283)
+	at oracle.net.ns.NSProtocol.connect(NSProtocol.java:287)
+	at oracle.jdbc.driver.T4CConnection.connect(T4CConnection.java:1054)
+	at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:308)
+	... 55 more
+17:03:22,942  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+17:03:22,944  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+17:03:42,526  WARN JDBCExceptionReporter:233 - SQL Error: 17002, SQLState: 08006
+17:03:42,528 ERROR JDBCExceptionReporter:234 - Error de E/S: Connection reset
+17:05:08,065  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+17:05:08,069  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+20:58:05,559  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+20:58:05,562  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+21:00:14,478  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+21:00:14,484  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+21:38:48,062  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+21:38:48,066  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+21:57:21,758  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+21:57:21,761  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+22:01:12,828  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+22:01:12,833  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+23:33:35,948  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+23:33:35,952  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead

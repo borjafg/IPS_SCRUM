@@ -1,4 +1,4 @@
-package ui.almacen.recogida.util;
+package ui.almacen.myTypes.model;
 
 import model.Producto;
 

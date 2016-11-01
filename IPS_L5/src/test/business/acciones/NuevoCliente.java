@@ -3,13 +3,12 @@ package test.business.acciones;
 import javax.persistence.EntityManager;
 
 import model.Cliente;
-import model.types.MetodosPago;
 import model.types.TipoCliente;
 import test.business.TestAction;
 
 public class NuevoCliente implements TestAction {
 	
-	Cliente clientenuevo;
+	private Cliente clientenuevo;
 	
 	public NuevoCliente(String nombre,String direccion, TipoCliente tipo) {
 		clientenuevo = new Cliente();
@@ -29,6 +28,7 @@ public class NuevoCliente implements TestAction {
 		}catch(Exception ex){
 			sb.append("\n Ha ocurrido un error \n");
 		}
+		
 		return sb.toString();
 	}
 

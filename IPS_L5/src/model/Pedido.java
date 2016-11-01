@@ -19,8 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.cfg.NotYetImplementedException;
-
 import model.types.EstadoPedido;
 import model.types.MetodosPago;
 import model.types.PedidoPagado;
@@ -44,7 +42,7 @@ public class Pedido {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "metodo_pago")
 	private MetodosPago metodoPago;
-	
+
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estado;
 
@@ -85,7 +83,7 @@ public class Pedido {
 	public void setDireccionCompleta(String direccionCompleta) {
 		this.direccionCompleta = direccionCompleta;
 	}
-	
+
 	public MetodosPago getMetodoPago() {
 		return metodoPago;
 	}
@@ -124,14 +122,6 @@ public class Pedido {
 
 	Set<ProductoEnPedido> _getListaProductosPedidos() {
 		return listaProductosPedidos;
-	}
-
-	// ==================================================
-	// Comprobar estado del pedido (Recogida productos)
-	// ==================================================
-
-	public int getNumProductosRecoger() {
-		throw new NotYetImplementedException("Hay que devolver el número de productos a recoger");
 	}
 
 	// ==============================

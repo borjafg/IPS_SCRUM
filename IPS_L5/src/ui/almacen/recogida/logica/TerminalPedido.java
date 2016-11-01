@@ -23,7 +23,7 @@ public class TerminalPedido {
 	
 	public TerminalPedido() throws BusinessException {
 		new AlmacenServiceImpl();
-		cargarPedidos();
+//		cargarPedidos();
 		ordenarPedidos();
 	}
 
@@ -50,15 +50,6 @@ public class TerminalPedido {
 	 */
 	public OrdenTrabajo getOrdenTrabajo() {
 		return ot;
-	}
-
-
-	private void cargarPedidos() throws BusinessException {
-		 this.pedidos = obtenerPedidos();
-	}
-	
-	private List<Pedido> obtenerPedidos() throws BusinessException { 
-		return ServiceFactory.getRecogidaService().getAllPedidos();
 	}
 	
 

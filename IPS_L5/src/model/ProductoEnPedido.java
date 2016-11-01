@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -23,13 +24,13 @@ public class ProductoEnPedido implements Serializable {
 	private static final long serialVersionUID = -371256129L;
 
 	@Id
-	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_pedido", referencedColumnName="id_pedido")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 
 	@Id
-	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_producto", referencedColumnName="id_producto")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
 	private Producto producto;
 
 	@OneToMany(mappedBy = "productoPedido")
@@ -39,6 +40,9 @@ public class ProductoEnPedido implements Serializable {
 	private Set<ProductoEnPaquete> productoPaquete;
 
 	private int cantidad;
+
+	@Column(name = "cantidad_asociada_OT")
+	private int cantidadAsociadaOT;
 
 	ProductoEnPedido() {
 
@@ -54,6 +58,14 @@ public class ProductoEnPedido implements Serializable {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public int getCantidadAsociadaOT() {
+		return cantidadAsociadaOT;
+	}
+
+	public void setCantidadAsociadaOT(int cantidadAsociadaOT) {
+		this.cantidadAsociadaOT = cantidadAsociadaOT;
 	}
 
 	public Pedido getPedido() {

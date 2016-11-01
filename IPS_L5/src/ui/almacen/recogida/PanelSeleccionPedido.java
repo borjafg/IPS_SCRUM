@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,8 +20,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import model.Pedido;
 import ui.almacen.VentanaPrincipalAlmacenero;
-import ui.almacen.modelosTabla.ModeloTablaPedidos;
+import ui.almacen.myTypes.model.MyPedido;
+import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPedidos;
 
 public class PanelSeleccionPedido extends JPanel {
 
@@ -51,8 +56,21 @@ public class PanelSeleccionPedido extends JPanel {
 		setPreferredSize(new Dimension(374, 530));
 	}
 
-	public void inicializarDatos() {
-		// Cargar lista de posibles pedidos
+	public void inicializarDatos() throws BusinessException {
+		List<MyPedido> pedidos = ServiceFactory.getRecogidaService().obtenerListaPedidosSinOrdenTrabajo();
+		
+		for(MyPedido ped : pedidos) {
+			modeloTablaPedidos.addPedido(ped);
+		}
+		
+		
+		// ============================================
+		//
+		//
+		// Hay que ordenarlos por fecha
+		//
+		//
+		// ============================================
 	}
 
 	private JLabel getLabelPedidos() {

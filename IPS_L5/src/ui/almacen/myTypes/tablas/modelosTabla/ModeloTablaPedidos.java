@@ -1,25 +1,25 @@
-package ui.almacen.modelosTabla;
+package ui.almacen.myTypes.tablas.modelosTabla;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Pedido;
+import ui.almacen.myTypes.model.MyPedido;
 
-public class ModeloTablaPedidosOrdenTrabajo extends AbstractModeloTablaNoEditable {
+public class ModeloTablaPedidos extends AbstractModeloTablaNoEditable {
 
-	private List<Pedido> pedidos;
+	private static final long serialVersionUID = 3500989514105896058L;
 
-	public ModeloTablaPedidosOrdenTrabajo() {
+	private List<MyPedido> pedidos;
+	
+	public ModeloTablaPedidos() {
 		super(new String[] { "Cod. Pedido", "Fecha", "Num Productos" },
-				new Class[] { Long.class, Date.class, Integer.class });
+				new Class[] { Long.class, String.class, Integer.class });
 
-		pedidos = new ArrayList<Pedido>();
+		pedidos = new ArrayList<MyPedido>();
 	}
-
-	private static final long serialVersionUID = -3774601264438710150L;
-
+	
 	@Override
 	public int getRowCount() {
 		return pedidos.size();
@@ -29,21 +29,21 @@ public class ModeloTablaPedidosOrdenTrabajo extends AbstractModeloTablaNoEditabl
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return pedidos.get(rowIndex).getId();
+			return pedidos.get(rowIndex).getPedido().getId();
 
 		case 1:
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			return sdf.format(pedidos.get(rowIndex).getFecha());
+			return sdf.format(pedidos.get(rowIndex).getPedido().getFecha());
 
 		case 2:
-			return pedidos.get(rowIndex).getNumProductosRecoger();
+			return pedidos.get(rowIndex).getNumProductoSinOT();
 
 		default:
 			return null;
 		}
 	}
-
-	public void addPedido(Pedido pedido) {
+	
+	public void addPedido(MyPedido pedido) {
 		pedidos.add(pedido);
 
 		// Hay que actualizar la tabla
@@ -58,7 +58,7 @@ public class ModeloTablaPedidosOrdenTrabajo extends AbstractModeloTablaNoEditabl
 	}
 
 	public Pedido getPedido(int fila) {
-		return pedidos.get(fila);
+		return pedidos.get(fila).getPedido();
 	}
 
 	@Override
