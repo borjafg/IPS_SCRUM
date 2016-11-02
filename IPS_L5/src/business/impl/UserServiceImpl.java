@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	public void cargarBaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta)
 			throws BusinessException {
 
-		executor.execute(new CargadorABaseDeDatos(direccion, nombre, listaCesta));
+		executor.execute(new CargadorABaseDeDatos(direccion, nombre, listaCesta));//<-----vamos a tener que pasar más parámetros cuando se añadan los log-in y los diferentes tipos de usuario
 	}
 
 }

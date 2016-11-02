@@ -12,6 +12,7 @@ import model.ProductoEnPedido;
 import model.types.EstadoPedido;
 import model.types.MetodosPago;
 import model.types.PedidoPagado;
+import model.types.TipoCliente;
 import persistence.util.Jpa;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
@@ -38,6 +39,7 @@ public class CargadorABaseDeDatos implements Command {
 
 		cliente.setNombre(nombre);
 		cliente.setDireccionCompleta(direccion);
+		cliente.setTipoCliente(TipoCliente.MINORISTA);//<---- Cambiar cunado se modifique el log in de la aplicación
 
 		Jpa.getManager().persist(cliente);
 
@@ -48,7 +50,7 @@ public class CargadorABaseDeDatos implements Command {
 		Pedido pedido = new Pedido(cliente);
 
 		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
-		pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO
+		pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el método de pago sea por transacción
 		pedido.setDireccionCompleta(direccion);
 		pedido.setFecha(new Date());
 		pedido.setMetodoPago(MetodosPago.METALICO); // <--- Cambiar

@@ -1129,3 +1129,9 @@ org.hibernate.LazyInitializationException: failed to lazily initialize a collect
 21:20:28,305  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
 23:22:41,697  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
 23:22:41,700  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+00:05:35,799  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+00:05:35,802  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+00:06:44,493  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+00:06:44,497  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+00:10:30,977  WARN Oracle9Dialect:60 - The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+00:10:30,980  WARN OracleDialect:48 - The OracleDialect dialect has been deprecated; use Oracle8iDialect instead

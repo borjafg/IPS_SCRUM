@@ -84,6 +84,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelAñadirProductos;
 	private JButton btnAñadir;
 	private JTextField textFieldUnidadesProducto;
+	private JPanel panelAuxiliar;
 
 	/**
 	 * Launch the application.
@@ -160,6 +161,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelProductos.setLayout(new BorderLayout(0, 0));
 			panelProductos.add(getLblProductos(), BorderLayout.NORTH);
 			panelProductos.add(getPanelProductosContenedor(), BorderLayout.CENTER);
+			panelProductos.add(getPanelAuxiliar(), BorderLayout.EAST);
 		}
 
 		return panelProductos;
@@ -236,9 +238,15 @@ public class VentanaPrincipalUsuario extends JFrame {
 						// Aqui luego ira si se a registrado un usuario
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
 					}
+					//Esto se hace para evitar que alguien escriba una cantidad y se pueda pasar ese valor a un siguiente usuario o a una nueva iteración
+					//se pone a uno el número de unidades tras la compra
+					getTextFieldUnidadesProducto().setText("1");
+					//se eliminan las selecciones de la lista
+					getListProductos().clearSelection();
+					getListCesta().clearSelection();
 				}
 			});
-
+			
 			btnAceptarPedido.setHorizontalAlignment(SwingConstants.RIGHT);
 		}
 
@@ -251,7 +259,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			panelCentro.setLayout(new BorderLayout(0, 0));
 			panelCentro.add(getPanelCesta(), BorderLayout.EAST);
-			panelCentro.add(getPanelProductos(), BorderLayout.WEST);
+			panelCentro.add(getPanelProductos(), BorderLayout.CENTER);
 		}
 
 		return panelCentro;
@@ -298,7 +306,6 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JTextField getTextGastoTotal() {
 		if (textGastoTotal == null) {
 			textGastoTotal = new JTextField();
-
 			textGastoTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 			textGastoTotal.setText("0.0");
 			textGastoTotal.setEditable(false);
@@ -400,7 +407,13 @@ public class VentanaPrincipalUsuario extends JFrame {
 							System.err.println(e1.getMessage());
 						}
 						modeloListaCesta = logVOUser.resetear();
+						
+						resetearCamposDeTexto();	//Se eliminan todos los campos de texto de la aplicación
+						
 						getListCesta().setModel(modeloListaCesta);
+						
+						//Cuando este el log-in, se "cerrará la sesión"
+						
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 					}
 				}
@@ -409,6 +422,13 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 		return btnFinalizarPedido;
 	}
+	private void resetearCamposDeTexto(){
+		getTextFieldDireccionCliente().setText("");
+		getTextFieldNombreCliente().setText("");
+		getTextGastoTotal().setText("0.0");
+	}
+	
+	
 
 	private JList<ModeloProductosPedidos> getListCesta() {
 		if (listCesta == null) {
@@ -536,9 +556,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return textFieldNombreCliente;
 	}
 
-	private JComboBox<MetodosPago> getComboBox() {
+	private JComboBox<MetodosPago> getComboBox() {//Hay que modificar la implementación
 		if (comboBox == null) {
-			comboBox = new JComboBox<MetodosPago>(MetodosPago.values());
+			comboBox = new JComboBox<MetodosPago>();
 		}
 
 		return comboBox;
@@ -588,9 +608,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
 						getListCesta().setSelectedValue(null, false);
 					}
-
-					getListProductos().setSelectedIndex(-1);
-					getListCesta().setSelectedIndex(-1);
+					//se eliminan las selecciones de las listas
+					getListProductos().clearSelection();
+					getListCesta().clearSelection();
+					//se pone a uno el valor de el campo de texto
+					getTextFieldUnidadesProducto().setText("1");
 				}
 			});
 		}
@@ -633,9 +655,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 						// no muy seguro
 						// getListProductos().setSelectedValue(null, false);
 					}
-
-					getListProductos().setSelectedIndex(-1);
-					getListCesta().setSelectedIndex(-1);
+					//se pone a uno el número de unidades tras la compra
+					getTextFieldUnidadesProducto().setText("1");
+					//se eliminan las selecciones de la lista
+					getListProductos().clearSelection();
+					getListCesta().clearSelection();
 				}
 			});
 		}
@@ -652,5 +676,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 
 		return textFieldUnidadesProducto;
+	}
+	private JPanel getPanelAuxiliar() {//Panel para hacer de separador
+		if (panelAuxiliar == null) {
+			panelAuxiliar = new JPanel();
+		}
+		return panelAuxiliar;
 	}
 }
