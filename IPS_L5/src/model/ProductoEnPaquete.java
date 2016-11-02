@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -21,20 +20,15 @@ public class ProductoEnPaquete implements Serializable {
 
 	private static final long serialVersionUID = -371256129L;
 
-	/*
-	 * name = nombre de la columna en esta tabla
-	 * referencedColumnName = nombre de la columna de la tabla referenciada
-	 */
 	@Id
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumns({
-		@JoinColumn(name = "id_pedido", referencedColumnName="id_pedido"),
-		@JoinColumn(name = "id_producto", referencedColumnName="id_producto")})
+	@ManyToOne
+	@JoinColumns({ @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido"),
+			@JoinColumn(name = "id_producto", referencedColumnName = "id_producto") })
 	private ProductoEnPedido productoPedido;
 
 	@Id
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "id_paquete", referencedColumnName="id_paquete")
+	@ManyToOne
+	@JoinColumn(name = "id_paquete", referencedColumnName = "id_paquete")
 	private Paquete paquete;
 
 	@Column(name = "unidades_producto")

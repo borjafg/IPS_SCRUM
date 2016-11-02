@@ -5,7 +5,7 @@
 CREATE TABLE Clientes(id_cliente number(32), nombre varchar(64), tipoCliente varchar(64), direccion varchar(255), PRIMARY KEY(id_cliente));
 
 
-CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha date, estado varchar(64), pagado varchar(16), direccion varchar(255), metodo_pago varchar(64), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
+CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha TIMESTAMP, estado varchar(64), pagado varchar(16), direccion varchar(255), metodo_pago varchar(64), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
 
 
 CREATE TABLE PosicionProductos(id_posicion number (32), pasillo number(10), estanteria varchar(32),altura number(10), posicionX number(10), primary key (id_posicion));
@@ -27,13 +27,13 @@ CREATE TABLE ProductosPedido(id_producto number(32), id_pedido number (32), cant
 CREATE TABLE Almaceneros(id_almacenero number(32), login varchar(64) NOT NULL, UNIQUE(login), PRIMARY KEY(id_almacenero));
 
 
-CREATE TABLE OrdenesTrabajo(id_ordenTrabajo number(32), fecha date, estado varchar(64), id_almacenero_recoger number(32), id_almacenero_empaquetar number(32), primary key(id_ordenTrabajo), foreign key(id_almacenero_recoger) references Almaceneros(id_almacenero), foreign key(id_almacenero_empaquetar) references Almaceneros(id_almacenero));
+CREATE TABLE OrdenesTrabajo(id_ordenTrabajo number(32), fecha TIMESTAMP, estado varchar(64), id_almacenero_recoger number(32), id_almacenero_empaquetar number(32), primary key(id_ordenTrabajo), foreign key(id_almacenero_recoger) references Almaceneros(id_almacenero), foreign key(id_almacenero_empaquetar) references Almaceneros(id_almacenero));
 
 
 CREATE TABLE ProductosOrdenTrabajo(id_ordenTrabajo number(32), id_producto number(32), id_pedido number(32), ref_ordenTrabajo varchar(32) not null, unidades_recoger number(10), unidades_recogidas number(10), primary key(id_ordenTrabajo, id_producto, id_pedido), foreign key (id_producto, id_pedido) references ProductosPedido(id_producto, id_pedido), foreign key(id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo), unique(id_ordenTrabajo, ref_ordenTrabajo));
 
 
-CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), fecha date, causa varchar(255), primary key(id_incidencia), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
+CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), fecha TIMESTAMP, causa varchar(255), primary key(id_incidencia), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
 
 
 -- ======================================

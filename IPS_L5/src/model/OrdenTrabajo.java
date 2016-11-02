@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +34,7 @@ public class OrdenTrabajo implements Serializable {
 	@Column(name = "id_ordenTrabajo")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDENES_TRABAJO_SEQ")
 	@SequenceGenerator(name = "ORDENES_TRABAJO_SEQ", sequenceName = "ORDENES_TRABAJO_SEQ", allocationSize = 1)
-	private long id;
+	private long id = -34845738245L;
 
 	@OneToMany(mappedBy = "ordenTrabajo")
 	private Set<ProductoEnOrdenTrabajo> productosOrdenTrabajo = new HashSet<ProductoEnOrdenTrabajo>();
@@ -49,11 +48,11 @@ public class OrdenTrabajo implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private EstadoOrdenTrabajo estado = EstadoOrdenTrabajo.RECOGIDA;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "id_almacenero_recoger", referencedColumnName = "id_almacenero")
 	private Almacenero almaceneroRecoger;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "id_almacenero_empaquetar", referencedColumnName = "id_almacenero")
 	private Almacenero almaceneroEmpaquetar;
 
@@ -145,11 +144,11 @@ public class OrdenTrabajo implements Serializable {
 	}
 
 	// ==== Productos ====
-	
+
 	public int getNumProductosFaltanRecoger() {
 		throw new NotYetImplementedException("Hay que implementar el recuento de productos a recoger");
 	}
-	
+
 	// ==== Pedidos ====
 
 	public int getNumPedidosConProductosRecoger() {
@@ -178,13 +177,13 @@ public class OrdenTrabajo implements Serializable {
 
 		return false;
 	}
-	
+
 	// ==== Productos ====
 
 	public int getNumProductosFaltanEmpaquetar() {
 		throw new NotYetImplementedException("Hay que implementar el recuento de productos a empaquetar");
 	}
-	
+
 	// ==== Pedidos ====
 
 	public int getNumPedidosFaltanEmpaquetar() {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import business.RecogidaService;
 import business.exception.BusinessException;
+import business.impl.recogida.GenerarOrdenTrabajo;
 import business.impl.recogida.ObtenerListaPedidosSinOrdenTrabajo;
 import business.impl.recogida.versionInestable.ActualizarProductoEnOrden;
 import business.impl.recogida.versionInestable.InsertIncidencia;
@@ -12,6 +13,7 @@ import business.impl.recogida.versionInestable.InsertOrdenTrabajo;
 import business.impl.recogida.versionInestable.ObtenerPosicionProductosOrdenTrabajo;
 import business.impl.recogida.versionInestable.ObtenerProductosOrdenTrabajo;
 import business.impl.util.CommandExecutor;
+import model.Almacenero;
 import model.Incidencia;
 import model.OrdenTrabajo;
 import model.Pedido;
@@ -28,6 +30,11 @@ public class AlmacenServiceImpl implements RecogidaService {
 	@Override
 	public List<MyPedido> obtenerListaPedidosSinOrdenTrabajo() throws BusinessException {
 		return (List<MyPedido>) executor.execute(new ObtenerListaPedidosSinOrdenTrabajo());
+	}
+
+	@Override
+	public OrdenTrabajo generarOrdenTrabajo(Pedido pedido, Almacenero almacenero) throws BusinessException {
+		return (OrdenTrabajo) executor.execute(new GenerarOrdenTrabajo(pedido, almacenero));
 	}
 
 	// ==========================================
@@ -63,4 +70,5 @@ public class AlmacenServiceImpl implements RecogidaService {
 		executor.execute(new ActualizarProductoEnOrden(producto));
 
 	}
+
 }

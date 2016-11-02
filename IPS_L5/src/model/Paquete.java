@@ -20,15 +20,15 @@ public class Paquete implements Serializable {
 	private static final long serialVersionUID = -45732110L;
 
 	@Id
-	@Column(name="id_paquete")
+	@Column(name = "id_paquete")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PAQUETES_SEQ")
-	@SequenceGenerator(name = "PAQUETES_SEQ", sequenceName = "PAQUETES_SEQ", allocationSize=1)
+	@SequenceGenerator(name = "PAQUETES_SEQ", sequenceName = "PAQUETES_SEQ", allocationSize = 1, initialValue = 1)
 	private long id;
 
 	private String destinatario;
 
 	private int numCaja;
-	
+
 	@Column(name = "direccion")
 	private String direccionCompleta;
 
@@ -50,11 +50,11 @@ public class Paquete implements Serializable {
 	public void setDestinatario(String destinatario) {
 		this.destinatario = destinatario;
 	}
-	
+
 	public int getNumCaja() {
 		return numCaja;
 	}
-	
+
 	public void setNumCaja(int numCaja) {
 		this.numCaja = numCaja;
 	}

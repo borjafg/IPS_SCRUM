@@ -4,34 +4,31 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import model.keys.ProductoEnOrdenTrabajoKey;
 
 @Entity
-@Table(name = "ProductosOrdenTrabajo", uniqueConstraints = @UniqueConstraint(columnNames = { "id_ordenTrabajo",
-		"ref_ordenTrabajo" }))
+@Table(name = "ProductosOrdenTrabajo")
 @IdClass(ProductoEnOrdenTrabajoKey.class)
 public class ProductoEnOrdenTrabajo implements Serializable {
 
 	private static final long serialVersionUID = -45732110L;
 
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName = "id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
 	/* name = nombre de la columna en esta tabla */
 	/* referencedColumnName = nombre de la columna de la tabla referenciada */
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido"),
 			@JoinColumn(name = "id_producto", referencedColumnName = "id_producto") })
 	private ProductoEnPedido productoPedido;

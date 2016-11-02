@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,7 @@ public class PosicionProducto implements Serializable {
 	@Id
 	@Column(name = "id_posicion")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POSICION_PRODUCTOS_SEQ")
-	@SequenceGenerator(name = "POSICION_PRODUCTOS_SEQ", sequenceName = "POSICION_PRODUCTOS_SEQ", allocationSize=1)
+	@SequenceGenerator(name = "POSICION_PRODUCTOS_SEQ", sequenceName = "POSICION_PRODUCTOS_SEQ", allocationSize = 1, initialValue = 1)
 	private long id;
 
 	private int pasillo;
@@ -36,8 +35,8 @@ public class PosicionProducto implements Serializable {
 	private int altura;
 
 	private int posicionX;
-	
-	@OneToOne(mappedBy = "posicion", fetch=FetchType.EAGER)
+
+	@OneToOne(mappedBy = "posicion")
 	private Producto producto;
 
 	public PosicionProducto() {
@@ -83,11 +82,11 @@ public class PosicionProducto implements Serializable {
 	public Producto getProducto() {
 		return producto;
 	}
-	
+
 	void _setProducto(Producto producto) {
 		this.producto = producto;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

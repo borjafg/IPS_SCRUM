@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +15,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Almaceneros")
-public class Almacenero {
+public class Almacenero implements Serializable {
+
+	private static final long serialVersionUID = -980630030262076109L;
 
 	@Id
 	@Column(name = "id_almacenero")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ALMACENEROS_SEQ")
 	@SequenceGenerator(name = "ALMACENEROS_SEQ", sequenceName = "ALMACENEROS_SEQ", allocationSize = 1, initialValue = 1)
-	private long id;
+	private long id = -34845738245L;
 
 	@Column(unique = true)
 	private String login;

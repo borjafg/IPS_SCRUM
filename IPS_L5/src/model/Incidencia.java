@@ -24,11 +24,11 @@ public class Incidencia implements Serializable {
 	@Id
 	@Column(name = "id_incidencia")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INCIDENCIAS_SEQ")
-	@SequenceGenerator(name = "INCIDENCIAS_SEQ", sequenceName = "INCIDENCIAS_SEQ", allocationSize=1)
+	@SequenceGenerator(name = "INCIDENCIAS_SEQ", sequenceName = "INCIDENCIAS_SEQ", allocationSize = 1, initialValue = 1)
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName="id_ordenTrabajo")
+	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName = "id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
 	@Temporal(TemporalType.TIMESTAMP)

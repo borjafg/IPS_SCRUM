@@ -66,7 +66,7 @@ public class Asociacion {
 			productoPedido._getPaquetes().add(productoPaquete);
 		}
 	}
-	
+
 	/**
 	 * Asocia la posición de un producto a un producto
 	 *
@@ -77,7 +77,7 @@ public class Asociacion {
 			posicion._setProducto(producto);
 		}
 	}
-	
+
 	/**
 	 * Asocia un producto con su categoria
 	 *
@@ -101,7 +101,8 @@ public class Asociacion {
 	}
 
 	/**
-	 * Asocia un almacenero con una orden de trabajo cuyos productos tiene que recoger
+	 * Asocia un almacenero con una orden de trabajo cuyos productos tiene que
+	 * recoger
 	 * 
 	 */
 	public static class AlmaceneroRecogerOrdenTrabajo {
@@ -110,9 +111,10 @@ public class Asociacion {
 			almacenero._getOrdenesTrabajoRecoger().add(ordenTrabajo);
 		}
 	}
-	
+
 	/**
-	 * Asocia un almacenero con una orden de trabajo cuyos productos tiene que empaquetar
+	 * Asocia un almacenero con una orden de trabajo cuyos productos tiene que
+	 * empaquetar
 	 * 
 	 */
 	public static class AlmaceneroEmpaquetarOrdenTrabajo {

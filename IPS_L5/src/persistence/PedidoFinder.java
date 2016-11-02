@@ -19,4 +19,9 @@ public class PedidoFinder {
 	public static List<Pedido> findPosibleRecoger() {
 		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger", Pedido.class).getResultList();
 	}
+
+	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) {
+		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
+				.setParameter("pedido", p).getResultList();
+	}
 }

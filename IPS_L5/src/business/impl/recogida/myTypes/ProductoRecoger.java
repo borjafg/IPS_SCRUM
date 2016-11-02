@@ -1,4 +1,4 @@
-package business.impl.recogida.util;
+package business.impl.recogida.myTypes;
 
 import model.ProductoEnPedido;
 

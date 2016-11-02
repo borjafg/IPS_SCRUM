@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,13 +26,15 @@ import model.types.PedidoPagado;
 
 @Entity
 @Table(name = "Pedidos")
-public class Pedido {
+public class Pedido implements Serializable {
+
+	private static final long serialVersionUID = 8608870293081680294L;
 
 	@Id
 	@Column(name = "id_pedido")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PEDIDOS_SEQ")
-	@SequenceGenerator(name = "PEDIDOS_SEQ", sequenceName = "PEDIDOS_SEQ", allocationSize = 1)
-	private long id;
+	@SequenceGenerator(name = "PEDIDOS_SEQ", sequenceName = "PEDIDOS_SEQ", allocationSize = 1, initialValue = 1)
+	private long id = -34845738245L;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;

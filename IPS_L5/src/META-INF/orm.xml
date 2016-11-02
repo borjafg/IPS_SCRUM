@@ -14,9 +14,12 @@
 	</named-query>
 
 	<named-query name="Pedido.findPosibleRecoger">
-		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT</query>
+		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT order by p.fecha ASC</query>
 	</named-query>
 
+	<named-query name="Pedido.findPosibleRecoger_NoPedido">
+		<query>select p from Pedido p where p != :pedido and p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT order by p.fecha ASC</query>
+	</named-query>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Producto - - - - - - - - - - -->

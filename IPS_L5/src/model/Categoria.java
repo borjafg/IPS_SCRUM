@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +19,6 @@ import javax.persistence.Table;
 @Table(name = "Categorias")
 public class Categoria implements Serializable {
 
-	
 	private static final long serialVersionUID = -96965276980991617L;
 
 	@Id
@@ -31,7 +29,7 @@ public class Categoria implements Serializable {
 
 	private String nombre;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "id_categoria_padre", referencedColumnName = "id_categoria", nullable = true)
 	private Categoria categoriaPadre;
 
@@ -40,7 +38,7 @@ public class Categoria implements Serializable {
 
 	@OneToMany(mappedBy = "categoria")
 	private Set<Producto> productos = new HashSet<Producto>();
-	
+
 	/**
 	 * Para una categoria sin categoria padre; es decir, usar para una categoria
 	 * de nivel superior.
@@ -71,31 +69,31 @@ public class Categoria implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public Set<Categoria> getSubCategorias() {
 		return new HashSet<Categoria>(subcategorias);
 	}
-	
+
 	public Set<Categoria> _getSubCategorias() {
 		return subcategorias;
 	}
-	
+
 	public Categoria getCategoriaPadre() {
 		return categoriaPadre;
 	}
-	
+
 	void _setCategoriaPadre(Categoria categoriaPadre) {
 		this.categoriaPadre = categoriaPadre;
 	}
-	
-	public Set<Producto> getProductos(){
+
+	public Set<Producto> getProductos() {
 		return new HashSet<Producto>(productos);
 	}
-	
+
 	Set<Producto> _getProductos() {
 		return productos;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Categoria [nombre=" + nombre + "]";
@@ -123,6 +121,4 @@ public class Categoria implements Serializable {
 		return true;
 	}
 
-	
-	
 }
