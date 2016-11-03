@@ -25,11 +25,11 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	private JPanel contentPane;
 
-	private Almacenero almacenero; // Almacenero que est· usando la aplicaciÛn
+	private Almacenero almacenero; // Almacenero que est√° usando la aplicaci√≥n
 	private OrdenTrabajo ordenTrabajo; // Orden de Trabajo que se procesa
 
 	// ===========================================================
-	// Paneles que est·n en el panel principal de la aplicaciÛn
+	// Paneles que est√°n en el panel principal de la aplicaci√≥n
 	// ===========================================================
 
 	// Paneles iniciales
@@ -49,7 +49,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	private PanelEmpaquetadoProductos panelEmpaquetadoProductos;
 
 	/**
-	 * Ejecuta la aplicaciÛn
+	 * Ejecuta la aplicaci√≥n
 	 * 
 	 */
 	public static void main(String[] args) {
@@ -75,10 +75,10 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public VentanaPrincipalAlmacenero() throws BusinessException {
-		setTitle("GestiÛn del almacÈn");
+		setTitle("Gesti√≥n del almac√©n");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 581);
+		setBounds(100, 100, 300, 450);
 		setResizable(false);
 
 		contentPane = new JPanel();
@@ -86,18 +86,18 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 
-		aÒadirPaneles();
+		a√±adirPaneles();
 	}
 
 	/**
-	 * AÒadir pantallas de la aplicaciÛn del almacenero
+	 * A√±adir pantallas de la aplicaci√≥n del almacenero
 	 * 
 	 * @throws BusinessException
 	 * 
 	 */
-	private void aÒadirPaneles() throws BusinessException {
+	private void a√±adirPaneles() throws BusinessException {
 		// ===================================
-		// ===== Inicio de la aplicaciÛn =====
+		// ===== Inicio de la aplicaci√≥n =====
 		// ===================================
 
 		panelLoginAlmacenero = new PanelLoginAlmacenero();
@@ -141,11 +141,11 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	}
 
 	// ===================================
-	// ===== Inicio de la aplicaciÛn =====
+	// ===== Inicio de la aplicaci√≥n =====
 	// ===================================
 
 	/**
-	 * DespuÈs de que el almacenero hace login en el sistema se muestra las
+	 * Despu√©s de que el almacenero hace login en el sistema se muestra las
 	 * opciones de las que dispone.
 	 * 
 	 */
@@ -156,7 +156,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	}
 
 	/**
-	 * Si el almacenero ya iniciÛ sesiÛn, entonces tendr· la opciÛn de cerrarla
+	 * Si el almacenero ya inici√≥ sesi√≥n, entonces tendr√° la opci√≥n de cerrarla
 	 * 
 	 */
 	public void logout() {
@@ -191,7 +191,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 			// (1) Hay que cargar la lista de posibles pedidos
 			panelSelecionPedido.inicializarDatos();
 
-			// (2) Se muestra el panel de selecciÛn de pedidos
+			// (2) Se muestra el panel de selecci√≥n de pedidos
 			((CardLayout) contentPane.getLayout()).show(contentPane, "panelSelecionPedido");
 
 		} catch (BusinessException e) {
@@ -201,7 +201,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	/**
 	 * Cuando el almacenero se loguea tiene la posibilidad de retomar una orden
-	 * de trabajo que no empezÛ a recoger, pero que no completÛ
+	 * de trabajo que no empez√≥ a recoger, pero que no complet√≥
 	 * 
 	 * @throws BusinessException
 	 * 
@@ -210,12 +210,12 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		// (1) Hay que cargar la lista de posibles pedidos
 		panelOrdenesTrabajoRetomar.inicializarDatos();
 
-		// (2) Se muestra el panel de selecciÛn de pedidos
+		// (2) Se muestra el panel de selecci√≥n de pedidos
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelOrdenesTrabajoRetomar");
 	}
 
 	/**
-	 * DespuÈs de decidir sobre quÈ Orden de Trabajo trabajar, el almacenero
+	 * Despu√©s de decidir sobre qu√© Orden de Trabajo trabajar, el almacenero
 	 * pasa a recoger los productos de esa Orden de Trabajo
 	 * 
 	 * @throws BusinessException
@@ -225,7 +225,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		// (1) Hay que cargar la lista de posibles pedidos
 		panelRecogidaProductos.inicializarDatos();
 
-		// (2) Se muestra el panel de selecciÛn de pedidos
+		// (2) Se muestra el panel de selecci√≥n de pedidos
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelRecogidaProductos");
 	}
 
@@ -235,7 +235,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	/**
 	 * Cuando el almacenero se loguea tiene la posibilidad de retomar una orden
-	 * de trabajo que no empezÛ a recoger, pero que no completÛ.
+	 * de trabajo que no empez√≥ a recoger, pero que no complet√≥.
 	 * 
 	 * @throws BusinessException
 	 * 
@@ -250,7 +250,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	/**
 	 * Cuando se quiera pasar a la parte de empaquetado hay que ejecutar este
-	 * mÈtodo, que inicializa las variables necesarias y se encarga de realizar
+	 * m√©todo, que inicializa las variables necesarias y se encarga de realizar
 	 * el cambio.
 	 * 
 	 * @throws BusinessException
@@ -270,11 +270,11 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	/**
 	 * Pasa a la pantalla de opciones del almacenero y le indica que hubo un
-	 * error de conexiÛn, lo que implica que no podr· continuar con la tarea que
+	 * error de conexi√≥n, lo que implica que no podr√° continuar con la tarea que
 	 * estuvo realizando. </br>
 	 * </br>
 	 * No tiene sentido que el almacenero trabaje sin estar conectado a la base
-	 * de datos, ya que los datos de lo que estÈ haciendo no podr·n ser
+	 * de datos, ya que los datos de lo que est√© haciendo no podr√°n ser
 	 * guardados ni validados.
 	 * 
 	 */
@@ -285,7 +285,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	}
 
 	// ================================
-	// ==== Datos de la aplicaciÛn ====
+	// ==== Datos de la aplicaci√≥n ====
 	// ================================
 
 	public Almacenero getAlmacenero() {
