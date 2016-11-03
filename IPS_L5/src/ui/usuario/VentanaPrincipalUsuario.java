@@ -33,7 +33,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 	private static final long serialVersionUID = -457381L;
 
-	// Hace todas las llamadas a los métodos de la lógica
+	// Hace todas las llamadas a los mÃ©todos de la lÃ³gica
 	private LogicaVentanaPrincipalUsuario logVOUser;
 
 	// Modelos de las listas
@@ -81,8 +81,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelCesta2;
 	private JPanel panelBotonQuitar;
 	private JButton btnQuitar;
-	private JPanel panelAñadirProductos;
-	private JButton btnAñadir;
+	private JPanel panelAÃ±adirProductos;
+	private JButton btnAÃ±adir;
 	private JTextField textFieldUnidadesProducto;
 	private JPanel panelAuxiliar;
 
@@ -215,7 +215,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	}
 
 	/**
-	 * El action Performed, nos permite pasar a la pestaña para aceptar el
+	 * El action Performed, nos permite pasar a la pestaÃ±a para aceptar el
 	 * pedido El boton aceptar, se pondra enbled cuando el carrito tenga al
 	 * menos un elemento
 	 * 
@@ -232,14 +232,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 					// poner un if para ver si la cesta esta vacia
 					if (modeloListaCesta.isEmpty()) {
 						JOptionPane.showMessageDialog(getBtnAceptarPedido(),
-								"Para confirmar pedido, la cesta tiene que tener por lo menos un artículo", "Error",
+								"Para confirmar pedido, la cesta tiene que tener por lo menos un artÃ­culo", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
 						// Aqui luego ira si se a registrado un usuario
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
 					}
-					//Esto se hace para evitar que alguien escriba una cantidad y se pueda pasar ese valor a un siguiente usuario o a una nueva iteración
-					//se pone a uno el número de unidades tras la compra
+					//Esto se hace para evitar que alguien escriba una cantidad y se pueda pasar ese valor a un siguiente usuario o a una nueva iteraciÃ³n
+					//se pone a uno el nÃºmero de unidades tras la compra
 					getTextFieldUnidadesProducto().setText("1");
 					//se eliminan las selecciones de la lista
 					getListProductos().clearSelection();
@@ -327,10 +327,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			panelBase.setLayout(new CardLayout(0, 0));
 
-			// se añade el panel de la tienda al card layout
+			// se aÃ±ade el panel de la tienda al card layout
 			panelBase.add(getPanelPrincipal(), "panelPrincipal");
 
-			// sen añade el panel de aceptar pedido al card layout
+			// sen aÃ±ade el panel de aceptar pedido al card layout
 			panelBase.add(getPanelAceparPedidoNoRegistrados(), "panelAceptarPedido");
 		}
 
@@ -366,7 +366,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 	/**
 	 * 
-	 * El action performed, nos devuelve a la pestaña de la tienda.
+	 * El action performed, nos devuelve a la pestaÃ±a de la tienda.
 	 * 
 	 * @return JButton
 	 * 
@@ -408,11 +408,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 						}
 						modeloListaCesta = logVOUser.resetear();
 						
-						resetearCamposDeTexto();	//Se eliminan todos los campos de texto de la aplicación
+						resetearCamposDeTexto();	//Se eliminan todos los campos de texto de la aplicaciÃ³n
 						
 						getListCesta().setModel(modeloListaCesta);
 						
-						//Cuando este el log-in, se "cerrará la sesión"
+						//Cuando este el log-in, se "cerrarÃ¡ la sesiÃ³n"
 						
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 					}
@@ -533,7 +533,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			panelProductosContenedor.setLayout(new BorderLayout(0, 0));
 			panelProductosContenedor.add(getScrollPaneProductos());
-			panelProductosContenedor.add(getPanelAñadirProductos(), BorderLayout.SOUTH);
+			panelProductosContenedor.add(getPanelAÃ±adirProductos(), BorderLayout.SOUTH);
 		}
 
 		return panelProductosContenedor;
@@ -556,7 +556,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return textFieldNombreCliente;
 	}
 
-	private JComboBox<MetodosPago> getComboBox() {//Hay que modificar la implementación
+	private JComboBox<MetodosPago> getComboBox() {//Hay que modificar la implementaciÃ³n
 		if (comboBox == null) {
 			comboBox = new JComboBox<MetodosPago>();
 		}
@@ -620,30 +620,30 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return btnQuitar;
 	}
 
-	private JPanel getPanelAñadirProductos() {
-		if (panelAñadirProductos == null) {
-			panelAñadirProductos = new JPanel();
-			panelAñadirProductos.add(getTextFieldUnidadesProducto());
-			panelAñadirProductos.add(getBtnAñadir());
+	private JPanel getPanelAÃ±adirProductos() {
+		if (panelAÃ±adirProductos == null) {
+			panelAÃ±adirProductos = new JPanel();
+			panelAÃ±adirProductos.add(getTextFieldUnidadesProducto());
+			panelAÃ±adirProductos.add(getBtnAÃ±adir());
 
 		}
 
-		return panelAñadirProductos;
+		return panelAÃ±adirProductos;
 	}
 
-	private JButton getBtnAñadir() {
-		if (btnAñadir == null) {
-			btnAñadir = new JButton("A\u00F1adir");
+	private JButton getBtnAÃ±adir() {
+		if (btnAÃ±adir == null) {
+			btnAÃ±adir = new JButton("A\u00F1adir");
 
-			btnAñadir.addActionListener(new ActionListener() {
+			btnAÃ±adir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					int index = getListProductos().getSelectedIndex();
 
 					if (index == -1) {
-						JOptionPane.showMessageDialog(getBtnAceptarPedido(), "Seleccione un producto", "Error",
+						JOptionPane.showMessageDialog(getBtnAÃ±adir(), "Seleccione un producto", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					} else if (!logVOUser.isnumber(getTextFieldUnidadesProducto().getText())) {
-						JOptionPane.showMessageDialog(getBtnAñadir(), "Se tiene que escribir un número entero positivo",
+						JOptionPane.showMessageDialog(getBtnAÃ±adir(), "Se tiene que escribir un nÃºmero entero positivo",
 								"Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						ModeloProductosPedidos productopedido = new ModeloProductosPedidos(
@@ -655,7 +655,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						// no muy seguro
 						// getListProductos().setSelectedValue(null, false);
 					}
-					//se pone a uno el número de unidades tras la compra
+					//se pone a uno el nÃºmero de unidades tras la compra
 					getTextFieldUnidadesProducto().setText("1");
 					//se eliminan las selecciones de la lista
 					getListProductos().clearSelection();
@@ -664,7 +664,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			});
 		}
 
-		return btnAñadir;
+		return btnAÃ±adir;
 	}
 
 	private JTextField getTextFieldUnidadesProducto() {
