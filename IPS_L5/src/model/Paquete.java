@@ -6,12 +6,18 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import model.types.EstadoPaquete;
 
 @Entity
 @Table(name = "Paquetes")
@@ -29,19 +35,46 @@ public class Paquete implements Serializable {
 
 	private int numCaja;
 
+	@Enumerated(EnumType.STRING)
+	private EstadoPaquete estado;
+
 	@Column(name = "direccion")
 	private String direccionCompleta;
 
 	@OneToMany(mappedBy = "paquete")
 	private Set<ProductoEnPaquete> productosPaquete = new HashSet<ProductoEnPaquete>();
 
-	public Paquete() {
+	@ManyToOne
+	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName = "id_ordenTrabajo")
+	private OrdenTrabajo ordenTrabajo;
+
+	@ManyToOne
+	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
+	private Pedido pedido;
+
+	// ==============================================
+	// Constructores
+	// ==============================================
+
+	protected Paquete() {
 
 	}
+
+	public Paquete(OrdenTrabajo ordenTrabajo, Pedido pedido) {
+		Asociacion.NuevoPaquete_Pedido_OrdenTrabajo.link(this, pedido, ordenTrabajo);
+	}
+
+	// ==============================================
+	// Id del paquete
+	// ==============================================
 
 	public long getId() {
 		return id;
 	}
+
+	// ==============================================
+	// Destinatario del paquete
+	// ==============================================
 
 	public String getDestinatario() {
 		return destinatario;
@@ -51,6 +84,10 @@ public class Paquete implements Serializable {
 		this.destinatario = destinatario;
 	}
 
+	// ==============================================
+	// Numero de caja del paquete
+	// ==============================================
+
 	public int getNumCaja() {
 		return numCaja;
 	}
@@ -58,6 +95,10 @@ public class Paquete implements Serializable {
 	public void setNumCaja(int numCaja) {
 		this.numCaja = numCaja;
 	}
+
+	// ==============================================
+	// Direccion de envio del paquete
+	// ==============================================
 
 	public String getDireccionCompleta() {
 		return direccionCompleta;
@@ -67,6 +108,22 @@ public class Paquete implements Serializable {
 		this.direccionCompleta = direccionCompleta;
 	}
 
+	// ==============================================
+	// Estado del paquete
+	// ==============================================
+
+	public EstadoPaquete getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoPaquete estado) {
+		this.estado = estado;
+	}
+
+	// ==============================================
+	// Productos que contiene el paquete
+	// ==============================================
+
 	public Set<ProductoEnPaquete> getProductosPaquete() {
 		return new HashSet<ProductoEnPaquete>(productosPaquete);
 	}
@@ -74,6 +131,34 @@ public class Paquete implements Serializable {
 	Set<ProductoEnPaquete> _getProductosPaquete() {
 		return productosPaquete;
 	}
+
+	// ==============================================
+	// Orden de trabajo a la que está asociada
+	// ==============================================
+
+	public OrdenTrabajo getOrdenTrabajo() {
+		return ordenTrabajo;
+	}
+
+	void _setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
+		this.ordenTrabajo = ordenTrabajo;
+	}
+
+	// ==============================================
+	// Pedido al que está asociado
+	// ==============================================
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	void _setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	// ==============================================
+	// HashCode - Equals
+	// ==============================================
 
 	@Override
 	public int hashCode() {

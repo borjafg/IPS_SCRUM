@@ -1,33 +1,36 @@
 package model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import model.keys.ProductoEnOrdenTrabajoKey;
+import model.idClasses.ProductoOrdenTrabajoIds;
 
 @Entity
 @Table(name = "ProductosOrdenTrabajo")
-@IdClass(ProductoEnOrdenTrabajoKey.class)
 public class ProductoEnOrdenTrabajo implements Serializable {
 
 	private static final long serialVersionUID = -45732110L;
 
-	@Id
+	@EmbeddedId
+	private ProductoOrdenTrabajoIds id = new ProductoOrdenTrabajoIds();
+
+	@MapsId(value = "ordenTrabajo")
 	@ManyToOne
 	@JoinColumn(name = "id_ordenTrabajo", referencedColumnName = "id_ordenTrabajo")
 	private OrdenTrabajo ordenTrabajo;
 
-	/* name = nombre de la columna en esta tabla */
-	/* referencedColumnName = nombre de la columna de la tabla referenciada */
-	@Id
+	@MapsId(value = "productoPedido")
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido"),
 			@JoinColumn(name = "id_producto", referencedColumnName = "id_producto") })
@@ -42,7 +45,14 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	@Column(name = "unidades_recogidas")
 	private int unidadesRecogidas;
 
-	ProductoEnOrdenTrabajo() {
+	@OneToMany(mappedBy = "productoOrdenTrabajo")
+	private Set<ProductoEnPaquete> productoPaquete;
+
+	// =======================================
+	// Constructores
+	// =======================================
+
+	protected ProductoEnOrdenTrabajo() {
 
 	}
 
@@ -50,6 +60,18 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		Asociacion.AsignarProducto_OrdenTrabajo.link(ordenTrabajo, this, productoPedido);
 		this.unidadesRecoger = unidadesARecoger;
 	}
+
+	// =======================================
+	// Id de la clase
+	// =======================================
+
+	public ProductoOrdenTrabajoIds getId() {
+		return id;
+	}
+
+	// =======================================
+	// Orden de Trabajo
+	// =======================================
 
 	public OrdenTrabajo getOrdenTrabajo() {
 		return ordenTrabajo;
@@ -59,6 +81,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		this.ordenTrabajo = ordenTrabajo;
 	}
 
+	// =======================================
+	// Producto de un pedido
+	// =======================================
+
 	public ProductoEnPedido getproductoPedido() {
 		return productoPedido;
 	}
@@ -66,6 +92,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	void _setProducto(ProductoEnPedido productoPedido) {
 		this.productoPedido = productoPedido;
 	}
+
+	// =======================================
+	// Referencia dentro de la OT
+	// =======================================
 
 	public String getRef_OrdenTrabajo() {
 		return ref_OrdenTrabajo;
@@ -75,6 +105,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		this.ref_OrdenTrabajo = ref_OrdenTrabajo;
 	}
 
+	// =======================================
+	// Unidades que hay que recoger
+	// =======================================
+
 	public int getUnidadesRecoger() {
 		return unidadesRecoger;
 	}
@@ -82,6 +116,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	public void setUnidadesRecoger(int unidadesRecoger) {
 		this.unidadesRecoger = unidadesRecoger;
 	}
+
+	// =======================================
+	// Unidades que lleva recogidas
+	// =======================================
 
 	public int getUnidadesRecogidas() {
 		return unidadesRecogidas;
@@ -97,13 +135,29 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		}
 	}
 
+	// =======================================
+	// Paquetes en los que está el producto
+	// =======================================
+
+	public Set<ProductoEnPaquete> getPaquetes() {
+		return new HashSet<ProductoEnPaquete>(productoPaquete);
+	}
+
+	Set<ProductoEnPaquete> _getPaquetes() {
+		return productoPaquete;
+	}
+
+	// =======================================
+	// HashCode - Equals
+	// =======================================
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
+
 		int result = 1;
 
-		result = prime * result + ((ordenTrabajo == null) ? 0 : ordenTrabajo.hashCode());
-		result = prime * result + ((productoPedido == null) ? 0 : productoPedido.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 
 		return result;
 	}
@@ -121,16 +175,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 
 		ProductoEnOrdenTrabajo other = (ProductoEnOrdenTrabajo) obj;
 
-		if (ordenTrabajo == null) {
-			if (other.ordenTrabajo != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!ordenTrabajo.equals(other.ordenTrabajo))
-			return false;
-
-		if (productoPedido == null) {
-			if (other.productoPedido != null)
-				return false;
-		} else if (!productoPedido.equals(other.productoPedido))
+		} else if (!id.equals(other.id))
 			return false;
 
 		return true;

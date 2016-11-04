@@ -20,8 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.cfg.NotYetImplementedException;
-
 import model.types.EstadoOrdenTrabajo;
 
 @Entity
@@ -34,7 +32,7 @@ public class OrdenTrabajo implements Serializable {
 	@Column(name = "id_ordenTrabajo")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDENES_TRABAJO_SEQ")
 	@SequenceGenerator(name = "ORDENES_TRABAJO_SEQ", sequenceName = "ORDENES_TRABAJO_SEQ", allocationSize = 1)
-	private long id = -34845738245L;
+	private long id;
 
 	@OneToMany(mappedBy = "ordenTrabajo")
 	private Set<ProductoEnOrdenTrabajo> productosOrdenTrabajo = new HashSet<ProductoEnOrdenTrabajo>();
@@ -56,7 +54,14 @@ public class OrdenTrabajo implements Serializable {
 	@JoinColumn(name = "id_almacenero_empaquetar", referencedColumnName = "id_almacenero")
 	private Almacenero almaceneroEmpaquetar;
 
-	OrdenTrabajo() {
+	@OneToMany(mappedBy = "ordenTrabajo")
+	private Set<Paquete> paquetes = new HashSet<Paquete>();
+
+	// ==============================================
+	// Constructores
+	// ==============================================
+
+	protected OrdenTrabajo() {
 
 	}
 
@@ -64,9 +69,17 @@ public class OrdenTrabajo implements Serializable {
 		Asociacion.AlmaceneroRecogerOrdenTrabajo.link(this, almacenero);
 	}
 
+	// ==============================================
+	// Id de la Orden de Trabajo
+	// ==============================================
+
 	public long getId() {
 		return id;
 	}
+
+	// ==============================================
+	// Productos de la Orden de Trabajo
+	// ==============================================
 
 	public Set<ProductoEnOrdenTrabajo> getProductosOrdenTrabajo() {
 		return new HashSet<ProductoEnOrdenTrabajo>(productosOrdenTrabajo);
@@ -76,6 +89,10 @@ public class OrdenTrabajo implements Serializable {
 		return productosOrdenTrabajo;
 	}
 
+	// ==============================================
+	// Incidencias de la Orden de Trabajo
+	// ==============================================
+
 	public Set<Incidencia> getIncidencias() {
 		return new HashSet<Incidencia>(incidencias);
 	}
@@ -83,6 +100,10 @@ public class OrdenTrabajo implements Serializable {
 	Set<Incidencia> _getIncidencias() {
 		return incidencias;
 	}
+
+	// ==============================================
+	// Fecha en la que se creo la Orden de Trabajo
+	// ==============================================
 
 	public Date getFecha() {
 		return fecha;
@@ -92,6 +113,10 @@ public class OrdenTrabajo implements Serializable {
 		this.fecha = fecha;
 	}
 
+	// ==============================================
+	// Estado de la Orden de Trabajo
+	// ==============================================
+
 	public EstadoOrdenTrabajo getEstadoOrdenTrabajo() {
 		return estado;
 	}
@@ -100,6 +125,10 @@ public class OrdenTrabajo implements Serializable {
 		this.estado = estado;
 	}
 
+	// ==============================================
+	// Almacenero que recoge sus productos
+	// ==============================================
+
 	public Almacenero getAlmaceneroRecoger() {
 		return almaceneroRecoger;
 	}
@@ -107,6 +136,10 @@ public class OrdenTrabajo implements Serializable {
 	void _setAlmaceneroRecoger(Almacenero almaceneroRecoger) {
 		this.almaceneroRecoger = almaceneroRecoger;
 	}
+
+	// ==============================================
+	// Almacenero que empaqueta sus productos
+	// ==============================================
 
 	public Almacenero getAlmaceneroEmpaquetar() {
 		return almaceneroEmpaquetar;
@@ -120,6 +153,14 @@ public class OrdenTrabajo implements Serializable {
 		this.almaceneroEmpaquetar = almaceneroEmpaquetar;
 	}
 
+	// ==============================================
+	// Lista de paquetes de la Orden de Trabajo
+	// ==============================================
+
+	public Set<Paquete> getPaquetes() {
+		return new HashSet<Paquete>(paquetes);
+	}
+	
 	// ==============================================================
 	// Comprobar estado de la Orden de Trabajo (Recogida productos)
 	// ==============================================================
@@ -143,18 +184,6 @@ public class OrdenTrabajo implements Serializable {
 		return false;
 	}
 
-	// ==== Productos ====
-
-	public int getNumProductosFaltanRecoger() {
-		throw new NotYetImplementedException("Hay que implementar el recuento de productos a recoger");
-	}
-
-	// ==== Pedidos ====
-
-	public int getNumPedidosConProductosRecoger() {
-		throw new NotYetImplementedException("Hay que implementar el recuento de productos a recoger");
-	}
-
 	// ================================================================
 	// Comprobar estado de la Orden de Trabajo (Empaquetado productos)
 	// ================================================================
@@ -176,18 +205,6 @@ public class OrdenTrabajo implements Serializable {
 		}
 
 		return false;
-	}
-
-	// ==== Productos ====
-
-	public int getNumProductosFaltanEmpaquetar() {
-		throw new NotYetImplementedException("Hay que implementar el recuento de productos a empaquetar");
-	}
-
-	// ==== Pedidos ====
-
-	public int getNumPedidosFaltanEmpaquetar() {
-		throw new NotYetImplementedException("Hay que implementar el recuento de productos a empaquetar");
 	}
 
 	// ==============================

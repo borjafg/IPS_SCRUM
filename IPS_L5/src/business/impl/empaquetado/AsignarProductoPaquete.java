@@ -4,8 +4,6 @@ import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
-import model.ProductoEnPaquete;
-import persistence.PaqueteFinder;
 import persistence.util.Jpa;
 
 public class AsignarProductoPaquete implements Command {
@@ -30,19 +28,19 @@ public class AsignarProductoPaquete implements Command {
 			paquete.setDestinatario(prot.getproductoPedido().getPedido().getCliente().getNombre());
 			paquete.setDireccionCompleta(prot.getproductoPedido().getPedido().getDireccionCompleta());
 			
-			Jpa.getManager().persist(paquete);
-			
-			// Cuando el paquete ya tiene los datos apropiados
-			
-			Jpa.getManager().persist(new ProductoEnPaquete(prot.getproductoPedido(), paquete));
-			return null;
+//			Jpa.getManager().persist(paquete);
+//			
+//			// Cuando el paquete ya tiene los datos apropiados
+//			
+//			Jpa.getManager().persist(new ProductoEnPaquete(prot.getproductoPedido(), paquete));
+//			return null;
 		}
-		
-		// Si ya se había creado el paquete
-		
-		Paquete paq = PaqueteFinder.findById(paquete.getId());
-		
-		Jpa.getManager().persist(new ProductoEnPaquete(prot.getproductoPedido(), paq));
+//		
+//		// Si ya se había creado el paquete
+//		
+//		Paquete paq = PaqueteFinder.findById(paquete.getId());
+//		
+//		Jpa.getManager().persist(new ProductoEnPaquete(prot.getproductoPedido(), paq));
 
 		return null;
 	}

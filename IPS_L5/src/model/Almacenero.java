@@ -23,7 +23,7 @@ public class Almacenero implements Serializable {
 	@Column(name = "id_almacenero")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ALMACENEROS_SEQ")
 	@SequenceGenerator(name = "ALMACENEROS_SEQ", sequenceName = "ALMACENEROS_SEQ", allocationSize = 1, initialValue = 1)
-	private long id = -34845738245L;
+	private long id;
 
 	@Column(unique = true)
 	private String login;
@@ -34,13 +34,25 @@ public class Almacenero implements Serializable {
 	@OneToMany(mappedBy = "almaceneroEmpaquetar")
 	private Set<OrdenTrabajo> ordenesTrabajoEmpaquetar = new HashSet<OrdenTrabajo>();
 
+	// =======================================
+	// Constructor
+	// =======================================
+
 	public Almacenero() {
 
 	}
 
+	// =======================================
+	// Id del almacenero
+	// =======================================
+
 	public long getId() {
 		return id;
 	}
+
+	// =======================================
+	// Login del almacenero
+	// =======================================
 
 	public String getLogin() {
 		return login;
@@ -50,6 +62,10 @@ public class Almacenero implements Serializable {
 		this.login = login;
 	}
 
+	// =======================================
+	// Ordenes de trabajo para recoger
+	// =======================================
+
 	public Set<OrdenTrabajo> getOrdenesTrabajoRecoger() {
 		return new HashSet<OrdenTrabajo>(ordenesTrabajoRecoger);
 	}
@@ -58,6 +74,10 @@ public class Almacenero implements Serializable {
 		return ordenesTrabajoRecoger;
 	}
 
+	// =======================================
+	// Ordenes de trabajo para empaquetar
+	// =======================================
+
 	public Set<OrdenTrabajo> getOrdenesTrabajoEmpaquetar() {
 		return new HashSet<OrdenTrabajo>(ordenesTrabajoEmpaquetar);
 	}
@@ -65,6 +85,10 @@ public class Almacenero implements Serializable {
 	Set<OrdenTrabajo> _getOrdenesTrabajoEmpaquetar() {
 		return ordenesTrabajoEmpaquetar;
 	}
+
+	// =======================================
+	// HashCode - Equals
+	// =======================================
 
 	@Override
 	public int hashCode() {

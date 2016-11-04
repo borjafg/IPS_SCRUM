@@ -43,7 +43,11 @@ public class Producto implements Serializable {
 	@OneToMany(mappedBy = "producto")
 	private Set<ProductoEnPedido> listaProductosPedidos = new HashSet<ProductoEnPedido>();
 
-	Producto() {
+	// =======================================
+	// Constructores
+	// =======================================
+
+	protected Producto() {
 
 	}
 
@@ -52,9 +56,17 @@ public class Producto implements Serializable {
 		Asociacion.Categorizar.link(this, categoria);
 	}
 
+	// =======================================
+	// Id del producto
+	// =======================================
+
 	public long getId() {
 		return id;
 	}
+
+	// =======================================
+	// Nombre del producto
+	// =======================================
 
 	public String getNombre() {
 		return nombre;
@@ -64,6 +76,10 @@ public class Producto implements Serializable {
 		this.nombre = nombre;
 	}
 
+	// =======================================
+	// Precio del producto
+	// =======================================
+
 	public double getPrecio() {
 		return precio;
 	}
@@ -71,6 +87,10 @@ public class Producto implements Serializable {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+
+	// =======================================
+	// Descripcion del producto
+	// =======================================
 
 	public String getDescripcion() {
 		return descripcion;
@@ -80,6 +100,10 @@ public class Producto implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	// =======================================
+	// Categoria del producto
+	// =======================================
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -87,6 +111,10 @@ public class Producto implements Serializable {
 	void _setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+	// =======================================
+	// Posicion del producto
+	// =======================================
 
 	public PosicionProducto getPosicion() {
 		return posicion;
@@ -96,6 +124,10 @@ public class Producto implements Serializable {
 		this.posicion = posicion;
 	}
 
+	// =======================================
+	// Pedidos a los que esta asociado
+	// =======================================
+
 	public Set<ProductoEnPedido> getListaProductosPedidos() {
 		return new HashSet<ProductoEnPedido>(listaProductosPedidos);
 	}
@@ -104,10 +136,18 @@ public class Producto implements Serializable {
 		return listaProductosPedidos;
 	}
 
+	// =======================================
+	// ToString
+	// =======================================
+
 	@Override
 	public String toString() {
-		return nombre + ", precio=" + precio + "  euros  , categoria=" + categoria;
+		return nombre + ", precio = " + precio + " euros, categoria = " + categoria;
 	}
+
+	// =======================================
+	// HashCode - Equals
+	// =======================================
 
 	@Override
 	public int hashCode() {

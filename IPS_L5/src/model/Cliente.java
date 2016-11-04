@@ -40,17 +40,25 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente")
 	private Set<Pedido> pedidos = new HashSet<Pedido>();
 
+	// =======================================
+	// Constructor
+	// =======================================
+
 	public Cliente() {
 
 	}
+
+	// =======================================
+	// Id del cliente
+	// =======================================
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
+	// =======================================
+	// Nombre del cliente
+	// =======================================
 
 	public String getNombre() {
 		return nombre;
@@ -60,6 +68,10 @@ public class Cliente implements Serializable {
 		this.nombre = nombre;
 	}
 
+	// =======================================
+	// Tipo de cliente
+	// =======================================
+
 	public TipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
@@ -67,6 +79,10 @@ public class Cliente implements Serializable {
 	public void setTipoCliente(TipoCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
+
+	// =======================================
+	// Direccion del cliente
+	// =======================================
 
 	public String getDireccionCompleta() {
 		return direccionCompleta;
@@ -76,6 +92,10 @@ public class Cliente implements Serializable {
 		this.direccionCompleta = direccionCompleta;
 	}
 
+	// =======================================
+	// Lista de pedidos del cliente
+	// =======================================
+
 	public Set<Pedido> getPedidos() {
 		return new HashSet<Pedido>(pedidos);
 	}
@@ -83,6 +103,10 @@ public class Cliente implements Serializable {
 	Set<Pedido> _getPedidos() {
 		return pedidos;
 	}
+
+	// =======================================
+	// HashCode - Equals
+	// =======================================
 
 	@Override
 	public int hashCode() {

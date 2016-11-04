@@ -39,13 +39,25 @@ public class PosicionProducto implements Serializable {
 	@OneToOne(mappedBy = "posicion")
 	private Producto producto;
 
+	// =======================================
+	// Constructor
+	// =======================================
+
 	public PosicionProducto() {
 
 	}
 
+	// =======================================
+	// Id de la posicion
+	// =======================================
+
 	public long getId() {
 		return id;
 	}
+
+	// =======================================
+	// Pasillo en el que se encuentra
+	// =======================================
 
 	public int getPasillo() {
 		return pasillo;
@@ -55,6 +67,10 @@ public class PosicionProducto implements Serializable {
 		this.pasillo = pasillo;
 	}
 
+	// =======================================
+	// Estanteria del producto
+	// =======================================
+
 	public EstanteriaProducto getEstanteriaPoducto() {
 		return estanteria;
 	}
@@ -62,6 +78,10 @@ public class PosicionProducto implements Serializable {
 	public void setEstanteriaPoducto(EstanteriaProducto estanteria) {
 		this.estanteria = estanteria;
 	}
+
+	// =======================================
+	// Altura en la estanteria
+	// =======================================
 
 	public int getAltura() {
 		return altura;
@@ -71,6 +91,10 @@ public class PosicionProducto implements Serializable {
 		this.altura = altura;
 	}
 
+	// =======================================
+	// Posicion en la estanteria
+	// =======================================
+
 	public int getPosicionX() {
 		return posicionX;
 	}
@@ -79,6 +103,10 @@ public class PosicionProducto implements Serializable {
 		this.posicionX = posicionX;
 	}
 
+	// =======================================
+	// Producto que ocupa esa posicion
+	// =======================================
+
 	public Producto getProducto() {
 		return producto;
 	}
@@ -86,6 +114,10 @@ public class PosicionProducto implements Serializable {
 	void _setProducto(Producto producto) {
 		this.producto = producto;
 	}
+
+	// =======================================
+	// HashCode - Equals
+	// =======================================
 
 	@Override
 	public int hashCode() {

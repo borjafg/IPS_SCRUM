@@ -58,12 +58,14 @@ public class Asociacion {
 	 *
 	 */
 	public static class Empaquetar {
-		public static void link(Paquete paquete, ProductoEnPedido productoPedido, ProductoEnPaquete productoPaquete) {
+		public static void link(Paquete paquete, ProductoEnOrdenTrabajo productoOrdenTrabajo,
+				ProductoEnPaquete productoPaquete) {
+			
 			productoPaquete._setPaquete(paquete);
-			productoPaquete._setProductoPedido(productoPedido);
+			productoPaquete._setProductoOrdenTrabajo(productoOrdenTrabajo);
 
 			paquete._getProductosPaquete().add(productoPaquete);
-			productoPedido._getPaquetes().add(productoPaquete);
+			productoOrdenTrabajo._getPaquetes().add(productoPaquete);
 		}
 	}
 
@@ -121,6 +123,20 @@ public class Asociacion {
 		public static void link(OrdenTrabajo ordenTrabajo, Almacenero almacenero) {
 			ordenTrabajo._setAlmaceneroEmpaquetar(almacenero);
 			almacenero._getOrdenesTrabajoEmpaquetar().add(ordenTrabajo);
+		}
+	}
+	
+	/**
+	 * Asocia un paquete con un pedido de una orden de trabajo
+	 *
+	 */
+	public static class NuevoPaquete_Pedido_OrdenTrabajo {
+		public static void link(Paquete paquete, Pedido pedido, OrdenTrabajo ordenTrabajo) {
+			paquete._setPedido(pedido);
+			paquete._setOrdenTrabajo(ordenTrabajo);
+			
+			pedido._getPaquetes().add(paquete);
+			ordenTrabajo.getPaquetes().add(paquete);
 		}
 	}
 }

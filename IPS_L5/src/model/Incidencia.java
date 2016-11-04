@@ -36,7 +36,7 @@ public class Incidencia implements Serializable {
 
 	private String causa;
 
-	Incidencia() {
+	protected Incidencia() {
 
 	}
 

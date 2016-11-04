@@ -34,7 +34,7 @@ public class Pedido implements Serializable {
 	@Column(name = "id_pedido")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PEDIDOS_SEQ")
 	@SequenceGenerator(name = "PEDIDOS_SEQ", sequenceName = "PEDIDOS_SEQ", allocationSize = 1, initialValue = 1)
-	private long id = -34845738245L;
+	private long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
@@ -59,7 +59,14 @@ public class Pedido implements Serializable {
 	@OneToMany(mappedBy = "pedido")
 	private Set<ProductoEnPedido> listaProductosPedidos = new HashSet<ProductoEnPedido>();
 
-	Pedido() {
+	@OneToMany(mappedBy = "pedido")
+	private Set<Paquete> paquetes = new HashSet<Paquete>();
+	
+	// ==============================================
+	// Constructores
+	// ==============================================
+
+	protected Pedido() {
 
 	}
 
@@ -67,9 +74,17 @@ public class Pedido implements Serializable {
 		Asociacion.Pedir.link(cliente, this);
 	}
 
+	// ==============================================
+	// Id del pedido
+	// ==============================================
+
 	public long getId() {
 		return id;
 	}
+
+	// ==============================================
+	// Fecha en la que se hizo
+	// ==============================================
 
 	public Date getFecha() {
 		return fecha;
@@ -79,6 +94,10 @@ public class Pedido implements Serializable {
 		this.fecha = fecha;
 	}
 
+	// ==============================================
+	// Direccion a la que hay que enviarlo
+	// ==============================================
+
 	public String getDireccionCompleta() {
 		return direccionCompleta;
 	}
@@ -86,6 +105,10 @@ public class Pedido implements Serializable {
 	public void setDireccionCompleta(String direccionCompleta) {
 		this.direccionCompleta = direccionCompleta;
 	}
+
+	// ==============================================
+	// Metodo de pago
+	// ==============================================
 
 	public MetodosPago getMetodoPago() {
 		return metodoPago;
@@ -95,6 +118,10 @@ public class Pedido implements Serializable {
 		this.metodoPago = metodoPago;
 	}
 
+	// ==============================================
+	// Estado del pedido
+	// ==============================================
+
 	public EstadoPedido getEstado() {
 		return estado;
 	}
@@ -102,6 +129,10 @@ public class Pedido implements Serializable {
 	public void setEstado(EstadoPedido estado) {
 		this.estado = estado;
 	}
+
+	// ==============================================
+	// Esta pagado el pedido
+	// ==============================================
 
 	public PedidoPagado getPagado() {
 		return pagado;
@@ -111,6 +142,10 @@ public class Pedido implements Serializable {
 		this.pagado = pagado;
 	}
 
+	// ==============================================
+	// Cliente que hizo el pedido
+	// ==============================================
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -119,12 +154,28 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 	}
 
+	// ==============================================
+	// Productos que forman el pedido
+	// ==============================================
+
 	public Set<ProductoEnPedido> getListaProductosPedidos() {
 		return new HashSet<ProductoEnPedido>(listaProductosPedidos);
 	}
 
 	Set<ProductoEnPedido> _getListaProductosPedidos() {
 		return listaProductosPedidos;
+	}
+	
+	// ==============================================
+	// Paquetes en los que esta el pedido
+	// ==============================================
+	
+	public Set<Paquete> getPaquetes() {
+		return new HashSet<Paquete>(paquetes);
+	}
+	
+	Set<Paquete> _getPaquetes() {
+		return paquetes;
 	}
 
 	// ==============================

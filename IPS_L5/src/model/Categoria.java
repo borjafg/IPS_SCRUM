@@ -39,9 +39,14 @@ public class Categoria implements Serializable {
 	@OneToMany(mappedBy = "categoria")
 	private Set<Producto> productos = new HashSet<Producto>();
 
+	// =======================================
+	// Constructores
+	// =======================================
+
 	/**
 	 * Para una categoria sin categoria padre; es decir, usar para una categoria
 	 * de nivel superior.
+	 * 
 	 */
 	public Categoria() {
 
@@ -58,9 +63,17 @@ public class Categoria implements Serializable {
 		Asociacion.NuevaCategoria.link(this, categoriaPadre);
 	}
 
+	// =======================================
+	// Id de la categoria
+	// =======================================
+
 	public long getId() {
 		return id;
 	}
+
+	// =======================================
+	// Nombre de la categoria
+	// =======================================
 
 	public String getNombre() {
 		return nombre;
@@ -70,6 +83,10 @@ public class Categoria implements Serializable {
 		this.nombre = nombre;
 	}
 
+	// =======================================
+	// Lista de subcategorias
+	// =======================================
+
 	public Set<Categoria> getSubCategorias() {
 		return new HashSet<Categoria>(subcategorias);
 	}
@@ -77,6 +94,10 @@ public class Categoria implements Serializable {
 	public Set<Categoria> _getSubCategorias() {
 		return subcategorias;
 	}
+
+	// =======================================
+	// Categoria padre
+	// =======================================
 
 	public Categoria getCategoriaPadre() {
 		return categoriaPadre;
@@ -86,6 +107,10 @@ public class Categoria implements Serializable {
 		this.categoriaPadre = categoriaPadre;
 	}
 
+	// =======================================
+	// Productos de esa categoria
+	// =======================================
+
 	public Set<Producto> getProductos() {
 		return new HashSet<Producto>(productos);
 	}
@@ -94,16 +119,26 @@ public class Categoria implements Serializable {
 		return productos;
 	}
 
+	// =======================================
+	// toString
+	// =======================================
+
 	@Override
 	public String toString() {
 		return "Categoria [nombre=" + nombre + "]";
 	}
 
+	// =======================================
+	// HashCode - Equals
+	// =======================================
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
+
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
+
 		return result;
 	}
 
@@ -111,13 +146,18 @@ public class Categoria implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
+
 		if (obj == null)
 			return false;
+
 		if (getClass() != obj.getClass())
 			return false;
+
 		Categoria other = (Categoria) obj;
+
 		if (id != other.id)
 			return false;
+
 		return true;
 	}
 

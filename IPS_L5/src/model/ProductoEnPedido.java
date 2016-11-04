@@ -5,29 +5,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import model.keys.ProductoEnPedidoKey;
+import model.idClasses.ProductoPedidoIds;
 
 @Entity
 @Table(name = "ProductosPedido")
-@IdClass(ProductoEnPedidoKey.class)
 public class ProductoEnPedido implements Serializable {
 
 	private static final long serialVersionUID = -371256129L;
 
-	@Id
+	@EmbeddedId
+	private ProductoPedidoIds id = new ProductoPedidoIds();
+
+	@MapsId(value = "id_pedido") // Dentro del id a qué atributo referencia
 	@ManyToOne
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 
-	@Id
+	@MapsId(value = "id_producto")
 	@ManyToOne
 	@JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
 	private Producto producto;
@@ -35,20 +37,21 @@ public class ProductoEnPedido implements Serializable {
 	@OneToMany(mappedBy = "productoPedido")
 	private Set<ProductoEnOrdenTrabajo> productosEnOrdenTrabajo = new HashSet<ProductoEnOrdenTrabajo>();
 
-	@OneToMany(mappedBy = "productoPedido")
-	private Set<ProductoEnPaquete> productoPaquete;
-
 	private int cantidad;
 
 	@Column(name = "cantidad_asociada_OT")
 	private int cantidadAsociadaOT;
 
-	ProductoEnPedido() {
+	protected ProductoEnPedido() {
 
 	}
 
 	public ProductoEnPedido(Pedido pedido, Producto producto) {
 		Asociacion.AsignarProducto_Pedido.link(pedido, this, producto);
+	}
+
+	public ProductoPedidoIds getId() {
+		return id;
 	}
 
 	public int getCantidad() {
@@ -91,22 +94,13 @@ public class ProductoEnPedido implements Serializable {
 		return productosEnOrdenTrabajo;
 	}
 
-	public Set<ProductoEnPaquete> getPaquetes() {
-		return new HashSet<ProductoEnPaquete>(productoPaquete);
-	}
-
-	Set<ProductoEnPaquete> _getPaquetes() {
-		return productoPaquete;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
+		
 		int result = 1;
-
-		result = prime * result + ((pedido == null) ? 0 : pedido.hashCode());
-		result = prime * result + ((producto == null) ? 0 : producto.hashCode());
-
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		
 		return result;
 	}
 
@@ -122,18 +116,13 @@ public class ProductoEnPedido implements Serializable {
 			return false;
 
 		ProductoEnPedido other = (ProductoEnPedido) obj;
-		if (pedido == null) {
-			if (other.pedido != null)
-				return false;
-		} else if (!pedido.equals(other.pedido))
-			return false;
 
-		if (producto == null) {
-			if (other.producto != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!producto.equals(other.producto))
+		} else if (!id.equals(other.id))
 			return false;
-
+		
 		return true;
 	}
 }

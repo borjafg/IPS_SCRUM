@@ -35,10 +35,12 @@ public class ModeloTablaOrdenesTrabajo extends AbstractModeloTablaNoEditable {
 			return sdf.format(ordenesTrabajo.get(rowIndex).getFecha());
 
 		case 2:
-			return ordenesTrabajo.get(rowIndex).getNumPedidosConProductosRecoger();
+//			return ordenesTrabajo.get(rowIndex).getNumPedidosConProductosRecoger();
+			return -1010000100;
 
 		case 3:
-			return ordenesTrabajo.get(rowIndex).getNumProductosFaltanRecoger();
+//			return ordenesTrabajo.get(rowIndex).getNumProductosFaltanRecoger();
+			return -1010000100;
 
 		default:
 			return null;
