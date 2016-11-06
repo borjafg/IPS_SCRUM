@@ -11,6 +11,10 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,7 +25,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
+import ui.almacen.myTypes.model.MyProducto_OrdenadoPosicion;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosRecoger;
 
 public class PanelRecogidaProductos extends JPanel {
@@ -29,7 +37,7 @@ public class PanelRecogidaProductos extends JPanel {
 	private static final long serialVersionUID = -2481078673400949799L;
 
 	private VentanaPrincipalAlmacenero ventanaPrincipal;
-	
+
 	// ===========================================
 	// Componentes de este panel
 	// ===========================================
@@ -73,8 +81,40 @@ public class PanelRecogidaProductos extends JPanel {
 		add(getPanelSur(), BorderLayout.SOUTH);
 	}
 
-	public void inicializarDatos() {
-		// Cargar lista de productos en la Orden de Trabajo
+	/**
+	 * Carga la lista de productos de la orden de trabajo correspondiente y los
+	 * ordena según su posición en el almacen
+	 * 
+	 * @throws BusinessException
+	 * 
+	 */
+	public void inicializarDatos() throws BusinessException {
+		// ----------------------------------
+		// (1) --> Sacar productos en la OT
+		// ----------------------------------
+
+		Set<ProductoEnOrdenTrabajo> productos = ServiceFactory.getRecogidaService()
+				.obtenerProductosOT(ventanaPrincipal.getOrdenTrabajo());
+
+		// ----------------------------------
+		// (2) --> Ordenar por posicion
+		// ----------------------------------
+
+		List<MyProducto_OrdenadoPosicion> prods = new ArrayList<MyProducto_OrdenadoPosicion>();
+
+		for (ProductoEnOrdenTrabajo prod : productos) {
+			prods.add(new MyProducto_OrdenadoPosicion(prod));
+		}
+
+		Collections.sort(prods);
+
+		// ----------------------------------
+		// (3) --> Añadir al modelo de la tabla
+		// ----------------------------------
+
+		for (MyProducto_OrdenadoPosicion producto : prods) {
+			modeloTablaProductos.addProducto(producto);
+		}
 	}
 
 	// =====================================
@@ -126,7 +166,7 @@ public class PanelRecogidaProductos extends JPanel {
 	private JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
-			
+
 			panelCentro.setLayout(new GridLayout(0, 1, 0, 0));
 			panelCentro.add(getTablaProductos());
 		}
@@ -251,7 +291,7 @@ public class PanelRecogidaProductos extends JPanel {
 
 			botonIncidencias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					// TODO preguntar como se registran las incidencias
+					ventanaPrincipal.mostrarPanelIncidencias();
 
 					// Si hubo incidencias
 					indicarQueHuboIncidencias();
@@ -277,6 +317,12 @@ public class PanelRecogidaProductos extends JPanel {
 		getTextFieldCodOrdenTrabajo().setText("");
 
 		modeloTablaProductos.removeAll();
+	}
+
+	public void comprobarSihuboIncidencias() throws BusinessException {
+		if (ServiceFactory.getRecogidaService().huboIncidencias(ventanaPrincipal.getOrdenTrabajo())) {
+			indicarQueHuboIncidencias();
+		}
 	}
 
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {

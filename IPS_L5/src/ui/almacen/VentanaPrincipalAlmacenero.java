@@ -16,6 +16,7 @@ import ui.almacen.almacenero.PanelOpcionesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 import ui.almacen.empaquetado.PanelOrdenesTrabajoEmpaquetar;
 import ui.almacen.recogida.PanelRecogidaProductos;
+import ui.almacen.recogida.PanelRegistroIncidencias;
 import ui.almacen.recogida.PanelRetomarOrdenTrabajo;
 import ui.almacen.recogida.PanelSeleccionPedido;
 
@@ -42,6 +43,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	private PanelRetomarOrdenTrabajo panelOrdenesTrabajoRetomar;
 	private PanelSeleccionPedido panelSelecionPedido;
 	private PanelRecogidaProductos panelRecogidaProductos;
+	private PanelRegistroIncidencias panelRegistroIncidencias;
 
 	// Paneles Empaquetado de productos
 
@@ -75,7 +77,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public VentanaPrincipalAlmacenero() throws BusinessException {
-		setTitle("Gestión del almacÃ©n");
+		setTitle("Gestión del almacén");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 300, 450);
@@ -122,9 +124,13 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		panelRecogidaProductos = new PanelRecogidaProductos();
 		panelRecogidaProductos.setVentanaPrincipal(this);
 
+		panelRegistroIncidencias = new PanelRegistroIncidencias();
+		panelRegistroIncidencias.setVentanaPrincipal(this);
+
 		contentPane.add(panelSelecionPedido, "panelSelecionPedido");
 		contentPane.add(panelOrdenesTrabajoRetomar, "panelOrdenesTrabajoRetomar");
 		contentPane.add(panelRecogidaProductos, "panelRecogidaProductos");
+		contentPane.add(panelRegistroIncidencias, "panelRegistroIncidencias");
 
 		// ============================================================
 		// ===== Empaquetado de productos en una Orden de Trabajo =====
@@ -145,7 +151,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	// ===================================
 
 	/**
-	 * DespuÃ©s de que el almacenero hace login en el sistema se muestra las
+	 * Después de que el almacenero hace login en el sistema se muestra las
 	 * opciones de las que dispone.
 	 * 
 	 */
@@ -215,7 +221,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	}
 
 	/**
-	 * DespuÃ©s de decidir sobre quÃ© Orden de Trabajo trabajar, el almacenero
+	 * Después de decidir sobre qué Orden de Trabajo trabajar, el almacenero
 	 * pasa a recoger los productos de esa Orden de Trabajo
 	 * 
 	 * @throws BusinessException
@@ -227,6 +233,29 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 		// (2) Se muestra el panel de selección de pedidos
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelRecogidaProductos");
+	}
+
+	/**
+	 * Mientras el almacenero está recogiendo productos de una orden de trabajo
+	 * es posible que ocurran incidencias.
+	 * 
+	 */
+	public void mostrarPanelIncidencias() {
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelRegistroIncidencias");
+	}
+
+	/**
+	 * Después de registrar una incidencia, el almacenero puede volver a
+	 * 
+	 */
+	public void volverPanelRecogidaProductos() {
+		try {
+			panelRecogidaProductos.comprobarSihuboIncidencias();
+
+			((CardLayout) contentPane.getLayout()).show(contentPane, "panelRegistroIncidencias");
+		} catch (BusinessException e) {
+			gestionarErrorConexion();
+		}
 	}
 
 	// ============================================================
@@ -250,7 +279,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	/**
 	 * Cuando se quiera pasar a la parte de empaquetado hay que ejecutar este
-	 * mÃ©todo, que inicializa las variables necesarias y se encarga de realizar
+	 * método, que inicializa las variables necesarias y se encarga de realizar
 	 * el cambio.
 	 * 
 	 * @throws BusinessException
@@ -274,7 +303,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * estuvo realizando. </br>
 	 * </br>
 	 * No tiene sentido que el almacenero trabaje sin estar conectado a la base
-	 * de datos, ya que los datos de lo que estÃ© haciendo no podrán ser
+	 * de datos, ya que los datos de lo que esté haciendo no podrán ser
 	 * guardados ni validados.
 	 * 
 	 */

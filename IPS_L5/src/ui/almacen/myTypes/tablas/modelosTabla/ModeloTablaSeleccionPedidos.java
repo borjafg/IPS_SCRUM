@@ -7,13 +7,13 @@ import java.util.List;
 import model.Pedido;
 import ui.almacen.myTypes.model.MyPedido;
 
-public class ModeloTablaPedidos extends AbstractModeloTablaNoEditable {
+public class ModeloTablaSeleccionPedidos extends AbstractModeloTablaNoEditable {
 
 	private static final long serialVersionUID = 3500989514105896058L;
 
 	private List<MyPedido> pedidos;
 	
-	public ModeloTablaPedidos() {
+	public ModeloTablaSeleccionPedidos() {
 		super(new String[] { "Cod. Pedido", "Fecha", "Num Productos" },
 				new Class[] { Long.class, String.class, Integer.class });
 

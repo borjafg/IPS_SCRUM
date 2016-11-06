@@ -28,7 +28,7 @@ import model.OrdenTrabajo;
 import model.Pedido;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.myTypes.model.MyPedido;
-import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPedidos;
+import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaSeleccionPedidos;
 
 public class PanelSeleccionPedido extends JPanel {
 
@@ -36,7 +36,7 @@ public class PanelSeleccionPedido extends JPanel {
 
 	protected VentanaPrincipalAlmacenero ventanaPrincipal;
 
-	protected ModeloTablaPedidos modeloTablaPedidos;
+	protected ModeloTablaSeleccionPedidos modeloTablaPedidos;
 
 	private JLabel labelPedidos;
 	private JScrollPane scrollPanePedidos;
@@ -93,7 +93,7 @@ public class PanelSeleccionPedido extends JPanel {
 
 	private JTable getTablaPedidosPendientes() {
 		if (tablaPedidosPendientes == null) {
-			modeloTablaPedidos = new ModeloTablaPedidos();
+			modeloTablaPedidos = new ModeloTablaSeleccionPedidos();
 			tablaPedidosPendientes = new JTable(modeloTablaPedidos);
 
 			tablaPedidosPendientes.addMouseListener(new MouseAdapter() {

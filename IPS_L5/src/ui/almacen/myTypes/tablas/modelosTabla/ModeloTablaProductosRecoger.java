@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.myTypes.model.MyPosicionProducto;
+import ui.almacen.myTypes.model.MyProducto_OrdenadoPosicion;
 
 public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<ProductoEnOrdenTrabajo> productos;
+	private List<MyProducto_OrdenadoPosicion> productos;
 
 	public ModeloTablaProductosRecoger() {
 		super(new String[] { "referencia", "descripcion", "unidades", "posición" },
-				new Class[] { String.class, String.class, Integer.class, MyPosicionProducto.class });
+				new Class[] { String.class, String.class, Integer.class, String.class });
 
-		productos = new ArrayList<ProductoEnOrdenTrabajo>();
+		productos = new ArrayList<MyProducto_OrdenadoPosicion>();
 	}
 
 	@Override
@@ -26,25 +26,27 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		MyProducto_OrdenadoPosicion prod = productos.get(rowIndex);
+
 		switch (columnIndex) {
 		case 0: // Referencia dentro de la orden de trabajo
-			return productos.get(rowIndex).getRef_OrdenTrabajo();
+			return prod.getProducto().getRef_OrdenTrabajo();
 
 		case 1: // Descripcion del producto
-			return productos.get(rowIndex).getproductoPedido().getProducto().getDescripcion();
+			return prod.getProducto().getproductoPedido().getProducto().getDescripcion();
 
 		case 2: // Unidades que qudan por recoger
-			return productos.get(rowIndex).getUnidadesRecoger() - productos.get(rowIndex).getUnidadesRecogidas();
+			return prod.getProducto().getUnidadesRecoger() - prod.getProducto().getUnidadesRecogidas();
 
 		case 3: // Posición del producto
-			return new MyPosicionProducto(productos.get(rowIndex));
+			return prod.getInfo();
 
 		default:
 			return null;
 		}
 	}
 
-	public void addProducto(ProductoEnOrdenTrabajo producto) {
+	public void addProducto(MyProducto_OrdenadoPosicion producto) {
 		productos.add(producto);
 
 		// Hay que actualizar la tabla
@@ -59,7 +61,7 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 	}
 
 	public ProductoEnOrdenTrabajo getProducto(int fila) {
-		return productos.get(fila);
+		return productos.get(fila).getProducto();
 	}
 
 	@Override

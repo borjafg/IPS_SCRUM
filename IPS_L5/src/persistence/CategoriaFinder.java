@@ -8,8 +8,7 @@ import persistence.util.Jpa;
 public class CategoriaFinder {
 
 	public static List<Categoria> finAll(){
-		return Jpa.getManager().createNamedQuery("Categoria.findAll",Categoria.class).getResultList();
+		return Jpa.getManager().createNamedQuery("Categoria.findAll", Categoria.class).getResultList();
 	}
-	
-	
+		
 }

@@ -13,7 +13,9 @@ import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 import model.ProductoEnPedido;
 import model.types.EstadoPedido;
+import persistence.AlmaceneroFinder;
 import persistence.PedidoFinder;
+import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 
 public class GenerarOrdenTrabajo implements Command {
@@ -51,56 +53,63 @@ public class GenerarOrdenTrabajo implements Command {
 
 	@Override
 	public Object execute() throws BusinessException {
-		// ------------------------------------------
-		// ---- Sincronizar con la base de datos ----
-		// ------------------------------------------
+		try {
+			// ------------------------------------------
+			// ---- Sincronizar con la base de datos ----
+			// ------------------------------------------
 
-		this.almacenero = Jpa.getManager().merge(almacenero);
+			this.almacenero = AlmaceneroFinder.find(almacenero);
 
-		Pedido p = Jpa.getManager().find(Pedido.class, pedido.getId());
+			Pedido p = PedidoFinder.find(pedido);
 
-		OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
-		ordenTrabajo.setFecha(new Date());
+			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
+			ordenTrabajo.setFecha(new Date());
 
-		Jpa.getManager().persist(ordenTrabajo);
+			Jpa.getManager().persist(ordenTrabajo);
 
-		// ------------------------------------------
+			// ------------------------------------------
 
-		Pedido sigPedido = null;
-		ProductoRecoger productoRecoger = null;
+			Pedido sigPedido = null;
+			ProductoRecoger productoRecoger = null;
 
-		while (cabenProductosOtroPedido() && pedidosEvaluados.size() <= 5) {
+			while (cabenProductosOtroPedido() && pedidosEvaluados.size() <= 5) {
 
-			// Si ya se comprobó al menos un pedido y hay sitio en el carrito
+				// Si ya se comprobó al menos un pedido y hay sitio en el
+				// carrito
 
-			if (pedidosEvaluados.size() >= 1) {
-				sigPedido = obtenerSiguientePedido(p);
+				if (pedidosEvaluados.size() >= 1) {
+					sigPedido = obtenerSiguientePedido(p);
 
-				if (sigPedido != null) {
-					p = sigPedido;
+					if (sigPedido != null) {
+						p = sigPedido;
+					}
+
+					else {
+						break; // No quedan más pedidos que evaluar
+					}
 				}
 
-				else {
-					break; // No quedan más pedidos que evaluar
+				// Para cada producto en el pedido
+
+				for (ProductoEnPedido aux : p.getListaProductosPedidos()) {
+					productoRecoger = comprobarProducto(aux);
+
+					if (productoRecoger.getUnidades() > 0) {
+						añadirProductoOT(ordenTrabajo, productoRecoger);
+					}
 				}
+
+				actualizarEstadoPedido(p);
+
+				pedidosEvaluados.add(p);
 			}
 
-			// Para cada producto en el pedido
-
-			for (ProductoEnPedido aux : p.getListaProductosPedidos()) {
-				productoRecoger = comprobarProducto(Jpa.getManager().merge(aux));
-
-				if (productoRecoger.getUnidades() > 0) {
-					añadirProductoOT(ordenTrabajo, productoRecoger);
-				}
-			}
-
-			actualizarEstadoPedido(p);
-
-			pedidosEvaluados.add(p);
+			return ordenTrabajo;
 		}
 
-		return ordenTrabajo;
+		catch (MyPersistenceException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	// ===================================================

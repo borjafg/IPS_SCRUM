@@ -17,15 +17,25 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import ui.almacen.VentanaPrincipalAlmacenero;
+
 public class PanelRegistroIncidencias extends JPanel {
 
 	private static final long serialVersionUID = 9039636379609218939L;
 
+	private VentanaPrincipalAlmacenero ventanaPrincipal;
+
+	// ==== Panel norte ====
+
 	private JPanel panelNorte;
 	private JLabel labelRegistrarIncidencia;
 
+	// ==== Panel centro ====
+
 	private JScrollPane scrollPaneCentro;
 	private JTextArea textAreaIncidencia;
+
+	// ==== Panel sur ====
 
 	private JPanel panelSur;
 	private JButton botonAtras;
@@ -50,7 +60,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JLabel getLabelRegistrarIncidencia() {
 		if (labelRegistrarIncidencia == null) {
 			labelRegistrarIncidencia = new JLabel("Registrar incidencia");
-			
+
 			labelRegistrarIncidencia.setFont(new Font("Tahoma", Font.BOLD, 17));
 			labelRegistrarIncidencia.setHorizontalAlignment(SwingConstants.CENTER);
 		}
@@ -65,7 +75,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JPanel getPanelNorte() {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
-			
+
 			panelNorte.setBorder(new EmptyBorder(4, 0, 8, 0));
 			panelNorte.add(getLabelRegistrarIncidencia());
 		}
@@ -81,7 +91,7 @@ public class PanelRegistroIncidencias extends JPanel {
 		if (scrollPaneCentro == null) {
 			scrollPaneCentro = new JScrollPane(getTextAreaIncidencia(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			
+
 			scrollPaneCentro.setBorder(new EmptyBorder(0, 5, 0, 5));
 		}
 
@@ -91,7 +101,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JTextArea getTextAreaIncidencia() {
 		if (textAreaIncidencia == null) {
 			textAreaIncidencia = new JTextArea();
-			
+
 			textAreaIncidencia.setWrapStyleWord(true);
 			textAreaIncidencia.setLineWrap(true);
 			textAreaIncidencia.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -107,64 +117,72 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JPanel getPanelSur() {
 		if (panelSur == null) {
 			panelSur = new JPanel();
-			
+
 			panelSur.setBorder(new EmptyBorder(10, 0, 10, 0));
-			
+
 			GridBagLayout gbl_panelSur = new GridBagLayout();
-			
-			gbl_panelSur.columnWidths = new int[]{20, 100, 30, 100, 20, 0};
-			gbl_panelSur.rowHeights = new int[]{30, 0};
-			gbl_panelSur.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-			gbl_panelSur.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-			
+
+			gbl_panelSur.columnWidths = new int[] { 20, 100, 30, 100, 20, 0 };
+			gbl_panelSur.rowHeights = new int[] { 30, 0 };
+			gbl_panelSur.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+			gbl_panelSur.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+
 			panelSur.setLayout(gbl_panelSur);
-			
+
 			GridBagConstraints gbc_botonAtras = new GridBagConstraints();
-			
+
 			gbc_botonAtras.fill = GridBagConstraints.BOTH;
 			gbc_botonAtras.insets = new Insets(0, 0, 0, 5);
 			gbc_botonAtras.gridx = 1;
 			gbc_botonAtras.gridy = 0;
-			
+
 			panelSur.add(getBotonAtras(), gbc_botonAtras);
-			
+
 			GridBagConstraints gbc_botonRegistrar = new GridBagConstraints();
-			
+
 			gbc_botonRegistrar.insets = new Insets(0, 0, 0, 5);
 			gbc_botonRegistrar.fill = GridBagConstraints.BOTH;
 			gbc_botonRegistrar.gridx = 3;
 			gbc_botonRegistrar.gridy = 0;
-			
+
 			panelSur.add(getBotonRegistrar(), gbc_botonRegistrar);
 		}
 
 		return panelSur;
 	}
-	
+
 	private JButton getBotonAtras() {
 		if (botonAtras == null) {
 			botonAtras = new JButton("Atr\u00E1s");
 			botonAtras.setBorder(null);
-			
+
 			botonAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
+					ventanaPrincipal.volverPanelRecogidaProductos();
 				}
 			});
-			
+
 			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		}
-		
+
 		return botonAtras;
 	}
-	
+
 	private JButton getBotonRegistrar() {
 		if (botonRegistrar == null) {
 			botonRegistrar = new JButton("Registrar");
 			botonRegistrar.setBorder(null);
 			botonRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		}
-		
+
 		return botonRegistrar;
+	}
+
+	// =======================================
+	// Control del estado del panel
+	// ========================================
+
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 	}
 }
