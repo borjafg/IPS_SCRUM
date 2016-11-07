@@ -8,14 +8,14 @@ import business.impl.util.Command;
 import model.Pedido;
 import model.ProductoEnPedido;
 import persistence.PedidoFinder;
-import ui.almacen.myTypes.model.MyPedido;
+import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 public class ObtenerListaPedidosSinOrdenTrabajo implements Command {
 
 	@Override
 	public Object execute() throws BusinessException {
 		List<Pedido> pedidosPosibleRecoger = PedidoFinder.findPosibleRecoger();
-		List<MyPedido> pedidos = new ArrayList<MyPedido>();
+		List<MyPedido_OT_Retomar> pedidos = new ArrayList<MyPedido_OT_Retomar>();
 
 		int totalProdSinOT = 0;
 
@@ -27,7 +27,7 @@ public class ObtenerListaPedidosSinOrdenTrabajo implements Command {
 			}
 
 			if (totalProdSinOT > 0) {
-				pedidos.add(new MyPedido(ped, totalProdSinOT));
+				pedidos.add(new MyPedido_OT_Retomar(ped, totalProdSinOT));
 			}
 		}
 

@@ -16,8 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AbstractDocument;
 
+import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
 import ui.almacen.VentanaPrincipalAlmacenero;
+import ui.almacen.myTypes.textLimiters.JTextAreaLimiter;
 
 public class PanelRegistroIncidencias extends JPanel {
 
@@ -105,6 +109,9 @@ public class PanelRegistroIncidencias extends JPanel {
 			textAreaIncidencia.setWrapStyleWord(true);
 			textAreaIncidencia.setLineWrap(true);
 			textAreaIncidencia.setFont(new Font("Monospaced", Font.PLAIN, 16));
+
+			// Limitar numero de caracteres
+			((AbstractDocument) textAreaIncidencia.getDocument()).setDocumentFilter(new JTextAreaLimiter(240));
 		}
 
 		return textAreaIncidencia;
@@ -171,6 +178,18 @@ public class PanelRegistroIncidencias extends JPanel {
 	private JButton getBotonRegistrar() {
 		if (botonRegistrar == null) {
 			botonRegistrar = new JButton("Registrar");
+
+			botonRegistrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						ServiceFactory.getRecogidaService().registrarIncidencia(ventanaPrincipal.getOrdenTrabajo(),
+								textAreaIncidencia.getText());
+					} catch (BusinessException e) {
+						ventanaPrincipal.gestionarErrorConexion();
+					}
+				}
+			});
+
 			botonRegistrar.setBorder(null);
 			botonRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		}

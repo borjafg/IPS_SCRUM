@@ -28,7 +28,7 @@ public class PanelRetomarOrdenTrabajo extends AbstractPanelRetomarOrdenTrabajo {
 	public void inicializarDatos() {
 		// Cargar lista de ordenes de trabajo con productos para recoger
 	}
-	
+
 	@Override
 	protected JButton getBotonContinuar() {
 		if (botonEmpezarRecoger == null) {
@@ -49,4 +49,11 @@ public class PanelRetomarOrdenTrabajo extends AbstractPanelRetomarOrdenTrabajo {
 
 		return botonEmpezarRecoger;
 	}
+
+	@Override
+	protected void accionClickTablaOrdenesTrabajo() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

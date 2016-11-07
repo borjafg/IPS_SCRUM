@@ -285,7 +285,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * @throws BusinessException
 	 * 
 	 */
-	public void pasarEmpaquetar() throws BusinessException {
+	public void mostrarPanelEmpaquetadoProductos() throws BusinessException {
 		// (1) Inicializar
 		panelEmpaquetadoProductos.inicializarDatos();
 

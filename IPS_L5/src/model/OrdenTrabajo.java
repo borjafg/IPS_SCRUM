@@ -176,7 +176,7 @@ public class OrdenTrabajo implements Serializable {
 
 		for (ProductoEnOrdenTrabajo producto : productosOrdenTrabajo) {
 			// ¿Falta algún producto por recoger?
-			if (producto.getUnidadesRecoger() > producto.getUnidadesRecogidas()) {
+			if (producto.getUnidadesProducto() > producto.getUnidadesRecogidas()) {
 				return true;
 			}
 		}
@@ -199,7 +199,7 @@ public class OrdenTrabajo implements Serializable {
 
 		for (ProductoEnOrdenTrabajo producto : productosOrdenTrabajo) {
 			// ¿Falta algún producto por recoger?
-			if (producto.getUnidadesRecoger() > producto.getUnidadesRecogidas()) {
+			if (producto.getUnidadesProducto() > producto.getUnidadesRecogidas()) {
 				return true;
 			}
 		}

@@ -31,6 +31,7 @@ import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.myTypes.model.MyProducto_OrdenadoPosicion;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosRecoger;
+import javax.swing.SpinnerNumberModel;
 
 public class PanelRecogidaProductos extends JPanel {
 
@@ -112,9 +113,7 @@ public class PanelRecogidaProductos extends JPanel {
 		// (3) --> Añadir al modelo de la tabla
 		// ----------------------------------
 
-		for (MyProducto_OrdenadoPosicion producto : prods) {
-			modeloTablaProductos.addProducto(producto);
-		}
+		modeloTablaProductos.setProductos(prods);
 	}
 
 	// =====================================
@@ -261,6 +260,8 @@ public class PanelRecogidaProductos extends JPanel {
 	private JSpinner getSpinnerUnidades() {
 		if (spinnerUnidades == null) {
 			spinnerUnidades = new JSpinner();
+
+			spinnerUnidades.setModel(new SpinnerNumberModel(1, 0, 100, 1));
 			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		}
 
@@ -302,6 +303,23 @@ public class PanelRecogidaProductos extends JPanel {
 		}
 
 		return botonIncidencias;
+	}
+
+	// =======================================
+	// Recogida de productos
+	// ========================================
+
+	public void recoger(int fila) throws BusinessException {
+		ProductoEnOrdenTrabajo prod = modeloTablaProductos.getProducto(fila);
+		
+		int unidadesRecoger = (int) spinnerUnidades.getModel().getValue();
+		int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesRecogidas();
+		
+		if( unidadesRecoger > unidadesFaltan ) {
+			// Mostrar mensaje. No se pueden recoger más unidades de las que requiere el producto
+		}
+		
+		ServiceFactory.getRecogidaService().recogerUnidadesProducto(prod, unidadesRecoger);
 	}
 
 	// =======================================

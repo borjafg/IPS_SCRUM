@@ -8,16 +8,32 @@ import model.Almacenero;
 import model.OrdenTrabajo;
 import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.myTypes.model.MyPedido;
+import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 public interface RecogidaService {
 
-	public List<MyPedido> obtenerListaPedidosSinOrdenTrabajo() throws BusinessException;
+	// ----------------------------------------
+	// Creación de una orden de trabajo
+	// ----------------------------------------
+
+	public List<MyPedido_OT_Retomar> obtenerListaPedidosSinOrdenTrabajo() throws BusinessException;
 
 	public OrdenTrabajo generarOrdenTrabajo(Pedido pedido, Almacenero almacenero) throws BusinessException;
 
-	public boolean huboIncidencias(OrdenTrabajo ordenTrabajo) throws BusinessException;
+	// ----------------------------------------
+	// Procesamiento de una orden de trabajo
+	// ----------------------------------------
 
 	public Set<ProductoEnOrdenTrabajo> obtenerProductosOT(OrdenTrabajo ordenTrabajo) throws BusinessException;
+
+	public void recogerUnidadesProducto(ProductoEnOrdenTrabajo prod, int unidadesRecoger) throws BusinessException;
+
+	// -------------------------------
+	// Gestión de incidencias
+	// -------------------------------
+
+	public void registrarIncidencia(OrdenTrabajo ordenTrabajo, String incidencia) throws BusinessException;
+
+	public boolean huboIncidencias(OrdenTrabajo ordenTrabajo) throws BusinessException;
 
 }
