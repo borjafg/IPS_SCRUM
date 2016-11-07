@@ -56,6 +56,9 @@
 		<query>select p from Categoria p</query>
 	</named-query>
 
+	<named-query name="Categoria.findCategoriasPadre">
+		<query>select p from Categoria p where p.categoriaPadre = null</query>
+	</named-query>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - PosicionesProducto - - - - - - - -->

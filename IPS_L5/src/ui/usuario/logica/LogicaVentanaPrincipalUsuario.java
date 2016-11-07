@@ -7,6 +7,7 @@ import javax.swing.DefaultListModel;
 
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
+import model.Categoria;
 import model.Producto;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
@@ -15,20 +16,60 @@ public class LogicaVentanaPrincipalUsuario {
 	// Aqui voy añadiendo los productos y sus unidades
 	private List<ModeloProductosPedidos> listaCesta = new ArrayList<ModeloProductosPedidos>();
 
-	public DefaultListModel<Producto> getModeloListaProductos() {
-		DefaultListModel<Producto> modeloListaProducto = new DefaultListModel<Producto>();
-
+//	public DefaultListModel<Producto> getModeloListaProductos() {//le paso la categoria de cada producto
+//		DefaultListModel<Producto> modeloListaProducto = new DefaultListModel<Producto>();
+//
+//		try {
+//			List<Producto> listaProductos = ServiceFactory.getUserService().getListaProducto();
+//
+//			for (Producto producto : listaProductos) {
+//				modeloListaProducto.addElement(producto);
+//			}
+//		} catch (BusinessException e) {
+//			System.err.println(e.getMessage());
+//		}
+//
+//		return modeloListaProducto;
+//	}
+	
+	
+	public List<Producto> getListaProductos(Categoria categoria){
+		List<Producto> listaProductos = null;
+		
 		try {
-			List<Producto> listaProductos = ServiceFactory.getUserService().getListaProducto();
-
-			for (Producto producto : listaProductos) {
-				modeloListaProducto.addElement(producto);
-			}
+			listaProductos = ServiceFactory.getUserService().getListaProducto(categoria);
 		} catch (BusinessException e) {
+			
+			System.err.println(e.getMessage());
+		}
+		return listaProductos;
+	}
+	
+	
+	public DefaultListModel<Categoria> getModeloCategoriasPadre(){
+		DefaultListModel<Categoria> modeloListaCategoriasPadre = new DefaultListModel<Categoria>();
+		
+		try{
+			List<Categoria> listaCategoriasPadre = ServiceFactory.getUserService().getListaCategoriasPadre();
+			for(Categoria categoriaP: listaCategoriasPadre){
+				modeloListaCategoriasPadre.addElement(categoriaP);
+			}
+		}catch(BusinessException e){
+			System.err.println(e.getMessage());
+		}
+		return modeloListaCategoriasPadre;
+	}
+	
+	
+	public List<Categoria> getListaCategoriasHijas(Categoria catPadre){
+		List<Categoria> listaCategoriasHijo = null;
+		try{
+			listaCategoriasHijo = ServiceFactory.getUserService().getListaCategoriasHijo(catPadre);
+		}catch(BusinessException e){
 			System.err.println(e.getMessage());
 		}
 
-		return modeloListaProducto;
+		return listaCategoriasHijo;
 	}
 
 	private DefaultListModel<ModeloProductosPedidos> cargarModeloListaCesta() {
@@ -53,6 +94,18 @@ public class LogicaVentanaPrincipalUsuario {
 		return true;
 
 	}
+	
+	
+	public boolean comprobarQueNoHayProductosEnCategoria(Categoria cat){
+		boolean hay = true;
+		try {
+			hay = ServiceFactory.getUserService().isProductoEnCategoria(cat);
+		} catch (BusinessException e) {
+			System.err.println(e.getMessage());
+		}
+		return hay;
+	}
+	
 
 	/**
 	 * Metodo que añade los productos que pide el usuario al conjunto de pedidos

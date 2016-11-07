@@ -22,12 +22,17 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import model.Categoria;
 import model.Producto;
 import model.types.MetodosPago;
+import persistence.CategoriaFinder;
 import ui.usuario.logica.LogicaVentanaPrincipalUsuario;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 import business.exception.BusinessException;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class VentanaPrincipalUsuario extends JFrame {
 
@@ -38,8 +43,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 	// Modelos de las listas
 	private DefaultListModel<Producto> modeloListaProductos;
+	private DefaultListModel<Categoria> modeloListaCategorias;
 
-	// Hay que pensar un tipo para poder meter en el modelo de la cesta
+	//modelo de la cesta
 	private DefaultListModel<ModeloProductosPedidos> modeloListaCesta;
 
 	///
@@ -85,6 +91,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JButton btnAñadir;
 	private JTextField textFieldUnidadesProducto;
 	private JPanel panelAuxiliar;
+	private JPanel panelListasCategoriasYProductos;
+	private JPanel panelCategorias;
+	private JScrollPane scrollPaneCategorias;
+	private JList<Categoria> listCategorias;
+	private JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -261,7 +272,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			panelCentro.setLayout(new BorderLayout(0, 0));
 			panelCentro.add(getPanelCesta(), BorderLayout.EAST);
-			panelCentro.add(getPanelProductos(), BorderLayout.CENTER);
+			//panelCentro.add(getPanelProductos(), BorderLayout.CENTER);
+			panelCentro.add(getPanelListasCategoriasYProductos(), BorderLayout.CENTER);
 		}
 
 		return panelCentro;
@@ -446,10 +458,19 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return listCesta;
 	}
 
+	
+	
+	/*
+	 * La lista que contiene los productos de la categoría seleccionada
+	 * 
+	 */
 	private JList<Producto> getListProductos() {
 		if (listProductos == null) {
-			modeloListaProductos = logVOUser.getModeloListaProductos();
-
+			
+			//La lista se crea sin modelo, para que una vez que se selecciona una categoria que contiene productos, se cargue un nuevo modelo
+			//modeloListaProductos = logVOUser.getModeloListaProductos();
+			modeloListaProductos = new DefaultListModel<Producto>();
+			
 			listProductos = new JList<Producto>(modeloListaProductos);
 
 			listProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -653,17 +674,22 @@ public class VentanaPrincipalUsuario extends JFrame {
 						ModeloProductosPedidos productopedido = new ModeloProductosPedidos(
 								(Producto) getListProductos().getSelectedValue(),
 								Integer.parseInt(getTextFieldUnidadesProducto().getText()));
+						
 						modeloListaCesta = logVOUser.sumarProductoACesta(productopedido, modeloListaCesta);
 						getListCesta().setModel(modeloListaCesta);
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
-						// no muy seguro
-						// getListProductos().setSelectedValue(null, false);
+						
+						//Post añadir producto
+						((CardLayout)panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,"Panel Categorias");
+						modeloListaProductos.removeAllElements();
+						// se pone a uno el nÃºmero de unidades tras la compra
+						getTextFieldUnidadesProducto().setText("1");
+						// se eliminan las selecciones de la lista
+						getListProductos().clearSelection();
+						getListCesta().clearSelection();
 					}
-					// se pone a uno el nÃºmero de unidades tras la compra
-					getTextFieldUnidadesProducto().setText("1");
-					// se eliminan las selecciones de la lista
-					getListProductos().clearSelection();
-					getListCesta().clearSelection();
+					
+				
 				}
 			});
 		}
@@ -687,5 +713,98 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelAuxiliar = new JPanel();
 		}
 		return panelAuxiliar;
+	}
+	
+	/*
+	 * Panel cardLayout que incluye los paneles de los productos y
+	 * el panel de las categorias
+	 * 
+	 * 
+	 */
+	private JPanel getPanelListasCategoriasYProductos() {
+		if (panelListasCategoriasYProductos == null) {
+			panelListasCategoriasYProductos = new JPanel();
+			panelListasCategoriasYProductos.setLayout(new CardLayout(0, 0));
+			//Añadimos el panel de las categorias
+			panelListasCategoriasYProductos.add(getPanelCategorias(), "Panel Categorias");
+			//añadimos el panel de los productos de las categorias
+			panelListasCategoriasYProductos.add(getPanelProductos(),"Panel Productos");
+			
+			
+			
+		}
+		return panelListasCategoriasYProductos;
+	}
+	private JPanel getPanelCategorias() {
+		if (panelCategorias == null) {
+			panelCategorias = new JPanel();
+			panelCategorias.setLayout(new BorderLayout(0, 0));
+			panelCategorias.add(getScrollPaneCategorias(), BorderLayout.CENTER);
+			panelCategorias.add(getPanel(), BorderLayout.EAST);
+			
+		}
+		return panelCategorias;
+	}
+	private JScrollPane getScrollPaneCategorias() {
+		if (scrollPaneCategorias == null) {
+			scrollPaneCategorias = new JScrollPane();
+			scrollPaneCategorias.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPaneCategorias.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scrollPaneCategorias.setViewportView(getListCategorias());
+		}
+		return scrollPaneCategorias;
+	}
+	private JList<Categoria> getListCategorias() {
+		if (listCategorias == null) {
+			modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
+			listCategorias = new JList<Categoria>(modeloListaCategorias);					
+			listCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			listCategorias.putClientProperty("List.isFileList", Boolean.TRUE);
+			listCategorias.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					//Seleccionamos la categoria a la que se clica dos veces
+					if(getListCategorias().getSelectedIndex() != -1){
+						if(arg0.getClickCount() == 2){
+							if(!logVOUser.comprobarQueNoHayProductosEnCategoria(getListCategorias().getSelectedValue())){//si la categoria no contiene productos																
+								cargarCategorias(getListCategorias().getSelectedValue());
+							}else{//si la categoria contiene productos
+								//cargamos la lista de productos de esa categoria
+								cargarModeloListaProductos(getListCategorias().getSelectedValue());
+								((CardLayout)panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,"Panel Productos");
+								//reiniciamos la lista de categorias
+								modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
+								listCategorias.setModel(modeloListaCategorias);// probar sin esto
+							}
+						getListCategorias().clearSelection();
+						
+					}
+					}
+				}
+			});
+		}
+		return listCategorias;
+	}
+	//Metodo que usamos para cargar las categorias
+	private void cargarCategorias(Categoria categoria){
+		modeloListaCategorias.removeAllElements();		
+		List<Categoria> listaCategorias = logVOUser.getListaCategoriasHijas(categoria);
+		for(Categoria cat : listaCategorias){
+			modeloListaCategorias.addElement(cat);
+		}
+	}
+	
+	private void cargarModeloListaProductos(Categoria categoria){
+		List<Producto> listaProductos = logVOUser.getListaProductos(categoria);
+		for(Producto prod : listaProductos){
+			modeloListaProductos.addElement(prod);
+		}
+	}
+	
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+		}
+		return panel;
 	}
 }

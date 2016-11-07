@@ -13,6 +13,8 @@ import model.types.EstadoPedido;
 import model.types.MetodosPago;
 import model.types.PedidoPagado;
 import model.types.TipoCliente;
+import persistence.ProductoFinder;
+import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
@@ -30,7 +32,7 @@ public class CargadorABaseDeDatos implements Command {
 	}
 
 	@Override
-	public Object execute() throws BusinessException {
+	public Object execute() throws BusinessException{
 		// ===================================
 		// añado el cliente
 		// ===================================
@@ -65,13 +67,20 @@ public class CargadorABaseDeDatos implements Command {
 		Producto prod;
 
 		for (ModeloProductosPedidos mod : listaCesta) {
-			prod = Jpa.getManager().merge(mod.getProducto());
+			//prod = Jpa.getManager().merge(mod.getProducto());
+			try {
+				prod = ProductoFinder.findById(mod.getProducto());
+				prodPedido = new ProductoEnPedido(pedido, prod);
+				prodPedido.setCantidad(mod.getUnidades());
+				prodPedido.setCantidadAsociadaOT(0);
+				
+				Jpa.getManager().persist(prodPedido);
 			
-			prodPedido = new ProductoEnPedido(pedido, prod);
-			prodPedido.setCantidad(mod.getUnidades());
-			prodPedido.setCantidadAsociadaOT(0);
 			
-			Jpa.getManager().persist(prodPedido);
+			} catch (MyPersistenceException e) {
+				System.err.println(e.getMessage());
+			}
+			
 		}
 
 		return null;

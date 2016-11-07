@@ -11,6 +11,9 @@ import persistence.util.Jpa;
 
 public class ProductoFinder {
 
+	
+	
+	
 	/**
 	 * Si el producto pasado no estaba sincronizado con la base de datos, este
 	 * método devolverá un nuevo objeto Producto que sí estará sincronizado con
