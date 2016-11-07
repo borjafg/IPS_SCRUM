@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Pedido;
-import ui.almacen.myTypes.model.MyPedido;
+import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 public class ModeloTablaSeleccionPedidos extends AbstractModeloTablaNoEditable {
 
 	private static final long serialVersionUID = 3500989514105896058L;
 
-	private List<MyPedido> pedidos;
+	private List<MyPedido_OT_Retomar> pedidos;
 	
 	public ModeloTablaSeleccionPedidos() {
 		super(new String[] { "Cod. Pedido", "Fecha", "Num Productos" },
 				new Class[] { Long.class, String.class, Integer.class });
 
-		pedidos = new ArrayList<MyPedido>();
+		pedidos = new ArrayList<MyPedido_OT_Retomar>();
 	}
 	
 	@Override
@@ -36,14 +36,14 @@ public class ModeloTablaSeleccionPedidos extends AbstractModeloTablaNoEditable {
 			return sdf.format(pedidos.get(rowIndex).getPedido().getFecha());
 
 		case 2:
-			return pedidos.get(rowIndex).getNumProductoSinOT();
+			return pedidos.get(rowIndex).getNumProductosFaltan();
 
 		default:
 			return null;
 		}
 	}
 	
-	public void addPedido(MyPedido pedido) {
+	public void addPedido(MyPedido_OT_Retomar pedido) {
 		pedidos.add(pedido);
 
 		// Hay que actualizar la tabla

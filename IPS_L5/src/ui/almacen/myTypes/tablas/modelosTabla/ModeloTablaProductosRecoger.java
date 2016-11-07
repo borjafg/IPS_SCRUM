@@ -36,7 +36,7 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 			return prod.getProducto().getproductoPedido().getProducto().getDescripcion();
 
 		case 2: // Unidades que qudan por recoger
-			return prod.getProducto().getUnidadesRecoger() - prod.getProducto().getUnidadesRecogidas();
+			return prod.getProducto().getUnidadesProducto() - prod.getProducto().getUnidadesRecogidas();
 
 		case 3: // Posición del producto
 			return prod.getInfo();
@@ -46,6 +46,13 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 		}
 	}
 
+	public void setProductos(List<MyProducto_OrdenadoPosicion> productos) {
+		this.productos = productos;
+		
+		// Hay que actualizar la tabla
+		this.fireTableDataChanged();
+	}
+	
 	public void addProducto(MyProducto_OrdenadoPosicion producto) {
 		productos.add(producto);
 

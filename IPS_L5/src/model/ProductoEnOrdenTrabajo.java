@@ -39,11 +39,14 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	@Column(nullable = false)
 	private String ref_OrdenTrabajo;
 
-	@Column(name = "unidades_recoger")
-	private int unidadesRecoger;
+	@Column(name = "unidades_producto")
+	private int unidadesProducto;
 
 	@Column(name = "unidades_recogidas")
 	private int unidadesRecogidas;
+
+	@Column(name = "unidades_empaquetadas")
+	private int unidadesEmpaquetadas;
 
 	@OneToMany(mappedBy = "productoOrdenTrabajo")
 	private Set<ProductoEnPaquete> productoPaquete;
@@ -56,9 +59,10 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 
 	}
 
-	public ProductoEnOrdenTrabajo(OrdenTrabajo ordenTrabajo, ProductoEnPedido productoPedido, int unidadesARecoger) {
+	public ProductoEnOrdenTrabajo(OrdenTrabajo ordenTrabajo, ProductoEnPedido productoPedido, int unidadesProducto) {
+
 		Asociacion.AsignarProducto_OrdenTrabajo.link(ordenTrabajo, this, productoPedido);
-		this.unidadesRecoger = unidadesARecoger;
+		this.unidadesProducto = unidadesProducto;
 	}
 
 	// =======================================
@@ -105,16 +109,16 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		this.ref_OrdenTrabajo = ref_OrdenTrabajo;
 	}
 
-	// =======================================
-	// Unidades que hay que recoger
-	// =======================================
+	// ===========================================
+	// Unidades que hay que recoger y empaquetar
+	// ===========================================
 
-	public int getUnidadesRecoger() {
-		return unidadesRecoger;
+	public int getUnidadesProducto() {
+		return unidadesProducto;
 	}
 
-	public void setUnidadesRecoger(int unidadesRecoger) {
-		this.unidadesRecoger = unidadesRecoger;
+	public void setUnidadesproducto(int unidadesProducto) {
+		this.unidadesProducto = unidadesProducto;
 	}
 
 	// =======================================
@@ -125,9 +129,27 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 		return unidadesRecogidas;
 	}
 
-	public void recoger(int unidades) {
-		if (unidades + unidadesRecogidas <= unidadesRecoger) {
+	public void recoger(int unidades) throws IllegalArgumentException {
+		if (unidades + unidadesRecogidas <= unidadesProducto) {
 			this.unidadesRecogidas = unidadesRecogidas + unidades;
+		}
+
+		else {
+			throw new IllegalArgumentException("La cantidad indicada supera la requerida por la orden de trabajo");
+		}
+	}
+
+	// =======================================
+	// Unidades que lleva empaquetadas
+	// =======================================
+
+	public int getUnidadesEmpaquetadas() {
+		return unidadesEmpaquetadas;
+	}
+
+	public void empaquetar(int unidades) throws IllegalArgumentException {
+		if (unidades + unidadesEmpaquetadas <= unidadesProducto) {
+			this.unidadesEmpaquetadas = unidadesEmpaquetadas + unidades;
 		}
 
 		else {

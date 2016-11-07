@@ -28,7 +28,7 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 			return productos.get(rowIndex).getproductoPedido().getProducto().getNombre();
 
 		case 1:
-			return productos.get(rowIndex).getUnidadesRecoger();
+			return productos.get(rowIndex).getUnidadesProducto();
 
 		default:
 			return null;

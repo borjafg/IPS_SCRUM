@@ -77,8 +77,6 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 		setPreferredSize(new Dimension(374, 530));
 	}
 
-	public abstract void inicializarDatos();
-
 	// =====================================
 	// Panel centro
 	// =====================================
@@ -169,7 +167,7 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 			tablaOrdenesTrabajo.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					// Enseñar lista de pedidos en la orden de trabajo
+					accionClickTablaOrdenesTrabajo();
 				}
 			});
 		}
@@ -177,6 +175,8 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 		return tablaOrdenesTrabajo;
 	}
 
+	protected abstract void accionClickTablaOrdenesTrabajo();
+	
 	private JLabel getLabelPedidos() {
 		if (labelPedidos == null) {
 			labelPedidos = new JLabel("Pedidos en la orden trabajo");
@@ -277,6 +277,8 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 	// ==============================================
 	// Controlar el estado del panel
 	// ==============================================
+
+	public abstract void inicializarDatos();
 
 	private void reiniciarPanel() {
 		modeloTablaPedidosOrdenTrabajo.removeAll();

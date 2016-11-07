@@ -43,8 +43,12 @@
 	<!-- - - - - Producto en orden de trabajo - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<named-query name="ProductoEnOrdenTrabajo.findByOrdenTrabajo">
-		<query>select p from ProductoEnOrdenTrabajo p where p.ordenTrabajo.id = :id </query>
+	<named-query name="ProductoEnOrdenTrabajo.findPendientesEmpaquetar">
+		<query>select p from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo order by p.productoPedido.pedido.id ASC</query>
+	</named-query>
+
+	<named-query name="ProductoEnOrdenTrabajo.findPendientesEmpaquetarPedido">
+		<query>select p from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo and p.productoPedido.pedido = :pedido order by p.productoPedido.pedido.id ASC</query>
 	</named-query>
 
 

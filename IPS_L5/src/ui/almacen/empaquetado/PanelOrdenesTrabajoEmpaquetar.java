@@ -4,10 +4,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 
+import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import model.OrdenTrabajo;
 import ui.almacen.AbstractPanelRetomarOrdenTrabajo;
+import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 public class PanelOrdenesTrabajoEmpaquetar extends AbstractPanelRetomarOrdenTrabajo {
 
@@ -29,8 +34,17 @@ public class PanelOrdenesTrabajoEmpaquetar extends AbstractPanelRetomarOrdenTrab
 			botonEmpezarRecoger.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						ventanaPrincipal.mostrarPanelRecogidaProductos();
-					} catch (Exception excep) {
+						int fila = getTablaOrdenesTrabajo().getSelectedRow();
+
+						if (fila != -1) {
+							ventanaPrincipal.setOrdenTrabajo(modeloTablaOrdenesTrabajo.getOrdenTrabajo(fila));
+
+							ventanaPrincipal.mostrarPanelEmpaquetadoProductos();
+
+							modeloTablaOrdenesTrabajo.removeAll();
+							modeloTablaPedidosOrdenTrabajo.removeAll();
+						}
+					} catch (BusinessException excep) {
 						ventanaPrincipal.gestionarErrorConexion();
 					}
 				}
@@ -49,4 +63,24 @@ public class PanelOrdenesTrabajoEmpaquetar extends AbstractPanelRetomarOrdenTrab
 
 		// Estas órdenes de trabajo deben estar lista para empaquetar
 	}
+
+	@Override
+	protected void accionClickTablaOrdenesTrabajo() {
+		int fila = getTablaOrdenesTrabajo().getSelectedRow();
+
+		if (fila != -1) {
+			try {
+				OrdenTrabajo ot = modeloTablaOrdenesTrabajo.getOrdenTrabajo(fila);
+
+				List<MyPedido_OT_Retomar> pedidosEmpaquetar = ServiceFactory.getEmpaquetadoService().getPedidosOT(ot);
+
+				modeloTablaPedidosOrdenTrabajo.setPedidosEmpaquetar(pedidosEmpaquetar);
+			}
+
+			catch (BusinessException e) {
+				// TODO: handle exception
+			}
+		}
+	}
+
 }

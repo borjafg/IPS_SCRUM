@@ -27,7 +27,7 @@ import infrastructure.ServiceFactory;
 import model.OrdenTrabajo;
 import model.Pedido;
 import ui.almacen.VentanaPrincipalAlmacenero;
-import ui.almacen.myTypes.model.MyPedido;
+import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaSeleccionPedidos;
 
 public class PanelSeleccionPedido extends JPanel {
@@ -60,9 +60,9 @@ public class PanelSeleccionPedido extends JPanel {
 	}
 
 	public void inicializarDatos() throws BusinessException {
-		List<MyPedido> pedidos = ServiceFactory.getRecogidaService().obtenerListaPedidosSinOrdenTrabajo();
+		List<MyPedido_OT_Retomar> pedidos = ServiceFactory.getRecogidaService().obtenerListaPedidosSinOrdenTrabajo();
 
-		for (MyPedido ped : pedidos) {
+		for (MyPedido_OT_Retomar ped : pedidos) {
 			modeloTablaPedidos.addPedido(ped);
 		}
 	}

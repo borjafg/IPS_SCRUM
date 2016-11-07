@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,7 +25,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
 import model.Paquete;
+import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosEmpaquetar;
 
@@ -42,19 +45,19 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	// ===========================================
 
 	// ==== Panel norte ====
-	
+
 	private JPanel panelNorte;
 
 	private JLabel labelOrdenTrabajo;
 	private JTextField textFieldOrdenTrabajo;
 
 	// ==== Panel centro ====
-	
+
 	private JScrollPane panelCentro;
 	private JTable tablaProductosOrdenTrabajo;
 
 	// ==== Panel Sur ====
-	
+
 	private JPanel panelSur;
 
 	private JPanel panelPaqueteInfo;
@@ -336,7 +339,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			botonAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					reiniciarPanel();
-					
+
 					ventanaPrincipal.volverPanelOpciones();
 				}
 			});
@@ -365,29 +368,43 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	}
 
 	/**
-	 * Carga la lista de productos que hay que empaquetar e indica la orden
-	 * de trabajo de la que se van a empaquetar productos.
+	 * Carga la lista de productos que hay que empaquetar.
 	 * 
 	 * @throws BusinessException
 	 * 
 	 */
 	public void inicializarDatos() throws BusinessException {
-		// this.ordenTrabajoActual = ordenTrabajo;
-		//
-		// List<ProductoEnOrdenTrabajo> listaProductos =
-		// ServiceFactory.getEmpaquetadoService()
-		// .getListaProductosOrdenTrabajo(ordenTrabajoActual.getId());
-		//
-		// for (ProductoEnOrdenTrabajo producto : listaProductos) {
-		// modeloTablaProductos.addProducto(producto);
-		// }
-		//
-		// paqueteActual = new Paquete();
+		Paquete paquete = ServiceFactory.getEmpaquetadoService().cargarPaquete(ventanaPrincipal.getOrdenTrabajo());
+
+		List<ProductoEnOrdenTrabajo> productos;
+
+		// Si no hay ningun paquete abierto asociado a la OT
+		if (paquete == null) {
+			productos = ServiceFactory.getEmpaquetadoService().cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(),
+					null);
+		}
+
+		// Si hay un paquete abierto pero no tiene productos
+		else if (paquete.getPedido() == null) {
+			productos = ServiceFactory.getEmpaquetadoService().cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(),
+					null);
+		}
+
+		// Si hay un paquete abierto que está asociado a un pedido
+		else {
+			productos = ServiceFactory.getEmpaquetadoService().cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(),
+					paquete.getPedido());
+		}
+
+		for (ProductoEnOrdenTrabajo prod : productos) {
+			modeloTablaProductosEmpaquetar.addProducto(prod);
+		}
+
 	}
 
 	private void reiniciarPanel() {
 		modeloTablaProductosEmpaquetar.removeAll();
-		
+
 		getTextFieldOrdenTrabajo().setText("");
 		getTextFieldPedido().setText("");
 		getTextFieldPaquete().setText("");
