@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -201,7 +202,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 			((CardLayout) contentPane.getLayout()).show(contentPane, "panelSelecionPedido");
 
 		} catch (BusinessException e) {
-			gestionarErrorConexion();
+			gestionarErrorConexion(e);
 		}
 	}
 
@@ -252,9 +253,9 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		try {
 			panelRecogidaProductos.comprobarSihuboIncidencias();
 
-			((CardLayout) contentPane.getLayout()).show(contentPane, "panelRegistroIncidencias");
+			((CardLayout) contentPane.getLayout()).show(contentPane, "panelRecogidaProductos");
 		} catch (BusinessException e) {
-			gestionarErrorConexion();
+			gestionarErrorConexion(e);
 		}
 	}
 
@@ -270,11 +271,17 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public void mostrarPanelOrdenesTrabajoEmpaquetar() throws BusinessException {
-		// (1) Inicializar
-		panelOrdenesTrabajoEmpaquetar.inicializarDatos();
+		try {
+			// (1) Inicializar
+			panelOrdenesTrabajoEmpaquetar.inicializarDatos();
 
-		// (2) Mostrar
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelOrdenesTrabajoEmpaquetar");
+			// (2) Mostrar
+			((CardLayout) contentPane.getLayout()).show(contentPane, "panelOrdenesTrabajoEmpaquetar");
+		}
+
+		catch (BusinessException e) {
+			gestionarErrorConexion(e);
+		}
 	}
 
 	/**
@@ -306,11 +313,12 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * de datos, ya que los datos de lo que esté haciendo no podrán ser
 	 * guardados ni validados.
 	 * 
+	 * @param e
+	 *            excepcion que indica la causa del error
+	 * 
 	 */
-	public void gestionarErrorConexion() {
-		panelOpcionesAlmacenero.mostrarErrorConexion();
-
-		volverPanelOpciones();
+	public void gestionarErrorConexion(BusinessException e) {
+		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	// ================================

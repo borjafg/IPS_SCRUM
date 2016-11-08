@@ -11,7 +11,8 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 	private List<ProductoEnOrdenTrabajo> productos;
 
 	public ModeloTablaProductosEmpaquetar() {
-		super(new String[] { "nombre", "unidades" }, new Class[] { String.class, Integer.class });
+		super(new String[] { "cod. pedido", "ref.", "descripcion", "unidades" },
+				new Class[] { Long.class, String.class, String.class, Integer.class });
 
 		productos = new ArrayList<ProductoEnOrdenTrabajo>();
 	}
@@ -25,14 +26,37 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return productos.get(rowIndex).getproductoPedido().getProducto().getNombre();
+			return productos.get(rowIndex).getproductoPedido().getPedido().getId();
 
 		case 1:
+			return productos.get(rowIndex).getRef_OrdenTrabajo();
+
+		case 2:
+			return productos.get(rowIndex).getproductoPedido().getProducto().getDescripcion();
+
+		case 3:
 			return productos.get(rowIndex).getUnidadesProducto();
 
 		default:
 			return null;
 		}
+	}
+
+	public void setProductos(List<ProductoEnOrdenTrabajo> productos) {
+		this.productos = productos;
+
+		// Hay que actualizar la tabla
+		this.fireTableDataChanged();
+	}
+
+	public ProductoEnOrdenTrabajo getProducto(String referencia) {
+		for (int i = 0; i < productos.size(); i++) {
+			if (productos.get(i).getRef_OrdenTrabajo().equals(referencia)) {
+				return productos.get(i);
+			}
+		}
+
+		return null;
 	}
 
 	public void addProducto(ProductoEnOrdenTrabajo producto) {
@@ -42,15 +66,15 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 		this.fireTableDataChanged();
 	}
 
-	public void removeProducto(int fila) {
-		productos.remove(fila);
+	public void removeProducto(String referencia) {
+		for (int i = 0; i < productos.size(); i++) {
+			if (productos.get(i).getRef_OrdenTrabajo().equals(referencia)) {
+				productos.remove(i);
+			}
+		}
 
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();
-	}
-
-	public ProductoEnOrdenTrabajo getProducto(int fila) {
-		return productos.get(fila);
 	}
 
 	@Override
@@ -60,4 +84,5 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();
 	}
+
 }

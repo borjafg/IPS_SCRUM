@@ -45,8 +45,8 @@ public class ProductoEnPaquete implements Serializable {
 
 	}
 
-	public ProductoEnPaquete(ProductoEnOrdenTrabajo productoPedido, Paquete paquete) {
-		Asociacion.Empaquetar.link(paquete, productoPedido, this);
+	public ProductoEnPaquete(ProductoEnOrdenTrabajo productoOT, Paquete paquete) {
+		Asociacion.Empaquetar.link(paquete, productoOT, this);
 	}
 
 	// ======================================

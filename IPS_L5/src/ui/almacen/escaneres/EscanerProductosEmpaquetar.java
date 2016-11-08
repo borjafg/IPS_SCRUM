@@ -1,35 +1,41 @@
 package ui.almacen.escaneres;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import model.Cliente;
 import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
+import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 import ui.almacen.myTypes.escaner.MyProductoEmpaquetar;
-
-import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JTextArea;
-import javax.swing.JList;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.ListSelectionModel;
-import java.awt.Component;
 
 public class EscanerProductosEmpaquetar extends JDialog {
 
 	private static final long serialVersionUID = 5772176575409409970L;
 
+	private PanelEmpaquetadoProductos panelEmpaquetadoProductos;
 	private DefaultListModel<MyProductoEmpaquetar> modeloProductosEmpaquetar;
 
 	// ======================================
@@ -63,6 +69,11 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	 * 
 	 */
 	public EscanerProductosEmpaquetar() {
+		super();
+
+		setPreferredSize(new Dimension(450, 500));
+		setSize(new Dimension(450, 500));
+
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(getLabelProductos(), BorderLayout.NORTH);
 
@@ -151,6 +162,17 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	private JButton getBotonSimularLecturaProducto() {
 		if (botonSimularLecturaProducto == null) {
 			botonSimularLecturaProducto = new JButton("Simular lectura de referencia de producto");
+
+			botonSimularLecturaProducto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int fila = listaProductos.getSelectedIndex();
+
+					if (fila != -1) {
+						panelEmpaquetadoProductos.empaquetar(
+								modeloProductosEmpaquetar.getElementAt(fila).getProductoOT().getRef_OrdenTrabajo());
+					}
+				}
+			});
 
 			botonSimularLecturaProducto.setHorizontalTextPosition(SwingConstants.CENTER);
 			botonSimularLecturaProducto.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -250,5 +272,24 @@ public class EscanerProductosEmpaquetar extends JDialog {
 		sb.append("Codigo paquete: ").append(paquete.getId());
 
 		return sb.toString();
+	}
+
+	public void removeProducto(String ref) {
+		for (int i = 0; i < modeloProductosEmpaquetar.size(); i++) {
+			if (modeloProductosEmpaquetar.getElementAt(i).getProductoOT().getRef_OrdenTrabajo().equals(ref)) {
+				modeloProductosEmpaquetar.remove(i);
+				return;
+			}
+		}
+	}
+
+	public void llenarLista(List<ProductoEnOrdenTrabajo> lista) {
+		for (ProductoEnOrdenTrabajo prod : lista) {
+			modeloProductosEmpaquetar.addElement(new MyProductoEmpaquetar(prod));
+		}
+	}
+
+	public void setPanelEmpaquetadoProductos(PanelEmpaquetadoProductos panelEmpaquetadoProductos) {
+		this.panelEmpaquetadoProductos = panelEmpaquetadoProductos;
 	}
 }

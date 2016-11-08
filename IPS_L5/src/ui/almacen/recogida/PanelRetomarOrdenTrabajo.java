@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import ui.almacen.AbstractPanelRetomarOrdenTrabajo;
+import business.exception.BusinessException;
 import ui.almacen.VentanaPrincipalAlmacenero;
 
 public class PanelRetomarOrdenTrabajo extends AbstractPanelRetomarOrdenTrabajo {
@@ -38,8 +38,8 @@ public class PanelRetomarOrdenTrabajo extends AbstractPanelRetomarOrdenTrabajo {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						ventanaPrincipal.mostrarPanelRecogidaProductos();
-					} catch (Exception excep) {
-						ventanaPrincipal.gestionarErrorConexion();
+					} catch (BusinessException excep) {
+						ventanaPrincipal.gestionarErrorConexion(excep);
 					}
 				}
 			});

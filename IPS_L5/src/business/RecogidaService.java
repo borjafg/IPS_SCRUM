@@ -28,6 +28,8 @@ public interface RecogidaService {
 
 	public void recogerUnidadesProducto(ProductoEnOrdenTrabajo prod, int unidadesRecoger) throws BusinessException;
 
+	public void marcarOT_empaquetado(OrdenTrabajo ordenTrabajo) throws BusinessException;
+
 	// -------------------------------
 	// Gestión de incidencias
 	// -------------------------------

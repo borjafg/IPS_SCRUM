@@ -1,4 +1,4 @@
-package ui.almacen;
+package ui.almacen.recogida;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,6 +20,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import business.exception.BusinessException;
+import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaOrdenesTrabajo;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPedidosOrdenTrabajo;
 
@@ -278,7 +280,7 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 	// Controlar el estado del panel
 	// ==============================================
 
-	public abstract void inicializarDatos();
+	public abstract void inicializarDatos() throws BusinessException;
 
 	private void reiniciarPanel() {
 		modeloTablaPedidosOrdenTrabajo.removeAll();

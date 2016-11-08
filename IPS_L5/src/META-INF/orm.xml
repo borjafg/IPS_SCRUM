@@ -21,6 +21,14 @@
 		<query>select p from Pedido p where p != :pedido and p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT order by p.fecha ASC</query>
 	</named-query>
 
+	<named-query name="Pedido.findPosibleEmpaquetar">
+		<query>select distinct p.productoPedido.pedido from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo and p.unidadesProducto > p.unidadesEmpaquetadas</query>
+	</named-query>
+	
+	<named-query name="Pedido.findNumProductosPosibleEmpaquetar">
+		<query>select sum(p.unidadesProducto - p.unidadesEmpaquetadas) from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo and p.productoPedido.pedido = :pedido and p.unidadesProducto > p.unidadesEmpaquetadas</query>
+	</named-query>
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Producto - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -36,6 +44,23 @@
 
 	<named-query name="Almacenero.findByLogin">
 		<query>select a from Almacenero a where login = :login</query>
+	</named-query>
+
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - Orden de trabajo - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<named-query name="OrdenTrabajo.findOrdenesTrabajoEmpaquetarAlmacenero">
+		<query>select o from OrdenTrabajo o where o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almacenero order by o.id</query>
+	</named-query>
+
+	<named-query name="OrdenTrabajo.findNumPedidosFaltaEmpaquetar">
+		<query>select count(distinct p.productoPedido.pedido) from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo</query>
+	</named-query>
+
+	<named-query name="OrdenTrabajo.findNumProductosFaltaEmpaquetar">
+		<query>select sum(p.unidadesProducto - p.unidadesEmpaquetadas) from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo</query>
 	</named-query>
 
 

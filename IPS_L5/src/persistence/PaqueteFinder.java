@@ -3,6 +3,8 @@ package persistence;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
+import infrastructure.MyLogger;
+import model.OrdenTrabajo;
 import model.Paquete;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
@@ -19,7 +21,7 @@ public class PaqueteFinder {
 	 * 
 	 * @return copia del paquete (sincronizado con la base de datos), o el mismo
 	 *         objeto si ya estaba sincronizado
-	 *         
+	 * 
 	 * @throws MyPersistenceException
 	 * 
 	 */
@@ -46,5 +48,24 @@ public class PaqueteFinder {
 			throw new MyPersistenceException(sb.toString());
 		}
 	}
-	
+
+	public static int findUltimoNumCaja(OrdenTrabajo ordenTrabajo) throws MyPersistenceException {
+		try {
+			Integer numCaja = Jpa.getManager().createNamedQuery("Paquete.findUltimoNumCaja", Integer.class)
+					.setParameter("ordenTrabajo", ordenTrabajo).getSingleResult();
+			
+			MyLogger.log("Obtenido numero de caja " + numCaja);
+			
+			return numCaja;
+		}
+
+		catch(NoResultException e) {
+			return 0; // No se habia creado ningún paquete
+		}
+		
+		catch (PersistenceException e) {
+			throw new MyPersistenceException("Ha ocurrido un problema al generar un numero de caja");
+		}
+	}
+
 }

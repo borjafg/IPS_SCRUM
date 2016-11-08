@@ -56,7 +56,7 @@ public class PanelSeleccionPedido extends JPanel {
 		add(getScrollPanePedidos(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 450));
 	}
 
 	public void inicializarDatos() throws BusinessException {
@@ -81,6 +81,7 @@ public class PanelSeleccionPedido extends JPanel {
 	private JScrollPane getScrollPanePedidos() {
 		if (scrollPanePedidos == null) {
 			scrollPanePedidos = new JScrollPane(getTablaPedidosPendientes());
+
 			scrollPanePedidos.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 			scrollPanePedidos.setBorder(new EmptyBorder(0, 2, 0, 2));
 
@@ -110,12 +111,12 @@ public class PanelSeleccionPedido extends JPanel {
 										ventanaPrincipal.getAlmacenero());
 
 								reiniciarPanel();
-								
+
 								ventanaPrincipal.setOrdenTrabajo(ot);
 								ventanaPrincipal.mostrarPanelRecogidaProductos();
 							} catch (BusinessException excep) {
 								reiniciarPanel();
-								ventanaPrincipal.gestionarErrorConexion();
+								ventanaPrincipal.gestionarErrorConexion(excep);
 							}
 						}
 					}
@@ -196,6 +197,7 @@ public class PanelSeleccionPedido extends JPanel {
 	private JPanel getPanelNorte() {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
+
 			panelNorte.setBorder(new EmptyBorder(1, 0, 5, 0));
 			panelNorte.add(getLabelPedidos());
 		}

@@ -53,7 +53,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	public PanelRegistroIncidencias() {
 		super();
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 450));
 		setLayout(new BorderLayout(0, 0));
 
 		add(getPanelNorte(), BorderLayout.NORTH);
@@ -185,7 +185,7 @@ public class PanelRegistroIncidencias extends JPanel {
 						ServiceFactory.getRecogidaService().registrarIncidencia(ventanaPrincipal.getOrdenTrabajo(),
 								textAreaIncidencia.getText());
 					} catch (BusinessException e) {
-						ventanaPrincipal.gestionarErrorConexion();
+						ventanaPrincipal.gestionarErrorConexion(e);
 					}
 				}
 			});

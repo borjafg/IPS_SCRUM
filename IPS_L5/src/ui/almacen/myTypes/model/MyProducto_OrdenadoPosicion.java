@@ -95,15 +95,26 @@ public class MyProducto_OrdenadoPosicion implements Comparable<MyProducto_Ordena
 
 		StringBuilder sb = new StringBuilder();
 
+		sb.append("<html>");
 		sb.append("Pasillo: ").append(pos.getPasillo());
-
+		sb.append("</br>");
 		sb.append("Estant: ").append(pos.getEstanteriaPoducto().name().toLowerCase());
-
+		sb.append("</br>");
 		sb.append("Pos: ").append(pos.getPosicionX());
-
+		sb.append("</br>");
 		sb.append("Alt: ").append(pos.getAltura());
+		sb.append("</html>");
 
 		return sb.toString();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Ref: ").append(producto.getRef_OrdenTrabajo()).append(",  ");
+		sb.append("Cod. prod: ").append(producto.getproductoPedido().getProducto().getId());
+
+		return sb.toString();
+	}
 }

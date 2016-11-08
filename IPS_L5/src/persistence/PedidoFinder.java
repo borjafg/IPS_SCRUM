@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import business.exception.BusinessException;
+import model.OrdenTrabajo;
 import model.Pedido;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
@@ -54,6 +55,10 @@ public class PedidoFinder {
 		return Jpa.getManager().createNamedQuery("Pedido.findAll", Pedido.class).getResultList();
 	}
 
+	// ===============================================
+	// Recogida de productos
+	// ===============================================
+
 	public static List<Pedido> findPosibleRecoger() {
 		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger", Pedido.class).getResultList();
 	}
@@ -62,4 +67,42 @@ public class PedidoFinder {
 		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
 				.setParameter("pedido", p).getResultList();
 	}
+
+	// ===============================================
+	// Empaquetado de productos
+	// ===============================================
+
+	public static List<Pedido> findPosibleEmpaquetarOT(OrdenTrabajo ordenTrabajo) throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Pedido.findPosibleEmpaquetar", Pedido.class)
+					.setParameter("ordenTrabajo", ordenTrabajo).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema pedidos disponibles para la orden de trabajo = ");
+			sb.append(ordenTrabajo.getId());
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static long findNumProductosPosibleEmpaquetar(OrdenTrabajo ordenTrabajo, Pedido pedido)
+			throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Pedido.findNumProductosPosibleEmpaquetar", Long.class)
+					.setParameter("ordenTrabajo", ordenTrabajo).setParameter("pedido", pedido).getSingleResult();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema pedidos disponibles para la orden de trabajo = ");
+			sb.append(ordenTrabajo.getId());
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
 }

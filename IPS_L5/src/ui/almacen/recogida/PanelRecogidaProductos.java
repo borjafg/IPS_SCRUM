@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,26 +17,32 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
+import ui.almacen.escaneres.EscanerProductosRecoger;
 import ui.almacen.myTypes.model.MyProducto_OrdenadoPosicion;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosRecoger;
-import javax.swing.SpinnerNumberModel;
 
 public class PanelRecogidaProductos extends JPanel {
 
 	private static final long serialVersionUID = -2481078673400949799L;
 
 	private VentanaPrincipalAlmacenero ventanaPrincipal;
+	private EscanerProductosRecoger escaner;
 
 	// ===========================================
 	// Componentes de este panel
@@ -51,7 +56,7 @@ public class PanelRecogidaProductos extends JPanel {
 
 	// ==== Panel centro ====
 
-	private JPanel panelCentro;
+	private JScrollPane scrollPaneCentro;
 	private JTable tablaProductos;
 	private ModeloTablaProductosRecoger modeloTablaProductos;
 
@@ -74,46 +79,12 @@ public class PanelRecogidaProductos extends JPanel {
 	public PanelRecogidaProductos() {
 		super();
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 450));
 		setLayout(new BorderLayout(0, 0));
 
 		add(getPanelNorte(), BorderLayout.NORTH);
-		add(getPanelCentro(), BorderLayout.CENTER);
+		add(getScrollPaneCentro(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
-	}
-
-	/**
-	 * Carga la lista de productos de la orden de trabajo correspondiente y los
-	 * ordena según su posición en el almacen
-	 * 
-	 * @throws BusinessException
-	 * 
-	 */
-	public void inicializarDatos() throws BusinessException {
-		// ----------------------------------
-		// (1) --> Sacar productos en la OT
-		// ----------------------------------
-
-		Set<ProductoEnOrdenTrabajo> productos = ServiceFactory.getRecogidaService()
-				.obtenerProductosOT(ventanaPrincipal.getOrdenTrabajo());
-
-		// ----------------------------------
-		// (2) --> Ordenar por posicion
-		// ----------------------------------
-
-		List<MyProducto_OrdenadoPosicion> prods = new ArrayList<MyProducto_OrdenadoPosicion>();
-
-		for (ProductoEnOrdenTrabajo prod : productos) {
-			prods.add(new MyProducto_OrdenadoPosicion(prod));
-		}
-
-		Collections.sort(prods);
-
-		// ----------------------------------
-		// (3) --> Añadir al modelo de la tabla
-		// ----------------------------------
-
-		modeloTablaProductos.setProductos(prods);
 	}
 
 	// =====================================
@@ -152,7 +123,7 @@ public class PanelRecogidaProductos extends JPanel {
 			textFieldCodOrdenTrabajo.setEditable(false);
 			textFieldCodOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			textFieldCodOrdenTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
-			textFieldCodOrdenTrabajo.setColumns(15);
+			textFieldCodOrdenTrabajo.setColumns(10);
 		}
 
 		return textFieldCodOrdenTrabajo;
@@ -162,21 +133,23 @@ public class PanelRecogidaProductos extends JPanel {
 	// Panel centro
 	// =====================================
 
-	private JPanel getPanelCentro() {
-		if (panelCentro == null) {
-			panelCentro = new JPanel();
+	private JScrollPane getScrollPaneCentro() {
+		if (scrollPaneCentro == null) {
+			scrollPaneCentro = new JScrollPane(getTablaProductos());
+			scrollPaneCentro.setBorder(new EmptyBorder(0, 3, 0, 3));
 
-			panelCentro.setLayout(new GridLayout(0, 1, 0, 0));
-			panelCentro.add(getTablaProductos());
+			scrollPaneCentro.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPaneCentro.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		}
 
-		return panelCentro;
+		return scrollPaneCentro;
 	}
 
 	private JTable getTablaProductos() {
 		if (tablaProductos == null) {
 			modeloTablaProductos = new ModeloTablaProductosRecoger();
 			tablaProductos = new JTable(modeloTablaProductos);
+
 			tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		}
 
@@ -293,9 +266,6 @@ public class PanelRecogidaProductos extends JPanel {
 			botonIncidencias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					ventanaPrincipal.mostrarPanelIncidencias();
-
-					// Si hubo incidencias
-					indicarQueHuboIncidencias();
 				}
 			});
 
@@ -309,17 +279,62 @@ public class PanelRecogidaProductos extends JPanel {
 	// Recogida de productos
 	// ========================================
 
-	public void recoger(int fila) throws BusinessException {
-		ProductoEnOrdenTrabajo prod = modeloTablaProductos.getProducto(fila);
-		
-		int unidadesRecoger = (int) spinnerUnidades.getModel().getValue();
-		int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesRecogidas();
-		
-		if( unidadesRecoger > unidadesFaltan ) {
-			// Mostrar mensaje. No se pueden recoger más unidades de las que requiere el producto
+	public void recoger(long id) {
+		ProductoEnOrdenTrabajo prod = modeloTablaProductos.getProducto(id);
+
+		if (prod == null) {
+			JOptionPane.showMessageDialog(ventanaPrincipal, "Ese producto no esta en la OT", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
 		}
-		
-		ServiceFactory.getRecogidaService().recogerUnidadesProducto(prod, unidadesRecoger);
+
+		else {
+			int unidadesRecoger = (int) spinnerUnidades.getModel().getValue();
+			int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesRecogidas();
+
+			if (unidadesRecoger > unidadesFaltan) {
+				JOptionPane.showMessageDialog(ventanaPrincipal,
+						"No se pueden recoger más unidades de las que requiere la OT", "Aviso",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+			else {
+
+				try {
+					ServiceFactory.getRecogidaService().recogerUnidadesProducto(prod, unidadesRecoger);
+					spinnerUnidades.setValue(1);
+
+					if (unidadesFaltan - unidadesRecoger == 0) {
+						modeloTablaProductos.removeProducto(id);
+						escaner.removeProducto(id);
+
+						if (modeloTablaProductos.getRowCount() == 0) {
+							int resul = JOptionPane.showConfirmDialog(ventanaPrincipal, "¿Marcar OT para empaquetado?",
+									"Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+							if (resul == JOptionPane.YES_OPTION) {
+								try {
+									ServiceFactory.getRecogidaService()
+											.marcarOT_empaquetado(ventanaPrincipal.getOrdenTrabajo());
+								}
+
+								catch (BusinessException e) {
+									ventanaPrincipal.gestionarErrorConexion(e);
+								}
+							}
+						}
+					}
+
+					else {
+						prod.recoger(unidadesRecoger);
+						modeloTablaProductos.fireTableDataChanged();
+					}
+				}
+
+				catch (BusinessException e) {
+					JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		} // Fin primer else
 	}
 
 	// =======================================
@@ -334,6 +349,11 @@ public class PanelRecogidaProductos extends JPanel {
 		getLabelIncidencias().setText("");
 		getTextFieldCodOrdenTrabajo().setText("");
 
+		escaner.dispose();
+		escaner = null;
+
+		spinnerUnidades.setValue(1);
+
 		modeloTablaProductos.removeAll();
 	}
 
@@ -346,4 +366,52 @@ public class PanelRecogidaProductos extends JPanel {
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
+
+	/**
+	 * Carga la lista de productos de la orden de trabajo correspondiente y los
+	 * ordena según su posición en el almacen
+	 * 
+	 * @throws BusinessException
+	 * 
+	 */
+	public void inicializarDatos() throws BusinessException {
+		// ----------------------------------
+		// (1) --> Sacar productos en la OT
+		// ----------------------------------
+
+		Set<ProductoEnOrdenTrabajo> productos = ServiceFactory.getRecogidaService()
+				.obtenerProductosOT(ventanaPrincipal.getOrdenTrabajo());
+
+		// ----------------------------------
+		// (2) --> Ordenar por posicion
+		// ----------------------------------
+
+		List<MyProducto_OrdenadoPosicion> prods = new ArrayList<MyProducto_OrdenadoPosicion>();
+
+		for (ProductoEnOrdenTrabajo prod : productos) {
+			prods.add(new MyProducto_OrdenadoPosicion(prod));
+		}
+
+		Collections.sort(prods);
+
+		// ----------------------------------
+		// (3) --> Añadir al modelo de la tabla
+		// ----------------------------------
+
+		modeloTablaProductos.setProductos(prods);
+
+		cargarEscaner(prods);
+	}
+
+	private void cargarEscaner(List<MyProducto_OrdenadoPosicion> lista) {
+		escaner = new EscanerProductosRecoger();
+
+		escaner.setLocationRelativeTo(this);
+		escaner.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+		escaner.setPanelRecogidaProductos(this);
+		escaner.llenarLista(lista);
+		escaner.setVisible(true);
+	}
+
 }

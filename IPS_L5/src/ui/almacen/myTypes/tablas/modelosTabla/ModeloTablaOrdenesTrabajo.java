@@ -38,10 +38,10 @@ public class ModeloTablaOrdenesTrabajo extends AbstractModeloTablaNoEditable {
 			return sdf.format(otr.getOrdenTrabajo().getFecha());
 
 		case 2:
-			return otr.getNumPedidosFaltanRecoger();
+			return otr.getNumPedidosFaltan();
 
 		case 3:
-			return otr.getNumProductosFaltanRecoger();
+			return otr.getNumProductosFaltan();
 
 		default:
 			return null;
@@ -50,8 +50,11 @@ public class ModeloTablaOrdenesTrabajo extends AbstractModeloTablaNoEditable {
 
 	public void addOrdenTrabajoEmpaquetar(MyOrdenTrabajo_Retomar ordenTrabajo) {
 		ordenesTrabajo.add(ordenTrabajo);
+
+		// Hay que actualizar la tabla
+		this.fireTableDataChanged();
 	}
-	
+
 	public OrdenTrabajo getOrdenTrabajo(int fila) {
 		return ordenesTrabajo.get(fila).getOrdenTrabajo();
 	}

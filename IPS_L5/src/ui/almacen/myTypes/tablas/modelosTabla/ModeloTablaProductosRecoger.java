@@ -48,11 +48,11 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 
 	public void setProductos(List<MyProducto_OrdenadoPosicion> productos) {
 		this.productos = productos;
-		
+
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();
 	}
-	
+
 	public void addProducto(MyProducto_OrdenadoPosicion producto) {
 		productos.add(producto);
 
@@ -60,15 +60,34 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 		this.fireTableDataChanged();
 	}
 
-	public void removeProducto(int fila) {
-		productos.remove(fila);
+	/**
+	 * Borra un ProductoEnOrdenTrabajo si el id del Producto asociado a él es
+	 * igual al que se le pasa como parámetro.
+	 * 
+	 * @param id
+	 *            id del producto
+	 * 
+	 */
+	public void removeProducto(long id) {
+		for (int i = 0; i < productos.size(); i++) {
+			if (productos.get(i).getProducto().getproductoPedido().getProducto().getId() == id) {
+				productos.remove(i);
+			}
+		}
 
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();
 	}
 
-	public ProductoEnOrdenTrabajo getProducto(int fila) {
-		return productos.get(fila).getProducto();
+	public ProductoEnOrdenTrabajo getProducto(long id) {
+
+		for (MyProducto_OrdenadoPosicion producto : productos) {
+			if (producto.getProducto().getproductoPedido().getProducto().getId() == id) {
+				return producto.getProducto();
+			}
+		}
+
+		return null; // no hay ninguno con ese id
 	}
 
 	@Override

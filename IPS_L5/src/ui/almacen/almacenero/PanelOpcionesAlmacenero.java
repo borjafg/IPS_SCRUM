@@ -32,7 +32,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	public PanelOpcionesAlmacenero() {
 		super();
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 450));
 		colocarLayout();
 
 		// -------------------------------------

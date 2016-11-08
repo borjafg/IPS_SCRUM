@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
@@ -29,6 +31,7 @@ import infrastructure.ServiceFactory;
 import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
+import ui.almacen.escaneres.EscanerProductosEmpaquetar;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosEmpaquetar;
 
 public class PanelEmpaquetadoProductos extends JPanel {
@@ -37,6 +40,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	private VentanaPrincipalAlmacenero ventanaPrincipal;
 
+	private EscanerProductosEmpaquetar escaner;
 	private ModeloTablaProductosEmpaquetar modeloTablaProductosEmpaquetar;
 	private Paquete paqueteActual;
 
@@ -76,7 +80,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	public PanelEmpaquetadoProductos() throws BusinessException {
 		super();
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 450));
 
 		setLayout(new BorderLayout(0, 0));
 		add(getPanelNorte(), BorderLayout.NORTH);
@@ -129,7 +133,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			labelOrdenTrabajo = new JLabel("Cod. Orden de Trabajo:");
 
 			labelOrdenTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
-			labelOrdenTrabajo.setFont(new Font("Tahoma", Font.BOLD, 16));
+			labelOrdenTrabajo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
 
 		return labelOrdenTrabajo;
@@ -138,6 +142,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldOrdenTrabajo() {
 		if (textFieldOrdenTrabajo == null) {
 			textFieldOrdenTrabajo = new JTextField();
+			textFieldOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 			textFieldOrdenTrabajo.setEditable(false);
 			textFieldOrdenTrabajo.setColumns(10);
@@ -153,6 +158,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JScrollPane getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JScrollPane(getTablaProductosOrdenTrabajo());
+
 			panelCentro.setBorder(new EmptyBorder(0, 2, 0, 2));
 			panelCentro.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			panelCentro.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -264,6 +270,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldPedido() {
 		if (textFieldPedido == null) {
 			textFieldPedido = new JTextField();
+			textFieldPedido.setEditable(false);
 
 			textFieldPedido.setHorizontalAlignment(SwingConstants.LEFT);
 			textFieldPedido.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -289,6 +296,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldPaquete() {
 		if (textFieldPaquete == null) {
 			textFieldPaquete = new JTextField();
+			textFieldPaquete.setEditable(false);
 
 			textFieldPaquete.setHorizontalAlignment(SwingConstants.LEFT);
 			textFieldPaquete.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -311,7 +319,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 			fl_panelOpciones.setAlignment(FlowLayout.RIGHT);
 			fl_panelOpciones.setVgap(8);
-			fl_panelOpciones.setHgap(13);
+			fl_panelOpciones.setHgap(10);
 
 			panelOpciones.add(getSpinnerUnidades());
 			panelOpciones.add(getBotonAtras());
@@ -325,7 +333,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		if (spinnerUnidades == null) {
 			spinnerUnidades = new JSpinner();
 
-			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			spinnerUnidades.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 		}
 
@@ -344,7 +352,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		}
 
 		return botonAtras;
@@ -353,7 +361,87 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JButton getBotonAbrirCerrarPaquete() {
 		if (botonAbrirCerrarPaquete == null) {
 			botonAbrirCerrarPaquete = new JButton("Abrir paquete");
-			botonAbrirCerrarPaquete.setFont(new Font("Tahoma", Font.PLAIN, 17));
+
+			botonAbrirCerrarPaquete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+
+					// No hay ningún paquete abierto
+					if (paqueteActual == null) {
+						try {
+							paqueteActual = ServiceFactory.getEmpaquetadoService()
+									.abrirPaquete(ventanaPrincipal.getOrdenTrabajo());
+
+							botonAbrirCerrarPaquete.setText("Cerrar paquete");
+							labelPaquete.setText(paqueteActual.getNumCaja() + "");
+						}
+
+						catch (BusinessException e) {
+							ventanaPrincipal.gestionarErrorConexion(e);
+						}
+					}
+
+					// Hay un paquete abierto
+					else {
+
+						try {
+							if (ServiceFactory.getEmpaquetadoService().sePuedeCerrarPaquete(paqueteActual)) {
+								ServiceFactory.getEmpaquetadoService().cerrarPaquete(paqueteActual);
+								botonAbrirCerrarPaquete.setText("Abrir paquete");
+								
+								labelPaquete.setText("");
+							}
+
+							else {
+								JOptionPane.showMessageDialog(ventanaPrincipal, "No se puede cerrar un paquete vacío",
+										"Aviso", JOptionPane.WARNING_MESSAGE);
+							}
+						}
+
+						catch (BusinessException e) {
+							ventanaPrincipal.gestionarErrorConexion(e);
+							return;
+						}
+
+						// Si al cerrar el paquete se habia recogido todo
+						if (modeloTablaProductosEmpaquetar.getRowCount() == 0) {
+							try {
+								List<ProductoEnOrdenTrabajo> productos = ServiceFactory.getEmpaquetadoService()
+										.cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(), null);
+
+								// Si la orden de trabajo está terminada
+								if (productos.isEmpty()) {
+									JOptionPane.showMessageDialog(ventanaPrincipal, "Se ha terminado empaquetar la OT",
+											"Info", JOptionPane.INFORMATION_MESSAGE);
+
+									reiniciarPanel();
+									ventanaPrincipal.volverPanelOpciones();
+								}
+
+								// Si todavía hay que empaquetar más productos
+								else {
+									modeloTablaProductosEmpaquetar.setProductos(productos);
+									escaner.llenarLista(productos);
+									
+									botonAtras.setEnabled(true);
+									botonAbrirCerrarPaquete.setEnabled(true);
+									
+									textFieldPedido.setText("");
+									
+									textFieldPaquete.setText("");
+								}
+
+							}
+
+							catch (BusinessException e) {
+								ventanaPrincipal.gestionarErrorConexion(e);
+							}
+						}
+
+					} // primer else
+				}
+			});
+
+			botonAbrirCerrarPaquete.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		}
 
 		return botonAbrirCerrarPaquete;
@@ -365,6 +453,87 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
+	}
+
+	private void reiniciarPanel() {
+		modeloTablaProductosEmpaquetar.removeAll();
+		paqueteActual = null;
+
+		escaner.dispose();
+		escaner = null;
+
+		botonAtras.setEnabled(true);
+		spinnerUnidades.setEnabled(true);
+
+		botonAbrirCerrarPaquete.setText("");
+
+		getTextFieldOrdenTrabajo().setText("");
+		getTextFieldPedido().setText("");
+		getTextFieldPaquete().setText("");
+	}
+
+	public void empaquetar(String ref) {
+		ProductoEnOrdenTrabajo prod = modeloTablaProductosEmpaquetar.getProducto(ref);
+
+		if (prod == null) {
+			JOptionPane.showMessageDialog(ventanaPrincipal, "Ese producto no está en la OT", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
+		}
+
+		else if (paqueteActual == null) {
+			JOptionPane.showMessageDialog(ventanaPrincipal, "No hay ningún paquete abierto", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
+		}
+
+		else {
+			int unidadesEmpaquetar = (int) spinnerUnidades.getModel().getValue();
+			int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesEmpaquetadas();
+
+			if (unidadesEmpaquetar > unidadesFaltan) {
+				JOptionPane.showMessageDialog(ventanaPrincipal,
+						"No se pueden empaquetar más unidades de las que requiere la OT", "Aviso",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+			else {
+
+				try {
+					ServiceFactory.getEmpaquetadoService().asignarProductoPaquete(prod, paqueteActual,
+							unidadesEmpaquetar);
+
+					spinnerUnidades.setValue(1);
+
+					if (unidadesFaltan - unidadesEmpaquetar == 0) {
+						modeloTablaProductosEmpaquetar.removeProducto(ref);
+						escaner.removeProducto(ref);
+
+						comprobarSiQuedanMasProductos();
+					}
+
+					else {
+						prod.recoger(unidadesEmpaquetar);
+					}
+				}
+
+				catch (BusinessException e) {
+					ventanaPrincipal.gestionarErrorConexion(e);
+				}
+			}
+		} // Fin primer else
+	}
+
+	/**
+	 * Cuando se termina de empaquetar todos los productos de la tabla, el
+	 * almacenero no podrá hacer nada hasta que no cierre el paquete actual.
+	 * 
+	 */
+	private void comprobarSiQuedanMasProductos() {
+		if (modeloTablaProductosEmpaquetar.getRowCount() == 0) {
+			botonAtras.setEnabled(false);
+			spinnerUnidades.setEnabled(false);
+
+			textFieldPedido.setText("");
+		}
 	}
 
 	/**
@@ -396,17 +565,45 @@ public class PanelEmpaquetadoProductos extends JPanel {
 					paquete.getPedido());
 		}
 
-		for (ProductoEnOrdenTrabajo prod : productos) {
-			modeloTablaProductosEmpaquetar.addProducto(prod);
+		this.paqueteActual = paquete;
+		modeloTablaProductosEmpaquetar.setProductos(productos);
+
+		cargarEscaner(productos);
+
+		// ----------------------------------------------
+		// -> Cambiar texto boton Abrir / Cerrar paquete
+		//
+		// -> Id de pedido
+		// -> Num de caja
+		// -> Id de OT
+		// ----------------------------------------------
+
+		textFieldOrdenTrabajo.setText(ventanaPrincipal.getOrdenTrabajo().getId() + "");
+
+		if (paqueteActual == null) {
+			botonAbrirCerrarPaquete.setText("Abrir paquete");
 		}
 
+		else {
+			botonAbrirCerrarPaquete.setText("Cerrar paquete");
+
+			textFieldPaquete.setText(paquete.getNumCaja() + "");
+
+			if (paquete.getPedido() != null) {
+				textFieldPedido.setText(paquete.getId() + "");
+			}
+		}
 	}
 
-	private void reiniciarPanel() {
-		modeloTablaProductosEmpaquetar.removeAll();
+	private void cargarEscaner(List<ProductoEnOrdenTrabajo> lista) {
+		escaner = new EscanerProductosEmpaquetar();
 
-		getTextFieldOrdenTrabajo().setText("");
-		getTextFieldPedido().setText("");
-		getTextFieldPaquete().setText("");
+		escaner.setLocationRelativeTo(ventanaPrincipal);
+		escaner.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+		escaner.setPanelEmpaquetadoProductos(this);
+		escaner.llenarLista(lista);
+		escaner.setVisible(true);
 	}
+
 }
