@@ -7,6 +7,7 @@ import business.RecogidaService;
 import business.exception.BusinessException;
 import business.impl.recogida.GenerarOrdenTrabajo;
 import business.impl.recogida.HuboIncidencias;
+import business.impl.recogida.MarcarOT_empaquetado;
 import business.impl.recogida.ObtenerListaPedidosSinOrdenTrabajo;
 import business.impl.recogida.ObtenerProductosOT;
 import business.impl.recogida.RecogerUnidadesProducto;
@@ -49,6 +50,11 @@ public class AlmacenServiceImpl implements RecogidaService {
 	@Override
 	public void recogerUnidadesProducto(ProductoEnOrdenTrabajo prod, int unidadesRecoger) throws BusinessException {
 		executor.execute(new RecogerUnidadesProducto(prod, unidadesRecoger));
+	}
+	
+	@Override
+	public void marcarOT_empaquetado(OrdenTrabajo ordenTrabajo) throws BusinessException {
+		executor.execute(new MarcarOT_empaquetado(ordenTrabajo));
 	}
 
 	// -------------------------------

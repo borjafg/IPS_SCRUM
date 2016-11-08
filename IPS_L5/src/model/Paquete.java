@@ -31,15 +31,15 @@ public class Paquete implements Serializable {
 	@SequenceGenerator(name = "PAQUETES_SEQ", sequenceName = "PAQUETES_SEQ", allocationSize = 1, initialValue = 1)
 	private long id;
 
-	private String destinatario;
+	private String destinatario = "";
 
 	private int numCaja;
 
 	@Enumerated(EnumType.STRING)
-	private EstadoPaquete estado;
+	private EstadoPaquete estado = EstadoPaquete.ABIERTO;
 
 	@Column(name = "direccion")
-	private String direccionCompleta;
+	private String direccionCompleta = "";
 
 	@OneToMany(mappedBy = "paquete")
 	private Set<ProductoEnPaquete> productosPaquete = new HashSet<ProductoEnPaquete>();
@@ -60,8 +60,8 @@ public class Paquete implements Serializable {
 
 	}
 
-	public Paquete(OrdenTrabajo ordenTrabajo, Pedido pedido) {
-		Asociacion.NuevoPaquete_Pedido_OrdenTrabajo.link(this, pedido, ordenTrabajo);
+	public Paquete(OrdenTrabajo ordenTrabajo) {
+		Asociacion.NuevoPaquete_OrdenTrabajo.link(this, ordenTrabajo);
 	}
 
 	// ==============================================
@@ -152,7 +152,7 @@ public class Paquete implements Serializable {
 		return pedido;
 	}
 
-	void _setPedido(Pedido pedido) {
+	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
 

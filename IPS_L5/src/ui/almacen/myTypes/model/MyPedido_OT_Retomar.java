@@ -2,7 +2,7 @@ package ui.almacen.myTypes.model;
 
 import model.Pedido;
 
-public class MyPedido_OT_Retomar {
+public class MyPedido_OT_Retomar implements Comparable<MyPedido_OT_Retomar> {
 
 	private Pedido pedido;
 	private int numProductosFaltan;
@@ -19,4 +19,11 @@ public class MyPedido_OT_Retomar {
 	public int getNumProductosFaltan() {
 		return numProductosFaltan;
 	}
+
+	@Override
+	public int compareTo(MyPedido_OT_Retomar o) {
+		return new Long(pedido.getId()).compareTo(o.getPedido().getId());
+	}
+	
+	
 }

@@ -5,28 +5,29 @@ import model.OrdenTrabajo;
 public class MyOrdenTrabajo_Retomar {
 
 	private OrdenTrabajo ordenTrabajo;
+	
+	private int numPedidosFaltan;
+	private int numProductosFaltan;
 
-	private int numPedidosFaltanRecoger;
-	private int numProductosFaltanRecoger;
-
-	public MyOrdenTrabajo_Retomar(OrdenTrabajo ordenTrabajo, int numPedidosFaltanRecoger,
-			int numProductosFaltanRecoger) {
+	public MyOrdenTrabajo_Retomar(OrdenTrabajo ordenTrabajo, int numPedidosFaltan,
+			int numProductosFaltan) {
 
 		this.ordenTrabajo = ordenTrabajo;
 
-		this.numPedidosFaltanRecoger = numPedidosFaltanRecoger;
-		this.numProductosFaltanRecoger = numProductosFaltanRecoger;
+		this.numPedidosFaltan = numPedidosFaltan;
+		this.numProductosFaltan = numProductosFaltan;
 	}
 
 	public OrdenTrabajo getOrdenTrabajo() {
 		return ordenTrabajo;
 	}
 
-	public int getNumPedidosFaltanRecoger() {
-		return numPedidosFaltanRecoger;
+	public int getNumPedidosFaltan() {
+		return numPedidosFaltan;
 	}
 
-	public int getNumProductosFaltanRecoger() {
-		return numProductosFaltanRecoger;
+	public int getNumProductosFaltan() {
+		return numProductosFaltan;
 	}
+	
 }

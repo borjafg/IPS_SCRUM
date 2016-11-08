@@ -4,45 +4,85 @@ import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.Paquete;
 import model.ProductoEnOrdenTrabajo;
+import model.ProductoEnPaquete;
+import persistence.PaqueteFinder;
+import persistence.ProductoEnOrdenTrabajoFinder;
+import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 
 public class AsignarProductoPaquete implements Command {
 
 	private ProductoEnOrdenTrabajo producto;
 	private Paquete paquete;
+	private int unidades;
 
-	public AsignarProductoPaquete(ProductoEnOrdenTrabajo producto, Paquete paquete) {
+	public AsignarProductoPaquete(ProductoEnOrdenTrabajo producto, Paquete paquete, int unidades) {
 		this.producto = producto;
 		this.paquete = paquete;
+		this.unidades = unidades;
 	}
 
 	@Override
 	public Object execute() throws BusinessException {
-		// Sincronizar el paquete y el producto con la base de datos
-		
-		ProductoEnOrdenTrabajo prot = Jpa.getManager().merge(producto);
 
-		// Si se acaba de crear el paquete
-		
-		if(paquete.getDestinatario() == null || paquete.getDireccionCompleta() == null) {
-			paquete.setDestinatario(prot.getproductoPedido().getPedido().getCliente().getNombre());
-			paquete.setDireccionCompleta(prot.getproductoPedido().getPedido().getDireccionCompleta());
-			
-//			Jpa.getManager().persist(paquete);
-//			
-//			// Cuando el paquete ya tiene los datos apropiados
-//			
-//			Jpa.getManager().persist(new ProductoEnPaquete(prot.getproductoPedido(), paquete));
-//			return null;
+		try {
+			ProductoEnOrdenTrabajo pot = ProductoEnOrdenTrabajoFinder.find(producto);
+			Paquete paq = PaqueteFinder.find(paquete);
+
+			// Si el primer producto que se añade al paquete
+			if (paq.getPedido() == null) {
+				colocarProductoPaquete(pot, paq);
+				paquete.setPedido(pot.getproductoPedido().getPedido());
+			}
+
+			// Si ya se habia añadido algún producto al paquete
+			//
+			// (1) Si los productos del paquete son del mismo pedido
+			// del producto que intento añadir
+			//
+			else if (paq.getPedido().equals(pot.getproductoPedido().getPedido())) {
+				for (ProductoEnPaquete prodPaq : paq.getProductosPaquete()) {
+
+					// Si ya habia unidades de ese producto en el paquete
+					if (prodPaq.getProductoOrdenTrabajo().equals(pot)) {
+						prodPaq.setUnidadesProducto(prodPaq.getUnidadesProducto() + unidades);
+						return null;
+					}
+				}
+
+				// Si no habia unidades de ese producto en el paquete
+				colocarProductoPaquete(pot, paq);
+			}
+
+			// (2) Si no se puede añadir al paquete
+			else {
+				throw new BusinessException("En un paquete sólo puede haber productos de un mismo pedido");
+			}
+
+			return null;
 		}
-//		
-//		// Si ya se había creado el paquete
-//		
-//		Paquete paq = PaqueteFinder.findById(paquete.getId());
-//		
-//		Jpa.getManager().persist(new ProductoEnPaquete(prot.getproductoPedido(), paq));
 
-		return null;
+		catch (MyPersistenceException e) {
+			throw new BusinessException(e);
+		}
+	}
+
+	/**
+	 * Añade un producto a un paquete (usar sólo si no se habían metido antes
+	 * unidades de ese producto en el paquete).
+	 * 
+	 * @param pot
+	 *            producto a añadir al paquete
+	 * @param paq
+	 *            paquete en el que hay que guardar el producto
+	 * 
+	 */
+	private void colocarProductoPaquete(ProductoEnOrdenTrabajo pot, Paquete paq) {
+		ProductoEnPaquete prodPaquete = new ProductoEnPaquete(pot, paq);
+
+		prodPaquete.setUnidadesProducto(unidades);
+
+		Jpa.getManager().persist(prodPaquete);
 	}
 
 }

@@ -56,6 +56,9 @@ public class ModeloTablaPedidosOrdenTrabajo extends AbstractModeloTablaNoEditabl
 
 	public void setPedidosEmpaquetar(List<MyPedido_OT_Retomar> pedidosEmpaquetar) {
 		this.pedidos = pedidosEmpaquetar;
+
+		// Hay que actualizar la tabla
+		this.fireTableDataChanged();
 	}
 
 	public void removePedido(int fila) {

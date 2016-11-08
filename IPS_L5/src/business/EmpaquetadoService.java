@@ -3,11 +3,13 @@ package business;
 import java.util.List;
 
 import business.exception.BusinessException;
+import model.Almacenero;
 import model.Cliente;
 import model.OrdenTrabajo;
 import model.Paquete;
 import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
+import ui.almacen.myTypes.model.MyOrdenTrabajo_Retomar;
 import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 public interface EmpaquetadoService {
@@ -15,6 +17,8 @@ public interface EmpaquetadoService {
 	// --------------------------------------------
 	// Retomar una orden de trabajo
 	// --------------------------------------------
+
+	public List<MyOrdenTrabajo_Retomar> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException;
 
 	public List<ProductoEnOrdenTrabajo> getListaProductosOrdenTrabajo(long id) throws BusinessException;
 
@@ -33,7 +37,15 @@ public interface EmpaquetadoService {
 	// Proceso de empaquetado
 	// --------------------------------------------
 
-	public void asignarProductoPaquete(ProductoEnOrdenTrabajo producto, Paquete paquete) throws BusinessException;
+	public void asignarProductoPaquete(ProductoEnOrdenTrabajo producto, Paquete paquete, int unidades)
+			throws BusinessException;
+
+	public Paquete abrirPaquete(OrdenTrabajo ordenTrabajo) throws BusinessException;
+
+	public boolean sePuedeCerrarPaquete(Paquete paqueteActual) throws BusinessException;
+
+	public void cerrarPaquete(Paquete paquete) throws BusinessException;
 
 	public Cliente getClientePedido(Pedido pedido) throws BusinessException;
+
 }
