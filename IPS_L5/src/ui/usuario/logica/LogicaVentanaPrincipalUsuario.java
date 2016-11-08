@@ -8,13 +8,19 @@ import javax.swing.DefaultListModel;
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.Categoria;
+import model.Cliente;
 import model.Producto;
+import model.types.MetodosPago;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 public class LogicaVentanaPrincipalUsuario {
 
 	// Aqui voy añadiendo los productos y sus unidades
 	private List<ModeloProductosPedidos> listaCesta = new ArrayList<ModeloProductosPedidos>();
+	
+	
+	
+	private Cliente clienteReg;
 
 //	public DefaultListModel<Producto> getModeloListaProductos() {//le paso la categoria de cada producto
 //		DefaultListModel<Producto> modeloListaProducto = new DefaultListModel<Producto>();
@@ -182,14 +188,29 @@ public class LogicaVentanaPrincipalUsuario {
 		return precio;
 	}
 
-	public void generarTodo(String direccion, String nombre) throws BusinessException {
-		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta);
+	public void generarTodo(String direccion, String nombre,MetodosPago metodoPago) throws BusinessException {
+		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta,metodoPago);
 	}
 
 	public DefaultListModel<ModeloProductosPedidos> resetear() {
 		listaCesta = new ArrayList<ModeloProductosPedidos>();
 
 		return new DefaultListModel<ModeloProductosPedidos>();
+	}
+	
+	
+	public boolean isUsuarioEnBase(String nombre) throws BusinessException{
+		return  ServiceFactory.getUserService().isUsuarioEnBase(nombre);
+		
+	}
+
+
+	public void iniciarSesion(String nombre) throws BusinessException {
+		this.clienteReg = ServiceFactory.getUserService().getUsuarioEnBase(nombre);
+	}
+	
+	public void cerrarSesion(){
+		this.clienteReg = null;
 	}
 
 }

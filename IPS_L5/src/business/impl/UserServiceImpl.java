@@ -6,12 +6,16 @@ import business.UserService;
 import business.exception.BusinessException;
 import business.impl.usuario.CargadorABaseDeDatos;
 import business.impl.usuario.HayProductosEnCategoria;
+import business.impl.usuario.HayUsuarioEnBase;
 import business.impl.usuario.ListarCategoriasHijo;
 import business.impl.usuario.ListarCategoriasPadre;
 import business.impl.usuario.ListarProductos;
+import business.impl.usuario.UsuarioEnBase;
 import business.impl.util.CommandExecutor;
 import model.Categoria;
+import model.Cliente;
 import model.Producto;
+import model.types.MetodosPago;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 @SuppressWarnings("unchecked")
@@ -25,10 +29,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void cargarBaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta)
+	public void cargarBaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago)
 			throws BusinessException {
 
-		executor.execute(new CargadorABaseDeDatos(direccion, nombre, listaCesta));//<-----vamos a tener que pasar más parámetros cuando se añadan los log-in y los diferentes tipos de usuario
+		executor.execute(new CargadorABaseDeDatos(direccion, nombre, listaCesta,metodoPago));//<-----vamos a tener que pasar más parámetros cuando se añadan los log-in y los diferentes tipos de usuario
 	}
 
 	@Override
@@ -46,7 +50,13 @@ public class UserServiceImpl implements UserService {
 		return (boolean) executor.execute(new HayProductosEnCategoria(categoria));
 	}
 	
+	public boolean isUsuarioEnBase(String nombre) throws BusinessException{
+		return (boolean)executor.execute(new HayUsuarioEnBase(nombre));
+	}
 	
+	public Cliente getUsuarioEnBase(String nombre) throws BusinessException{
+		return (Cliente)executor.execute(new UsuarioEnBase(nombre));
+	}
 	
 
 }

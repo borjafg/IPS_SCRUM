@@ -5,9 +5,11 @@ import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -33,6 +35,10 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 public class VentanaPrincipalUsuario extends JFrame {
 
@@ -45,8 +51,20 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private DefaultListModel<Producto> modeloListaProductos;
 	private DefaultListModel<Categoria> modeloListaCategorias;
 
-	//modelo de la cesta
+	// modelo Combo box metodos de pago
+	private DefaultComboBoxModel<MetodosPago> modeloComboMetodosDePago;
+
+	// modelo de la cesta
 	private DefaultListModel<ModeloProductosPedidos> modeloListaCesta;
+
+	/// Valor que nos dice si un usuario está registrado
+	private boolean usuarioReg;
+	
+	
+	
+	///
+	
+	private String nombre ;//nombre usuario registrado
 
 	///
 	private JPanel contentPane;
@@ -96,6 +114,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JScrollPane scrollPaneCategorias;
 	private JList<Categoria> listCategorias;
 	private JPanel panel;
+	private JMenuBar menuBar;
+	private JMenu mnUsuario;
+	private JMenuItem mntmIniciarSesin;
+	private JSeparator separator;
+	private JMenuItem mntmCerrarSesin;
 
 	/**
 	 * Launch the application.
@@ -121,10 +144,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 	 * 
 	 */
 	public VentanaPrincipalUsuario() {
+
+		usuarioReg = false;
+
 		logVOUser = new LogicaVentanaPrincipalUsuario();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 914, 580);
+		setJMenuBar(getMenuBar_1());
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -246,8 +273,31 @@ public class VentanaPrincipalUsuario extends JFrame {
 								"Para confirmar pedido, la cesta tiene que tener por lo menos un artÃ­culo", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
+						// En caso de que el usuario este registrado, se hace la
+						// compra directamente
+
 						// Aqui luego ira si se a registrado un usuario
+						if(usuarioReg){//usuario Registrado
+							
+							//realizamos la subida de datos a la base de datos
+							
+							
+							//borramos las acciones
+							modeloListaCesta = logVOUser.resetear();
+
+							resetearCamposDeTexto(); // Se eliminan todos los campos
+														// de texto de la
+														// aplicación
+
+							getListCesta().setModel(modeloListaCesta);
+						}else{
+						
+						
+						getMntmCerrarSesin().setEnabled(false);
+						getMntmIniciarSesin().setEnabled(false);
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
+						}
+
 					}
 					// Esto se hace para evitar que alguien escriba una cantidad
 					// y se pueda pasar ese valor a un siguiente usuario o a una
@@ -272,7 +322,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			panelCentro.setLayout(new BorderLayout(0, 0));
 			panelCentro.add(getPanelCesta(), BorderLayout.EAST);
-			//panelCentro.add(getPanelProductos(), BorderLayout.CENTER);
+			// panelCentro.add(getPanelProductos(), BorderLayout.CENTER);
 			panelCentro.add(getPanelListasCategoriasYProductos(), BorderLayout.CENTER);
 		}
 
@@ -391,6 +441,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			btnCancelarPedido.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					
+					getMntmIniciarSesin().setEnabled(true);
 					((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 				}
 			});
@@ -416,7 +468,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					} else {
 						// subir a la base de datos y reiniciar la aplicacion;
 						try {
-							logVOUser.generarTodo(textoDireccion, textoNombre);
+							logVOUser.generarTodo(textoDireccion, textoNombre, (MetodosPago) getComboBox().getSelectedItem());
 						} catch (BusinessException e1) {
 							System.err.println(e1.getMessage());
 						}
@@ -458,19 +510,18 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return listCesta;
 	}
 
-	
-	
 	/*
 	 * La lista que contiene los productos de la categoría seleccionada
 	 * 
 	 */
 	private JList<Producto> getListProductos() {
 		if (listProductos == null) {
-			
-			//La lista se crea sin modelo, para que una vez que se selecciona una categoria que contiene productos, se cargue un nuevo modelo
-			//modeloListaProductos = logVOUser.getModeloListaProductos();
+
+			// La lista se crea sin modelo, para que una vez que se selecciona
+			// una categoria que contiene productos, se cargue un nuevo modelo
+			// modeloListaProductos = logVOUser.getModeloListaProductos();
 			modeloListaProductos = new DefaultListModel<Producto>();
-			
+
 			listProductos = new JList<Producto>(modeloListaProductos);
 
 			listProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -583,7 +634,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JComboBox<MetodosPago> getComboBox() {// Hay que modificar la
 													// implementación
 		if (comboBox == null) {
+			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.METALICO, MetodosPago.TRANSFERENCIA};
+			modeloComboMetodosDePago = new DefaultComboBoxModel<MetodosPago>(metodosPagoNoRegistrado);
 			comboBox = new JComboBox<MetodosPago>();
+			comboBox.setModel(modeloComboMetodosDePago);
 		}
 
 		return comboBox;
@@ -674,13 +728,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 						ModeloProductosPedidos productopedido = new ModeloProductosPedidos(
 								(Producto) getListProductos().getSelectedValue(),
 								Integer.parseInt(getTextFieldUnidadesProducto().getText()));
-						
+
 						modeloListaCesta = logVOUser.sumarProductoACesta(productopedido, modeloListaCesta);
 						getListCesta().setModel(modeloListaCesta);
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
-						
-						//Post añadir producto
-						((CardLayout)panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,"Panel Categorias");
+
+						// Post añadir producto
+						((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
+								"Panel Categorias");
 						modeloListaProductos.removeAllElements();
 						// se pone a uno el nÃºmero de unidades tras la compra
 						getTextFieldUnidadesProducto().setText("1");
@@ -688,8 +743,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getListProductos().clearSelection();
 						getListCesta().clearSelection();
 					}
-					
-				
+
 				}
 			});
 		}
@@ -714,10 +768,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return panelAuxiliar;
 	}
-	
+
 	/*
-	 * Panel cardLayout que incluye los paneles de los productos y
-	 * el panel de las categorias
+	 * Panel cardLayout que incluye los paneles de los productos y el panel de
+	 * las categorias
 	 * 
 	 * 
 	 */
@@ -725,26 +779,26 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelListasCategoriasYProductos == null) {
 			panelListasCategoriasYProductos = new JPanel();
 			panelListasCategoriasYProductos.setLayout(new CardLayout(0, 0));
-			//Añadimos el panel de las categorias
+			// Añadimos el panel de las categorias
 			panelListasCategoriasYProductos.add(getPanelCategorias(), "Panel Categorias");
-			//añadimos el panel de los productos de las categorias
-			panelListasCategoriasYProductos.add(getPanelProductos(),"Panel Productos");
-			
-			
-			
+			// añadimos el panel de los productos de las categorias
+			panelListasCategoriasYProductos.add(getPanelProductos(), "Panel Productos");
+
 		}
 		return panelListasCategoriasYProductos;
 	}
+
 	private JPanel getPanelCategorias() {
 		if (panelCategorias == null) {
 			panelCategorias = new JPanel();
 			panelCategorias.setLayout(new BorderLayout(0, 0));
 			panelCategorias.add(getScrollPaneCategorias(), BorderLayout.CENTER);
 			panelCategorias.add(getPanel(), BorderLayout.EAST);
-			
+
 		}
 		return panelCategorias;
 	}
+
 	private JScrollPane getScrollPaneCategorias() {
 		if (scrollPaneCategorias == null) {
 			scrollPaneCategorias = new JScrollPane();
@@ -754,57 +808,149 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return scrollPaneCategorias;
 	}
+
 	private JList<Categoria> getListCategorias() {
 		if (listCategorias == null) {
 			modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-			listCategorias = new JList<Categoria>(modeloListaCategorias);					
+			listCategorias = new JList<Categoria>(modeloListaCategorias);
 			listCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listCategorias.putClientProperty("List.isFileList", Boolean.TRUE);
 			listCategorias.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					//Seleccionamos la categoria a la que se clica dos veces
-					if(getListCategorias().getSelectedIndex() != -1){
-						if(arg0.getClickCount() == 2){
-							if(!logVOUser.comprobarQueNoHayProductosEnCategoria(getListCategorias().getSelectedValue())){//si la categoria no contiene productos																
+					// Seleccionamos la categoria a la que se clica dos veces
+					if (getListCategorias().getSelectedIndex() != -1) {
+						if (arg0.getClickCount() == 2) {
+							if (!logVOUser
+									.comprobarQueNoHayProductosEnCategoria(getListCategorias().getSelectedValue())) {// si
+																														// la
+																														// categoria
+																														// no
+																														// contiene
+																														// productos
 								cargarCategorias(getListCategorias().getSelectedValue());
-							}else{//si la categoria contiene productos
-								//cargamos la lista de productos de esa categoria
+							} else {// si la categoria contiene productos
+									// cargamos la lista de productos de esa
+									// categoria
 								cargarModeloListaProductos(getListCategorias().getSelectedValue());
-								((CardLayout)panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,"Panel Productos");
-								//reiniciamos la lista de categorias
+								((CardLayout) panelListasCategoriasYProductos.getLayout())
+										.show(panelListasCategoriasYProductos, "Panel Productos");
+								// reiniciamos la lista de categorias
 								modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-								listCategorias.setModel(modeloListaCategorias);// probar sin esto
+								listCategorias.setModel(modeloListaCategorias);// probar
+																				// sin
+																				// esto
 							}
-						getListCategorias().clearSelection();
-						
-					}
+							getListCategorias().clearSelection();
+
+						}
 					}
 				}
 			});
 		}
 		return listCategorias;
 	}
-	//Metodo que usamos para cargar las categorias
-	private void cargarCategorias(Categoria categoria){
-		modeloListaCategorias.removeAllElements();		
+
+	// Metodo que usamos para cargar las categorias
+	private void cargarCategorias(Categoria categoria) {
+		modeloListaCategorias.removeAllElements();
 		List<Categoria> listaCategorias = logVOUser.getListaCategoriasHijas(categoria);
-		for(Categoria cat : listaCategorias){
+		for (Categoria cat : listaCategorias) {
 			modeloListaCategorias.addElement(cat);
 		}
 	}
-	
-	private void cargarModeloListaProductos(Categoria categoria){
+
+	private void cargarModeloListaProductos(Categoria categoria) {
 		List<Producto> listaProductos = logVOUser.getListaProductos(categoria);
-		for(Producto prod : listaProductos){
+		for (Producto prod : listaProductos) {
 			modeloListaProductos.addElement(prod);
 		}
 	}
-	
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
 		}
 		return panel;
+	}
+
+	private JMenuBar getMenuBar_1() {
+		if (menuBar == null) {
+			menuBar = new JMenuBar();
+			menuBar.add(getMnUsuario());
+		}
+		return menuBar;
+	}
+
+	private JMenu getMnUsuario() {
+		if (mnUsuario == null) {
+			mnUsuario = new JMenu("Usuario");
+			mnUsuario.add(getMntmIniciarSesin());
+			mnUsuario.add(getSeparator());
+			mnUsuario.add(getMntmCerrarSesin());
+		}
+		return mnUsuario;
+	}
+
+	private JMenuItem getMntmIniciarSesin() {
+		if (mntmIniciarSesin == null) {
+			mntmIniciarSesin = new JMenuItem("Iniciar Sesi\u00F3n");
+			mntmIniciarSesin.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					// Sale opción para escoger el nombre del usuario registrado
+					// y se inicia Sesión
+					if (usuarioReg == true) {
+						JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión ya iniciada", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						String nombre = JOptionPane.showInputDialog("Introduzca su nombre");
+						try {
+							if (logVOUser.isUsuarioEnBase(nombre)) {
+								usuarioReg = true;
+								logVOUser.iniciarSesion(nombre);
+								VentanaPrincipalUsuario.this.nombre = nombre;
+								JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión iniciada como " + nombre,
+										"Sesión iniciada", JOptionPane.INFORMATION_MESSAGE);
+								getMntmIniciarSesin().setEnabled(false);
+								getMntmCerrarSesin().setEnabled(true);
+							} else {
+								JOptionPane.showMessageDialog(getMntmIniciarSesin(),
+										"Fallo al iniciar sesión, revise el nombre de usuario", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						} catch (HeadlessException e) {
+							System.err.println(e.getMessage());
+						} catch (BusinessException e) {
+							System.err.println(e.getMessage());
+						}
+					}
+				}
+			});
+		}
+		return mntmIniciarSesin;
+	}
+
+	private JSeparator getSeparator() {
+		if (separator == null) {
+			separator = new JSeparator();
+		}
+		return separator;
+	}
+
+	private JMenuItem getMntmCerrarSesin() {
+		if (mntmCerrarSesin == null) {
+			mntmCerrarSesin = new JMenuItem("Cerrar Sesi\u00F3n");
+			mntmCerrarSesin.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión "  + VentanaPrincipalUsuario.this.nombre+" cerrada.",
+							"Sesión Cerrada", JOptionPane.INFORMATION_MESSAGE);
+					logVOUser.cerrarSesion();
+					getMntmIniciarSesin().setEnabled(true);
+					getMntmCerrarSesin().setEnabled(false);
+				}
+			});
+			mntmCerrarSesin.setEnabled(false);
+		}
+		return mntmCerrarSesin;
 	}
 }

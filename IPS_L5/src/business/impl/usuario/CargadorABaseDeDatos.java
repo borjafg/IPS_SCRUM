@@ -23,12 +23,14 @@ public class CargadorABaseDeDatos implements Command {
 	private String direccion;
 	private String nombre;
 	private List<ModeloProductosPedidos> listaCesta;
+	private MetodosPago metodoPago;
 
-	public CargadorABaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta) {
-
+	public CargadorABaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta, MetodosPago metodoPago) {
+		
 		this.direccion = direccion;
 		this.nombre = nombre;
 		this.listaCesta = listaCesta;
+		this.metodoPago = metodoPago;
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class CargadorABaseDeDatos implements Command {
 
 		cliente.setNombre(nombre);
 		cliente.setDireccionCompleta(direccion);
-		cliente.setTipoCliente(TipoCliente.MINORISTA);//<---- Cambiar cunado se modifique el log in de la aplicación
+		cliente.setTipoCliente(TipoCliente.PARTICULAR);//<---- Cambiar cuando se modifique el log in de la aplicación
 
 		Jpa.getManager().persist(cliente);
 
@@ -52,10 +54,21 @@ public class CargadorABaseDeDatos implements Command {
 		Pedido pedido = new Pedido(cliente);
 
 		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
-		pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el método de pago sea por transacción
+		
+		pedido.setMetodoPago(metodoPago); // <--- Cambiar
+		
+		if(metodoPago.equals(MetodosPago.TRANSFERENCIA)){
+			pedido.setPagado(PedidoPagado.NO);
+		}else {
+			pedido.setPagado(PedidoPagado.SI);
+		}
+		
+		//pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el método de pago sea por transacción
+		
+		
 		pedido.setDireccionCompleta(direccion);
 		pedido.setFecha(new Date());
-		pedido.setMetodoPago(MetodosPago.METALICO); // <--- Cambiar
+		
 
 		Jpa.getManager().persist(pedido);
 
@@ -67,19 +80,15 @@ public class CargadorABaseDeDatos implements Command {
 		Producto prod;
 
 		for (ModeloProductosPedidos mod : listaCesta) {
-			//prod = Jpa.getManager().merge(mod.getProducto());
-			try {
-				prod = ProductoFinder.findById(mod.getProducto());
-				prodPedido = new ProductoEnPedido(pedido, prod);
-				prodPedido.setCantidad(mod.getUnidades());
-				prodPedido.setCantidadAsociadaOT(0);
-				
-				Jpa.getManager().persist(prodPedido);
+			
+			//prod = ProductoFinder.findById(mod.getProducto());
+			prod = Jpa.getManager().merge(mod.getProducto());
+			prodPedido = new ProductoEnPedido(pedido, prod);
+			prodPedido.setCantidad(mod.getUnidades());
+			prodPedido.setCantidadAsociadaOT(0);
 			
 			
-			} catch (MyPersistenceException e) {
-				System.err.println(e.getMessage());
-			}
+			Jpa.getManager().persist(prodPedido);
 			
 		}
 

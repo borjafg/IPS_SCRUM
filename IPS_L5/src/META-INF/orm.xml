@@ -40,6 +40,16 @@
 
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - Cliente - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<named-query name="Cliente.findByName">
+		<query>select a from Cliente a where nombre = :nombre</query>
+	</named-query>
+
+
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - Producto en orden de trabajo - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
