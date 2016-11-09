@@ -6,7 +6,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import model.Categoria;
-import model.OrdenTrabajo;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 

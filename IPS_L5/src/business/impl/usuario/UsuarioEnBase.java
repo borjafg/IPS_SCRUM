@@ -2,7 +2,6 @@ package business.impl.usuario;
 
 import business.exception.BusinessException;
 import business.impl.util.Command;
-import model.Cliente;
 import persistence.ClienteFinder;
 
 public class UsuarioEnBase implements Command{

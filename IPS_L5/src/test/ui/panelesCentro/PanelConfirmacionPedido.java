@@ -1,28 +1,26 @@
 package test.ui.panelesCentro;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.util.List;
-
-import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import model.Pedido;
-import test.business.acciones.NuevaCategoria;
 import test.business.acciones.PagarPedidos;
 import test.ui.MenuPrincipal;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class PanelConfirmacionPedido extends JPanel {
@@ -33,8 +31,9 @@ public class PanelConfirmacionPedido extends JPanel {
 	private JScrollPane scrollPanePedidos;
 	private JList<Pedido> list;
 	private MenuPrincipal menuPrincipal;
-	
+
 	private DefaultListModel<Pedido> modeloPedidos;
+
 	/**
 	 * Create the panel.
 	 */
@@ -45,7 +44,7 @@ public class PanelConfirmacionPedido extends JPanel {
 		add(getPanelSur(), BorderLayout.SOUTH);
 
 	}
-	
+
 	public void setVentanaPrincipal(MenuPrincipal menuPrincipal) {
 		this.menuPrincipal = menuPrincipal;
 	}
@@ -54,10 +53,11 @@ public class PanelConfirmacionPedido extends JPanel {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
 			GridBagLayout gbl_panelCentro = new GridBagLayout();
-			gbl_panelCentro.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			gbl_panelCentro.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-			gbl_panelCentro.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-			gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_panelCentro.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			gbl_panelCentro.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+			gbl_panelCentro.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+					Double.MIN_VALUE };
+			gbl_panelCentro.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 			panelCentro.setLayout(gbl_panelCentro);
 			GridBagConstraints gbc_panelPedidos = new GridBagConstraints();
 			gbc_panelPedidos.insets = new Insets(0, 0, 5, 5);
@@ -68,6 +68,7 @@ public class PanelConfirmacionPedido extends JPanel {
 		}
 		return panelCentro;
 	}
+
 	private JPanel getPanelSur() {
 		if (panelSur == null) {
 			panelSur = new JPanel();
@@ -77,12 +78,14 @@ public class PanelConfirmacionPedido extends JPanel {
 		}
 		return panelSur;
 	}
+
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar Pagado");
 			btnConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					String resultado = menuPrincipal.getProcesadorTest().ejecutarPrueba(new PagarPedidos(getList().getSelectedValue()));
+					String resultado = menuPrincipal.getProcesadorTest()
+							.ejecutarPrueba(new PagarPedidos(getList().getSelectedValue()));
 
 					menuPrincipal.getTextAreaResultados().setText(resultado);
 
@@ -96,15 +99,17 @@ public class PanelConfirmacionPedido extends JPanel {
 		}
 		return btnConfirmar;
 	}
+
 	private JPanel getPanelPedidos() {
 		if (panelPedidos == null) {
 			panelPedidos = new JPanel();
 			panelPedidos.setLayout(new BorderLayout(0, 0));
 			panelPedidos.add(getScrollPanePedidos());
-			
+
 		}
 		return panelPedidos;
 	}
+
 	private JScrollPane getScrollPanePedidos() {
 		if (scrollPanePedidos == null) {
 			scrollPanePedidos = new JScrollPane();
@@ -114,7 +119,7 @@ public class PanelConfirmacionPedido extends JPanel {
 		}
 		return scrollPanePedidos;
 	}
-	
+
 	private JList<Pedido> getList() {
 		if (list == null) {
 			modeloPedidos = new DefaultListModel<Pedido>();
@@ -123,12 +128,11 @@ public class PanelConfirmacionPedido extends JPanel {
 		}
 		return list;
 	}
-	
-	
-	public void cargarDatos(){
+
+	public void cargarDatos() {
 		List<Pedido> pedidos = menuPrincipal.getCargadorComponentes().cargarPedidosNoPagados();
-		
-		for(Pedido ped : pedidos){
+
+		for (Pedido ped : pedidos) {
 			modeloPedidos.addElement(ped);
 		}
 	}

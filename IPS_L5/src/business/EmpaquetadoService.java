@@ -20,8 +20,6 @@ public interface EmpaquetadoService {
 
 	public List<MyOrdenTrabajo_Retomar> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException;
 
-	public List<ProductoEnOrdenTrabajo> getListaProductosOrdenTrabajo(long id) throws BusinessException;
-
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException;
 
 	// --------------------------------------------

@@ -8,6 +8,9 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -16,29 +19,25 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import business.exception.BusinessException;
 import model.Categoria;
 import model.Producto;
 import model.types.MetodosPago;
-import persistence.CategoriaFinder;
 import ui.usuario.logica.LogicaVentanaPrincipalUsuario;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
-import business.exception.BusinessException;
-import javax.swing.ScrollPaneConstants;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
 
 public class VentanaPrincipalUsuario extends JFrame {
 
@@ -482,7 +481,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 													// de texto de la
 													// aplicación
 
-						getListCesta().setModel(modeloListaCesta);
+						getListCesta().setModel(modeloListaCesta);	
+						getMntmIniciarSesin().setEnabled(true);
 
 						// Cuando este el log-in, se "cerrarÃ¡ la sesión"
 
