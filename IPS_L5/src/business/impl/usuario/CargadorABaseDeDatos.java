@@ -81,14 +81,20 @@ public class CargadorABaseDeDatos implements Command {
 
 		for (ModeloProductosPedidos mod : listaCesta) {
 			
-			//prod = ProductoFinder.findById(mod.getProducto());
-			prod = Jpa.getManager().merge(mod.getProducto());
-			prodPedido = new ProductoEnPedido(pedido, prod);
-			prodPedido.setCantidad(mod.getUnidades());
-			prodPedido.setCantidadAsociadaOT(0);
+			try {
+				prod = ProductoFinder.findById(mod.getProducto());
+				prodPedido = new ProductoEnPedido(pedido, prod);
+				prodPedido.setCantidad(mod.getUnidades());
+				prodPedido.setCantidadAsociadaOT(0);
+				
+				
+				Jpa.getManager().merge(prodPedido);
+			} catch (MyPersistenceException e) {
+
+				e.printStackTrace();
+			}
+			//prod = Jpa.getManager().merge(mod.getProducto());
 			
-			
-			Jpa.getManager().persist(prodPedido);
 			
 		}
 

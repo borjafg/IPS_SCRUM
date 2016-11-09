@@ -203,7 +203,7 @@ public class PanelCreacionCategorias extends JPanel {
 
 					((CardLayout) menuPrincipal.getPanelCentro().getLayout()).show(menuPrincipal.getPanelCentro(),
 							"panelResultados");
-					getListCategoriasPadre().setSelectedIndex(-1);
+					getListCategoriasPadre().clearSelection();
 
 					modeloListCategoria.removeAllElements();
 				}

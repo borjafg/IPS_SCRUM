@@ -5,9 +5,11 @@ import java.util.List;
 import business.exception.BusinessException;
 import business.impl.util.CommandExecutor;
 import model.Categoria;
+import model.Pedido;
 import model.PosicionProducto;
 import test.business.impl.ListarCategorias;
 import test.business.impl.ListarCategoriasSinProductos;
+import test.business.impl.ListarPedidosNoPagados;
 import test.business.impl.ListarPosicionesSinProducto;
 
 @SuppressWarnings("unchecked")
@@ -29,6 +31,11 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public List<PosicionProducto> getListPosicionesSinProducto() throws BusinessException {
 		return (List<PosicionProducto>)executor.execute(new ListarPosicionesSinProducto());
+	}
+
+	@Override
+	public List<Pedido> getListPedidosNoPagados() throws BusinessException {
+		return (List<Pedido>)executor.execute(new ListarPedidosNoPagados());
 	}
 
 }

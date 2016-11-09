@@ -23,5 +23,7 @@ public interface UserService {
 	public boolean isUsuarioEnBase (String nombre) throws BusinessException;
 
 	public Cliente getUsuarioEnBase(String nombre) throws BusinessException;
+	
+	public void cargarBaseUsuarioRegistrado(Cliente cliente, List<ModeloProductosPedidos> listaCesta) throws BusinessException;
 
 }

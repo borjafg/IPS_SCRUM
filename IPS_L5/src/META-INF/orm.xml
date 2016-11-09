@@ -28,6 +28,10 @@
 	<named-query name="Pedido.findNumProductosPosibleEmpaquetar">
 		<query>select sum(p.unidadesProducto - p.unidadesEmpaquetadas) from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo and p.productoPedido.pedido = :pedido and p.unidadesProducto > p.unidadesEmpaquetadas</query>
 	</named-query>
+	
+	<named-query name="Pedido.findNoPagados">
+		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
+	</named-query>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Producto - - - - - - - - - - -->

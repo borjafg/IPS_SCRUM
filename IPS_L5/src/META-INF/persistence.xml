@@ -7,7 +7,7 @@
 	<persistence-unit name="base_datos">
 		<properties>
 
-			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
 
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
 			

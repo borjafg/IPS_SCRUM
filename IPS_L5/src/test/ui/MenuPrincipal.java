@@ -308,7 +308,6 @@ public class MenuPrincipal extends JFrame {
 			botonConfirmarPago = new JButton("Confirmar pago de un pedido");
 			
 			botonConfirmarPago.setFont(new Font("Tahoma", Font.BOLD, 21));
-			botonConfirmarPago.setEnabled(false);
 		}
 
 		return botonConfirmarPago;

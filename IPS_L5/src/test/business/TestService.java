@@ -4,6 +4,7 @@ import java.util.List;
 
 import business.exception.BusinessException;
 import model.Categoria;
+import model.Pedido;
 import model.PosicionProducto;
 
 public interface TestService {
@@ -12,4 +13,6 @@ public interface TestService {
 	public List<Categoria> getListCategoriasSinProductos() throws BusinessException;
 
 	public List<PosicionProducto> getListPosicionesSinProducto() throws BusinessException;
+	
+	public List<Pedido> getListPedidosNoPagados() throws BusinessException;
 }

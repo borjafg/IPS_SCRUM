@@ -4,6 +4,7 @@ import java.util.List;
 
 import business.exception.BusinessException;
 import model.Categoria;
+import model.Pedido;
 import model.PosicionProducto;
 import test.business.TestService;
 import test.business.TestServiceImpl;
@@ -52,5 +53,18 @@ public class CargadorComponentes {
 
 		return listado;
 	}
+	
+	public List<Pedido> cargarPedidosNoPagados(){
+		List<Pedido> listado = null;
+		try{
+			listado = testService.getListPedidosNoPagados();
+		}catch (BusinessException e) {
+
+			System.err.println(e.getMessage());
+		}
+
+		return listado;
+	}
+	
 
 }

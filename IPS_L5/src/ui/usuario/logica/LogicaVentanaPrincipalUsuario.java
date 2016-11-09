@@ -187,6 +187,11 @@ public class LogicaVentanaPrincipalUsuario {
 
 		return precio;
 	}
+	
+	
+	public void generarusuarioRegistrado() throws BusinessException{
+		ServiceFactory.getUserService().cargarBaseUsuarioRegistrado(clienteReg,listaCesta);
+	}
 
 	public void generarTodo(String direccion, String nombre,MetodosPago metodoPago) throws BusinessException {
 		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta,metodoPago);

@@ -281,7 +281,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 							
 							//realizamos la subida de datos a la base de datos
 							
-							
+							try {
+								logVOUser.generarusuarioRegistrado();
+							} catch (BusinessException e) {
+								System.err.println(e.getMessage());
+							}
 							//borramos las acciones
 							modeloListaCesta = logVOUser.resetear();
 

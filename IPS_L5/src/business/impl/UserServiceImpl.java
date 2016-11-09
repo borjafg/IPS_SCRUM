@@ -5,6 +5,7 @@ import java.util.List;
 import business.UserService;
 import business.exception.BusinessException;
 import business.impl.usuario.CargadorABaseDeDatos;
+import business.impl.usuario.CargarBaseUsuarioRegistrado;
 import business.impl.usuario.HayProductosEnCategoria;
 import business.impl.usuario.HayUsuarioEnBase;
 import business.impl.usuario.ListarCategoriasHijo;
@@ -56,6 +57,13 @@ public class UserServiceImpl implements UserService {
 	
 	public Cliente getUsuarioEnBase(String nombre) throws BusinessException{
 		return (Cliente)executor.execute(new UsuarioEnBase(nombre));
+	}
+
+	@Override
+	public void cargarBaseUsuarioRegistrado(Cliente cliente, List<ModeloProductosPedidos> listaCesta)
+			throws BusinessException {
+		executor.execute(new CargarBaseUsuarioRegistrado(cliente,listaCesta));
+		
 	}
 	
 
