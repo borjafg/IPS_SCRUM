@@ -269,7 +269,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	private JTextField getTextFieldPedido() {
 		if (textFieldPedido == null) {
-			textFieldPedido = new JTextField();
+			textFieldPedido = new JTextField("");
 			textFieldPedido.setEditable(false);
 
 			textFieldPedido.setHorizontalAlignment(SwingConstants.LEFT);
@@ -295,7 +295,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	private JTextField getTextFieldPaquete() {
 		if (textFieldPaquete == null) {
-			textFieldPaquete = new JTextField();
+			textFieldPaquete = new JTextField("");
 			textFieldPaquete.setEditable(false);
 
 			textFieldPaquete.setHorizontalAlignment(SwingConstants.LEFT);
@@ -501,6 +501,12 @@ public class PanelEmpaquetadoProductos extends JPanel {
 					ServiceFactory.getEmpaquetadoService().asignarProductoPaquete(prod, paqueteActual,
 							unidadesEmpaquetar);
 
+					if(getTextFieldPedido().getText().equals("")) {
+						paqueteActual.setPedido(prod.getproductoPedido().getPedido());
+						
+						getTextFieldPedido().setText(prod.getproductoPedido().getPedido() + "");
+					}
+					
 					spinnerUnidades.setValue(1);
 
 					if (unidadesFaltan - unidadesEmpaquetar == 0) {

@@ -5,6 +5,7 @@
 	version="2.0">
 
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - - Pedido - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -33,6 +34,8 @@
 		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
 	</named-query>
 
+
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Producto - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -40,6 +43,7 @@
 	<named-query name="Producto.findAll">
 		<query>select p from Producto p</query>
 	</named-query>
+
 
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -51,6 +55,7 @@
 	</named-query>
 
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Cliente - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -60,11 +65,12 @@
 	</named-query>
 
 
+
 	<!-- - - - - - - - Orden de trabajo - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<named-query name="OrdenTrabajo.findOrdenesTrabajoEmpaquetarAlmacenero">
-		<query>select o from OrdenTrabajo o where o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almacenero order by o.id</query>
+		<query>select o from OrdenTrabajo o where o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almacenero and o.incidencias is empty order by o.id</query>
 	</named-query>
 
 	<named-query name="OrdenTrabajo.findNumPedidosFaltaEmpaquetar">
@@ -90,6 +96,7 @@
 	</named-query>
 
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Categorias - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -101,6 +108,8 @@
 	<named-query name="Categoria.findCategoriasPadre">
 		<query>select p from Categoria p where p.categoriaPadre = null</query>
 	</named-query>
+
+
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - PosicionesProducto - - - - - - - -->
