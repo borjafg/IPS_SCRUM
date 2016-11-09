@@ -3,7 +3,6 @@ package persistence;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
-import infrastructure.MyLogger;
 import model.OrdenTrabajo;
 import model.Paquete;
 import persistence.exception.MyPersistenceException;
@@ -53,8 +52,6 @@ public class PaqueteFinder {
 		try {
 			Integer numCaja = Jpa.getManager().createNamedQuery("Paquete.findUltimoNumCaja", Integer.class)
 					.setParameter("ordenTrabajo", ordenTrabajo).getSingleResult();
-			
-			MyLogger.log("Obtenido numero de caja " + numCaja);
 			
 			return numCaja;
 		}

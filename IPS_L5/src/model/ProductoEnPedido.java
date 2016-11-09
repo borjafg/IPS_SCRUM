@@ -24,12 +24,12 @@ public class ProductoEnPedido implements Serializable {
 	@EmbeddedId
 	private ProductoPedidoIds id = new ProductoPedidoIds();
 
-	@MapsId(value = "id_pedido") // Dentro del id a qué atributo referencia
+	@MapsId(value = "pedido") // Dentro del id a qué atributo referencia
 	@ManyToOne
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 
-	@MapsId(value = "id_producto")
+	@MapsId(value = "producto")
 	@ManyToOne
 	@JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
 	private Producto producto;

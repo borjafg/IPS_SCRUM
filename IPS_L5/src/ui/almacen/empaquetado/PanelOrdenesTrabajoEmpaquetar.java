@@ -23,8 +23,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import org.hibernate.loader.collection.CollectionJoinWalker;
-
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.OrdenTrabajo;

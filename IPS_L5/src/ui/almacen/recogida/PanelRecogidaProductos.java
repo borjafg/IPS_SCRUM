@@ -308,19 +308,36 @@ public class PanelRecogidaProductos extends JPanel {
 						escaner.removeProducto(id);
 
 						if (modeloTablaProductos.getRowCount() == 0) {
-							int resul = JOptionPane.showConfirmDialog(ventanaPrincipal, "¿Marcar OT para empaquetado?",
-									"Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-							if (resul == JOptionPane.YES_OPTION) {
-								try {
-									ServiceFactory.getRecogidaService()
-											.marcarOT_empaquetado(ventanaPrincipal.getOrdenTrabajo());
-								}
+							boolean incidencias = ServiceFactory.getRecogidaService()
+									.huboIncidencias(ventanaPrincipal.getOrdenTrabajo());
 
-								catch (BusinessException e) {
-									ventanaPrincipal.gestionarErrorConexion(e);
+							// Sin incidencias
+							if (!incidencias) {
+								int resul = JOptionPane.showConfirmDialog(ventanaPrincipal,
+										"¿Marcar OT para empaquetado?", "Confirmación", JOptionPane.YES_NO_OPTION,
+										JOptionPane.QUESTION_MESSAGE);
+
+								if (resul == JOptionPane.YES_OPTION) {
+									try {
+										ServiceFactory.getRecogidaService()
+												.marcarOT_empaquetado(ventanaPrincipal.getOrdenTrabajo());
+									}
+
+									catch (BusinessException e) {
+										ventanaPrincipal.gestionarErrorConexion(e);
+									}
 								}
 							}
+
+							// Hubo alguna incidencia
+							else {
+								JOptionPane.showMessageDialog(ventanaPrincipal,
+										"Se ha terminado de recoger los productos de la OT", "Info",
+										JOptionPane.INFORMATION_MESSAGE);
+							}
+							
+							botonIncidencias.setEnabled(false);
 						}
 					}
 
@@ -352,6 +369,8 @@ public class PanelRecogidaProductos extends JPanel {
 		escaner.dispose();
 		escaner = null;
 
+		botonIncidencias.setEnabled(false);
+		
 		spinnerUnidades.setValue(1);
 
 		modeloTablaProductos.removeAll();
