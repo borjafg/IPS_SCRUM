@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 
 import model.Pedido;
 import model.types.PedidoPagado;
+import persistence.PedidoFinder;
+import persistence.exception.MyPersistenceException;
 import test.business.TestAction;
 
 public class PagarPedidos implements TestAction{
@@ -18,8 +20,14 @@ public class PagarPedidos implements TestAction{
 	@Override
 	public String doTest(EntityManager ent) {
 		StringBuilder sb = new StringBuilder();
-		Pedido pedidoPagado = ent.merge(pedidoNoPagado);
-		pedidoPagado.setPagado(PedidoPagado.SI);
+		Pedido pedidoPagado;
+		try {
+			pedidoPagado = PedidoFinder.find(pedidoNoPagado);
+			pedidoPagado.setPagado(PedidoPagado.SI);
+		} catch (MyPersistenceException e) {
+			System.err.println(e.getMessage());
+		}
+		
 		
 		
 		return sb.toString();

@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 import test.business.TestExecutor;
 import test.business.acciones.ProbarAccesoMapeador;
 import test.business.logica.CargadorComponentes;
+import test.ui.panelesCentro.PanelConfirmacionPedido;
 import test.ui.panelesCentro.PanelCreacionCategorias;
 import test.ui.panelesCentro.PanelCreacionProductos;
 import test.ui.panelesCentro.PanelCreacionUsuarios;
@@ -69,6 +70,7 @@ public class MenuPrincipal extends JFrame {
 	private PanelCreacionProductos panelCreacionProductos;
 	private PanelCreacionUsuarios panelCreacionUsuarios;
 	private PanelCreacionCategorias panelCreacionCategorias;
+	private PanelConfirmacionPedido panelConfirmarPedido;
 
 	// Panel resultados
 
@@ -144,6 +146,8 @@ public class MenuPrincipal extends JFrame {
 		panelCentro.add(getPanelCreacionProductos(), "panelCreacionProductos");
 		panelCentro.add(getPanelCreacionUsuarios(), "panelCreacionUsuarios");
 		panelCentro.add(getPanelCreacionCategorias(), "panelCreacionCategorias");
+		panelCentro.add(getPanelConfirmarPedido(), "panelConfirmarPedido");
+		
 	}
 
 	// =============================
@@ -243,6 +247,14 @@ public class MenuPrincipal extends JFrame {
 
 		return panelCreacionCategorias;
 	}
+	
+	private PanelConfirmacionPedido getPanelConfirmarPedido(){
+		if(panelConfirmarPedido == null){
+			panelConfirmarPedido = new PanelConfirmacionPedido();
+			panelConfirmarPedido.setVentanaPrincipal(this);
+		}
+		return panelConfirmarPedido;
+	}
 
 	// =============================
 	// Panel de acciones
@@ -306,6 +318,12 @@ public class MenuPrincipal extends JFrame {
 	private JButton getBotonConfirmarPago() {
 		if (botonConfirmarPago == null) {
 			botonConfirmarPago = new JButton("Confirmar pago de un pedido");
+			botonConfirmarPago.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					panelConfirmarPedido.cargarDatos();
+					((CardLayout) panelCentro.getLayout()).show(panelCentro, "panelConfirmarPedido");
+				}
+			});
 			
 			botonConfirmarPago.setFont(new Font("Tahoma", Font.BOLD, 21));
 		}
