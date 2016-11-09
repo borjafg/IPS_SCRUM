@@ -1,5 +1,7 @@
 package business.impl.empaquetado;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.Paquete;
@@ -29,10 +31,12 @@ public class AsignarProductoPaquete implements Command {
 			ProductoEnOrdenTrabajo pot = ProductoEnOrdenTrabajoFinder.find(producto);
 			Paquete paq = PaqueteFinder.find(paquete);
 
+			pot.empaquetar(unidades);
+			
 			// Si el primer producto que se añade al paquete
 			if (paq.getPedido() == null) {
 				colocarProductoPaquete(pot, paq);
-				paquete.setPedido(pot.getproductoPedido().getPedido());
+				paq.setPedido(pot.getproductoPedido().getPedido());
 			}
 
 			// Si ya se habia añadido algún producto al paquete
@@ -62,8 +66,16 @@ public class AsignarProductoPaquete implements Command {
 			return null;
 		}
 
+		catch (IllegalArgumentException e) {
+			throw new BusinessException("La cantidad indicada supera a la que requiere la OT");
+		}
+
 		catch (MyPersistenceException e) {
-			throw new BusinessException(e);
+			throw new BusinessException("Error al asociar un producto a un paquete", e);
+		}
+
+		catch (PersistenceException e) {
+			throw new BusinessException("Error al conectar a la base de datos");
 		}
 	}
 

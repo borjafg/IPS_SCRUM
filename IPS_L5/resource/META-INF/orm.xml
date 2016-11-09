@@ -118,6 +118,16 @@
 	<named-query name="PosicionProducto.findAll">
 		<query>select p from PosicionProducto p</query>
 	</named-query>
+	
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - - Paquete - - - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	<named-query name="Paquete.findUltimoNumCaja">
+		<query>select p.numCaja from Paquete p where p.ordenTrabajo = :ordenTrabajo order by p.numCaja DESC</query>
+	</named-query>
 
 
 </entity-mappings>

@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -25,8 +27,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import model.Cliente;
 import model.Paquete;
+import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 import ui.almacen.myTypes.escaner.MyProductoEmpaquetar;
@@ -264,14 +266,18 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	// Control del estado de la ventana
 	// ========================================
 
-	public String generarEtiquetas(ProductoEnOrdenTrabajo producto, Cliente cliente, Paquete paquete) {
+	public void generarEtiquetas(Paquete paquete) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("Direccion: ").append(producto.getproductoPedido().getPedido().getDireccionCompleta()).append("\n");
-		sb.append("destinatario: ").append(cliente.getNombre()).append("\n");
+		sb.append("Direccion: ").append(paquete.getPedido().getDireccionCompleta()).append("\n");
+		sb.append("destinatario: ").append(paquete.getPedido().getCliente().getNombre()).append("\n");
 		sb.append("Codigo paquete: ").append(paquete.getId());
 
-		return sb.toString();
+		textAreaEtiquetas.setText(sb.toString());
+	}
+	
+	public void reiniciarEtiquetas() {
+		textAreaEtiquetas.setText("Todav\u00EDa no generadas");
 	}
 
 	public void removeProducto(String ref) {
@@ -291,5 +297,22 @@ public class EscanerProductosEmpaquetar extends JDialog {
 
 	public void setPanelEmpaquetadoProductos(PanelEmpaquetadoProductos panelEmpaquetadoProductos) {
 		this.panelEmpaquetadoProductos = panelEmpaquetadoProductos;
+	}
+
+	public void removeProductosPedido(Pedido pedido) {
+		List<MyProductoEmpaquetar> elementosBorrar = new ArrayList<MyProductoEmpaquetar>();
+		MyProductoEmpaquetar pe;
+		
+		for (Enumeration<MyProductoEmpaquetar> mpe = modeloProductosEmpaquetar.elements(); mpe.hasMoreElements();) {
+			pe = mpe.nextElement();
+			
+			if(!pe.getProductoOT().getproductoPedido().getPedido().equals(pedido)) {
+				elementosBorrar.add(pe);
+			}
+		}
+		
+		for(MyProductoEmpaquetar mpe : elementosBorrar) {
+			modeloProductosEmpaquetar.removeElement(mpe);
+		}
 	}
 }

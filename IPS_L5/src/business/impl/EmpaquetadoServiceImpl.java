@@ -5,6 +5,7 @@ import java.util.List;
 import business.EmpaquetadoService;
 import business.exception.BusinessException;
 import business.impl.empaquetado.AbrirPaquete;
+import business.impl.empaquetado.AsignarAlmaceneroOrdenTrabajo;
 import business.impl.empaquetado.AsignarProductoPaquete;
 import business.impl.empaquetado.CargarOrdenesTrabajoEmpaquetar;
 import business.impl.empaquetado.CargarPaquete;
@@ -13,6 +14,7 @@ import business.impl.empaquetado.CerrarPaquete;
 import business.impl.empaquetado.ObtenerCliente;
 import business.impl.empaquetado.ObtenerPedidosOrdenTrabajo;
 import business.impl.empaquetado.SePuedeCerrarPaquete;
+import business.impl.empaquetado.TerminarOrdenTrabajo;
 import business.impl.util.CommandExecutor;
 import model.Almacenero;
 import model.Cliente;
@@ -40,6 +42,11 @@ public class EmpaquetadoServiceImpl implements EmpaquetadoService {
 	@Override
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException {
 		return (List<MyPedido_OT_Retomar>) executor.execute(new ObtenerPedidosOrdenTrabajo(ot));
+	}
+	
+	@Override
+	public void asignarAlmaceneroOT(Almacenero almacenero, OrdenTrabajo ordenTrabajo) throws BusinessException {
+		executor.execute(new AsignarAlmaceneroOrdenTrabajo(almacenero, ordenTrabajo));
 	}
 
 	// --------------------------------------------
@@ -87,6 +94,11 @@ public class EmpaquetadoServiceImpl implements EmpaquetadoService {
 	@Override
 	public Cliente getClientePedido(Pedido pedido) throws BusinessException {
 		return (Cliente) executor.execute(new ObtenerCliente(pedido));
+	}
+
+	@Override
+	public void terminarOrdenTrabajo(OrdenTrabajo ordenTrabajo) throws BusinessException {
+		executor.execute(new TerminarOrdenTrabajo(ordenTrabajo));
 	}
 
 }

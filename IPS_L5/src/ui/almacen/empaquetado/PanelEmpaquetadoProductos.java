@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.Paquete;
+import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.escaneres.EscanerProductosEmpaquetar;
@@ -316,10 +317,10 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			panelOpciones = new JPanel();
 
 			FlowLayout fl_panelOpciones = (FlowLayout) panelOpciones.getLayout();
+			fl_panelOpciones.setHgap(1);
 
 			fl_panelOpciones.setAlignment(FlowLayout.RIGHT);
 			fl_panelOpciones.setVgap(8);
-			fl_panelOpciones.setHgap(10);
 
 			panelOpciones.add(getSpinnerUnidades());
 			panelOpciones.add(getBotonAtras());
@@ -372,7 +373,8 @@ public class PanelEmpaquetadoProductos extends JPanel {
 									.abrirPaquete(ventanaPrincipal.getOrdenTrabajo());
 
 							botonAbrirCerrarPaquete.setText("Cerrar paquete");
-							labelPaquete.setText(paqueteActual.getNumCaja() + "");
+							textFieldPaquete.setText(paqueteActual.getNumCaja() + "");
+							escaner.reiniciarEtiquetas();
 						}
 
 						catch (BusinessException e) {
@@ -387,8 +389,12 @@ public class PanelEmpaquetadoProductos extends JPanel {
 							if (ServiceFactory.getEmpaquetadoService().sePuedeCerrarPaquete(paqueteActual)) {
 								ServiceFactory.getEmpaquetadoService().cerrarPaquete(paqueteActual);
 								botonAbrirCerrarPaquete.setText("Abrir paquete");
-								
-								labelPaquete.setText("");
+
+								textFieldPaquete.setText("");
+
+								escaner.generarEtiquetas(paqueteActual);
+
+								paqueteActual = null;
 							}
 
 							else {
@@ -413,23 +419,26 @@ public class PanelEmpaquetadoProductos extends JPanel {
 									JOptionPane.showMessageDialog(ventanaPrincipal, "Se ha terminado empaquetar la OT",
 											"Info", JOptionPane.INFORMATION_MESSAGE);
 
-									reiniciarPanel();
-									ventanaPrincipal.volverPanelOpciones();
+									botonAbrirCerrarPaquete.setEnabled(false);
+
+									ServiceFactory.getEmpaquetadoService()
+											.terminarOrdenTrabajo(ventanaPrincipal.getOrdenTrabajo());
 								}
 
 								// Si todavía hay que empaquetar más productos
 								else {
 									modeloTablaProductosEmpaquetar.setProductos(productos);
 									escaner.llenarLista(productos);
-									
+
 									botonAtras.setEnabled(true);
 									botonAbrirCerrarPaquete.setEnabled(true);
-									
+
 									textFieldPedido.setText("");
-									
+
 									textFieldPaquete.setText("");
 								}
 
+								botonAtras.setEnabled(true);
 							}
 
 							catch (BusinessException e) {
@@ -462,8 +471,12 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		escaner.dispose();
 		escaner = null;
 
+		spinnerUnidades.setValue(1);
+
 		botonAtras.setEnabled(true);
 		spinnerUnidades.setEnabled(true);
+
+		botonAbrirCerrarPaquete.setEnabled(true);
 
 		botonAbrirCerrarPaquete.setText("");
 
@@ -485,6 +498,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 					JOptionPane.WARNING_MESSAGE);
 		}
 
+		// Si hay un paquete abierto y el prod es valido
 		else {
 			int unidadesEmpaquetar = (int) spinnerUnidades.getModel().getValue();
 			int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesEmpaquetadas();
@@ -495,18 +509,26 @@ public class PanelEmpaquetadoProductos extends JPanel {
 						JOptionPane.WARNING_MESSAGE);
 			}
 
+			// Si no empaqueta mas de lo que debe
 			else {
 
 				try {
 					ServiceFactory.getEmpaquetadoService().asignarProductoPaquete(prod, paqueteActual,
 							unidadesEmpaquetar);
 
-					if(getTextFieldPedido().getText().equals("")) {
-						paqueteActual.setPedido(prod.getproductoPedido().getPedido());
-						
-						getTextFieldPedido().setText(prod.getproductoPedido().getPedido() + "");
+					// Si es el primer producto empaquetado
+					if (getTextFieldPedido().getText().equals("")) {
+						getTextFieldPedido().setText(prod.getproductoPedido().getPedido().getId() + "");
+
+						// LimpiarModelo (dejar los productos del mismo pedido)
+						limpiarModelo(prod.getproductoPedido().getPedido());
 					}
-					
+
+					// Si es el primer producto que se mete en el paquete
+					if (paqueteActual.getPedido() == null) {
+						paqueteActual.setPedido(prod.getproductoPedido().getPedido());
+					}
+
 					spinnerUnidades.setValue(1);
 
 					if (unidadesFaltan - unidadesEmpaquetar == 0) {
@@ -517,7 +539,10 @@ public class PanelEmpaquetadoProductos extends JPanel {
 					}
 
 					else {
-						prod.recoger(unidadesEmpaquetar);
+						prod.empaquetar(unidadesEmpaquetar);
+
+						// Hay que actualizar la tabla
+						modeloTablaProductosEmpaquetar.fireTableDataChanged();
 					}
 				}
 
@@ -526,6 +551,18 @@ public class PanelEmpaquetadoProductos extends JPanel {
 				}
 			}
 		} // Fin primer else
+	}
+
+	/**
+	 * Elimina del modelo todos los productos que no pertenezcan al pedido.
+	 * 
+	 * @param pedido
+	 *            pedido que se usará para "filtrar"
+	 * 
+	 */
+	private void limpiarModelo(Pedido pedido) {
+		modeloTablaProductosEmpaquetar.removeProductosPedido(pedido);
+		escaner.removeProductosPedido(pedido);
 	}
 
 	/**
@@ -539,6 +576,9 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			spinnerUnidades.setEnabled(false);
 
 			textFieldPedido.setText("");
+
+			JOptionPane.showMessageDialog(ventanaPrincipal, "Cierre el paquete actual para continuar", "Aviso",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -596,7 +636,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			textFieldPaquete.setText(paquete.getNumCaja() + "");
 
 			if (paquete.getPedido() != null) {
-				textFieldPedido.setText(paquete.getId() + "");
+				textFieldPedido.setText(paquete.getPedido().getId() + "");
 			}
 		}
 	}

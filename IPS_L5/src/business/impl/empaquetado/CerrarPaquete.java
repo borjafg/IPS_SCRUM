@@ -31,6 +31,8 @@ public class CerrarPaquete implements Command {
 			
 			else {
 				paq.setEstado(EstadoPaquete.CERRADO);
+				paq.setDestinatario(paq.getPedido().getCliente().getNombre());
+				paq.setDireccionCompleta(paq.getPedido().getDireccionCompleta());
 			}
 
 			return null;

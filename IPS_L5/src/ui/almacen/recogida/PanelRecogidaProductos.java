@@ -369,7 +369,7 @@ public class PanelRecogidaProductos extends JPanel {
 		escaner.dispose();
 		escaner = null;
 
-		botonIncidencias.setEnabled(false);
+		botonIncidencias.setEnabled(true);
 		
 		spinnerUnidades.setValue(1);
 
