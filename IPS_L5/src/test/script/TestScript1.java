@@ -23,6 +23,8 @@ public class TestScript1 implements Command {
 			Jpa.getManager().persist(cliente);// vamos generando cada uno de los
 												// clientes minoristas
 		}
+		
+		System.out.println("Creados clientes por defecto a cholón");
 
 		Categoria categoriaPadre;
 		Producto producto;
@@ -70,6 +72,8 @@ public class TestScript1 implements Command {
 					}
 				}
 			}
+			
+			System.out.println("Creadas categorías, productos y posiciones por defecto a cholón");
 
 		}//finaliza creacion de productos, posiciones y categorias anidadas
 		
@@ -87,6 +91,7 @@ public class TestScript1 implements Command {
 			Jpa.getManager().persist(almacenero);
 		}
 		
+		System.out.println("Creados almaceneros a cholón");
 		
 		Cliente clientenormal;
 		clientenormal = new Cliente();
@@ -112,6 +117,7 @@ public class TestScript1 implements Command {
 		categoriaNormal.setNombre("Consumibles");
 		Jpa.getManager().persist(categoriaNormal);
 		
+		System.out.println("Creados clientes especiales");
 		///
 		
 		Categoria subCategoria;
@@ -153,7 +159,7 @@ public class TestScript1 implements Command {
 		Jpa.getManager().persist(prod);
 		
 		
-		
+		System.out.println("Creadas categorías especiales");
 		
 		
 		
