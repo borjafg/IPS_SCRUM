@@ -287,6 +287,9 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 						int fila = getTablaOrdenesTrabajo().getSelectedRow();
 
 						if (fila != -1) {
+							ServiceFactory.getEmpaquetadoService().asignarAlmaceneroOT(ventanaPrincipal.getAlmacenero(),
+									modeloTablaOrdenesTrabajo.getOrdenTrabajo(fila));
+
 							ventanaPrincipal.setOrdenTrabajo(modeloTablaOrdenesTrabajo.getOrdenTrabajo(fila));
 
 							ventanaPrincipal.mostrarPanelEmpaquetadoProductos();

@@ -3,6 +3,7 @@ package ui.almacen.myTypes.tablas.modelosTabla;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 
 public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditable {
@@ -35,7 +36,7 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 			return productos.get(rowIndex).getproductoPedido().getProducto().getDescripcion();
 
 		case 3:
-			return productos.get(rowIndex).getUnidadesProducto();
+			return productos.get(rowIndex).getUnidadesProducto() - productos.get(rowIndex).getUnidadesEmpaquetadas();
 
 		default:
 			return null;
@@ -80,6 +81,24 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 	@Override
 	public void removeAll() {
 		productos.clear();
+
+		// Hay que actualizar la tabla
+		this.fireTableDataChanged();
+	}
+
+	public void removeProductosPedido(Pedido pedido) {
+
+		List<ProductoEnOrdenTrabajo> elementosBorrar = new ArrayList<ProductoEnOrdenTrabajo>();
+
+		for (ProductoEnOrdenTrabajo pot : productos) {
+			if (!pot.getproductoPedido().getPedido().equals(pedido)) {
+				elementosBorrar.add(pot);
+			}
+		}
+		
+		for(ProductoEnOrdenTrabajo pot : elementosBorrar) {
+			productos.remove(pot);
+		}
 
 		// Hay que actualizar la tabla
 		this.fireTableDataChanged();

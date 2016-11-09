@@ -1,5 +1,7 @@
 package persistence;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
@@ -50,16 +52,18 @@ public class PaqueteFinder {
 
 	public static int findUltimoNumCaja(OrdenTrabajo ordenTrabajo) throws MyPersistenceException {
 		try {
-			Integer numCaja = Jpa.getManager().createNamedQuery("Paquete.findUltimoNumCaja", Integer.class)
-					.setParameter("ordenTrabajo", ordenTrabajo).getSingleResult();
+			List<Integer> numsCaja = Jpa.getManager().createNamedQuery("Paquete.findUltimoNumCaja", Integer.class)
+					.setParameter("ordenTrabajo", ordenTrabajo).getResultList();
 			
-			return numCaja;
+			if(numsCaja.isEmpty()) {
+				return 0;
+			}
+			
+			else {
+				return numsCaja.get(0);
+			}
 		}
 
-		catch(NoResultException e) {
-			return 0; // No se habia creado ningún paquete
-		}
-		
 		catch (PersistenceException e) {
 			throw new MyPersistenceException("Ha ocurrido un problema al generar un numero de caja");
 		}

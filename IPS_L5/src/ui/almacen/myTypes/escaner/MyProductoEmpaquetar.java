@@ -24,4 +24,35 @@ public class MyProductoEmpaquetar {
 		
 		return sb.toString();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((prodOT == null) ? 0 : prodOT.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if (obj == null)
+			return false;
+		
+		if (getClass() != obj.getClass())
+			return false;
+		
+		MyProductoEmpaquetar other = (MyProductoEmpaquetar) obj;
+		
+		if (prodOT == null) {
+			if (other.prodOT != null)
+				return false;
+		} else if (!prodOT.equals(other.prodOT))
+			return false;
+		
+		return true;
+	}
+	
 }
