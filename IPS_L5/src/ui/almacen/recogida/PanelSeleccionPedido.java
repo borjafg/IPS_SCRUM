@@ -56,7 +56,7 @@ public class PanelSeleccionPedido extends JPanel {
 		add(getScrollPanePedidos(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
 
-		setPreferredSize(new Dimension(300, 450));
+		setPreferredSize(new Dimension(300, 400));
 	}
 
 	public void inicializarDatos() throws BusinessException {
@@ -71,7 +71,7 @@ public class PanelSeleccionPedido extends JPanel {
 		if (labelPedidos == null) {
 			labelPedidos = new JLabel("Pedidos sin orden trabajo");
 
-			labelPedidos.setFont(new Font("Tahoma", Font.BOLD, 18));
+			labelPedidos.setFont(new Font("Tahoma", Font.BOLD, 12));
 			labelPedidos.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -176,7 +176,7 @@ public class PanelSeleccionPedido extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonAtras.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonAtras;

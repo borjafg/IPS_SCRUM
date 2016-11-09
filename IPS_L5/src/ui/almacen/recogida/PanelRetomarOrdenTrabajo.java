@@ -21,7 +21,7 @@ public class PanelRetomarOrdenTrabajo extends AbstractPanelRetomarOrdenTrabajo {
 	public PanelRetomarOrdenTrabajo() {
 		super();
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 400));
 	}
 
 	@Override

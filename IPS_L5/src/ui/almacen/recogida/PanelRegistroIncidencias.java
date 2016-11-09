@@ -53,7 +53,7 @@ public class PanelRegistroIncidencias extends JPanel {
 	public PanelRegistroIncidencias() {
 		super();
 
-		setPreferredSize(new Dimension(300, 450));
+		setPreferredSize(new Dimension(300, 400));
 		setLayout(new BorderLayout(0, 0));
 
 		add(getPanelNorte(), BorderLayout.NORTH);
@@ -65,7 +65,7 @@ public class PanelRegistroIncidencias extends JPanel {
 		if (labelRegistrarIncidencia == null) {
 			labelRegistrarIncidencia = new JLabel("Registrar incidencia");
 
-			labelRegistrarIncidencia.setFont(new Font("Tahoma", Font.BOLD, 17));
+			labelRegistrarIncidencia.setFont(new Font("Tahoma", Font.BOLD, 12));
 			labelRegistrarIncidencia.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -108,7 +108,7 @@ public class PanelRegistroIncidencias extends JPanel {
 
 			textAreaIncidencia.setWrapStyleWord(true);
 			textAreaIncidencia.setLineWrap(true);
-			textAreaIncidencia.setFont(new Font("Monospaced", Font.PLAIN, 16));
+			textAreaIncidencia.setFont(new Font("Monospaced", Font.PLAIN, 13));
 
 			// Limitar numero de caracteres
 			((AbstractDocument) textAreaIncidencia.getDocument()).setDocumentFilter(new JTextAreaLimiter(240));
@@ -169,7 +169,7 @@ public class PanelRegistroIncidencias extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonAtras.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonAtras;
@@ -191,7 +191,7 @@ public class PanelRegistroIncidencias extends JPanel {
 			});
 
 			botonRegistrar.setBorder(null);
-			botonRegistrar.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonRegistrar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonRegistrar;

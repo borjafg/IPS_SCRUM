@@ -11,8 +11,6 @@ import javax.swing.border.EmptyBorder;
 import business.exception.BusinessException;
 import model.Almacenero;
 import model.OrdenTrabajo;
-
-import ui.almacen.almacenero.PanelLoginAlmacenero;
 import ui.almacen.almacenero.PanelOpcionesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 import ui.almacen.empaquetado.PanelOrdenesTrabajoEmpaquetar;
@@ -20,6 +18,7 @@ import ui.almacen.recogida.PanelRecogidaProductos;
 import ui.almacen.recogida.PanelRegistroIncidencias;
 import ui.almacen.recogida.PanelRetomarOrdenTrabajo;
 import ui.almacen.recogida.PanelSeleccionPedido;
+import java.awt.GridBagLayout;
 
 public class VentanaPrincipalAlmacenero extends JFrame {
 
@@ -36,7 +35,6 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	// Paneles iniciales
 
-	private PanelLoginAlmacenero panelLoginAlmacenero;
 	private PanelOpcionesAlmacenero panelOpcionesAlmacenero;
 
 	// Paneles Recogida de productos
@@ -81,7 +79,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		setTitle("Gestión del almacén");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 300, 450);
+		setBounds(100, 100, 300, 400);
 		setResizable(false);
 
 		contentPane = new JPanel();
@@ -103,13 +101,12 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		// ===== Inicio de la aplicación =====
 		// ===================================
 
-		panelLoginAlmacenero = new PanelLoginAlmacenero();
-		panelLoginAlmacenero.setVentanaPrincipal(this);
-
 		panelOpcionesAlmacenero = new PanelOpcionesAlmacenero();
+		GridBagLayout gridBagLayout = (GridBagLayout) panelOpcionesAlmacenero.getLayout();
+		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+		gridBagLayout.rowHeights = new int[]{20, 40, 20, 50, 50, 50, 50, 50, 80};
 		panelOpcionesAlmacenero.setVentanaPrincipal(this);
 
-		contentPane.add(panelLoginAlmacenero, "panelLoginAlmacenero");
 		contentPane.add(panelOpcionesAlmacenero, "panelOpcionesAlmacenero");
 
 		// =========================================================
@@ -167,8 +164,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public void logout() {
-		// Volver a la pantalla de login
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelLoginAlmacenero");
+		this.almacenero = null;
 	}
 
 	/**

@@ -71,7 +71,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 		add(getPanelCentro(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 400));
 	}
 
 	// =====================================
@@ -138,7 +138,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 		if (labelOrdenesTrabajo == null) {
 			labelOrdenesTrabajo = new JLabel("\u00D3rdenes de Trabajo");
 
-			labelOrdenesTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			labelOrdenesTrabajo.setFont(new Font("Tahoma", Font.BOLD, 13));
 			labelOrdenesTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -193,7 +193,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 		if (labelPedidos == null) {
 			labelPedidos = new JLabel("Pedidos en la orden trabajo");
 
-			labelPedidos.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			labelPedidos.setFont(new Font("Tahoma", Font.BOLD, 13));
 			labelPedidos.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -228,7 +228,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 		if (panelSur == null) {
 			panelSur = new JPanel();
 
-			panelSur.setBorder(new EmptyBorder(8, 8, 8, 8));
+			panelSur.setBorder(new EmptyBorder(4, 4, 4, 4));
 
 			GridBagLayout gbl_panelSur = new GridBagLayout();
 
@@ -271,7 +271,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonAtras.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonAtras;
@@ -303,7 +303,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 				}
 			});
 
-			botonEmpezarEmpquetar.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonEmpezarEmpquetar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonEmpezarEmpquetar;

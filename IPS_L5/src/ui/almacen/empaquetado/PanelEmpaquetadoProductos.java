@@ -81,7 +81,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	public PanelEmpaquetadoProductos() throws BusinessException {
 		super();
 
-		setPreferredSize(new Dimension(300, 450));
+		setPreferredSize(new Dimension(300, 400));
 
 		setLayout(new BorderLayout(0, 0));
 		add(getPanelNorte(), BorderLayout.NORTH);
@@ -134,7 +134,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			labelOrdenTrabajo = new JLabel("Cod. Orden de Trabajo:");
 
 			labelOrdenTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
-			labelOrdenTrabajo.setFont(new Font("Tahoma", Font.BOLD, 14));
+			labelOrdenTrabajo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		}
 
 		return labelOrdenTrabajo;
@@ -143,7 +143,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldOrdenTrabajo() {
 		if (textFieldOrdenTrabajo == null) {
 			textFieldOrdenTrabajo = new JTextField();
-			textFieldOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			textFieldOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 			textFieldOrdenTrabajo.setEditable(false);
 			textFieldOrdenTrabajo.setColumns(10);
@@ -210,7 +210,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 			GridBagLayout gbl_panelPaqueteInfo = new GridBagLayout();
 
-			gbl_panelPaqueteInfo.columnWidths = new int[] { 80, 160, 0 };
+			gbl_panelPaqueteInfo.columnWidths = new int[] { 100, 140, 0 };
 			gbl_panelPaqueteInfo.rowHeights = new int[] { 40, 5, 40, 0 };
 			gbl_panelPaqueteInfo.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 			gbl_panelPaqueteInfo.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
@@ -261,7 +261,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			labelPedido = new JLabel("Pedido empaquetar:");
 
 			labelPedido.setBorder(null);
-			labelPedido.setFont(new Font("Tahoma", Font.BOLD, 16));
+			labelPedido.setFont(new Font("Tahoma", Font.BOLD, 12));
 			labelPedido.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -271,6 +271,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldPedido() {
 		if (textFieldPedido == null) {
 			textFieldPedido = new JTextField("");
+			textFieldPedido.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			textFieldPedido.setEditable(false);
 
 			textFieldPedido.setHorizontalAlignment(SwingConstants.LEFT);
@@ -287,7 +288,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			labelPaquete = new JLabel("Cod. paquete:");
 
 			labelPaquete.setBorder(null);
-			labelPaquete.setFont(new Font("Tahoma", Font.BOLD, 16));
+			labelPaquete.setFont(new Font("Tahoma", Font.BOLD, 12));
 			labelPaquete.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -297,6 +298,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldPaquete() {
 		if (textFieldPaquete == null) {
 			textFieldPaquete = new JTextField("");
+			textFieldPaquete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			textFieldPaquete.setEditable(false);
 
 			textFieldPaquete.setHorizontalAlignment(SwingConstants.LEFT);
@@ -317,7 +319,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			panelOpciones = new JPanel();
 
 			FlowLayout fl_panelOpciones = (FlowLayout) panelOpciones.getLayout();
-			fl_panelOpciones.setHgap(1);
+			fl_panelOpciones.setHgap(3);
 
 			fl_panelOpciones.setAlignment(FlowLayout.RIGHT);
 			fl_panelOpciones.setVgap(8);
@@ -334,7 +336,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		if (spinnerUnidades == null) {
 			spinnerUnidades = new JSpinner();
 
-			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			spinnerUnidades.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 		}
 
@@ -353,7 +355,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 
 		return botonAtras;
@@ -450,7 +452,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 				}
 			});
 
-			botonAbrirCerrarPaquete.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			botonAbrirCerrarPaquete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 
 		return botonAbrirCerrarPaquete;
