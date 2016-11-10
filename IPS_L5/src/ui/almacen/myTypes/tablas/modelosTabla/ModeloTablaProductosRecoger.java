@@ -14,7 +14,7 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 
 	public ModeloTablaProductosRecoger() {
 		super(new String[] { "referencia", "descripcion", "unidades", "posición" },
-				new Class[] { String.class, String.class, Integer.class, String.class });
+				new Class[] { String.class, String.class, String.class, String.class });
 
 		productos = new ArrayList<MyProducto_OrdenadoPosicion>();
 	}
@@ -36,7 +36,7 @@ public class ModeloTablaProductosRecoger extends AbstractModeloTablaNoEditable {
 			return prod.getProducto().getproductoPedido().getProducto().getDescripcion();
 
 		case 2: // Unidades que qudan por recoger
-			return prod.getProducto().getUnidadesProducto() - prod.getProducto().getUnidadesRecogidas();
+			return prod.getProducto().getUnidadesProducto() - prod.getProducto().getUnidadesRecogidas() + "";
 
 		case 3: // Posición del producto
 			return prod.getInfo();

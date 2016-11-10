@@ -35,6 +35,7 @@ import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.escaneres.EscanerProductosRecoger;
 import ui.almacen.myTypes.model.MyProducto_OrdenadoPosicion;
+import ui.almacen.myTypes.tablas.TablaFilasConVariasLineasRenderer;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosRecoger;
 
 public class PanelRecogidaProductos extends JPanel {
@@ -151,6 +152,8 @@ public class PanelRecogidaProductos extends JPanel {
 			tablaProductos = new JTable(modeloTablaProductos);
 
 			tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+			
+			tablaProductos.setDefaultRenderer(String.class, new TablaFilasConVariasLineasRenderer());
 		}
 
 		return tablaProductos;
