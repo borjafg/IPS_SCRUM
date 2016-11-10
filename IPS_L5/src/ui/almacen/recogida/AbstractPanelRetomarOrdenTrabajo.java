@@ -76,7 +76,7 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 		add(getPanelCentro(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
 
-		setPreferredSize(new Dimension(374, 530));
+		setPreferredSize(new Dimension(300, 400));
 	}
 
 	// =====================================

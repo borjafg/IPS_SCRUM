@@ -1,6 +1,5 @@
 package ui.almacen.almacenero;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -10,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import model.Almacenero;
 import ui.almacen.VentanaPrincipalAlmacenero;
 
 public class PanelOpcionesAlmacenero extends JPanel {
@@ -26,33 +27,37 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JButton botonGenerar;
 	private JButton botonRetomar;
 	private JButton botonEmpaquetar;
-	private JButton botonLogout;
-	private JLabel labelErrores;
+	private JTextField textField;
+	private JButton botonLogIn;
 
 	public PanelOpcionesAlmacenero() {
 		super();
 
-		setPreferredSize(new Dimension(300, 450));
+		setPreferredSize(new Dimension(300, 400));
 		colocarLayout();
 
-		// -------------------------------------
-		// Añadir componentes dentro del layout
-		// -------------------------------------
+		GridBagConstraints gbc_textField = new GridBagConstraints();
 
-		// ====== labelErrores ======
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.fill = GridBagConstraints.BOTH;
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 1;
 
-		GridBagConstraints gbc_labelErrores = new GridBagConstraints();
+		add(getTextField(), gbc_textField);
 
-		gbc_labelErrores.fill = GridBagConstraints.BOTH;
-		gbc_labelErrores.insets = new Insets(0, 0, 5, 5);
-		gbc_labelErrores.gridx = 1;
-		gbc_labelErrores.gridy = 1;
+		GridBagConstraints gbc_botonLogIn = new GridBagConstraints();
 
-		add(getLabelErrores(), gbc_labelErrores);
+		gbc_botonLogIn.fill = GridBagConstraints.BOTH;
+		gbc_botonLogIn.insets = new Insets(0, 0, 5, 5);
+		gbc_botonLogIn.gridx = 3;
+		gbc_botonLogIn.gridy = 1;
+
+		add(getBotonLogIn(), gbc_botonLogIn);
 
 		// ====== botonGenerar ======
 
 		GridBagConstraints gbc_botonGenerar = new GridBagConstraints();
+		gbc_botonGenerar.gridwidth = 3;
 
 		gbc_botonGenerar.fill = GridBagConstraints.BOTH;
 		gbc_botonGenerar.insets = new Insets(0, 0, 5, 5);
@@ -64,6 +69,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		// ====== botonRetomar ======
 
 		GridBagConstraints gbc_botonRetomar = new GridBagConstraints();
+		gbc_botonRetomar.gridwidth = 3;
 
 		gbc_botonRetomar.fill = GridBagConstraints.BOTH;
 		gbc_botonRetomar.insets = new Insets(0, 0, 5, 5);
@@ -75,6 +81,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		// ====== botonEmpaquetar ======
 
 		GridBagConstraints gbc_botonEmpaquetar = new GridBagConstraints();
+		gbc_botonEmpaquetar.gridwidth = 3;
 
 		gbc_botonEmpaquetar.fill = GridBagConstraints.BOTH;
 		gbc_botonEmpaquetar.insets = new Insets(0, 0, 5, 5);
@@ -82,55 +89,102 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		gbc_botonEmpaquetar.gridy = 7;
 
 		add(getBotonEmpaquetar(), gbc_botonEmpaquetar);
-
-		// ====== botonLogout ======
-
-		GridBagConstraints gbc_botonLogout = new GridBagConstraints();
-
-		gbc_botonLogout.fill = GridBagConstraints.BOTH;
-		gbc_botonLogout.insets = new Insets(0, 0, 5, 5);
-		gbc_botonLogout.gridx = 1;
-		gbc_botonLogout.gridy = 9;
-
-		add(getBotonLogout(), gbc_botonLogout);
 	}
 
 	private void colocarLayout() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 
-		gridBagLayout.columnWidths = new int[] { 30, 260, 30, 0 };
-		gridBagLayout.rowHeights = new int[] { 20, 40, 20, 50, 50, 50, 50, 50, 50, 50, 93, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-				Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[] { 10, 110, 10, 100, 10, 0 };
+		gridBagLayout.rowHeights = new int[] { 20, 40, 20, 50, 50, 50, 50, 50, 93, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 
 		setLayout(gridBagLayout);
 	}
 
-	private JLabel getLabelErrores() {
-		if (labelErrores == null) {
-			labelErrores = new JLabel();
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			textField.setHorizontalAlignment(SwingConstants.LEFT);
+			textField.setColumns(10);
+		}
+		return textField;
+	}
 
-			labelErrores.setForeground(new Color(165, 42, 42));
-			labelErrores.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			labelErrores.setHorizontalAlignment(SwingConstants.CENTER);
+	private JButton getBotonLogIn() {
+		if (botonLogIn == null) {
+			botonLogIn = new JButton("log in");
+
+			botonLogIn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						// Quiere loguearse
+						if (ventanaPrincipal.getAlmacenero() == null) {
+
+							if (getTextField().getText() != null && getTextField().getText() != "") {
+								Almacenero almacenero = ServiceFactory.getAlmaceneroService()
+										.login(getTextField().getText());
+
+								if (almacenero != null) {
+									login(almacenero);
+								}
+							}
+						}
+						
+						// Quiere hacer logout
+						else {
+							logout();
+						}
+					}
+
+					catch (BusinessException excep) {
+						ventanaPrincipal.gestionarErrorConexion(excep);
+					}
+				}
+			});
+
+			botonLogIn.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
-		return labelErrores;
+		return botonLogIn;
 	}
+	
+	private void login(Almacenero almacenero) {
+		ventanaPrincipal.login(almacenero);
+		getTextField().setEditable(false);
+		
+		bloquearBotones(false);
+		botonLogIn.setText("Logout");
+	}
+	
+	private void logout() {
+		ventanaPrincipal.logout();
+		getTextField().setEditable(true);
+		botonLogIn.setText("Login");
+	}
+	
+	public void bloquearBotones(boolean bloquear) {
+		botonGenerar.setEnabled(bloquear);
+		botonEmpaquetar.setEnabled(bloquear);
+	}
+
+	// =================================================
+
+	// =================================================
 
 	private JButton getBotonGenerar() {
 		if (botonGenerar == null) {
 			botonGenerar = new JButton("Generar Orden de Trabajo");
+			botonGenerar.setEnabled(false);
 
 			botonGenerar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-						ventanaPrincipal.mostrarPanelSeleccionPedidos();
-						reiniciar();
+					ventanaPrincipal.mostrarPanelSeleccionPedidos();
 				}
 			});
 
-			botonGenerar.setFont(new Font("Tahoma", Font.BOLD, 17));
+			botonGenerar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
 		return botonGenerar;
@@ -139,19 +193,19 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JButton getBotonRetomar() {
 		if (botonRetomar == null) {
 			botonRetomar = new JButton("Retomar Orden de Trabajo");
+			botonRetomar.setEnabled(false);
 
 			botonRetomar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						ventanaPrincipal.mostrarPanelOrdenesTrabajoRetomar();
-						reiniciar();
 					} catch (BusinessException excep) {
-						mostrarErrorConexion();
+						ventanaPrincipal.gestionarErrorConexion(excep);
 					}
 				}
 			});
 
-			botonRetomar.setFont(new Font("Tahoma", Font.BOLD, 17));
+			botonRetomar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
 		return botonRetomar;
@@ -160,52 +214,27 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JButton getBotonEmpaquetar() {
 		if (botonEmpaquetar == null) {
 			botonEmpaquetar = new JButton("Empaquetar Orden de Trabajo");
+			botonEmpaquetar.setEnabled(false);
 
 			botonEmpaquetar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						ventanaPrincipal.mostrarPanelOrdenesTrabajoEmpaquetar();
-						reiniciar();
 					} catch (BusinessException excep) {
-						mostrarErrorConexion();
+						ventanaPrincipal.gestionarErrorConexion(excep);
 					}
 				}
 			});
 
-			botonEmpaquetar.setFont(new Font("Tahoma", Font.BOLD, 17));
+			botonEmpaquetar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
 		return botonEmpaquetar;
 	}
 
-	private JButton getBotonLogout() {
-		if (botonLogout == null) {
-			botonLogout = new JButton("Cerrar sesi\u00F3n");
-
-			botonLogout.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					reiniciar();
-					ventanaPrincipal.logout();
-				}
-			});
-
-			botonLogout.setFont(new Font("Tahoma", Font.BOLD, 17));
-		}
-
-		return botonLogout;
-	}
-
 	// ==============================================
 	// Controlar el estado del panel
 	// ==============================================
-
-	public void mostrarErrorConexion() {
-		getLabelErrores().setText("Error de conexi\u00F3n");
-	}
-
-	private void reiniciar() {
-		getLabelErrores().setText("");
-	}
 
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;

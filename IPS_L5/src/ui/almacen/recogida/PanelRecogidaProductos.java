@@ -79,7 +79,7 @@ public class PanelRecogidaProductos extends JPanel {
 	public PanelRecogidaProductos() {
 		super();
 
-		setPreferredSize(new Dimension(300, 450));
+		setPreferredSize(new Dimension(300, 400));
 		setLayout(new BorderLayout(0, 0));
 
 		add(getPanelNorte(), BorderLayout.NORTH);
@@ -110,7 +110,7 @@ public class PanelRecogidaProductos extends JPanel {
 			labelCodOrdenTrabajo.setHorizontalTextPosition(SwingConstants.CENTER);
 			labelCodOrdenTrabajo.setAlignmentX(Component.CENTER_ALIGNMENT);
 			labelCodOrdenTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
-			labelCodOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			labelCodOrdenTrabajo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return labelCodOrdenTrabajo;
@@ -121,7 +121,7 @@ public class PanelRecogidaProductos extends JPanel {
 			textFieldCodOrdenTrabajo = new JTextField();
 
 			textFieldCodOrdenTrabajo.setEditable(false);
-			textFieldCodOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			textFieldCodOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			textFieldCodOrdenTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldCodOrdenTrabajo.setColumns(10);
 		}
@@ -235,7 +235,7 @@ public class PanelRecogidaProductos extends JPanel {
 			spinnerUnidades = new JSpinner();
 
 			spinnerUnidades.setModel(new SpinnerNumberModel(1, 0, 100, 1));
-			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			spinnerUnidades.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 
 		return spinnerUnidades;
@@ -253,7 +253,7 @@ public class PanelRecogidaProductos extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonAtras.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonAtras;
@@ -269,7 +269,7 @@ public class PanelRecogidaProductos extends JPanel {
 				}
 			});
 
-			botonIncidencias.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonIncidencias.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonIncidencias;
