@@ -70,7 +70,7 @@
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<named-query name="OrdenTrabajo.findOrdenesTrabajoEmpaquetarAlmacenero">
-		<query>select o from OrdenTrabajo o where o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almacenero and o.incidencias is empty order by o.id</query>
+		<query>select o from OrdenTrabajo o where o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and (o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almacenero) and o.incidencias is empty order by o.id</query>
 	</named-query>
 
 	<named-query name="OrdenTrabajo.findNumPedidosFaltaEmpaquetar">

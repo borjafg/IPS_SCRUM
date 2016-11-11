@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+
+	<!-- Un logger 'A' es padre de otro 'B', si 'A' está -->
+	<!-- en una de las categorias superiores a 'B'. -->
+
+	<!-- Ejemplo: -->
+
+	<!-- logger.Root -->
+	<!-- logger.categoria1.A -->
+	<!-- logger.categoria1.cat2.B -->
+
+	<!-- Root es padre 'A' y 'B' -->
+	<!-- 'A' es padre de 'B' -->
+
+	<!-- Los loggers por defecto envian los mensajes al padre, lo -->
+	<!-- que puede hacer que se dupliquen mensajes si se indican -->
+	<!-- más salidas a parte de la que hay por defecto -->
+
+	<!-- Root es padre de todos los logger -->
+	<!-- Para evitar enviar los mensajes a los padres se usa la -->
+	<!-- propiedad additivity="false" que tienen los logger -->
+
+	<!-- ================ -->
+	<!-- Posibles salidas -->
+	<!-- ================ -->
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+
+		<Console name="My_Logger" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %logger{36} -----> %-5level  - %msg%n" />
+		</Console>
+	</Appenders>
+
+	<!-- ==================== -->
+	<!-- Loggers configurados -->
+	<!-- ==================== -->
+
+	<Loggers>
+
+		<!-- - - - - - - - - - - -->
+		<!-- Logger de hibernate -->
+		<!-- - - - - - - - - - - -->
+
+		<logger name="org.hibernate" level="info" additivity="false">
+			<AppenderRef ref="Console" />
+		</logger>
+
+		<!-- - - - - - - - - - -->
+		<!-- Logger para debug -->
+		<!-- - - - - - - - - - -->
+		<logger name="MyLogger" level="debug" additivity="false">
+			<AppenderRef ref="My_Logger" />
+		</logger>
+
+		<!-- - - - - - - - - - -->
+		<!-- Logger por defecto -->
+		<!-- - - - - - - - - - -->
+
+		<Root level="warn">
+			<!-- Salidas -->
+			<AppenderRef ref="Console" />
+		</Root>
+
+	</Loggers>
+
+</Configuration>

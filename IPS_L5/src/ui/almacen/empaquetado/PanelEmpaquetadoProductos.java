@@ -434,6 +434,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 									botonAtras.setEnabled(true);
 									botonAbrirCerrarPaquete.setEnabled(true);
+									spinnerUnidades.setEnabled(true);
 
 									textFieldPedido.setText("");
 
