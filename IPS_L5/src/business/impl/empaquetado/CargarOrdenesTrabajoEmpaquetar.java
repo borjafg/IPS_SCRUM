@@ -3,6 +3,8 @@ package business.impl.empaquetado;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.Almacenero;
@@ -39,8 +41,8 @@ public class CargarOrdenesTrabajoEmpaquetar implements Command {
 			return ordenesTrabajo;
 		}
 
-		catch (MyPersistenceException e) {
-			throw new BusinessException();
+		catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al cargar la lista de OT para empaquetar", e);
 		}
 	}
 

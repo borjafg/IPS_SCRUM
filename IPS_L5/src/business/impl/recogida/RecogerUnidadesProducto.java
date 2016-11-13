@@ -26,7 +26,7 @@ public class RecogerUnidadesProducto implements Command {
 			prod.recoger(unidades);
 
 		} catch (MyPersistenceException | PersistenceException e) {
-			throw new BusinessException(e);
+			throw new BusinessException("Ha ocurrido un error al intentar recoger un producto", e);
 		}
 
 		return null;

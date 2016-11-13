@@ -53,8 +53,8 @@ public class AlmacenServiceImpl implements RecogidaService {
 	}
 	
 	@Override
-	public void marcarOT_empaquetado(OrdenTrabajo ordenTrabajo) throws BusinessException {
-		executor.execute(new MarcarOT_empaquetado(ordenTrabajo));
+	public void marcarOT_empaquetado(OrdenTrabajo ordenTrabajo, Almacenero almacenero) throws BusinessException {
+		executor.execute(new MarcarOT_empaquetado(ordenTrabajo, almacenero));
 	}
 
 	// -------------------------------

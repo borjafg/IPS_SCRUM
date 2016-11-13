@@ -154,17 +154,19 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		ventanaPrincipal.login(almacenero);
 		getTextField().setEditable(false);
 		
-		bloquearBotones(false);
+		botonesBloqueados(true);
 		botonLogIn.setText("Logout");
 	}
 	
 	private void logout() {
 		ventanaPrincipal.logout();
 		getTextField().setEditable(true);
+		
+		botonesBloqueados(false);
 		botonLogIn.setText("Login");
 	}
 	
-	public void bloquearBotones(boolean bloquear) {
+	public void botonesBloqueados(boolean bloquear) {
 		botonGenerar.setEnabled(bloquear);
 		botonEmpaquetar.setEnabled(bloquear);
 	}

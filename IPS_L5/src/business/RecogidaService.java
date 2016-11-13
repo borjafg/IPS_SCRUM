@@ -28,7 +28,7 @@ public interface RecogidaService {
 
 	public void recogerUnidadesProducto(ProductoEnOrdenTrabajo prod, int unidadesRecoger) throws BusinessException;
 
-	public void marcarOT_empaquetado(OrdenTrabajo ordenTrabajo) throws BusinessException;
+	public void marcarOT_empaquetado(OrdenTrabajo ordenTrabajo, Almacenero almacenero) throws BusinessException;
 
 	// -------------------------------
 	// Gestión de incidencias

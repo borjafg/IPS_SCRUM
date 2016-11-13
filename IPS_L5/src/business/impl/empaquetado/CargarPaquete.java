@@ -9,6 +9,7 @@ import model.Paquete;
 import model.types.EstadoPaquete;
 import persistence.OrdenTrabajoFinder;
 import persistence.exception.MyPersistenceException;
+import persistence.util.Jpa;
 
 public class CargarPaquete implements Command {
 
@@ -22,20 +23,36 @@ public class CargarPaquete implements Command {
 	public Object execute() throws BusinessException {
 
 		try {
+			Paquete paq = null;
+
 			OrdenTrabajo ot = OrdenTrabajoFinder.find(ordenTrabajo);
 
 			for (Paquete paquete : ot.getPaquetes()) {
 
 				if (paquete.getEstado() == EstadoPaquete.ABIERTO) {
-					return paquete;
+					paq = paquete;
+					break;
 				}
 			}
 
-		} catch (MyPersistenceException | PersistenceException e) {
-			throw new BusinessException(e);
-		}
+			// -----------------------------------
+			// Si no hay ninún paquete abierto
+			// -----------------------------------
 
-		return null;
+			if (paq == null) {
+				paq = new Paquete(ot);
+
+				paq.setEstado(EstadoPaquete.ABIERTO);
+				paq.setNumCaja(1);
+
+				Jpa.getManager().persist(paq);
+			}
+
+			return paq;
+
+		} catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al buscar un paquete asociado a la OT", e);
+		}
 	}
 
 }

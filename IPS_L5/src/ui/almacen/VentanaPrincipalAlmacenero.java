@@ -2,9 +2,9 @@ package ui.almacen;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -14,17 +14,19 @@ import model.OrdenTrabajo;
 import ui.almacen.almacenero.PanelOpcionesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 import ui.almacen.empaquetado.PanelOrdenesTrabajoEmpaquetar;
+import ui.almacen.myTypes.ventanaMensaje.MessageDialog;
 import ui.almacen.recogida.PanelRecogidaProductos;
 import ui.almacen.recogida.PanelRegistroIncidencias;
 import ui.almacen.recogida.PanelRetomarOrdenTrabajo;
 import ui.almacen.recogida.PanelSeleccionPedido;
-import java.awt.GridBagLayout;
 
 public class VentanaPrincipalAlmacenero extends JFrame {
 
 	private static final long serialVersionUID = -45321105L;
 
 	private JPanel contentPane;
+
+	private final MessageDialog message = new MessageDialog(this);
 
 	private Almacenero almacenero; // Almacenero que está usando la aplicación
 	private OrdenTrabajo ordenTrabajo; // Orden de Trabajo que se procesa
@@ -103,8 +105,8 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 		panelOpcionesAlmacenero = new PanelOpcionesAlmacenero();
 		GridBagLayout gridBagLayout = (GridBagLayout) panelOpcionesAlmacenero.getLayout();
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-		gridBagLayout.rowHeights = new int[]{20, 40, 20, 50, 50, 50, 50, 50, 80};
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+		gridBagLayout.rowHeights = new int[] { 20, 40, 20, 50, 50, 50, 50, 50, 80 };
 		panelOpcionesAlmacenero.setVentanaPrincipal(this);
 
 		contentPane.add(panelOpcionesAlmacenero, "panelOpcionesAlmacenero");
@@ -314,7 +316,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public void gestionarErrorConexion(BusinessException e) {
-		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		message.error("error", e.getMessage());
 	}
 
 	// ================================
@@ -323,6 +325,10 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	public Almacenero getAlmacenero() {
 		return almacenero;
+	}
+
+	public MessageDialog getMessage() {
+		return message;
 	}
 
 	public OrdenTrabajo getOrdenTrabajo() {

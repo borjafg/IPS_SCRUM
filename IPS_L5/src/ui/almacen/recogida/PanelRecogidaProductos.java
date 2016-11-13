@@ -152,7 +152,7 @@ public class PanelRecogidaProductos extends JPanel {
 			tablaProductos = new JTable(modeloTablaProductos);
 
 			tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-			
+
 			tablaProductos.setDefaultRenderer(String.class, new TablaFilasConVariasLineasRenderer());
 		}
 
@@ -286,8 +286,7 @@ public class PanelRecogidaProductos extends JPanel {
 		ProductoEnOrdenTrabajo prod = modeloTablaProductos.getProducto(id);
 
 		if (prod == null) {
-			JOptionPane.showMessageDialog(ventanaPrincipal, "Ese producto no esta en la OT", "Aviso",
-					JOptionPane.WARNING_MESSAGE);
+			ventanaPrincipal.getMessage().warning("Aviso", "Ese producto no esta en la OT");
 		}
 
 		else {
@@ -295,9 +294,8 @@ public class PanelRecogidaProductos extends JPanel {
 			int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesRecogidas();
 
 			if (unidadesRecoger > unidadesFaltan) {
-				JOptionPane.showMessageDialog(ventanaPrincipal,
-						"No se pueden recoger más unidades de las que requiere la OT", "Aviso",
-						JOptionPane.WARNING_MESSAGE);
+				ventanaPrincipal.getMessage().warning("Info",
+						"No se pueden recoger más unidades de las que requiere la OT");
 			}
 
 			else {
@@ -315,31 +313,45 @@ public class PanelRecogidaProductos extends JPanel {
 							boolean incidencias = ServiceFactory.getRecogidaService()
 									.huboIncidencias(ventanaPrincipal.getOrdenTrabajo());
 
+							// --------------------
 							// Sin incidencias
+							// --------------------
+
 							if (!incidencias) {
 								int resul = JOptionPane.showConfirmDialog(ventanaPrincipal,
-										"¿Marcar OT para empaquetado?", "Confirmación", JOptionPane.YES_NO_OPTION,
+										"¿Pasar a empaquetar la OT?", "Confirmación", JOptionPane.YES_NO_OPTION,
 										JOptionPane.QUESTION_MESSAGE);
 
-								if (resul == JOptionPane.YES_OPTION) {
-									try {
-										ServiceFactory.getRecogidaService()
-												.marcarOT_empaquetado(ventanaPrincipal.getOrdenTrabajo());
-									}
+								// -----------------------------------------
+								// SÍ ==> La recogerá este almacenero
+								// -----------------------------------------
 
-									catch (BusinessException e) {
-										ventanaPrincipal.gestionarErrorConexion(e);
-									}
+								if (resul == JOptionPane.YES_OPTION) {
+									ServiceFactory.getRecogidaService().marcarOT_empaquetado(
+											ventanaPrincipal.getOrdenTrabajo(), ventanaPrincipal.getAlmacenero());
+
+									ventanaPrincipal.mostrarPanelEmpaquetadoProductos();
+								}
+
+								// -----------------------------------------
+								// NO ==> La recogera este almacenero
+								// -----------------------------------------
+
+								else {
+									ServiceFactory.getRecogidaService()
+											.marcarOT_empaquetado(ventanaPrincipal.getOrdenTrabajo(), null);
 								}
 							}
 
+							// --------------------------
 							// Hubo alguna incidencia
-							else {
-								JOptionPane.showMessageDialog(ventanaPrincipal,
-										"Se ha terminado de recoger los productos de la OT", "Info",
-										JOptionPane.INFORMATION_MESSAGE);
-							}
+							// --------------------------
 							
+							else {
+								ventanaPrincipal.getMessage().info("Info",
+										"Se ha terminado de recoger los productos de la OT");
+							}
+
 							botonIncidencias.setEnabled(false);
 						}
 					}
@@ -351,7 +363,7 @@ public class PanelRecogidaProductos extends JPanel {
 				}
 
 				catch (BusinessException e) {
-					JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					ventanaPrincipal.gestionarErrorConexion(e);
 				}
 			}
 		} // Fin primer else
@@ -373,7 +385,7 @@ public class PanelRecogidaProductos extends JPanel {
 		escaner = null;
 
 		botonIncidencias.setEnabled(true);
-		
+
 		spinnerUnidades.setValue(1);
 
 		modeloTablaProductos.removeAll();

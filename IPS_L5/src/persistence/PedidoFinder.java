@@ -51,16 +51,28 @@ public class PedidoFinder {
 		}
 	}
 
-	public static List<Pedido> findAll() {
-		return Jpa.getManager().createNamedQuery("Pedido.findAll", Pedido.class).getResultList();
+	public static List<Pedido> findAll() throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Pedido.findAll", Pedido.class).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			throw new MyPersistenceException("Ha ocurrido un error al buscar todos los pedidos", e);
+		}
 	}
 
 	// ===============================================
 	// Recogida de productos
 	// ===============================================
 
-	public static List<Pedido> findPosibleRecoger() {
-		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger", Pedido.class).getResultList();
+	public static List<Pedido> findPosibleRecoger() throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger", Pedido.class).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			throw new MyPersistenceException("Ha ocurrido un error al buscar los pedidos que se pueden recoger", e);
+		}
 	}
 
 	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) {

@@ -47,12 +47,18 @@ public class AlmaceneroFinder {
 		}
 	}
 
-	public static Almacenero findByNombreUsuario(String nombreUsuario) {
+	public static Almacenero findByNombreUsuario(String nombreUsuario) throws MyPersistenceException {
 		try {
 			return Jpa.getManager().createNamedQuery("Almacenero.findByLogin", Almacenero.class)
 					.setParameter("login", nombreUsuario).getSingleResult();
-		} catch (NoResultException e) {
+		}
+
+		catch (NoResultException e) {
 			return null;
+		}
+
+		catch (PersistenceException e) {
+			throw new MyPersistenceException("Ha ocurrido un error al buscar un almacenero", e);
 		}
 	}
 }

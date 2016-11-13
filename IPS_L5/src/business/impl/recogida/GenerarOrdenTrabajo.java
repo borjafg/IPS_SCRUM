@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.recogida.myTypes.ProductoRecoger;
 import business.impl.util.Command;
@@ -107,8 +109,8 @@ public class GenerarOrdenTrabajo implements Command {
 			return ordenTrabajo;
 		}
 
-		catch (MyPersistenceException e) {
-			throw new BusinessException(e);
+		catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al generar una orden de trabajo", e);
 		}
 	}
 

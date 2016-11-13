@@ -2,8 +2,6 @@ package business.impl.recogida;
 
 import java.util.Set;
 
-import javax.persistence.PersistenceException;
-
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.OrdenTrabajo;
@@ -28,12 +26,7 @@ public class ObtenerProductosOT implements Command {
 		}
 
 		catch (MyPersistenceException e) {
-			throw new BusinessException(e);
-		}
-
-		catch (PersistenceException e) {
-			throw new BusinessException(
-					"Error al buscar los productos de la Orden de trabajo con id = " + ordenTrabajo.getId());
+			throw new BusinessException("Ha ocurrido un error al buscar los productos de la OT", e);
 		}
 	}
 

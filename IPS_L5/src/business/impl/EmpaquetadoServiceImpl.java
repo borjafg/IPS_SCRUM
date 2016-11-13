@@ -4,7 +4,6 @@ import java.util.List;
 
 import business.EmpaquetadoService;
 import business.exception.BusinessException;
-import business.impl.empaquetado.AbrirPaquete;
 import business.impl.empaquetado.AsignarAlmaceneroOrdenTrabajo;
 import business.impl.empaquetado.AsignarProductoPaquete;
 import business.impl.empaquetado.CargarOrdenesTrabajoEmpaquetar;
@@ -43,7 +42,7 @@ public class EmpaquetadoServiceImpl implements EmpaquetadoService {
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException {
 		return (List<MyPedido_OT_Retomar>) executor.execute(new ObtenerPedidosOrdenTrabajo(ot));
 	}
-	
+
 	@Override
 	public void asignarAlmaceneroOT(Almacenero almacenero, OrdenTrabajo ordenTrabajo) throws BusinessException {
 		executor.execute(new AsignarAlmaceneroOrdenTrabajo(almacenero, ordenTrabajo));
@@ -77,18 +76,13 @@ public class EmpaquetadoServiceImpl implements EmpaquetadoService {
 	}
 
 	@Override
-	public Paquete abrirPaquete(OrdenTrabajo ordenTrabajo) throws BusinessException {
-		return (Paquete) executor.execute(new AbrirPaquete(ordenTrabajo));
-	}
-
-	@Override
 	public boolean sePuedeCerrarPaquete(Paquete paqueteActual) throws BusinessException {
 		return (boolean) executor.execute(new SePuedeCerrarPaquete(paqueteActual));
 	}
 
 	@Override
-	public void cerrarPaquete(Paquete paquete) throws BusinessException {
-		executor.execute(new CerrarPaquete(paquete));
+	public Paquete cerrarPaquete(Paquete paquete, OrdenTrabajo ordenTrabajo) throws BusinessException {
+		return (Paquete) executor.execute(new CerrarPaquete(paquete, ordenTrabajo));
 	}
 
 	@Override

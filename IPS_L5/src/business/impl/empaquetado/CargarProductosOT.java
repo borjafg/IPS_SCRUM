@@ -34,7 +34,7 @@ public class CargarProductosOT implements Command {
 			}
 
 		} catch (MyPersistenceException | PersistenceException e) {
-			throw new BusinessException(e);
+			throw new BusinessException("Ha ocurrido un error al cargar los productos de una OT", e);
 		}
 	}
 

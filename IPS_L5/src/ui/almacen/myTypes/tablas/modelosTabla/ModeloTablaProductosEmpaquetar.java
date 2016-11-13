@@ -59,6 +59,14 @@ public class ModeloTablaProductosEmpaquetar extends AbstractModeloTablaNoEditabl
 
 		return null;
 	}
+	
+	public ProductoEnOrdenTrabajo getProducto(int posicion) {
+		if(!productos.isEmpty()) {
+			return productos.get(posicion);
+		}
+		
+		return null;
+	}
 
 	public void addProducto(ProductoEnOrdenTrabajo producto) {
 		productos.add(producto);

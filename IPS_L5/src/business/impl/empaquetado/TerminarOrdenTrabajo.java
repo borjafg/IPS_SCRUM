@@ -1,5 +1,7 @@
 package business.impl.empaquetado;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.OrdenTrabajo;
@@ -24,7 +26,7 @@ public class TerminarOrdenTrabajo implements Command {
 			ot.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.TERMINADA);
 		}
 
-		catch (MyPersistenceException e) {
+		catch (MyPersistenceException | PersistenceException e) {
 			throw new BusinessException("No se pudo marcar la OT como terminada", e);
 		}
 

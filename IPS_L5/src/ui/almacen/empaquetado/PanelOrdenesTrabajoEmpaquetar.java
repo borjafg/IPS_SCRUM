@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -325,8 +324,7 @@ public class PanelOrdenesTrabajoEmpaquetar extends JPanel {
 		}
 
 		else {
-			JOptionPane.showMessageDialog(ventanaPrincipal, "No hay OT disponibles", "Info",
-					JOptionPane.INFORMATION_MESSAGE);
+			ventanaPrincipal.getMessage().info("Info", "No hay OT disponibles");
 		}
 	}
 

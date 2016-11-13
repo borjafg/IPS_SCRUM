@@ -32,22 +32,28 @@ public class AsignarProductoPaquete implements Command {
 			Paquete paq = PaqueteFinder.find(paquete);
 
 			pot.empaquetar(unidades);
-			
+
+			// ---------------------------------------------------
 			// Si el primer producto que se añade al paquete
+			// ---------------------------------------------------
+
 			if (paq.getPedido() == null) {
 				colocarProductoPaquete(pot, paq);
 				paq.setPedido(pot.getproductoPedido().getPedido());
 			}
 
+			// ---------------------------------------------------------
 			// Si ya se habia añadido algún producto al paquete
-			//
+			// ---------------------------------------------------------
+
 			// (1) Si los productos del paquete son del mismo pedido
 			// del producto que intento añadir
-			//
+
 			else if (paq.getPedido().equals(pot.getproductoPedido().getPedido())) {
 				for (ProductoEnPaquete prodPaq : paq.getProductosPaquete()) {
 
 					// Si ya habia unidades de ese producto en el paquete
+
 					if (prodPaq.getProductoOrdenTrabajo().equals(pot)) {
 						prodPaq.setUnidadesProducto(prodPaq.getUnidadesProducto() + unidades);
 						return null;
@@ -59,6 +65,7 @@ public class AsignarProductoPaquete implements Command {
 			}
 
 			// (2) Si no se puede añadir al paquete
+
 			else {
 				throw new BusinessException("En un paquete sólo puede haber productos de un mismo pedido");
 			}
@@ -70,12 +77,8 @@ public class AsignarProductoPaquete implements Command {
 			throw new BusinessException("La cantidad indicada supera a la que requiere la OT");
 		}
 
-		catch (MyPersistenceException e) {
-			throw new BusinessException("Error al asociar un producto a un paquete", e);
-		}
-
-		catch (PersistenceException e) {
-			throw new BusinessException("Error al conectar a la base de datos");
+		catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al asociar un producto a un paquete", e);
 		}
 	}
 

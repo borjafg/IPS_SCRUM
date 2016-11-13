@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -76,7 +75,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	private JSpinner spinnerUnidades;
 	private JButton botonAtras;
-	private JButton botonAbrirCerrarPaquete;
+	private JButton botonCerrarPaquete;
 
 	public PanelEmpaquetadoProductos() throws BusinessException {
 		super();
@@ -173,6 +172,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			modeloTablaProductosEmpaquetar = new ModeloTablaProductosEmpaquetar();
 			tablaProductosOrdenTrabajo = new JTable(modeloTablaProductosEmpaquetar);
 
+			tablaProductosOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			tablaProductosOrdenTrabajo.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 			tablaProductosOrdenTrabajo.setFocusable(false);
 			tablaProductosOrdenTrabajo.setRowSelectionAllowed(false);
@@ -285,7 +285,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 	private JLabel getLabelPaquete() {
 		if (labelPaquete == null) {
-			labelPaquete = new JLabel("Cod. paquete:");
+			labelPaquete = new JLabel("Nº caja:");
 
 			labelPaquete.setBorder(null);
 			labelPaquete.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -326,7 +326,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 			panelOpciones.add(getSpinnerUnidades());
 			panelOpciones.add(getBotonAtras());
-			panelOpciones.add(getBotonAbrirCerrarPaquete());
+			panelOpciones.add(getBotonCerrarPaquete());
 		}
 
 		return panelOpciones;
@@ -361,173 +361,202 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		return botonAtras;
 	}
 
-	private JButton getBotonAbrirCerrarPaquete() {
-		if (botonAbrirCerrarPaquete == null) {
-			botonAbrirCerrarPaquete = new JButton("Abrir paquete");
+	private JButton getBotonCerrarPaquete() {
+		if (botonCerrarPaquete == null) {
+			botonCerrarPaquete = new JButton("Cerrar paquete");
+			botonCerrarPaquete.setHorizontalTextPosition(SwingConstants.CENTER);
 
-			botonAbrirCerrarPaquete.addActionListener(new ActionListener() {
+			botonCerrarPaquete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-
-					// No hay ningún paquete abierto
-					if (paqueteActual == null) {
-						try {
-							paqueteActual = ServiceFactory.getEmpaquetadoService()
-									.abrirPaquete(ventanaPrincipal.getOrdenTrabajo());
-
-							botonAbrirCerrarPaquete.setText("Cerrar paquete");
-							textFieldPaquete.setText(paqueteActual.getNumCaja() + "");
-							escaner.reiniciarEtiquetas();
-						}
-
-						catch (BusinessException e) {
-							ventanaPrincipal.gestionarErrorConexion(e);
-						}
-					}
-
-					// Hay un paquete abierto
-					else {
-
-						try {
-							if (ServiceFactory.getEmpaquetadoService().sePuedeCerrarPaquete(paqueteActual)) {
-								ServiceFactory.getEmpaquetadoService().cerrarPaquete(paqueteActual);
-								botonAbrirCerrarPaquete.setText("Abrir paquete");
-
-								textFieldPaquete.setText("");
-
-								escaner.generarEtiquetas(paqueteActual);
-
-								paqueteActual = null;
-							}
-
-							else {
-								JOptionPane.showMessageDialog(ventanaPrincipal, "No se puede cerrar un paquete vacío",
-										"Aviso", JOptionPane.WARNING_MESSAGE);
-							}
-						}
-
-						catch (BusinessException e) {
-							ventanaPrincipal.gestionarErrorConexion(e);
-							return;
-						}
-
-						// Si al cerrar el paquete se habia recogido todo
-						if (modeloTablaProductosEmpaquetar.getRowCount() == 0) {
-							try {
-								List<ProductoEnOrdenTrabajo> productos = ServiceFactory.getEmpaquetadoService()
-										.cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(), null);
-
-								// Si la orden de trabajo está terminada
-								if (productos.isEmpty()) {
-									JOptionPane.showMessageDialog(ventanaPrincipal, "Se ha terminado empaquetar la OT",
-											"Info", JOptionPane.INFORMATION_MESSAGE);
-
-									botonAbrirCerrarPaquete.setEnabled(false);
-
-									ServiceFactory.getEmpaquetadoService()
-											.terminarOrdenTrabajo(ventanaPrincipal.getOrdenTrabajo());
-								}
-
-								// Si todavía hay que empaquetar más productos
-								else {
-									modeloTablaProductosEmpaquetar.setProductos(productos);
-									escaner.llenarLista(productos);
-
-									botonAtras.setEnabled(true);
-									botonAbrirCerrarPaquete.setEnabled(true);
-									spinnerUnidades.setEnabled(true);
-
-									textFieldPedido.setText("");
-
-									textFieldPaquete.setText("");
-								}
-
-								botonAtras.setEnabled(true);
-							}
-
-							catch (BusinessException e) {
-								ventanaPrincipal.gestionarErrorConexion(e);
-							}
-						}
-
-					} // primer else
+					cerrarPaquete();
 				}
 			});
 
-			botonAbrirCerrarPaquete.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			botonCerrarPaquete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 
-		return botonAbrirCerrarPaquete;
+		return botonCerrarPaquete;
 	}
 
 	// ==============================================
-	// Controlar el estado del panel
+	// Gestión de paquetes
 	// ==============================================
 
-	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
-		this.ventanaPrincipal = ventanaPrincipal;
+	/**
+	 * Cierra el paquete que el almacenero tiene abierto
+	 * 
+	 */
+	private void cerrarPaquete() {
+		try {
+			// ---------------------------------------
+			// Si el paquete tiene productos dentro
+			// ---------------------------------------
+
+			if (ServiceFactory.getEmpaquetadoService().sePuedeCerrarPaquete(paqueteActual)) {
+
+				Paquete paq = ServiceFactory.getEmpaquetadoService().cerrarPaquete(paqueteActual,
+						ventanaPrincipal.getOrdenTrabajo());
+
+				escaner.generarEtiquetas(paqueteActual);
+
+				// -----------------------------------------------------
+				// Si al cerrar el paquete se habia empaquetado todo
+				// -----------------------------------------------------
+
+				if (modeloTablaProductosEmpaquetar.getRowCount() == 0) {
+
+					// ----------------------------------------
+					// Si la orden de trabajo está terminada
+					// ----------------------------------------
+
+					if (paq == null) {
+						terminarOrdenTrabajo();
+						textFieldPaquete.setText("");
+					}
+
+					// ----------------------------------------------
+					// Si todavía hay que empaquetar más productos
+					// ----------------------------------------------
+
+					else {
+						List<ProductoEnOrdenTrabajo> productos = ServiceFactory.getEmpaquetadoService()
+								.cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(), null);
+
+						paqueteActual = paq;
+						textFieldPaquete.setText(paqueteActual.getNumCaja() + "");
+
+						cargarProductosEmpaquetar(productos);
+					}
+
+					// En cualquier caso se termino de empaquetar el pedido
+					// dentro de la orden de trabajo
+
+					textFieldPedido.setText("");
+				}
+
+				// ------------------------------------
+				// Si no se había empaquetado todo
+				// ------------------------------------
+
+				else {
+					Pedido pedido = modeloTablaProductosEmpaquetar.getProducto(0).getproductoPedido().getPedido();
+
+					paq.setPedido(pedido);
+					
+					paqueteActual = paq;
+
+					textFieldPaquete.setText(paqueteActual.getNumCaja() + "");
+					textFieldPedido.setText(pedido.getId() + "");
+				}
+			}
+
+			// ------------------------------------------
+			// Si el paquete no tiene productos dentro
+			// ------------------------------------------
+			else {
+				ventanaPrincipal.getMessage().warning("Aviso", "No se puede cerrar un paquete vacío");
+			}
+		}
+
+		catch (BusinessException e) {
+			ventanaPrincipal.gestionarErrorConexion(e);
+		}
 	}
 
-	private void reiniciarPanel() {
-		modeloTablaProductosEmpaquetar.removeAll();
-		paqueteActual = null;
+	/**
+	 * Se ejecuta cuando se termina de empaquetar una orden de trabajo.
+	 * 
+	 * @throws BusinessException
+	 *             ha ocurrido un error
+	 * 
+	 */
+	public void terminarOrdenTrabajo() throws BusinessException {
+		ServiceFactory.getEmpaquetadoService().terminarOrdenTrabajo(ventanaPrincipal.getOrdenTrabajo());
 
-		escaner.dispose();
-		escaner = null;
+		ventanaPrincipal.getMessage().info("info", "Se ha terminado empaquetar la OT");
 
-		spinnerUnidades.setValue(1);
-
-		botonAtras.setEnabled(true);
-		spinnerUnidades.setEnabled(true);
-
-		botonAbrirCerrarPaquete.setEnabled(true);
-
-		botonAbrirCerrarPaquete.setText("");
-
-		getTextFieldOrdenTrabajo().setText("");
-		getTextFieldPedido().setText("");
-		getTextFieldPaquete().setText("");
+		// Ya no queda nada que empaquetar
+		botonCerrarPaquete.setEnabled(false);
 	}
 
+	/**
+	 * Carga en la tabla y en el escáner una lista de productos que hay que
+	 * empaquetar.
+	 * 
+	 * @param productos
+	 *            lista de productos que hay que cargar
+	 * 
+	 */
+	public void cargarProductosEmpaquetar(List<ProductoEnOrdenTrabajo> productos) {
+		modeloTablaProductosEmpaquetar.setProductos(productos);
+		escaner.llenarLista(productos);
+	}
+
+	// ==============================================
+	// Empaquetado de productos
+	// ==============================================
+
+	/**
+	 * Asocia a un paquete tantas unidades de producto como indique el
+	 * spinnerUnidades.
+	 * 
+	 * @param ref
+	 *            referencia al producto dentro de la OT (se obtiene de un
+	 *            escáner)
+	 * 
+	 */
 	public void empaquetar(String ref) {
 		ProductoEnOrdenTrabajo prod = modeloTablaProductosEmpaquetar.getProducto(ref);
 
 		if (prod == null) {
-			JOptionPane.showMessageDialog(ventanaPrincipal, "Ese producto no está en la OT", "Aviso",
-					JOptionPane.WARNING_MESSAGE);
+			ventanaPrincipal.getMessage().warning("Aviso", "Ese producto no está en la OT");
 		}
 
 		else if (paqueteActual == null) {
-			JOptionPane.showMessageDialog(ventanaPrincipal, "No hay ningún paquete abierto", "Aviso",
-					JOptionPane.WARNING_MESSAGE);
+			ventanaPrincipal.getMessage().warning("Aviso", "No hay ningún paquete abierto");
 		}
 
+		// --------------------------------------------------
 		// Si hay un paquete abierto y el prod es valido
+		// --------------------------------------------------
+
 		else {
 			int unidadesEmpaquetar = (int) spinnerUnidades.getModel().getValue();
 			int unidadesFaltan = prod.getUnidadesProducto() - prod.getUnidadesEmpaquetadas();
 
 			if (unidadesEmpaquetar > unidadesFaltan) {
-				JOptionPane.showMessageDialog(ventanaPrincipal,
-						"No se pueden empaquetar más unidades de las que requiere la OT", "Aviso",
-						JOptionPane.WARNING_MESSAGE);
+				ventanaPrincipal.getMessage().warning("Aviso",
+						"No se pueden empaquetar más unidades de las que requiere la OT");
 			}
 
+			// --------------------------------------------------
 			// Si no empaqueta mas de lo que debe
+			// --------------------------------------------------
+
 			else {
 
 				try {
 					ServiceFactory.getEmpaquetadoService().asignarProductoPaquete(prod, paqueteActual,
 							unidadesEmpaquetar);
 
+					// --------------------------------------------------
 					// Si es el primer producto empaquetado
+					// --------------------------------------------------
+
 					if (getTextFieldPedido().getText().equals("")) {
+						escaner.reiniciarEtiquetas();
+
 						getTextFieldPedido().setText(prod.getproductoPedido().getPedido().getId() + "");
 
-						// LimpiarModelo (dejar los productos del mismo pedido)
+						// Limpiar la tabla y el escáner (dejar los productos
+						// del mismo pedido)
 						limpiarModelo(prod.getproductoPedido().getPedido());
 					}
 
+					// -----------------------------------------------------
 					// Si es el primer producto que se mete en el paquete
+					// -----------------------------------------------------
+
 					if (paqueteActual.getPedido() == null) {
 						paqueteActual.setPedido(prod.getproductoPedido().getPedido());
 					}
@@ -537,8 +566,6 @@ public class PanelEmpaquetadoProductos extends JPanel {
 					if (unidadesFaltan - unidadesEmpaquetar == 0) {
 						modeloTablaProductosEmpaquetar.removeProducto(ref);
 						escaner.removeProducto(ref);
-
-						comprobarSiQuedanMasProductos();
 					}
 
 					else {
@@ -568,21 +595,28 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		escaner.removeProductosPedido(pedido);
 	}
 
-	/**
-	 * Cuando se termina de empaquetar todos los productos de la tabla, el
-	 * almacenero no podrá hacer nada hasta que no cierre el paquete actual.
-	 * 
-	 */
-	private void comprobarSiQuedanMasProductos() {
-		if (modeloTablaProductosEmpaquetar.getRowCount() == 0) {
-			botonAtras.setEnabled(false);
-			spinnerUnidades.setEnabled(false);
+	// ==============================================
+	// Controlar el estado del panel
+	// ==============================================
 
-			textFieldPedido.setText("");
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
+	}
 
-			JOptionPane.showMessageDialog(ventanaPrincipal, "Cierre el paquete actual para continuar", "Aviso",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
+	private void reiniciarPanel() {
+		modeloTablaProductosEmpaquetar.removeAll();
+		paqueteActual = null;
+
+		escaner.dispose();
+		escaner = null;
+
+		spinnerUnidades.setValue(1);
+
+		botonCerrarPaquete.setEnabled(true);
+
+		getTextFieldOrdenTrabajo().setText("");
+		getTextFieldPedido().setText("");
+		getTextFieldPaquete().setText("");
 	}
 
 	/**
@@ -596,19 +630,19 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 		List<ProductoEnOrdenTrabajo> productos;
 
-		// Si no hay ningun paquete abierto asociado a la OT
-		if (paquete == null) {
-			productos = ServiceFactory.getEmpaquetadoService().cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(),
-					null);
-		}
-
+		// ----------------------------------------------------
 		// Si hay un paquete abierto pero no tiene productos
-		else if (paquete.getPedido() == null) {
+		// ----------------------------------------------------
+
+		if (paquete.getPedido() == null) {
 			productos = ServiceFactory.getEmpaquetadoService().cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(),
 					null);
 		}
 
+		// ----------------------------------------------------------
 		// Si hay un paquete abierto que está asociado a un pedido
+		// ----------------------------------------------------------
+
 		else {
 			productos = ServiceFactory.getEmpaquetadoService().cargarProductosOT(ventanaPrincipal.getOrdenTrabajo(),
 					paquete.getPedido());
@@ -629,18 +663,10 @@ public class PanelEmpaquetadoProductos extends JPanel {
 
 		textFieldOrdenTrabajo.setText(ventanaPrincipal.getOrdenTrabajo().getId() + "");
 
-		if (paqueteActual == null) {
-			botonAbrirCerrarPaquete.setText("Abrir paquete");
-		}
+		textFieldPaquete.setText(paqueteActual.getNumCaja() + "");
 
-		else {
-			botonAbrirCerrarPaquete.setText("Cerrar paquete");
-
-			textFieldPaquete.setText(paquete.getNumCaja() + "");
-
-			if (paquete.getPedido() != null) {
-				textFieldPedido.setText(paquete.getPedido().getId() + "");
-			}
+		if (paqueteActual.getPedido() != null) {
+			textFieldPedido.setText(paqueteActual.getPedido().getId() + "");
 		}
 	}
 

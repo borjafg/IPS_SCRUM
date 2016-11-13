@@ -3,6 +3,8 @@ package business.impl.empaquetado;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.OrdenTrabajo;
@@ -24,7 +26,7 @@ public class ObtenerPedidosOrdenTrabajo implements Command {
 
 		try {
 			List<MyPedido_OT_Retomar> listaPedidos = new ArrayList<MyPedido_OT_Retomar>();
-			
+
 			List<Pedido> pedidos = PedidoFinder.findPosibleEmpaquetarOT(ordenTrabajo);
 
 			for (Pedido pedOT : pedidos) {
@@ -32,12 +34,12 @@ public class ObtenerPedidosOrdenTrabajo implements Command {
 
 				listaPedidos.add(new MyPedido_OT_Retomar(pedOT, numProductos));
 			}
-			
+
 			return listaPedidos;
 		}
 
-		catch (MyPersistenceException e) {
-			throw new BusinessException();
+		catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al buscar OT que se pueda empaquetar", e);
 		}
 	}
 

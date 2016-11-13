@@ -23,11 +23,7 @@ public class SePuedeCerrarPaquete implements Command {
 			return paq.getProductosPaquete().size() > 0;
 		}
 
-		catch (MyPersistenceException e) {
-			throw new BusinessException("Ha ocurrio un error al buscar información del paquete", e);
-		}
-
-		catch (PersistenceException e) {
+		catch (MyPersistenceException | PersistenceException e) {
 			throw new BusinessException("Ha ocurrio un error al buscar información del paquete", e);
 		}
 	}

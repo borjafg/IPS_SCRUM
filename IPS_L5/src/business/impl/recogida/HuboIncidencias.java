@@ -1,5 +1,7 @@
 package business.impl.recogida;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.OrdenTrabajo;
@@ -22,8 +24,8 @@ public class HuboIncidencias implements Command {
 			return ot.getIncidencias().size() > 0;
 		}
 
-		catch (MyPersistenceException e) {
-			throw new BusinessException(e);
+		catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al comprobar si hay incidencias", e);
 		}
 	}
 

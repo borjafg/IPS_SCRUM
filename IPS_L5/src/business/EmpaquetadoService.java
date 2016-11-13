@@ -23,7 +23,7 @@ public interface EmpaquetadoService {
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException;
 
 	public void asignarAlmaceneroOT(Almacenero almacenero, OrdenTrabajo ordenTrabajo) throws BusinessException;
-	
+
 	// --------------------------------------------
 	// Carga de una orden de trabajo
 	// --------------------------------------------
@@ -40,11 +40,9 @@ public interface EmpaquetadoService {
 	public void asignarProductoPaquete(ProductoEnOrdenTrabajo producto, Paquete paquete, int unidades)
 			throws BusinessException;
 
-	public Paquete abrirPaquete(OrdenTrabajo ordenTrabajo) throws BusinessException;
-
 	public boolean sePuedeCerrarPaquete(Paquete paqueteActual) throws BusinessException;
 
-	public void cerrarPaquete(Paquete paquete) throws BusinessException;
+	public Paquete cerrarPaquete(Paquete paquete, OrdenTrabajo ordenTrabajo) throws BusinessException;
 
 	public Cliente getClientePedido(Pedido pedido) throws BusinessException;
 

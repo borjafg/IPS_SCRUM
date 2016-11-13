@@ -1,5 +1,7 @@
 package business.impl.empaquetado;
 
+import javax.persistence.PersistenceException;
+
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.Almacenero;
@@ -28,8 +30,8 @@ public class AsignarAlmaceneroOrdenTrabajo implements Command {
 			ot.setAlmaceneroEmpaquetar(alm);
 		}
 
-		catch (MyPersistenceException mpe) {
-			throw new BusinessException("");
+		catch (MyPersistenceException | PersistenceException e) {
+			throw new BusinessException("Ha ocurrido un error al asignar un almcacenero a una OT", e);
 		}
 
 		return null;
