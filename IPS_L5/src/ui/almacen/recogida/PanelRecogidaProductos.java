@@ -346,10 +346,10 @@ public class PanelRecogidaProductos extends JPanel {
 							// --------------------------
 							// Hubo alguna incidencia
 							// --------------------------
-							
+
 							else {
 								ventanaPrincipal.getMessage().info("Info",
-										"Se ha terminado de recoger los productos de la OT");
+										"Se ha terminado de recoger los productos de la OT (Hubo incidencias)");
 							}
 
 							botonIncidencias.setEnabled(false);

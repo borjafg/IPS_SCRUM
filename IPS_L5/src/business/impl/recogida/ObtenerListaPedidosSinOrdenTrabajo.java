@@ -23,18 +23,16 @@ public class ObtenerListaPedidosSinOrdenTrabajo implements Command {
 		try {
 			List<Pedido> pedidosPosibleRecoger = PedidoFinder.findPosibleRecoger();
 
-			int totalProdSinOT = 0;
+			int totalProdSinOT;
 
 			for (Pedido ped : pedidosPosibleRecoger) {
 				totalProdSinOT = 0;
 
 				for (ProductoEnPedido pp : ped.getListaProductosPedidos()) {
-					totalProdSinOT = totalProdSinOT + (pp.getCantidad() - pp.getCantidadAsociadaOT());
+					totalProdSinOT = totalProdSinOT + pp.getCantidad();
 				}
 
-				if (totalProdSinOT > 0) {
-					pedidos.add(new MyPedido_OT_Retomar(ped, totalProdSinOT));
-				}
+				pedidos.add(new MyPedido_OT_Retomar(ped, totalProdSinOT));
 			}
 		}
 

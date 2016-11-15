@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -39,9 +38,6 @@ public class ProductoEnPedido implements Serializable {
 
 	private int cantidad;
 
-	@Column(name = "cantidad_asociada_OT")
-	private int cantidadAsociadaOT;
-
 	protected ProductoEnPedido() {
 
 	}
@@ -60,14 +56,6 @@ public class ProductoEnPedido implements Serializable {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
-	}
-
-	public int getCantidadAsociadaOT() {
-		return cantidadAsociadaOT;
-	}
-
-	public void setCantidadAsociadaOT(int cantidadAsociadaOT) {
-		this.cantidadAsociadaOT = cantidadAsociadaOT;
 	}
 
 	public Pedido getPedido() {

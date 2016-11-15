@@ -40,18 +40,18 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 	private String ref_OrdenTrabajo;
 
 	@Column(name = "unidades_producto")
-	private int unidadesProducto;
+	private int unidadesProducto = 0;
 
 	@Column(name = "unidades_recogidas")
-	private int unidadesRecogidas;
+	private int unidadesRecogidas = 0;
 
 	@Column(name = "unidades_empaquetadas")
-	private int unidadesEmpaquetadas;
+	private int unidadesEmpaquetadas = 0;
 
 	@OneToMany(mappedBy = "productoOrdenTrabajo")
-	private Set<ProductoEnPaquete> productoPaquete;
+	private Set<ProductoEnPaquete> productoPaquete = new HashSet<ProductoEnPaquete>();
 
-	// =======================================
+ 	// =======================================
 	// Constructores
 	// =======================================
 
@@ -59,10 +59,9 @@ public class ProductoEnOrdenTrabajo implements Serializable {
 
 	}
 
-	public ProductoEnOrdenTrabajo(OrdenTrabajo ordenTrabajo, ProductoEnPedido productoPedido, int unidadesProducto) {
+	public ProductoEnOrdenTrabajo(OrdenTrabajo ordenTrabajo, ProductoEnPedido productoPedido) {
 
 		Asociacion.AsignarProducto_OrdenTrabajo.link(ordenTrabajo, this, productoPedido);
-		this.unidadesProducto = unidadesProducto;
 	}
 
 	// =======================================

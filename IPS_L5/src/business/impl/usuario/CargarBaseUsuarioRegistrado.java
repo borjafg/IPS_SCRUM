@@ -52,7 +52,6 @@ public class CargarBaseUsuarioRegistrado implements Command {
 					prod = ProductoFinder.findById(modelo.getProducto());
 					prodPedido = new ProductoEnPedido(pedido, prod);
 					prodPedido.setCantidad(modelo.getUnidades());
-					prodPedido.setCantidadAsociadaOT(0);
 					
 					Jpa.getManager().persist(prodPedido);
 					//Jpa.getManager().merge(prodPedido);

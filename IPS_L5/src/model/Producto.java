@@ -32,6 +32,9 @@ public class Producto implements Serializable {
 	private double precio;
 	private String descripcion;
 
+	private double peso = 2.6;
+	private double volumen = 1.8;
+
 	@ManyToOne
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
 	private Categoria categoria;
@@ -98,6 +101,26 @@ public class Producto implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	// =======================================
+	// Peso y volumen del producto
+	// =======================================
+
+	public double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+
+	public double getVolumen() {
+		return volumen;
+	}
+
+	public void setVolumen(double volumen) {
+		this.volumen = volumen;
 	}
 
 	// =======================================

@@ -85,7 +85,6 @@ public class CargadorABaseDeDatos implements Command {
 				prod = ProductoFinder.findById(mod.getProducto());
 				prodPedido = new ProductoEnPedido(pedido, prod);
 				prodPedido.setCantidad(mod.getUnidades());
-				prodPedido.setCantidadAsociadaOT(0);
 				
 				
 				Jpa.getManager().merge(prodPedido);

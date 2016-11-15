@@ -99,15 +99,18 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	private void añadirPaneles() throws BusinessException {
-		// ===================================
-		// ===== Inicio de la aplicación =====
-		// ===================================
+
+		// ============================================
+		// ===== Panel de opciones del almacenero =====
+		// ============================================
 
 		panelOpcionesAlmacenero = new PanelOpcionesAlmacenero();
+		panelOpcionesAlmacenero.setVentanaPrincipal(this);
+
 		GridBagLayout gridBagLayout = (GridBagLayout) panelOpcionesAlmacenero.getLayout();
+
 		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		gridBagLayout.rowHeights = new int[] { 20, 40, 20, 50, 50, 50, 50, 50, 80 };
-		panelOpcionesAlmacenero.setVentanaPrincipal(this);
 
 		contentPane.add(panelOpcionesAlmacenero, "panelOpcionesAlmacenero");
 

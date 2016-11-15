@@ -14,10 +14,10 @@ CREATE TABLE PosicionProductos(id_posicion number (32), pasillo number(10), esta
 CREATE TABLE Categorias(id_categoria number(32), id_categoria_padre number(32), nombre varchar(64), PRIMARY KEY(id_categoria), foreign key(id_categoria_padre) references Categorias(id_categoria));
 
 
-CREATE TABLE Productos(id_producto number(32), id_posicion number(32), descripcion varchar(64), nombre varchar(64), id_categoria number(32), precio number(10,2), PRIMARY KEY(id_producto), foreign key(id_posicion) references Posicionproductos(id_posicion), foreign key(id_categoria) references Categorias(id_categoria));
+CREATE TABLE Productos(id_producto number(32), id_posicion number(32), descripcion varchar(64), nombre varchar(64), id_categoria number(32), precio number(10,2), peso number(10, 2), volumen number(10,2), PRIMARY KEY(id_producto), foreign key(id_posicion) references Posicionproductos(id_posicion), foreign key(id_categoria) references Categorias(id_categoria));
 
 
-CREATE TABLE ProductosPedido(id_producto number(32), id_pedido number (32), cantidad number(10), cantidad_asociada_OT number(10), primary key(id_producto, id_pedido), foreign key (id_producto) references Productos(id_producto), foreign key (id_pedido) references Pedidos(id_pedido));
+CREATE TABLE ProductosPedido(id_producto number(32), id_pedido number (32), cantidad number(10), primary key(id_producto, id_pedido), foreign key (id_producto) references Productos(id_producto), foreign key (id_pedido) references Pedidos(id_pedido));
 
 
 -- ======================================

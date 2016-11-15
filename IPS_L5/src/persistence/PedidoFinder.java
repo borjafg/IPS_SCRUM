@@ -62,8 +62,30 @@ public class PedidoFinder {
 	}
 
 	// ===============================================
-	// Recogida de productos
+	// Creación de órdenes de trabajo
 	// ===============================================
+
+	public static boolean cabeEntero(Pedido pedido, double pesoMaximo, double volumenMaximo)
+			throws MyPersistenceException {
+
+		try {
+			List<Object[]> resultado = Jpa.getManager().createNamedQuery("Pedido.findPeso_Volumen", Object[].class)
+					.setParameter("pedido", pedido).getResultList();
+
+			if (resultado.isEmpty()) {
+				throw new MyPersistenceException("No se ha encontrado el pedido en la base de datos");
+			}
+
+			// Primer parametro ----> Peso total del pedido
+			// Segundo parametro ---> Volumen total del pedido
+
+			return (((double) resultado.get(0)[0]) <= pesoMaximo) && (((double) resultado.get(0)[1]) <= volumenMaximo);
+		}
+
+		catch (PersistenceException e) {
+			throw new MyPersistenceException("Ha ocurrido un error al comprobar si un pedido cabe entero en una OT", e);
+		}
+	}
 
 	public static List<Pedido> findPosibleRecoger() throws MyPersistenceException {
 		try {
@@ -75,9 +97,19 @@ public class PedidoFinder {
 		}
 	}
 
-	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) {
-		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
+	public static List<Object[]> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
+		try{
+		return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Object[].class)
 				.setParameter("pedido", p).getResultList();
+		}
+		
+		catch (PersistenceException pe) {
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append("Ha ocurrido un error al buscar los pedidos disponiblesy sus pesos y volumenes");
+			
+			throw new MyPersistenceException(sb.toString(), pe);
+		}
 	}
 
 	// ===============================================
