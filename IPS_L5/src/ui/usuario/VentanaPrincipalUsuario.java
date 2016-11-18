@@ -638,7 +638,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JComboBox<MetodosPago> getComboBox() {// Hay que modificar la
 													// implementación
 		if (comboBox == null) {
-			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.METALICO, MetodosPago.TRANSFERENCIA};
+			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.TARJETA, MetodosPago.TRANSFERENCIA};
 			modeloComboMetodosDePago = new DefaultComboBoxModel<MetodosPago>(metodosPagoNoRegistrado);
 			comboBox = new JComboBox<MetodosPago>();
 			comboBox.setModel(modeloComboMetodosDePago);

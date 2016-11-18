@@ -9,7 +9,6 @@ import model.OrdenTrabajo;
 import model.Paquete;
 import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.myTypes.model.MyOrdenTrabajo_Retomar;
 import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 public interface EmpaquetadoService {
@@ -18,7 +17,7 @@ public interface EmpaquetadoService {
 	// Retomar una orden de trabajo
 	// --------------------------------------------
 
-	public List<MyOrdenTrabajo_Retomar> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException;
+	public List<OrdenTrabajo> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException;
 
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException;
 

@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 import model.types.EstadoPedido;
 import model.types.MetodosPago;
 import model.types.PedidoPagado;
+import model.types.TipoEnvio;
 
 @Entity
 @Table(name = "Pedidos")
@@ -47,6 +48,9 @@ public class Pedido implements Serializable {
 	private MetodosPago metodoPago;
 
 	@Enumerated(EnumType.STRING)
+	private TipoEnvio tipoEnvio;
+
+	@Enumerated(EnumType.STRING)
 	private EstadoPedido estado;
 
 	@Enumerated(EnumType.STRING)
@@ -61,7 +65,7 @@ public class Pedido implements Serializable {
 
 	@OneToMany(mappedBy = "pedido")
 	private Set<Paquete> paquetes = new HashSet<Paquete>();
-	
+
 	// ==============================================
 	// Constructores
 	// ==============================================
@@ -119,6 +123,18 @@ public class Pedido implements Serializable {
 	}
 
 	// ==============================================
+	// Tipo de envío
+	// ==============================================
+
+	public TipoEnvio getTipoEnvio() {
+		return tipoEnvio;
+	}
+
+	public void setTipoEnvio(TipoEnvio tipoEnvio) {
+		this.tipoEnvio = tipoEnvio;
+	}
+
+	// ==============================================
 	// Estado del pedido
 	// ==============================================
 
@@ -165,15 +181,15 @@ public class Pedido implements Serializable {
 	Set<ProductoEnPedido> _getListaProductosPedidos() {
 		return listaProductosPedidos;
 	}
-	
+
 	// ==============================================
 	// Paquetes en los que esta el pedido
 	// ==============================================
-	
+
 	public Set<Paquete> getPaquetes() {
 		return new HashSet<Paquete>(paquetes);
 	}
-	
+
 	Set<Paquete> _getPaquetes() {
 		return paquetes;
 	}

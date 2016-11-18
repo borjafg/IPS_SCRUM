@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import model.types.TarjetaCredito;
 import model.types.TipoCliente;
 
 @Entity
@@ -36,6 +38,9 @@ public class Cliente implements Serializable {
 
 	@Column(name = "direccion")
 	private String direccionCompleta;
+
+	@Embedded
+	private TarjetaCredito tarjeta;
 
 	@OneToMany(mappedBy = "cliente")
 	private Set<Pedido> pedidos = new HashSet<Pedido>();
@@ -90,6 +95,18 @@ public class Cliente implements Serializable {
 
 	public void setDireccionCompleta(String direccionCompleta) {
 		this.direccionCompleta = direccionCompleta;
+	}
+
+	// =======================================
+	// Tarjeta del cliente
+	// =======================================
+
+	public TarjetaCredito getTarjeta() {
+		return tarjeta;
+	}
+
+	public void setTarjeta(TarjetaCredito tarjeta) {
+		this.tarjeta = tarjeta;
 	}
 
 	// =======================================

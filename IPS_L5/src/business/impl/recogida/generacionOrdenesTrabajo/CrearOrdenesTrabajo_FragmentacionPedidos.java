@@ -112,7 +112,7 @@ class CrearOrdenesTrabajo_FragmentacionPedidos {
 
 			ot = new OrdenTrabajo(almcacenero);
 
-			ot.setFecha(new Date());
+			ot.setFechaCreacion(new Date());
 			ot.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.RECOGIDA);
 
 			Jpa.getManager().persist(ot);

@@ -1,5 +1,5 @@
 package model.types;
 
 public enum MetodosPago {
-	METALICO, TRANSFERENCIA, FACTURA
+	TARJETA, TRANSFERENCIA, CONTRAREEMBOLSO, FACTURA
 }

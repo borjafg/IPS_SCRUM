@@ -1,4 +1,4 @@
-package ui.almacen.recogida;
+package ui.almacen.retomarOT;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,30 +24,20 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import model.OrdenTrabajo;
+import model.types.EstadoOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
-import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaOrdenesTrabajo;
+import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaOrdenesTrabajoRetomar;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPedidosOrdenTrabajo;
 
-/**
- * Evita que se duplique la mayor parte del código de las pantallas en las que
- * hay que retomar una orden de trabajo.</br>
- * </br>
- * El único problema es que hay incluir una llamada al método
- * <code>setPreferredSize(new Dimension(x, y)); </code>con el tamaño que debería
- * tener el panel de la subclase. En este caso el tamaño es 374x530</br>
- * </br>
- * Lo único que hay que redefinir es:<br/>
- * - El botón que determina qué se hace con la orden de trabajo</br>
- * - El método que inicializa el panel
- * 
- */
-public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
+public class PanelOrdenesTrabajo extends JPanel {
 
-	private static final long serialVersionUID = 22278103584098508L;
+	private static final long serialVersionUID = -2747534485918494L;
 
 	protected VentanaPrincipalAlmacenero ventanaPrincipal;
 
-	protected ModeloTablaOrdenesTrabajo modeloTablaOrdenesTrabajo;
+	protected ModeloTablaOrdenesTrabajoRetomar modeloTablaOrdenesTrabajo;
 	protected ModeloTablaPedidosOrdenTrabajo modeloTablaPedidosOrdenTrabajo;
 
 	// ===========================================
@@ -55,10 +48,6 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 
 	private JPanel panelCentro;
 
-	private JLabel labelPedidos;
-	private JScrollPane scrollPanePedidos;
-	private JTable tablaPedidos;
-
 	private JLabel labelOrdenesTrabajo;
 	private JScrollPane scrollPaneOrdenesTrabajo;
 	private JTable tablaOrdenesTrabajo;
@@ -67,8 +56,8 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 
 	private JPanel panelSur;
 	private JButton botonAtras;
-
-	public AbstractPanelRetomarOrdenTrabajo() {
+	
+	public PanelOrdenesTrabajo() {
 		super();
 
 		setLayout(new BorderLayout(0, 0));
@@ -92,16 +81,15 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 			GridBagLayout gbl_panelCentro = new GridBagLayout();
 
 			gbl_panelCentro.columnWidths = new int[] { 65, 240, 65, 0 };
-			gbl_panelCentro.rowHeights = new int[] { 25, 145, 25, 180, 0 };
+			gbl_panelCentro.rowHeights = new int[] { 25, 270, 0 };
 			gbl_panelCentro.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
-			gbl_panelCentro.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+			gbl_panelCentro.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 
 			panelCentro.setLayout(gbl_panelCentro);
 
 			GridBagConstraints gbc_labelOrdenesTrabajo = new GridBagConstraints();
 
 			gbc_labelOrdenesTrabajo.fill = GridBagConstraints.BOTH;
-			gbc_labelOrdenesTrabajo.insets = new Insets(0, 0, 0, 5);
 			gbc_labelOrdenesTrabajo.gridx = 1;
 			gbc_labelOrdenesTrabajo.gridy = 0;
 
@@ -111,29 +99,10 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 
 			gbc_scrollPaneOrdenesTrabajo.gridwidth = 3;
 			gbc_scrollPaneOrdenesTrabajo.fill = GridBagConstraints.BOTH;
-			gbc_scrollPaneOrdenesTrabajo.insets = new Insets(0, 0, 5, 0);
 			gbc_scrollPaneOrdenesTrabajo.gridx = 0;
 			gbc_scrollPaneOrdenesTrabajo.gridy = 1;
 
 			panelCentro.add(getScrollPaneOrdenesTrabajo(), gbc_scrollPaneOrdenesTrabajo);
-
-			GridBagConstraints gbc_labelPedidos = new GridBagConstraints();
-
-			gbc_labelPedidos.insets = new Insets(0, 0, 0, 5);
-			gbc_labelPedidos.fill = GridBagConstraints.BOTH;
-			gbc_labelPedidos.gridx = 1;
-			gbc_labelPedidos.gridy = 2;
-
-			panelCentro.add(getLabelPedidos(), gbc_labelPedidos);
-
-			GridBagConstraints gbc_scrollPanePedidos = new GridBagConstraints();
-
-			gbc_scrollPanePedidos.gridwidth = 3;
-			gbc_scrollPanePedidos.fill = GridBagConstraints.BOTH;
-			gbc_scrollPanePedidos.gridx = 0;
-			gbc_scrollPanePedidos.gridy = 3;
-
-			panelCentro.add(getScrollPanePedidos(), gbc_scrollPanePedidos);
 		}
 
 		return panelCentro;
@@ -143,7 +112,7 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 		if (labelOrdenesTrabajo == null) {
 			labelOrdenesTrabajo = new JLabel("\u00D3rdenes de Trabajo");
 
-			labelOrdenesTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			labelOrdenesTrabajo.setFont(new Font("Tahoma", Font.BOLD, 13));
 			labelOrdenesTrabajo.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -163,13 +132,22 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 
 	protected JTable getTablaOrdenesTrabajo() {
 		if (tablaOrdenesTrabajo == null) {
-			modeloTablaOrdenesTrabajo = new ModeloTablaOrdenesTrabajo();
+			modeloTablaOrdenesTrabajo = new ModeloTablaOrdenesTrabajoRetomar();
 			tablaOrdenesTrabajo = new JTable(modeloTablaOrdenesTrabajo);
 
 			tablaOrdenesTrabajo.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					accionClickTablaOrdenesTrabajo();
+					try {
+						int fila = getTablaOrdenesTrabajo().getSelectedRow();
+
+						if (fila != -1) {
+							retomarOT(modeloTablaOrdenesTrabajo.getOrdenTrabajo(fila));
+						}
+
+					} catch (BusinessException excep) {
+						ventanaPrincipal.gestionarErrorConexion(excep);
+					}
 				}
 			});
 		}
@@ -177,37 +155,20 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 		return tablaOrdenesTrabajo;
 	}
 
-	protected abstract void accionClickTablaOrdenesTrabajo();
-	
-	private JLabel getLabelPedidos() {
-		if (labelPedidos == null) {
-			labelPedidos = new JLabel("Pedidos en la orden trabajo");
+	private void retomarOT(OrdenTrabajo ordenTrabajo) throws BusinessException {
+		ServiceFactory.getEmpaquetadoService().asignarAlmaceneroOT(ventanaPrincipal.getAlmacenero(), ordenTrabajo);
 
-			labelPedidos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			labelPedidos.setHorizontalAlignment(SwingConstants.CENTER);
+		ventanaPrincipal.setOrdenTrabajo(ordenTrabajo);
+
+		if (ordenTrabajo.getEstadoOrdenTrabajo().equals(EstadoOrdenTrabajo.RECOGIDA)) { // RETOMAR
+			ventanaPrincipal.mostrarPanelRecogidaProductos();
 		}
 
-		return labelPedidos;
-	}
-
-	private JScrollPane getScrollPanePedidos() {
-		if (scrollPanePedidos == null) {
-			scrollPanePedidos = new JScrollPane(getTablaPedidos());
-
-			scrollPanePedidos.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			scrollPanePedidos.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		else { // EMPAQUETAR
+			ventanaPrincipal.mostrarPanelEmpaquetadoProductos();
 		}
 
-		return scrollPanePedidos;
-	}
-
-	private JTable getTablaPedidos() {
-		if (tablaPedidos == null) {
-			modeloTablaPedidosOrdenTrabajo = new ModeloTablaPedidosOrdenTrabajo();
-			tablaPedidos = new JTable(modeloTablaPedidosOrdenTrabajo);
-		}
-
-		return tablaPedidos;
+		reiniciarPanel();
 	}
 
 	// =====================================
@@ -218,7 +179,7 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 		if (panelSur == null) {
 			panelSur = new JPanel();
 
-			panelSur.setBorder(new EmptyBorder(8, 8, 8, 8));
+			panelSur.setBorder(new EmptyBorder(4, 4, 4, 4));
 
 			GridBagLayout gbl_panelSur = new GridBagLayout();
 
@@ -237,14 +198,6 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 			gbc_botonAtras.gridy = 0;
 
 			panelSur.add(getBotonAtras(), gbc_botonAtras);
-
-			GridBagConstraints gbc_botonEmpezarRecoger = new GridBagConstraints();
-
-			gbc_botonEmpezarRecoger.fill = GridBagConstraints.BOTH;
-			gbc_botonEmpezarRecoger.gridx = 2;
-			gbc_botonEmpezarRecoger.gridy = 0;
-
-			panelSur.add(getBotonContinuar(), gbc_botonEmpezarRecoger);
 		}
 
 		return panelSur;
@@ -261,26 +214,58 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonAtras.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 
 		return botonAtras;
 	}
 
-	/**
-	 * Tiene que ser implementado por las subclases. Define qué es lo que hace
-	 * la aplicación con una orden de trabajo seleccionada.
-	 * 
-	 * @return boton que procesa una Orden de Trabajo
-	 * 
-	 */
-	protected abstract JButton getBotonContinuar();
-
 	// ==============================================
 	// Controlar el estado del panel
 	// ==============================================
 
-	public abstract void inicializarDatos() throws BusinessException;
+	/**
+	 * Carga una lista de ordenes de trabajo que hay que retomar (ya sea para
+	 * empaquetado o recogida).
+	 * 
+	 * @return -> true si hay ordenes de trabajo disponibles<br>
+	 *         -> false si no hay ordenes de trabajo que recoger
+	 * 
+	 * @throws BusinessException
+	 * 
+	 */
+	public boolean inicializarDatos() throws BusinessException {
+
+		List<OrdenTrabajo> ordenesTrabajo = ServiceFactory.getEmpaquetadoService()
+				.cargarOT_empaquetar(ventanaPrincipal.getAlmacenero());
+
+		// --------------------------------------
+		// Si se encontraron ordenes de trabajo
+		// --------------------------------------
+
+		if (ordenesTrabajo.size() > 0) {
+			Collections.sort(ordenesTrabajo, new Comparator<OrdenTrabajo>() {
+
+				@Override
+				public int compare(OrdenTrabajo ot1, OrdenTrabajo ot2) {
+					return new Long(ot1.getId()).compareTo(ot2.getId());
+				}
+
+			});
+
+			modeloTablaOrdenesTrabajo.setOrdenesTrabajo(ordenesTrabajo);
+
+			return true;
+		}
+
+		// --------------------------------------------
+		// Si no se encontró ninguna orden de trabajo
+		// --------------------------------------------
+
+		else {
+			return false;
+		}
+	}
 
 	private void reiniciarPanel() {
 		modeloTablaPedidosOrdenTrabajo.removeAll();
@@ -290,4 +275,5 @@ public abstract class AbstractPanelRetomarOrdenTrabajo extends JPanel {
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
+
 }

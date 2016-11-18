@@ -21,7 +21,6 @@ import model.OrdenTrabajo;
 import model.Paquete;
 import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
-import ui.almacen.myTypes.model.MyOrdenTrabajo_Retomar;
 import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
 
 @SuppressWarnings("unchecked") // Eliminar advertencias por los Cast explícitos
@@ -34,8 +33,8 @@ public class EmpaquetadoServiceImpl implements EmpaquetadoService {
 	// --------------------------------------------
 
 	@Override
-	public List<MyOrdenTrabajo_Retomar> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException {
-		return (List<MyOrdenTrabajo_Retomar>) executor.execute(new CargarOrdenesTrabajoEmpaquetar(almacenero));
+	public List<OrdenTrabajo> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException {
+		return (List<OrdenTrabajo>) executor.execute(new CargarOrdenesTrabajoEmpaquetar(almacenero));
 	}
 
 	@Override

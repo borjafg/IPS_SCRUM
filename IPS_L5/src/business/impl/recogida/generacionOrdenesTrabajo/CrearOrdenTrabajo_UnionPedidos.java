@@ -83,7 +83,7 @@ class CrearOrdenTrabajo_UnionPedidos {
 		OrdenTrabajo ot = new OrdenTrabajo(almacenero);
 
 		ot.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.RECOGIDA);
-		ot.setFecha(new Date());
+		ot.setFechaCreacion(new Date());
 
 		Jpa.getManager().persist(ot);
 

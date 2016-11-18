@@ -334,7 +334,7 @@ public class PanelRecogidaProductos extends JPanel {
 								}
 
 								// -----------------------------------------
-								// NO ==> La recogera este almacenero
+								// NO ==> La recogerá otro almacenero
 								// -----------------------------------------
 
 								else {

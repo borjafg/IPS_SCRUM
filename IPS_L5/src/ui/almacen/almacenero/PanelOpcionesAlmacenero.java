@@ -26,9 +26,9 @@ public class PanelOpcionesAlmacenero extends JPanel {
 
 	private JButton botonGenerar;
 	private JButton botonRetomar;
-	private JButton botonEmpaquetar;
 	private JTextField textField;
 	private JButton botonLogIn;
+	private JButton botonEnviar;
 
 	public PanelOpcionesAlmacenero() {
 		super();
@@ -77,18 +77,13 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		gbc_botonRetomar.gridy = 5;
 
 		add(getBotonRetomar(), gbc_botonRetomar);
-
-		// ====== botonEmpaquetar ======
-
-		GridBagConstraints gbc_botonEmpaquetar = new GridBagConstraints();
-		gbc_botonEmpaquetar.gridwidth = 3;
-
-		gbc_botonEmpaquetar.fill = GridBagConstraints.BOTH;
-		gbc_botonEmpaquetar.insets = new Insets(0, 0, 5, 5);
-		gbc_botonEmpaquetar.gridx = 1;
-		gbc_botonEmpaquetar.gridy = 7;
-
-		add(getBotonEmpaquetar(), gbc_botonEmpaquetar);
+		GridBagConstraints gbc_botonEnviar = new GridBagConstraints();
+		gbc_botonEnviar.fill = GridBagConstraints.BOTH;
+		gbc_botonEnviar.gridwidth = 3;
+		gbc_botonEnviar.insets = new Insets(0, 0, 5, 5);
+		gbc_botonEnviar.gridx = 1;
+		gbc_botonEnviar.gridy = 7;
+		add(getBotonEnviar(), gbc_botonEnviar);
 	}
 
 	private void colocarLayout() {
@@ -131,7 +126,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 								}
 							}
 						}
-						
+
 						// Quiere hacer logout
 						else {
 							logout();
@@ -149,26 +144,26 @@ public class PanelOpcionesAlmacenero extends JPanel {
 
 		return botonLogIn;
 	}
-	
+
 	private void login(Almacenero almacenero) {
 		ventanaPrincipal.login(almacenero);
 		getTextField().setEditable(false);
-		
+
 		botonesBloqueados(true);
 		botonLogIn.setText("Logout");
 	}
-	
+
 	private void logout() {
 		ventanaPrincipal.logout();
 		getTextField().setEditable(true);
-		
+
 		botonesBloqueados(false);
 		botonLogIn.setText("Login");
 	}
-	
+
 	public void botonesBloqueados(boolean bloquear) {
 		botonGenerar.setEnabled(bloquear);
-		botonEmpaquetar.setEnabled(bloquear);
+		botonRetomar.setEnabled(bloquear);
 	}
 
 	// =================================================
@@ -213,25 +208,15 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		return botonRetomar;
 	}
 
-	private JButton getBotonEmpaquetar() {
-		if (botonEmpaquetar == null) {
-			botonEmpaquetar = new JButton("Empaquetar Orden de Trabajo");
-			botonEmpaquetar.setEnabled(false);
+	private JButton getBotonEnviar() {
+		if (botonEnviar == null) {
+			botonEnviar = new JButton("Preparar env\u00EDo");
 
-			botonEmpaquetar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					try {
-						ventanaPrincipal.mostrarPanelOrdenesTrabajoEmpaquetar();
-					} catch (BusinessException excep) {
-						ventanaPrincipal.gestionarErrorConexion(excep);
-					}
-				}
-			});
-
-			botonEmpaquetar.setFont(new Font("Tahoma", Font.BOLD, 13));
+			botonEnviar.setEnabled(false);
+			botonEnviar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
-		return botonEmpaquetar;
+		return botonEnviar;
 	}
 
 	// ==============================================
@@ -241,4 +226,5 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
+
 }

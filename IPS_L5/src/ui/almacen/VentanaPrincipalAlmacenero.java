@@ -13,12 +13,11 @@ import model.Almacenero;
 import model.OrdenTrabajo;
 import ui.almacen.almacenero.PanelOpcionesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
-import ui.almacen.empaquetado.PanelOrdenesTrabajoEmpaquetar;
 import ui.almacen.myTypes.ventanaMensaje.MessageDialog;
 import ui.almacen.recogida.PanelRecogidaProductos;
 import ui.almacen.recogida.PanelRegistroIncidencias;
-import ui.almacen.recogida.PanelRetomarOrdenTrabajo;
 import ui.almacen.recogida.PanelSeleccionPedido;
+import ui.almacen.retomarOT.PanelOrdenesTrabajo;
 
 public class VentanaPrincipalAlmacenero extends JFrame {
 
@@ -41,14 +40,13 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	// Paneles Recogida de productos
 
-	private PanelRetomarOrdenTrabajo panelOrdenesTrabajoRetomar;
 	private PanelSeleccionPedido panelSelecionPedido;
 	private PanelRecogidaProductos panelRecogidaProductos;
 	private PanelRegistroIncidencias panelRegistroIncidencias;
 
 	// Paneles Empaquetado de productos
 
-	private PanelOrdenesTrabajoEmpaquetar panelOrdenesTrabajoEmpaquetar;
+	private PanelOrdenesTrabajo panelOrdenesTrabajoRetomar;
 	private PanelEmpaquetadoProductos panelEmpaquetadoProductos;
 
 	/**
@@ -121,7 +119,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		panelSelecionPedido = new PanelSeleccionPedido();
 		panelSelecionPedido.setVentanaPrincipal(this);
 
-		panelOrdenesTrabajoRetomar = new PanelRetomarOrdenTrabajo();
+		panelOrdenesTrabajoRetomar = new PanelOrdenesTrabajo();
 		panelOrdenesTrabajoRetomar.setVentanaPrincipal(this);
 
 		panelRecogidaProductos = new PanelRecogidaProductos();
@@ -139,13 +137,9 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		// ===== Empaquetado de productos en una Orden de Trabajo =====
 		// ============================================================
 
-		panelOrdenesTrabajoEmpaquetar = new PanelOrdenesTrabajoEmpaquetar();
-		panelOrdenesTrabajoEmpaquetar.setVentanaPrincipal(this);
-
 		panelEmpaquetadoProductos = new PanelEmpaquetadoProductos();
 		panelEmpaquetadoProductos.setVentanaPrincipal(this);
 
-		contentPane.add(panelOrdenesTrabajoEmpaquetar, "panelOrdenesTrabajoEmpaquetar");
 		contentPane.add(panelEmpaquetadoProductos, "panelEmpaquetadoProductos");
 	}
 
@@ -216,10 +210,21 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 */
 	public void mostrarPanelOrdenesTrabajoRetomar() throws BusinessException {
 		// (1) Hay que cargar la lista de posibles pedidos
-		panelOrdenesTrabajoRetomar.inicializarDatos();
+		boolean hayOT = panelOrdenesTrabajoRetomar.inicializarDatos();
 
-		// (2) Se muestra el panel de selección de pedidos
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelOrdenesTrabajoRetomar");
+		// -------------------------------------
+		// Según haya o no órdenes de trabajo
+		// -------------------------------------
+
+		if (hayOT) {
+			// (2) Se muestra el panel de selección de pedidos
+			((CardLayout) contentPane.getLayout()).show(contentPane, "panelOrdenesTrabajoRetomar");
+		}
+
+		else {
+			// (2) Se muestra un mensaje
+			getMessage().info("Info", "No hay órdenes de trabajo disponibles");
+		}
 	}
 
 	/**
@@ -263,27 +268,6 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	// ============================================================
 	// ===== Empaquetado de productos en una Orden de Trabajo =====
 	// ============================================================
-
-	/**
-	 * Cuando el almacenero se loguea tiene la posibilidad de retomar una orden
-	 * de trabajo que no empezó a recoger, pero que no completó.
-	 * 
-	 * @throws BusinessException
-	 * 
-	 */
-	public void mostrarPanelOrdenesTrabajoEmpaquetar() throws BusinessException {
-		try {
-			// (1) Inicializar
-			panelOrdenesTrabajoEmpaquetar.inicializarDatos();
-
-			// (2) Mostrar
-			((CardLayout) contentPane.getLayout()).show(contentPane, "panelOrdenesTrabajoEmpaquetar");
-		}
-
-		catch (BusinessException e) {
-			gestionarErrorConexion(e);
-		}
-	}
 
 	/**
 	 * Cuando se quiera pasar a la parte de empaquetado hay que ejecutar este

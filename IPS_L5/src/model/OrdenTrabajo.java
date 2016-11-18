@@ -41,7 +41,13 @@ public class OrdenTrabajo implements Serializable {
 	private Set<Incidencia> incidencias = new HashSet<Incidencia>();
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fecha;
+	private Date fechaCreacion;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaFinRecogida;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaFinEmpaquetado;
 
 	@Enumerated(EnumType.STRING)
 	private EstadoOrdenTrabajo estado = EstadoOrdenTrabajo.RECOGIDA;
@@ -105,12 +111,36 @@ public class OrdenTrabajo implements Serializable {
 	// Fecha en la que se creo la Orden de Trabajo
 	// ==============================================
 
-	public Date getFecha() {
-		return fecha;
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	// ============================================================
+	// Fecha en la que se terminó de recoger la Orden de Trabajo
+	// ============================================================
+
+	public Date getFechaFinRecogida() {
+		return fechaFinRecogida;
+	}
+
+	public void setFechaFinRecogida(Date fechaFinRecogida) {
+		this.fechaFinRecogida = fechaFinRecogida;
+	}
+
+	// ==============================================================
+	// Fecha en la que se terminó de empaquetar la Orden de Trabajo
+	// ==============================================================
+
+	public Date getFechaFinEmpaquetado() {
+		return fechaFinEmpaquetado;
+	}
+
+	public void setFechaFinEmpaquetado(Date fechaFinEmpaquetado) {
+		this.fechaFinEmpaquetado = fechaFinEmpaquetado;
 	}
 
 	// ==============================================
@@ -160,7 +190,7 @@ public class OrdenTrabajo implements Serializable {
 	public Set<Paquete> getPaquetes() {
 		return new HashSet<Paquete>(paquetes);
 	}
-	
+
 	// ==============================================================
 	// Comprobar estado de la Orden de Trabajo (Recogida productos)
 	// ==============================================================

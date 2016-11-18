@@ -32,6 +32,8 @@ public class Producto implements Serializable {
 	private double precio;
 	private String descripcion;
 
+	private double iva;
+
 	private double peso = 2.6;
 	private double volumen = 1.8;
 
@@ -91,6 +93,18 @@ public class Producto implements Serializable {
 		this.precio = precio;
 	}
 
+	// =======================================
+	// IVA del producto
+	// =======================================
+
+	public double getIva() {
+		return iva;
+	}
+	
+	public void setIva(double iva) {
+		this.iva = iva;
+	}
+	
 	// =======================================
 	// Descripcion del producto
 	// =======================================
