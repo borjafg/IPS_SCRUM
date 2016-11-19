@@ -1,5 +1,9 @@
 package test.script;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import business.impl.util.Command;
 import model.Almacenero;
 import model.Categoria;
@@ -7,6 +11,7 @@ import model.Cliente;
 import model.PosicionProducto;
 import model.Producto;
 import model.types.EstanteriaProducto;
+import model.types.TarjetaCredito;
 import model.types.TipoCliente;
 import persistence.util.Jpa;
 
@@ -15,17 +20,26 @@ public class TestScript1 implements Command {
 	@Override
 	public Object execute() {
 		Cliente cliente;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		TarjetaCredito tarjeta;
+		try {
 		for (int i = 1; i < 8; i++) {
+				
+				tarjeta = new TarjetaCredito(32L +i, i+25*2, sdf.parse("28/6/2077"));
+			
 			cliente = new Cliente();
 			cliente.setDireccionCompleta("Direccion " + i);
 			cliente.setNombre("Cliente" + i);
 			cliente.setTipoCliente(TipoCliente.MINORISTA);
+			cliente.setTarjeta(tarjeta);
 			Jpa.getManager().persist(cliente);// vamos generando cada uno de los
 												// clientes minoristas
 		}
 
-		
-
+		} catch (ParseException e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("Se han creado clientes minoristas a cholón");
 		// Creamos los almaceneros en la base de datos
 		String[] nombre = { "Pepe", "Manolo", "Alfonso", "Paula" };
 
@@ -37,28 +51,41 @@ public class TestScript1 implements Command {
 		}
 
 		System.out.println("Creados almaceneros a cholón");
-
+		
+		try {
+		
 		Cliente clientenormal;
+		
+		tarjeta = new TarjetaCredito(1L, 1254,sdf.parse("12/4/2084"));		
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Antonio José");
 		clientenormal.setDireccionCompleta("Debajo de un puente");
 		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
+		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
+		tarjeta = new TarjetaCredito(33L,2033 ,sdf.parse("25/12/2033"));
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Artyon");
 		clientenormal.setDireccionCompleta("En el metro de Moscú");
 		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
+		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
+		
+		tarjeta = new TarjetaCredito(5L, 10101,sdf.parse("27/9/3025"));
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Jodorowsky");
 		clientenormal.setDireccionCompleta("En sus mundos psicomágicos");
 		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
+		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
-		System.out.println("Creados clientes especiales");
+		System.out.println("Creados clientes Minoristas");
 		
+		} catch (ParseException e) {
+			System.err.println(e.getMessage());
+		}
 		
 		Categoria categoriaNormal;
 		categoriaNormal = new Categoria();
@@ -85,6 +112,9 @@ public class TestScript1 implements Command {
 		prod.setDescripcion("SetaVen");
 		prod.setNombre("Seta tóxica");
 		prod.setPrecio(12);
+		prod.setIva(12.0);
+		prod.setPeso(1.0);
+		prod.setVolumen(1.0);
 		Jpa.getManager().persist(prod);
 
 		///
@@ -104,10 +134,14 @@ public class TestScript1 implements Command {
 		prod.setDescripcion("ManSana");
 		prod.setNombre("Manzana sana");
 		prod.setPrecio(1);
+		prod.setIva(10.0);
+		prod.setPeso(2.0);
+		prod.setVolumen(2.0);
 		Jpa.getManager().persist(prod);
 
 		System.out.println("Creadas categorías especiales");
-		
+		Jpa.getManager().flush();
+		Jpa.getManager().clear();
 		return null;
 	}
 

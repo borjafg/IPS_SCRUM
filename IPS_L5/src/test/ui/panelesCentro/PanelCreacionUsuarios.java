@@ -40,6 +40,12 @@ public class PanelCreacionUsuarios extends JPanel {
 	DefaultComboBoxModel<TipoCliente> modeloComboTipoCliente;
 
 	private JLabel lblDatosUsuario;
+	private JLabel lblNumeroTarjeta;
+	private JLabel lblCodigoSeguridd;
+	private JLabel lblTipoTarjeta;
+	private JComboBox<TipoCliente> comboBoxTipoTarjeta;
+	private JTextField textFieldCodigoSec;
+	private JTextField textFieldNumeroTarjeta;
 
 	/**
 	 * Create the panel.
@@ -51,7 +57,7 @@ public class PanelCreacionUsuarios extends JPanel {
 		//
 		setPreferredSize(new Dimension(640, 480));
 		setLayout(new BorderLayout(0, 0));
-		
+
 		add(getPanelCentro(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
 	}
@@ -68,10 +74,10 @@ public class PanelCreacionUsuarios extends JPanel {
 			GridBagLayout gbl_panelCentro = new GridBagLayout();
 
 			gbl_panelCentro.columnWidths = new int[] { 0, 0, 0, 0, 166, 0, 0 };
-			gbl_panelCentro.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			gbl_panelCentro.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			gbl_panelCentro.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
-			gbl_panelCentro.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-					Double.MIN_VALUE };
+			gbl_panelCentro.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+					0.0, 0.0, Double.MIN_VALUE };
 
 			panelCentro.setLayout(gbl_panelCentro);
 
@@ -134,6 +140,39 @@ public class PanelCreacionUsuarios extends JPanel {
 			gbc_comboBox.gridy = 7;
 
 			panelCentro.add(getComboBox_1(), gbc_comboBox);
+			GridBagConstraints gbc_lblNumeroTarjeta = new GridBagConstraints();
+			gbc_lblNumeroTarjeta.insets = new Insets(0, 0, 5, 5);
+			gbc_lblNumeroTarjeta.gridx = 2;
+			gbc_lblNumeroTarjeta.gridy = 9;
+			panelCentro.add(getLblNumeroTarjeta(), gbc_lblNumeroTarjeta);
+			GridBagConstraints gbc_textFieldNumeroTarjeta = new GridBagConstraints();
+			gbc_textFieldNumeroTarjeta.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldNumeroTarjeta.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldNumeroTarjeta.gridx = 4;
+			gbc_textFieldNumeroTarjeta.gridy = 9;
+			panelCentro.add(getTextField_1_1(), gbc_textFieldNumeroTarjeta);
+			GridBagConstraints gbc_lblCodigoSeguridd = new GridBagConstraints();
+			gbc_lblCodigoSeguridd.insets = new Insets(0, 0, 5, 5);
+			gbc_lblCodigoSeguridd.gridx = 2;
+			gbc_lblCodigoSeguridd.gridy = 11;
+			panelCentro.add(getLblCodigoSeguridd(), gbc_lblCodigoSeguridd);
+			GridBagConstraints gbc_textFieldCodigoSec = new GridBagConstraints();
+			gbc_textFieldCodigoSec.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldCodigoSec.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldCodigoSec.gridx = 4;
+			gbc_textFieldCodigoSec.gridy = 11;
+			panelCentro.add(getTextFieldCodigoSec(), gbc_textFieldCodigoSec);
+			GridBagConstraints gbc_lblTipoTarjeta = new GridBagConstraints();
+			gbc_lblTipoTarjeta.insets = new Insets(0, 0, 5, 5);
+			gbc_lblTipoTarjeta.gridx = 2;
+			gbc_lblTipoTarjeta.gridy = 13;
+			panelCentro.add(getLblTipoTarjeta(), gbc_lblTipoTarjeta);
+			GridBagConstraints gbc_comboBoxTipoTarjeta = new GridBagConstraints();
+			gbc_comboBoxTipoTarjeta.insets = new Insets(0, 0, 5, 5);
+			gbc_comboBoxTipoTarjeta.fill = GridBagConstraints.HORIZONTAL;
+			gbc_comboBoxTipoTarjeta.gridx = 4;
+			gbc_comboBoxTipoTarjeta.gridy = 13;
+			panelCentro.add(getComboBox_1_1(), gbc_comboBoxTipoTarjeta);
 		}
 
 		return panelCentro;
@@ -159,8 +198,7 @@ public class PanelCreacionUsuarios extends JPanel {
 			btnConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					String resultado = menuPrincipal.getProcesadorTest()
-							.ejecutarPrueba(new NuevoCliente(getTextField_1().getText(), getTextField_2().getText(),
-									(TipoCliente) getComboBox_1().getSelectedItem()));
+							.ejecutarPrueba(new NuevoCliente(getTextField_1().getText(), getTextField_2().getText(),(TipoCliente) getComboBox_1().getSelectedItem()));
 
 					menuPrincipal.getTextAreaResultados().setText(resultado);
 
@@ -235,5 +273,52 @@ public class PanelCreacionUsuarios extends JPanel {
 		}
 
 		return lblDatosUsuario;
+	}
+
+	private JLabel getLblNumeroTarjeta() {
+		if (lblNumeroTarjeta == null) {
+			lblNumeroTarjeta = new JLabel("Numero tarjeta");
+			lblNumeroTarjeta.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblNumeroTarjeta;
+	}
+
+	private JLabel getLblCodigoSeguridd() {
+		if (lblCodigoSeguridd == null) {
+			lblCodigoSeguridd = new JLabel("Codigo seguridad");
+			lblCodigoSeguridd.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblCodigoSeguridd;
+	}
+
+	private JLabel getLblTipoTarjeta() {
+		if (lblTipoTarjeta == null) {
+			lblTipoTarjeta = new JLabel("Tipo tarjeta");
+			lblTipoTarjeta.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblTipoTarjeta;
+	}
+
+	private JComboBox<TipoCliente> getComboBox_1_1() {
+		if (comboBoxTipoTarjeta == null) {
+			comboBoxTipoTarjeta = new JComboBox();
+		}
+		return comboBoxTipoTarjeta;
+	}
+
+	private JTextField getTextFieldCodigoSec() {
+		if (textFieldCodigoSec == null) {
+			textFieldCodigoSec = new JTextField();
+			textFieldCodigoSec.setColumns(10);
+		}
+		return textFieldCodigoSec;
+	}
+
+	private JTextField getTextField_1_1() {
+		if (textFieldNumeroTarjeta == null) {
+			textFieldNumeroTarjeta = new JTextField();
+			textFieldNumeroTarjeta.setColumns(10);
+		}
+		return textFieldNumeroTarjeta;
 	}
 }

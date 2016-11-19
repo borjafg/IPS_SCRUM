@@ -50,6 +50,3 @@ CREATE TABLE Transportistas (id_transportista number(32), nombre varchar(64) NOT
 
 
 CREATE TABLE Envios(id_envio number(32), id_transportista number(32),fecha_creacion TIMESTAMP,primary key(id_envio), foreign key(id_transportista) referencesTransportista (id_transportista));
-
-
-CREATE TABLE PaquetesEnvio (id_paquete number(32), id_envio number(32),primary key(id_envio,id_paquete),foreign key(id_paquete)references Paquetes(id_paquete),foreign key(id_envio) references Envios(id_envio));
