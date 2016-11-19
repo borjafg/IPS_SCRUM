@@ -2,6 +2,7 @@ package model.types;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +17,7 @@ public class Tarjeta {
 	private int codigoSeguridad;
 
 	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_caducidad")
 	private Date fechaCaducidad;
 
 	@Enumerated(EnumType.STRING)
