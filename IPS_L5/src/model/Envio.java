@@ -38,6 +38,10 @@ public class Envio implements Serializable {
 	@OneToMany(mappedBy = "envio")
 	private Set<Paquete> paquetesEnvio = new HashSet<Paquete>();
 
+	public Envio() {
+
+	}
+
 	public Envio(Transportista transportista) {
 		Asociacion.AsignarEnvio_Transportista.link(this, transportista);
 	}
