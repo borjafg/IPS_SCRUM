@@ -2,7 +2,6 @@ package test.script;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import business.impl.util.Command;
 import model.Almacenero;
@@ -11,8 +10,9 @@ import model.Cliente;
 import model.PosicionProducto;
 import model.Producto;
 import model.types.EstanteriaProducto;
-import model.types.TarjetaCredito;
+import model.types.Tarjeta;
 import model.types.TipoCliente;
+import model.types.TipoTarjeta;
 import persistence.util.Jpa;
 
 public class TestScript1 implements Command {
@@ -21,11 +21,11 @@ public class TestScript1 implements Command {
 	public Object execute() {
 		Cliente cliente;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		TarjetaCredito tarjeta;
+		Tarjeta tarjeta;
 		try {
 		for (int i = 1; i < 8; i++) {
 				
-				tarjeta = new TarjetaCredito(32L +i, i+25*2, sdf.parse("28/6/2077"));
+				tarjeta = new Tarjeta(32L +i, i+25*2, sdf.parse("28/6/2077"),TipoTarjeta.CRÉDITO);
 			
 			cliente = new Cliente();
 			cliente.setDireccionCompleta("Direccion " + i);
@@ -56,7 +56,7 @@ public class TestScript1 implements Command {
 		
 		Cliente clientenormal;
 		
-		tarjeta = new TarjetaCredito(1L, 1254,sdf.parse("12/4/2084"));		
+		tarjeta = new Tarjeta(1L, 1254,sdf.parse("12/4/2084"),TipoTarjeta.CRÉDITO);		
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Antonio José");
 		clientenormal.setDireccionCompleta("Debajo de un puente");
@@ -64,7 +64,7 @@ public class TestScript1 implements Command {
 		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
-		tarjeta = new TarjetaCredito(33L,2033 ,sdf.parse("25/12/2033"));
+		tarjeta = new Tarjeta(33L,2033 ,sdf.parse("25/12/2033"),TipoTarjeta.DÉBITO);
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Artyon");
 		clientenormal.setDireccionCompleta("En el metro de Moscú");
@@ -73,7 +73,7 @@ public class TestScript1 implements Command {
 		Jpa.getManager().persist(clientenormal);
 
 		
-		tarjeta = new TarjetaCredito(5L, 10101,sdf.parse("27/9/3025"));
+		tarjeta = new Tarjeta(5L, 10101,sdf.parse("27/9/3025"),TipoTarjeta.DÉBITO);
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Jodorowsky");
 		clientenormal.setDireccionCompleta("En sus mundos psicomágicos");

@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import model.types.TipoCliente;
 import test.business.acciones.NuevoCliente;
 import test.ui.MenuPrincipal;
+import model.types.TipoTarjeta;
 
 public class PanelCreacionUsuarios extends JPanel {
 
@@ -46,6 +47,8 @@ public class PanelCreacionUsuarios extends JPanel {
 	private JComboBox<TipoCliente> comboBoxTipoTarjeta;
 	private JTextField textFieldCodigoSec;
 	private JTextField textFieldNumeroTarjeta;
+	private JLabel lblFecha;
+	private JTextField textFieldFecha;
 
 	/**
 	 * Create the panel.
@@ -74,10 +77,10 @@ public class PanelCreacionUsuarios extends JPanel {
 			GridBagLayout gbl_panelCentro = new GridBagLayout();
 
 			gbl_panelCentro.columnWidths = new int[] { 0, 0, 0, 0, 166, 0, 0 };
-			gbl_panelCentro.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			gbl_panelCentro.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			gbl_panelCentro.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 			gbl_panelCentro.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-					0.0, 0.0, Double.MIN_VALUE };
+					0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 
 			panelCentro.setLayout(gbl_panelCentro);
 
@@ -173,6 +176,17 @@ public class PanelCreacionUsuarios extends JPanel {
 			gbc_comboBoxTipoTarjeta.gridx = 4;
 			gbc_comboBoxTipoTarjeta.gridy = 13;
 			panelCentro.add(getComboBox_1_1(), gbc_comboBoxTipoTarjeta);
+			GridBagConstraints gbc_lblFecha = new GridBagConstraints();
+			gbc_lblFecha.insets = new Insets(0, 0, 5, 5);
+			gbc_lblFecha.gridx = 2;
+			gbc_lblFecha.gridy = 15;
+			panelCentro.add(getLblFecha(), gbc_lblFecha);
+			GridBagConstraints gbc_textFieldFecha = new GridBagConstraints();
+			gbc_textFieldFecha.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldFecha.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldFecha.gridx = 4;
+			gbc_textFieldFecha.gridy = 15;
+			panelCentro.add(getTextFieldFecha(), gbc_textFieldFecha);
 		}
 
 		return panelCentro;
@@ -198,7 +212,7 @@ public class PanelCreacionUsuarios extends JPanel {
 			btnConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					String resultado = menuPrincipal.getProcesadorTest()
-							.ejecutarPrueba(new NuevoCliente(getTextField_1().getText(), getTextField_2().getText(),(TipoCliente) getComboBox_1().getSelectedItem()));
+							.ejecutarPrueba(new NuevoCliente(getTextField_1().getText(), getTextField_2().getText(),(TipoCliente) getComboBox_1().getSelectedItem(),Long.parseLong(getTextField_1_1().getText()),Integer.parseInt(getTextFieldCodigoSec().getText()), (TipoTarjeta)getComboBox_1_1().getSelectedItem(),getTextFieldFecha().getText()));
 
 					menuPrincipal.getTextAreaResultados().setText(resultado);
 
@@ -299,9 +313,11 @@ public class PanelCreacionUsuarios extends JPanel {
 		return lblTipoTarjeta;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JComboBox<TipoCliente> getComboBox_1_1() {
 		if (comboBoxTipoTarjeta == null) {
-			comboBoxTipoTarjeta = new JComboBox();
+			comboBoxTipoTarjeta = new JComboBox<TipoCliente>();
+			comboBoxTipoTarjeta.setModel(new DefaultComboBoxModel(TipoTarjeta.values()));
 		}
 		return comboBoxTipoTarjeta;
 	}
@@ -320,5 +336,19 @@ public class PanelCreacionUsuarios extends JPanel {
 			textFieldNumeroTarjeta.setColumns(10);
 		}
 		return textFieldNumeroTarjeta;
+	}
+	private JLabel getLblFecha() {
+		if (lblFecha == null) {
+			lblFecha = new JLabel("Fecha");
+			lblFecha.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblFecha;
+	}
+	private JTextField getTextFieldFecha() {
+		if (textFieldFecha == null) {
+			textFieldFecha = new JTextField();
+			textFieldFecha.setColumns(10);
+		}
+		return textFieldFecha;
 	}
 }
