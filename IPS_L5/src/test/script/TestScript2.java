@@ -47,6 +47,9 @@ public class TestScript2 implements Command {
 									producto.setNombre("Producto " + i + "-" + j + "-" + k);
 									producto.setDescripcion("Prod" + i + j + k);
 									producto.setPrecio(z);
+									producto.setIva(10.0);
+									producto.setPeso(j+k);
+									producto.setVolumen(i+j);
 									Jpa.getManager().persist(producto);							
 								}
 								
@@ -62,6 +65,9 @@ public class TestScript2 implements Command {
 								producto.setNombre("Producto " + i + "-" + j + "-" + k);
 								producto.setDescripcion("Prod" + i + j + k);
 								producto.setPrecio(i + k);
+								producto.setIva(12.0);
+								producto.setPeso(i+j);
+								producto.setVolumen(j+k);
 								Jpa.getManager().persist(producto);
 							}
 						
@@ -81,6 +87,9 @@ public class TestScript2 implements Command {
 						producto.setNombre("Producto " + i + "-"+ j );
 						producto.setDescripcion("Prod" + i+ "-"+ j );
 						producto.setPrecio(i + j );
+						producto.setIva(11.0);
+						producto.setPeso(j);
+						producto.setVolumen(j);
 						Jpa.getManager().persist(producto);
 						
 					
@@ -102,9 +111,13 @@ public class TestScript2 implements Command {
 					producto.setNombre("Producto " + i );
 					producto.setDescripcion("Prod" + i );
 					producto.setPrecio(i );
+					producto.setIva(15.0);
+					producto.setPeso(i);
+					producto.setVolumen(i);
 					Jpa.getManager().persist(producto);
 				}
 			Jpa.getManager().flush();
+			Jpa.getManager().clear();
 			System.out.println("Se ha realizado un flush");
 			}
 			

@@ -53,6 +53,12 @@ public class PanelCreacionProductos extends JPanel {
 	private JComboBox<EstanteriaProducto> comboBoxEstanteria;
 	private JLabel labelPosicionX;
 	private JTextField textFieldPosicionX;
+	private JLabel lblIva;
+	private JLabel lblPeso;
+	private JLabel lblVolumen;
+	private JTextField textFieldIVA;
+	private JTextField textFieldPeso;
+	private JTextField textFieldVolumen;
 
 	public PanelCreacionProductos() {
 		super();
@@ -163,25 +169,58 @@ public class PanelCreacionProductos extends JPanel {
 			GridBagConstraints gbc_labelCategoria = new GridBagConstraints();
 			gbc_labelCategoria.insets = new Insets(0, 0, 5, 5);
 			gbc_labelCategoria.gridx = 1;
-			gbc_labelCategoria.gridy = 4;
+			gbc_labelCategoria.gridy = 3;
 			panelCentro.add(getLabelCategoria(), gbc_labelCategoria);
 			GridBagConstraints gbc_comboBoxCategoria = new GridBagConstraints();
 			gbc_comboBoxCategoria.fill = GridBagConstraints.BOTH;
 			gbc_comboBoxCategoria.insets = new Insets(0, 0, 5, 5);
 			gbc_comboBoxCategoria.gridx = 3;
-			gbc_comboBoxCategoria.gridy = 4;
+			gbc_comboBoxCategoria.gridy = 3;
 			panelCentro.add(getComboBoxCategoria(), gbc_comboBoxCategoria);
 			GridBagConstraints gbc_labelPrecio = new GridBagConstraints();
 			gbc_labelPrecio.insets = new Insets(0, 0, 5, 5);
 			gbc_labelPrecio.gridx = 1;
-			gbc_labelPrecio.gridy = 6;
+			gbc_labelPrecio.gridy = 4;
 			panelCentro.add(getLabelPrecio(), gbc_labelPrecio);
 			GridBagConstraints gbc_textFieldPrecio = new GridBagConstraints();
 			gbc_textFieldPrecio.fill = GridBagConstraints.BOTH;
 			gbc_textFieldPrecio.insets = new Insets(0, 0, 5, 5);
 			gbc_textFieldPrecio.gridx = 3;
-			gbc_textFieldPrecio.gridy = 6;
+			gbc_textFieldPrecio.gridy = 4;
 			panelCentro.add(getTextFieldPrecio(), gbc_textFieldPrecio);
+			GridBagConstraints gbc_lblIva = new GridBagConstraints();
+			gbc_lblIva.insets = new Insets(0, 0, 5, 5);
+			gbc_lblIva.gridx = 1;
+			gbc_lblIva.gridy = 5;
+			panelCentro.add(getLblIva(), gbc_lblIva);
+			GridBagConstraints gbc_textFieldIVA = new GridBagConstraints();
+			gbc_textFieldIVA.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldIVA.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldIVA.gridx = 3;
+			gbc_textFieldIVA.gridy = 5;
+			panelCentro.add(getTextFieldIVA(), gbc_textFieldIVA);
+			GridBagConstraints gbc_lblPeso = new GridBagConstraints();
+			gbc_lblPeso.insets = new Insets(0, 0, 5, 5);
+			gbc_lblPeso.gridx = 1;
+			gbc_lblPeso.gridy = 6;
+			panelCentro.add(getLblPeso(), gbc_lblPeso);
+			GridBagConstraints gbc_textFieldPeso = new GridBagConstraints();
+			gbc_textFieldPeso.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldPeso.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldPeso.gridx = 3;
+			gbc_textFieldPeso.gridy = 6;
+			panelCentro.add(getTextFieldPeso(), gbc_textFieldPeso);
+			GridBagConstraints gbc_lblVolumen = new GridBagConstraints();
+			gbc_lblVolumen.insets = new Insets(0, 0, 5, 5);
+			gbc_lblVolumen.gridx = 1;
+			gbc_lblVolumen.gridy = 7;
+			panelCentro.add(getLblVolumen(), gbc_lblVolumen);
+			GridBagConstraints gbc_textFieldVolumen = new GridBagConstraints();
+			gbc_textFieldVolumen.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldVolumen.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textFieldVolumen.gridx = 3;
+			gbc_textFieldVolumen.gridy = 7;
+			panelCentro.add(getTextFieldVolumen(), gbc_textFieldVolumen);
 			GridBagConstraints gbc_lblDescripcin = new GridBagConstraints();
 			gbc_lblDescripcin.insets = new Insets(0, 0, 5, 5);
 			gbc_lblDescripcin.gridx = 1;
@@ -280,11 +319,13 @@ public class PanelCreacionProductos extends JPanel {
 					Categoria categoria = (Categoria) getComboBoxCategoria().getSelectedItem();
 					Double precio = Double.parseDouble(getTextFieldPrecio().getText());
 					String descripcion = getTextFieldDescripcion().getText();
-
+					double iva = Double.parseDouble(getTextFieldIVA().getText());
+					double peso = Double.parseDouble(getTextFieldPeso().getText());
+					double volumen = Double.parseDouble(getTextFieldVolumen().getText());
 					// Creamos el producto
 					
 					String resultado = menuPrincipal.getProcesadorTest()
-							.ejecutarPrueba(new NuevoProducto(nombre, categoria, precio, descripcion, posicion));
+							.ejecutarPrueba(new NuevoProducto(nombre, categoria, precio, descripcion, posicion,iva,peso,volumen));
 
 					// Mostramos el resultado de la ejecución
 					
@@ -404,5 +445,47 @@ public class PanelCreacionProductos extends JPanel {
 			textFieldPosicionX.setColumns(10);
 		}
 		return textFieldPosicionX;
+	}
+	private JLabel getLblIva() {
+		if (lblIva == null) {
+			lblIva = new JLabel("IVA");
+			lblIva.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblIva;
+	}
+	private JLabel getLblPeso() {
+		if (lblPeso == null) {
+			lblPeso = new JLabel("Peso");
+			lblPeso.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblPeso;
+	}
+	private JLabel getLblVolumen() {
+		if (lblVolumen == null) {
+			lblVolumen = new JLabel("Volumen");
+			lblVolumen.setFont(new Font("Tahoma", Font.BOLD, 18));
+		}
+		return lblVolumen;
+	}
+	private JTextField getTextFieldIVA() {
+		if (textFieldIVA == null) {
+			textFieldIVA = new JTextField();
+			textFieldIVA.setColumns(10);
+		}
+		return textFieldIVA;
+	}
+	private JTextField getTextFieldPeso() {
+		if (textFieldPeso == null) {
+			textFieldPeso = new JTextField();
+			textFieldPeso.setColumns(10);
+		}
+		return textFieldPeso;
+	}
+	private JTextField getTextFieldVolumen() {
+		if (textFieldVolumen == null) {
+			textFieldVolumen = new JTextField();
+			textFieldVolumen.setColumns(10);
+		}
+		return textFieldVolumen;
 	}
 }

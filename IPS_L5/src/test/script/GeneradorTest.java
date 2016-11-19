@@ -14,7 +14,7 @@ public class GeneradorTest {
 			
 		try {
 			System.out.println("Se inicia el test 1");
-			exe.execute(new TestScript2());
+			exe.execute(new TestScript1());
 			
 		
 		

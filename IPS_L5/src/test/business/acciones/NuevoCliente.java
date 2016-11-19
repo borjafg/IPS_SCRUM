@@ -10,7 +10,8 @@ public class NuevoCliente implements TestAction {
 	
 	private Cliente clientenuevo;
 	
-	public NuevoCliente(String nombre,String direccion, TipoCliente tipo) {
+	public NuevoCliente(String nombre,String direccion, TipoCliente tipo,long numeroTarjeta,int codigo) {
+		
 		clientenuevo = new Cliente();
 		clientenuevo.setDireccionCompleta(direccion);
 		clientenuevo.setNombre(nombre);
