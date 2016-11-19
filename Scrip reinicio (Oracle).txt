@@ -1,6 +1,5 @@
 -- Borrar las tablas
 
-drop table "IPS_2017_2"."PAQUETESENVIO" cascade constraints;
 drop table "IPS_2017_2"."ENVIOS" cascade constraints;
 drop table "IPS_2017_2"."TRANSPORTISTAS" cascade constraints;
 
