@@ -1,0 +1,24 @@
+-- Borrar las tablas
+
+delete FROM ENVIOS where 1=1;
+delete FROM TRANSPORTISTAS where 1=1;
+
+delete FROM PRODUCTOSPAQUETE where 1=1;
+delete FROM PAQUETES where 1=1;
+
+delete FROM PRODUCTOSORDENTRABAJO where 1=1;
+delete FROM INCIDENCIAS where 1=1;
+delete FROM ORDENESTRABAJO where 1=1;
+
+delete FROM PRODUCTOSPEDIDO where 1=1;
+delete FROM PEDIDOS where 1=1;
+
+delete FROM PRODUCTOS where 1=1;
+delete FROM CATEGORIAS where 1=1;
+delete FROM POSICIONPRODUCTOS where 1=1;
+
+delete FROM CLIENTES where 1=1;
+
+-- De la tabla almaceneros borrar todos las filas menos 1
+
+delete FROM ALMACENEROS where LOGIN != 'Paco';
