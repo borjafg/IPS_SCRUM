@@ -4,6 +4,7 @@ package test.script;
 
 import business.exception.BusinessException;
 import business.impl.util.CommandExecutor;
+import persistence.util.Jpa;
 
 public class GeneradorTest {
 
@@ -14,8 +15,8 @@ public class GeneradorTest {
 			
 		try {
 			System.out.println("Se inicia el test 1");
-			exe.execute(new TestScript1());
-			
+			exe.execute(new TestScript2());
+			Jpa.getManager().close();
 		
 		
 		} catch (BusinessException e) {
