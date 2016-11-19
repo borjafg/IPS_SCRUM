@@ -21,6 +21,10 @@ public class Tarjeta {
 	@Enumerated(EnumType.STRING)
 	private TipoTarjeta tipoTarjeta;
 
+	protected Tarjeta() {
+				
+	}
+	
 	public Tarjeta(Long numeroTarjeta, int codigoSeguridad, Date fechaCaducidad, TipoTarjeta tipoTarjeta) {
 		this.numeroTarjeta = numeroTarjeta;
 		this.codigoSeguridad = codigoSeguridad;

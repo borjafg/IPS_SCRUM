@@ -14,14 +14,19 @@ public class GeneradorTest {
 		CommandExecutor exe = new CommandExecutor(); 
 			
 		try {
-			System.out.println("Se inicia el test 1");
+			System.out.println("Se inicia el test categorias y productos");
 			exe.execute(new TestScript2());
-			Jpa.getManager().close();
+			System.out.println("--------------------");
+			System.out.println("Se finaliza el test categorias y productos");
+			System.out.println("--------------------");
+			System.out.println("Se inicia el test almaceneros, clientes minoristas y productos especiales");
+			exe.execute(new TestScript1());
+			System.out.println("--------------------");
+			System.out.println("Se finaliza el test almaceneros, clientes minoristas y productos especiales");
 		
 		
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		
 		
