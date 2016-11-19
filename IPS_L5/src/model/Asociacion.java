@@ -158,4 +158,24 @@ public class Asociacion {
 		}
 	}
 
+	/**
+	 * Asocia un envio con un transportista
+	 * 
+	 */
+	public static class AsignarEnvio_Transportista {
+		public static void link(Envio envio, Transportista transportista) {
+			envio.setTransportista(transportista);
+			transportista._getEnvios().add(envio);
+		}
+	}
+
+	/**
+	 * Asocia un paquete a un envio
+	 * 
+	 */
+	public static void AsignarPaquete_Envio(Paquete paquete, Envio envio) {
+		paquete._setEnvio(envio);
+		envio._getPaquetesEnvio().add(paquete);
+	}
+
 }

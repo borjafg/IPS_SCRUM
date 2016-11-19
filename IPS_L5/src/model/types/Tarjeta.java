@@ -3,11 +3,13 @@ package model.types;
 import java.util.Date;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Embeddable
-public class TarjetaCredito {
+public class Tarjeta {
 
 	private Long numeroTarjeta;
 
@@ -16,10 +18,14 @@ public class TarjetaCredito {
 	@Temporal(TemporalType.DATE)
 	private Date fechaCaducidad;
 
-	public TarjetaCredito(Long numeroTarjeta, int codigoSeguridad, Date fechaCaducidad) {
+	@Enumerated(EnumType.STRING)
+	private TipoTarjeta tipoTarjeta;
+
+	public Tarjeta(Long numeroTarjeta, int codigoSeguridad, Date fechaCaducidad, TipoTarjeta tipoTarjeta) {
 		this.numeroTarjeta = numeroTarjeta;
 		this.codigoSeguridad = codigoSeguridad;
 		this.fechaCaducidad = fechaCaducidad;
+		this.tipoTarjeta = tipoTarjeta;
 	}
 
 	public Long getNumeroTarjeta() {
@@ -44,6 +50,14 @@ public class TarjetaCredito {
 
 	public void setFechaCaducidad(Date fechaCaducidad) {
 		this.fechaCaducidad = fechaCaducidad;
+	}
+
+	public TipoTarjeta getTipoTarjeta() {
+		return tipoTarjeta;
+	}
+
+	public void setTipoTarjeta(TipoTarjeta tipoTarjeta) {
+		this.tipoTarjeta = tipoTarjeta;
 	}
 
 }

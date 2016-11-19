@@ -52,6 +52,10 @@ public class Paquete implements Serializable {
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 
+	@ManyToOne
+	@JoinColumn(name = "id_envio", referencedColumnName = "id_envio")
+	private Envio envio;
+
 	// ==============================================
 	// Constructores
 	// ==============================================
@@ -154,6 +158,22 @@ public class Paquete implements Serializable {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	// ==============================================
+	// Envio al que pertenece el paquete
+	// ==============================================
+
+	public Envio getEnvio() {
+		return envio;
+	}
+
+	public void setEnvio(Envio envio) {
+		Asociacion.AsignarPaquete_Envio(this, envio);
+	}
+	
+	void _setEnvio(Envio envio) {
+		Asociacion.AsignarPaquete_Envio(this, envio);
 	}
 
 	// ==============================================

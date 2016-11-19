@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import model.types.TarjetaCredito;
+import model.types.Tarjeta;
 import model.types.TipoCliente;
 
 @Entity
@@ -40,7 +40,7 @@ public class Cliente implements Serializable {
 	private String direccionCompleta;
 
 	@Embedded
-	private TarjetaCredito tarjeta;
+	private Tarjeta tarjeta;
 
 	@OneToMany(mappedBy = "cliente")
 	private Set<Pedido> pedidos = new HashSet<Pedido>();
@@ -101,11 +101,11 @@ public class Cliente implements Serializable {
 	// Tarjeta del cliente
 	// =======================================
 
-	public TarjetaCredito getTarjeta() {
+	public Tarjeta getTarjeta() {
 		return tarjeta;
 	}
 
-	public void setTarjeta(TarjetaCredito tarjeta) {
+	public void setTarjeta(Tarjeta tarjeta) {
 		this.tarjeta = tarjeta;
 	}
 

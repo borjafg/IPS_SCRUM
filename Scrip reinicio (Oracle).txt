@@ -1,0 +1,25 @@
+-- Borrar las tablas
+
+drop table "IPS_2017_2"."PAQUETESENVIO" cascade constraints;
+drop table "IPS_2017_2"."ENVIOS" cascade constraints;
+drop table "IPS_2017_2"."TRANSPORTISTAS" cascade constraints;
+
+drop table "IPS_2017_2"."PRODUCTOSPAQUETE" cascade constraints;
+drop table "IPS_2017_2"."PAQUETES" cascade constraints;
+
+drop table "IPS_2017_2"."PRODUCTOSORDENTRABAJO" cascade constraints;
+drop table "IPS_2017_2"."INCIDENCIAS" cascade constraints;
+drop table "IPS_2017_2"."ORDENESTRABAJO" cascade constraints;
+
+drop table "IPS_2017_2"."PRODUCTOSPEDIDO" cascade constraints;
+drop table "IPS_2017_2"."PEDIDOS" cascade constraints;
+
+drop table "IPS_2017_2"."PRODUCTOS" cascade constraints;
+drop table "IPS_2017_2"."CATEGORIAS" cascade constraints;
+drop table "IPS_2017_2"."POSICIONPRODUCTOS" cascade constraints;
+
+drop table "IPS_2017_2"."CLIENTES" cascade constraints;
+
+-- De la tabla almaceneros borrar todos las filas menos 1
+
+delete FROM ALMACENEROS where LOGIN != 'Paco';

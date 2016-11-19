@@ -28,7 +28,7 @@ public class ProductoPaqueteIds implements Serializable {
 		return paquete;
 	}
 
-	public void getPaquete(long paquete) {
+	protected void setPaquete(long paquete) {
 		this.paquete = paquete;
 	}
 
