@@ -1,4 +1,4 @@
-package ui.almacen.escaneres;
+package ui.almacen.myTypes.escaneres;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;

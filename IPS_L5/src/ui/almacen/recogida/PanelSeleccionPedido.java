@@ -112,22 +112,8 @@ public class PanelSeleccionPedido extends JPanel {
 
 								reiniciarPanel();
 
-								// -----------------------------------
-								// Si creó una sola Orden de Trabajo
-								// -----------------------------------
-
-								if (ot != null) {
-									ventanaPrincipal.setOrdenTrabajo(ot);
-									ventanaPrincipal.mostrarPanelRecogidaProductos();
-								}
-
-								// -----------------------------------------
-								// Si se crearon varias Ordenes de Trabajo
-								// -----------------------------------------
-
-								else {
-									ventanaPrincipal.mostrarPanelOrdenesTrabajoRetomar();
-								}
+								ventanaPrincipal.setOrdenTrabajo(ot);
+								ventanaPrincipal.mostrarPanelRecogidaProductos();
 
 							} catch (BusinessException excep) {
 								reiniciarPanel();

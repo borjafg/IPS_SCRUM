@@ -33,7 +33,7 @@ import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
-import ui.almacen.escaneres.EscanerProductosRecoger;
+import ui.almacen.myTypes.escaneres.EscanerProductosRecoger;
 import ui.almacen.myTypes.model.MyProducto_OrdenadoPosicion;
 import ui.almacen.myTypes.tablas.TablaFilasConVariasLineasRenderer;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosRecoger;

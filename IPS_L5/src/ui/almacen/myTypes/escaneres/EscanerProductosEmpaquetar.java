@@ -1,4 +1,4 @@
-package ui.almacen.escaneres;
+package ui.almacen.myTypes.escaneres;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -31,7 +31,7 @@ import model.Paquete;
 import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
-import ui.almacen.myTypes.escaner.MyProductoEmpaquetar;
+import ui.almacen.myTypes.escaneres.empaquetado.MyProductoEmpaquetar;
 
 public class EscanerProductosEmpaquetar extends JDialog {
 

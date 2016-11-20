@@ -95,6 +95,7 @@ class CrearOrdenesTrabajo_FragmentacionPedidos {
 		// (2) Crear las órdenes de trabajo necesarias
 		// -----------------------------------------------------------
 
+		List<OrdenTrabajo> ordenesTrabajoCreadas = new ArrayList<OrdenTrabajo>();
 		List<ProductoRecoger> eliminarLista = new ArrayList<ProductoRecoger>();
 
 		OrdenTrabajo ot;
@@ -162,15 +163,17 @@ class CrearOrdenesTrabajo_FragmentacionPedidos {
 
 			this.pesoActual = 0;
 			this.volumenActual = 0;
+			
+			ordenesTrabajoCreadas.add(ot);
 		}
 
 		pedido.setEstado(EstadoPedido.COMPLETAMENTE_ASOCIADO_OT);
 		
 		// --------------------------------------------------------------------
-		// (3) Esto le indica a las capas superiores que se crearon varias OT
+		// (3) Devolver la primera orden de trabajo creada
 		// --------------------------------------------------------------------
 
-		return null;
+		return ordenesTrabajoCreadas.get(0);
 	}
 
 	/**

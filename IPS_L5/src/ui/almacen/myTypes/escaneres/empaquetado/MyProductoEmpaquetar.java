@@ -1,4 +1,4 @@
-package ui.almacen.myTypes.escaner;
+package ui.almacen.myTypes.escaneres.empaquetado;
 
 import model.ProductoEnOrdenTrabajo;
 

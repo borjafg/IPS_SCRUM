@@ -31,7 +31,7 @@ import model.Paquete;
 import model.Pedido;
 import model.ProductoEnOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
-import ui.almacen.escaneres.EscanerProductosEmpaquetar;
+import ui.almacen.myTypes.escaneres.EscanerProductosEmpaquetar;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaProductosEmpaquetar;
 
 public class PanelEmpaquetadoProductos extends JPanel {
