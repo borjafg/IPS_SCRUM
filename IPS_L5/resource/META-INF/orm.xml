@@ -13,26 +13,32 @@
 		<query>select p from Pedido p</query>
 	</named-query>
 
+
 	<named-query name="Pedido.findPosibleRecoger">
 		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT order by p.fecha ASC</query>
 	</named-query>
+
 
 	<named-query name="Pedido.findPosibleRecoger_NoPedido">
 		<query>select p.pedido, sum(p.producto.peso * p.cantidad), sum(p.producto.volumen * p.cantidad) from ProductoEnPedido p where p.pedido != :pedido and p.pedido.pagado = model.types.PedidoPagado.SI and p.pedido.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT group by p.pedido order by p.pedido.fecha ASC</query>
 	</named-query>
 
+
 	<named-query name="Pedido.findPosibleEmpaquetar">
 		<query>select distinct p.productoPedido.pedido from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo and p.unidadesProducto > p.unidadesEmpaquetadas</query>
 	</named-query>
-	
+
+
 	<named-query name="Pedido.findNumProductosPosibleEmpaquetar">
 		<query>select sum(p.unidadesProducto - p.unidadesEmpaquetadas) from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo and p.productoPedido.pedido = :pedido and p.unidadesProducto > p.unidadesEmpaquetadas</query>
 	</named-query>
-	
+
+
 	<named-query name="Pedido.findPeso_Volumen">
 		<query>select sum(p.producto.peso * p.cantidad), sum(p.producto.volumen * p.cantidad) from ProductoEnPedido p where p.pedido = :pedido</query>
 	</named-query>
-	
+
+
 	<named-query name="Pedido.findNoPagados">
 		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
 	</named-query>
@@ -72,13 +78,10 @@
 	<!-- - - - - - - - Orden de trabajo - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<named-query name="OrdenTrabajo.findOrdenesTrabajoEmpaquetarAlmacenero">
-		<query>select o from OrdenTrabajo o where o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and (o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almacenero) and o.incidencias is empty order by o.id</query>
+	<named-query name="OrdenTrabajo.findOrdenesTrabajoRetomar">
+		<query>select o    from OrdenTrabajo o    where (o.estado = model.types.EstadoOrdenTrabajo.RECOGIDA and o.almaceneroRecoger = :almaceneroRecog)    or (o.estado = model.types.EstadoOrdenTrabajo.EMPAQUETADO and (o.almaceneroEmpaquetar is null or o.almaceneroEmpaquetar = :almaceneroEmpaq) and o.incidencias is empty)    order by o.id</query>
 	</named-query>
 
-	<named-query name="OrdenTrabajo.findNumPedidosFaltaEmpaquetar">
-		<query>select count(distinct p.productoPedido.pedido) from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo</query>
-	</named-query>
 
 	<named-query name="OrdenTrabajo.findNumProductosFaltaEmpaquetar">
 		<query>select sum(p.unidadesProducto - p.unidadesEmpaquetadas) from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo</query>
@@ -94,6 +97,7 @@
 		<query>select p from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo order by p.productoPedido.pedido.id ASC</query>
 	</named-query>
 
+
 	<named-query name="ProductoEnOrdenTrabajo.findPendientesEmpaquetarPedido">
 		<query>select p from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo and p.productoPedido.pedido = :pedido order by p.productoPedido.pedido.id ASC</query>
 	</named-query>
@@ -108,6 +112,7 @@
 		<query>select p from Categoria p</query>
 	</named-query>
 
+
 	<named-query name="Categoria.findCategoriasPadre">
 		<query>select p from Categoria p where p.categoriaPadre = null</query>
 	</named-query>
@@ -121,15 +126,30 @@
 	<named-query name="PosicionProducto.findAll">
 		<query>select p from PosicionProducto p</query>
 	</named-query>
-	
-	
-	
+
+
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Paquete - - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
-	
+
 	<named-query name="Paquete.findUltimoNumCaja">
 		<query>select p.numCaja from Paquete p where p.ordenTrabajo = :ordenTrabajo order by p.numCaja DESC</query>
+	</named-query>
+
+
+	<named-query name="Paquete.findNoAsociadosEnvio">
+		<query>select p from Paquete p where p.envio is null Order by p.id ASC</query>
+	</named-query>
+
+
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- - - - - - - - - Transportista - - - - - - - - -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<named-query name="Transportista.findAll">
+		<query>select t from Transportista t Order by t.nombre ASC</query>
 	</named-query>
 
 

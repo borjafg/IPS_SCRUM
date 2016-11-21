@@ -1,4 +1,4 @@
-package business.impl.empaquetado;
+package business.impl.almacenero;
 
 import javax.persistence.PersistenceException;
 
@@ -8,22 +8,22 @@ import model.Almacenero;
 import persistence.OrdenTrabajoFinder;
 import persistence.exception.MyPersistenceException;
 
-public class CargarOrdenesTrabajoEmpaquetar implements Command {
+public class ObtenerOrdenesTrabajoRetomar implements Command {
 
 	private Almacenero almacenero;
 
-	public CargarOrdenesTrabajoEmpaquetar(Almacenero almacenero) {
+	public ObtenerOrdenesTrabajoRetomar(Almacenero almacenero) {
 		this.almacenero = almacenero;
 	}
 
 	@Override
 	public Object execute() throws BusinessException {
 		try {
-			return OrdenTrabajoFinder.findOT_EmpaquetarAlmacenero(almacenero);
+			return OrdenTrabajoFinder.findOrdenesTrabajoRetomar(almacenero);
 		}
 
-		catch (MyPersistenceException | PersistenceException e) {
-			throw new BusinessException("Ha ocurrido un error al cargar la lista de OT para empaquetar", e);
+		catch (MyPersistenceException | PersistenceException pe) {
+			throw new BusinessException("Ha ocurrido un error al buscar OT para retomar", pe);
 		}
 	}
 

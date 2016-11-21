@@ -27,7 +27,9 @@ public class AsignarAlmaceneroOrdenTrabajo implements Command {
 			Almacenero alm = AlmaceneroFinder.find(almacenero);
 			OrdenTrabajo ot = OrdenTrabajoFinder.find(ordenTrabajo);
 
-			ot.setAlmaceneroEmpaquetar(alm);
+			if (ot.getAlmaceneroEmpaquetar() == null) {
+				ot.setAlmaceneroEmpaquetar(alm);
+			}
 		}
 
 		catch (MyPersistenceException | PersistenceException e) {

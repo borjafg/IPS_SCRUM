@@ -11,8 +11,11 @@ import javax.swing.border.EmptyBorder;
 import business.exception.BusinessException;
 import model.Almacenero;
 import model.OrdenTrabajo;
+import model.Transportista;
 import ui.almacen.almacenero.PanelOpcionesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
+import ui.almacen.envios.PanelEnvioPaquetes;
+import ui.almacen.envios.PanelSeleccionTransportista;
 import ui.almacen.myTypes.ventanaMensaje.MessageDialog;
 import ui.almacen.recogida.PanelRecogidaProductos;
 import ui.almacen.recogida.PanelRegistroIncidencias;
@@ -29,6 +32,8 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	private Almacenero almacenero; // Almacenero que está usando la aplicación
 	private OrdenTrabajo ordenTrabajo; // Orden de Trabajo que se procesa
+
+	private Transportista transportista; // Transportista que realizará un envío
 
 	// ===========================================================
 	// Paneles que están en el panel principal de la aplicación
@@ -48,6 +53,11 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	private PanelOrdenesTrabajo panelOrdenesTrabajoRetomar;
 	private PanelEmpaquetadoProductos panelEmpaquetadoProductos;
+
+	// Paneles de envio de paquetes
+
+	private PanelSeleccionTransportista panelSeleccionTransportista;
+	private PanelEnvioPaquetes panelEnvioPaquetes;
 
 	/**
 	 * Ejecuta la aplicación
@@ -141,6 +151,19 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		panelEmpaquetadoProductos.setVentanaPrincipal(this);
 
 		contentPane.add(panelEmpaquetadoProductos, "panelEmpaquetadoProductos");
+
+		// ========================================================
+		// ==== Seleccion de transportista y envio de paquetes ====
+		// ========================================================
+
+		panelSeleccionTransportista = new PanelSeleccionTransportista();
+		panelSeleccionTransportista.setVentanaPrincipal(this);
+
+		panelEnvioPaquetes = new PanelEnvioPaquetes();
+		panelEnvioPaquetes.setVentanaPrincipal(this);
+
+		contentPane.add(panelSeleccionTransportista, "panelSeleccionTransportista");
+		contentPane.add(panelEnvioPaquetes, "panelEnvioPaquetes");
 	}
 
 	// ===================================
@@ -285,6 +308,26 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelEmpaquetadoProductos");
 	}
 
+	// ==========================================================
+	// ===== Seleccion de transportista y envio de paquetes =====
+	// ==========================================================
+
+	public void mostrarPanelSeleccionTransportista() throws BusinessException {
+		// (1) Inicializar
+		panelSeleccionTransportista.inicializarDatos();
+
+		// (2) Mostrar
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelSeleccionTransportista");
+	}
+
+	public void mostrarPanelEnvioPaquetes() throws BusinessException {
+		// (1) Inicializar
+		panelEnvioPaquetes.inicializarDatos();
+
+		// (2) Mostrar
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelEnvioPaquetes");
+	}
+
 	// =======================================================================
 	// ===== Ha habido un error mientras el almacenero estaba trabajando =====
 	// =======================================================================
@@ -325,4 +368,13 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
 		this.ordenTrabajo = ordenTrabajo;
 	}
+
+	public Transportista getTransportista() {
+		return transportista;
+	}
+
+	public void setTransportista(Transportista transportista) {
+		this.transportista = transportista;
+	}
+
 }

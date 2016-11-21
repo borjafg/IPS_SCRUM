@@ -17,8 +17,6 @@ public interface EmpaquetadoService {
 	// Retomar una orden de trabajo
 	// --------------------------------------------
 
-	public List<OrdenTrabajo> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException;
-
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException;
 
 	public void asignarAlmaceneroOT(Almacenero almacenero, OrdenTrabajo ordenTrabajo) throws BusinessException;

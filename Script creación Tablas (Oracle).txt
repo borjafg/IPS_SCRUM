@@ -20,6 +20,7 @@ CREATE TABLE Productos(id_producto number(32), id_posicion number(32), descripci
 CREATE TABLE ProductosPedido(id_producto number(32), id_pedido number (32), cantidad number(10), primary key(id_producto, id_pedido), foreign key (id_producto) references Productos(id_producto), foreign key (id_pedido) references Pedidos(id_pedido));
 
 
+
 -- ======================================
 -- Parte de recogida (y de empaquetado)
 -- ======================================
@@ -36,15 +37,21 @@ CREATE TABLE ProductosOrdenTrabajo(id_ordenTrabajo number(32), id_producto numbe
 CREATE TABLE Incidencias(id_incidencia number(32), id_ordenTrabajo number(32), fecha TIMESTAMP, causa varchar(255), primary key(id_incidencia), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
 
 
+
 -- ======================================
 -- Parte de empaquetado
 -- ======================================
 
-CREATE TABLE Paquetes(id_paquete number(32), id_pedido number(32), id_ordenTrabajo number(32), numCaja number(10), destinatario varchar(255), direccion varchar (255), estado varchar(64), primary key (id_paquete), foreign key (id_pedido) references Pedidos(id_pedido), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo));
+CREATE TABLE Paquetes(id_paquete number(32), id_pedido number(32), id_ordenTrabajo number(32), numCaja number(10), destinatario varchar(255), direccion varchar (255), estado varchar(64), id_envio number(32), primary key (id_paquete), foreign key (id_pedido) references Pedidos(id_pedido), foreign key (id_ordenTrabajo) references OrdenesTrabajo(id_ordenTrabajo), foreign key (id_envio) references Envios(id_envio));
 
 
 CREATE TABLE ProductosPaquete(id_producto number(32), id_pedido number (32), id_ordenTrabajo number(32), id_paquete number(32), unidades_Producto number(10), primary key(id_ordenTrabajo, id_producto, id_pedido, id_paquete), foreign key(id_paquete) references Paquetes(id_paquete), foreign key(id_producto, id_pedido, id_ordenTrabajo) references ProductosOrdenTrabajo(id_producto, id_pedido, id_ordenTrabajo));
 
+
+
+-- ======================================
+-- Parte de envio de paquetes
+-- ======================================
 
 CREATE TABLE Transportistas (id_transportista number(32), nombre varchar(64) NOT NULL, UNIQUE (nombre), primary key(id_transportista));
 

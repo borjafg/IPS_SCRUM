@@ -50,38 +50,6 @@ public class OrdenTrabajoFinder {
 		}
 	}
 
-	public static List<OrdenTrabajo> findOT_EmpaquetarAlmacenero(Almacenero almacenero) throws MyPersistenceException {
-		try {
-			return Jpa.getManager()
-					.createNamedQuery("OrdenTrabajo.findOrdenesTrabajoEmpaquetarAlmacenero", OrdenTrabajo.class)
-					.setParameter("almacenero", almacenero).getResultList();
-		}
-
-		catch (PersistenceException e) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Ha ocurrido un problema al buscar ordenes de trabajo para empaquetar");
-
-			throw new MyPersistenceException(sb.toString(), e);
-		}
-	}
-
-	public static long findNumPedidosFaltaEmpaquetar(OrdenTrabajo ot) throws MyPersistenceException {
-		try {
-			return Jpa.getManager().createNamedQuery("OrdenTrabajo.findNumPedidosFaltaEmpaquetar", Long.class)
-					.setParameter("ordenTrabajo", ot).getSingleResult();
-		}
-
-		catch (PersistenceException e) {
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Ha ocurrido un problema al buscar el numero de pedidos de la orden de trabajo con id = ");
-			sb.append(ot.getId());
-
-			throw new MyPersistenceException(sb.toString(), e);
-		}
-	}
-
 	public static long findNumProductosFaltaEmpaquetar(OrdenTrabajo ot) throws MyPersistenceException {
 		try {
 			return Jpa.getManager().createNamedQuery("OrdenTrabajo.findNumProductosFaltaEmpaquetar", Long.class)
@@ -93,6 +61,22 @@ public class OrdenTrabajoFinder {
 
 			sb.append("Ha ocurrido un problema al buscar el numero de productos de la orden de trabajo con id = ");
 			sb.append(ot.getId());
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static List<OrdenTrabajo> findOrdenesTrabajoRetomar(Almacenero almacenero) throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("OrdenTrabajo.findOrdenesTrabajoRetomar", OrdenTrabajo.class)
+					.setParameter("almaceneroRecog", almacenero).setParameter("almaceneroEmpaq", almacenero)
+					.getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar una lista de órdenes de trabajo a retomar");
 
 			throw new MyPersistenceException(sb.toString(), e);
 		}

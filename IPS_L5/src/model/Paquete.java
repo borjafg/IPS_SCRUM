@@ -171,7 +171,7 @@ public class Paquete implements Serializable {
 	public void setEnvio(Envio envio) {
 		Asociacion.AsignarPaquete_Envio(this, envio);
 	}
-	
+
 	void _setEnvio(Envio envio) {
 		Asociacion.AsignarPaquete_Envio(this, envio);
 	}

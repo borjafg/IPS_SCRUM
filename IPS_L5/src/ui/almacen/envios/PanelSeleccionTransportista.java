@@ -1,4 +1,4 @@
-package ui.almacen.recogida;
+package ui.almacen.envios;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
@@ -24,53 +24,55 @@ import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
-import model.OrdenTrabajo;
-import model.Pedido;
+import model.Transportista;
 import ui.almacen.VentanaPrincipalAlmacenero;
-import ui.almacen.myTypes.model.MyPedido_OT_Retomar;
-import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaSeleccionPedidos;
+import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaSeleccionTransportista;
 
-public class PanelSeleccionPedido extends JPanel {
+public class PanelSeleccionTransportista extends JPanel {
 
-	private static final long serialVersionUID = -5092160186351L;
+	private static final long serialVersionUID = -6586893706682937775L;
 
 	private VentanaPrincipalAlmacenero ventanaPrincipal;
 
-	private ModeloTablaSeleccionPedidos modeloTablaPedidos;
+	private ModeloTablaSeleccionTransportista modeloTablaTransportistas;
 
-	// === Panel norte ===
+	// -------------------
+	// --- Panel norte ---
+	// -------------------
 
-	private JLabel labelPedidos;
+	private JPanel panelNorte;
+	private JLabel labelTransportistas;
 
-	// === Panel centro ===
+	// --------------------
+	// --- Panel centro ---
+	// --------------------
 
-	private JScrollPane scrollPanePedidos;
-	private JTable tablaPedidosPendientes;
+	private JScrollPane scrollPaneTransportistas;
+	private JTable tablaTransportistas;
 
-	// ==== Panel sur ====
+	// ---------------------
+	// ----- Panel sur -----
+	// ---------------------
 
 	private JPanel panelSur;
 	private JButton botonAtras;
-	private JPanel panelNorte;
 
-	public PanelSeleccionPedido() {
+	public PanelSeleccionTransportista() {
 		super();
 
 		setLayout(new BorderLayout(0, 0));
 
 		add(getPanelNorte(), BorderLayout.NORTH);
-		add(getScrollPanePedidos(), BorderLayout.CENTER);
+		add(getScrollPaneTransportistas(), BorderLayout.CENTER);
 		add(getPanelSur(), BorderLayout.SOUTH);
 
 		setPreferredSize(new Dimension(300, 400));
 	}
 
 	public void inicializarDatos() throws BusinessException {
-		List<MyPedido_OT_Retomar> pedidos = ServiceFactory.getRecogidaService().obtenerListaPedidosSinOrdenTrabajo();
+		List<Transportista> transportistas = ServiceFactory.getEnvioService().obtenerListaTransportistas();
 
-		for (MyPedido_OT_Retomar ped : pedidos) {
-			modeloTablaPedidos.addPedido(ped);
-		}
+		modeloTablaTransportistas.setTransportistas(transportistas);
 	}
 
 	// =====================================
@@ -82,80 +84,77 @@ public class PanelSeleccionPedido extends JPanel {
 			panelNorte = new JPanel();
 
 			panelNorte.setBorder(new EmptyBorder(1, 0, 5, 0));
-			panelNorte.add(getLabelPedidos());
+			panelNorte.add(getLabelTransportistas());
 		}
 
 		return panelNorte;
 	}
 
-	private JLabel getLabelPedidos() {
-		if (labelPedidos == null) {
-			labelPedidos = new JLabel("Pedidos sin orden trabajo");
+	private JLabel getLabelTransportistas() {
+		if (labelTransportistas == null) {
+			labelTransportistas = new JLabel("Transportistas");
 
-			labelPedidos.setFont(new Font("Tahoma", Font.BOLD, 12));
-			labelPedidos.setHorizontalAlignment(SwingConstants.CENTER);
+			labelTransportistas.setFont(new Font("Tahoma", Font.BOLD, 12));
+			labelTransportistas.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
-		return labelPedidos;
+		return labelTransportistas;
 	}
 
 	// =====================================
 	// Panel centro
 	// =====================================
 
-	private JScrollPane getScrollPanePedidos() {
-		if (scrollPanePedidos == null) {
-			scrollPanePedidos = new JScrollPane(getTablaPedidosPendientes());
+	private JScrollPane getScrollPaneTransportistas() {
+		if (scrollPaneTransportistas == null) {
+			scrollPaneTransportistas = new JScrollPane(getTablaTransportistas());
 
-			scrollPanePedidos.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-			scrollPanePedidos.setBorder(new EmptyBorder(0, 2, 0, 2));
+			scrollPaneTransportistas.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			scrollPaneTransportistas.setBorder(new EmptyBorder(0, 2, 0, 2));
 
-			scrollPanePedidos.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			scrollPanePedidos.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPaneTransportistas.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPaneTransportistas.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		}
 
-		return scrollPanePedidos;
+		return scrollPaneTransportistas;
 	}
 
-	private JTable getTablaPedidosPendientes() {
-		if (tablaPedidosPendientes == null) {
-			modeloTablaPedidos = new ModeloTablaSeleccionPedidos();
-			tablaPedidosPendientes = new JTable(modeloTablaPedidos);
+	private JTable getTablaTransportistas() {
+		if (tablaTransportistas == null) {
+			modeloTablaTransportistas = new ModeloTablaSeleccionTransportista();
+			tablaTransportistas = new JTable(modeloTablaTransportistas);
 
-			tablaPedidosPendientes.addMouseListener(new MouseAdapter() {
+			tablaTransportistas.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					int filaSeleccionada = tablaPedidosPendientes.getSelectedRow();
+					int filaSeleccionada = tablaTransportistas.getSelectedRow();
 
 					if (filaSeleccionada != -1) {
-						Pedido pedido = modeloTablaPedidos.getPedido(filaSeleccionada);
+						Transportista transportista = modeloTablaTransportistas.getTransportista(filaSeleccionada);
 
-						procesarPedido(pedido);
+						procesarTransportista(transportista);
 					}
 
 				}
 			});
 
-			tablaPedidosPendientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			tablaPedidosPendientes.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			tablaTransportistas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tablaTransportistas.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-			tablaPedidosPendientes.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
-			tablaPedidosPendientes.setFont(new Font("Tahoma", Font.BOLD, 14));
+			tablaTransportistas.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
+			tablaTransportistas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
 
-		return tablaPedidosPendientes;
+		return tablaTransportistas;
 	}
 
-	private void procesarPedido(Pedido pedido) {
-		if (pedido != null) {
+	private void procesarTransportista(Transportista transportista) {
+		if (transportista != null) {
 			try {
-				OrdenTrabajo ot = ServiceFactory.getRecogidaService().generarOrdenTrabajo(pedido,
-						ventanaPrincipal.getAlmacenero());
-
 				reiniciarPanel();
 
-				ventanaPrincipal.setOrdenTrabajo(ot);
-				ventanaPrincipal.mostrarPanelRecogidaProductos();
+				ventanaPrincipal.setTransportista(transportista);
+				ventanaPrincipal.mostrarPanelEnvioPaquetes();
 
 			} catch (BusinessException excep) {
 				reiniciarPanel();
@@ -217,7 +216,7 @@ public class PanelSeleccionPedido extends JPanel {
 	// ==============================================
 
 	private void reiniciarPanel() {
-		modeloTablaPedidos.removeAll();
+		modeloTablaTransportistas.removeAll();
 	}
 
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {

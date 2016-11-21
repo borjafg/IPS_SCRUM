@@ -54,11 +54,11 @@ public class PaqueteFinder {
 		try {
 			List<Integer> numsCaja = Jpa.getManager().createNamedQuery("Paquete.findUltimoNumCaja", Integer.class)
 					.setParameter("ordenTrabajo", ordenTrabajo).getResultList();
-			
-			if(numsCaja.isEmpty()) {
+
+			if (numsCaja.isEmpty()) {
 				return 0;
 			}
-			
+
 			else {
 				return numsCaja.get(0);
 			}
@@ -66,6 +66,16 @@ public class PaqueteFinder {
 
 		catch (PersistenceException e) {
 			throw new MyPersistenceException("Ha ocurrido un problema al generar un numero de caja");
+		}
+	}
+
+	public static List<Paquete> findPaquetesNoAsociadosEnvio() throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Paquete.findNoAsociadosEnvio", Paquete.class).getResultList();
+		}
+
+		catch (PersistenceException p) {
+			throw new MyPersistenceException("Ha ocurrido un error al buscar los paquetes no asociados a un pedido", p);
 		}
 	}
 

@@ -6,7 +6,6 @@ import business.EmpaquetadoService;
 import business.exception.BusinessException;
 import business.impl.empaquetado.AsignarAlmaceneroOrdenTrabajo;
 import business.impl.empaquetado.AsignarProductoPaquete;
-import business.impl.empaquetado.CargarOrdenesTrabajoEmpaquetar;
 import business.impl.empaquetado.CargarPaquete;
 import business.impl.empaquetado.CargarProductosOT;
 import business.impl.empaquetado.CerrarPaquete;
@@ -31,11 +30,6 @@ public class EmpaquetadoServiceImpl implements EmpaquetadoService {
 	// --------------------------------------------
 	// Retomar una orden de trabajo
 	// --------------------------------------------
-
-	@Override
-	public List<OrdenTrabajo> cargarOT_empaquetar(Almacenero almacenero) throws BusinessException {
-		return (List<OrdenTrabajo>) executor.execute(new CargarOrdenesTrabajoEmpaquetar(almacenero));
-	}
 
 	@Override
 	public List<MyPedido_OT_Retomar> getPedidosOT(OrdenTrabajo ot) throws BusinessException {

@@ -2,12 +2,14 @@ package infrastructure;
 
 import business.AlmaceneroService;
 import business.EmpaquetadoService;
+import business.EnvioService;
 import business.RecogidaService;
 import business.UserService;
 
 import business.impl.AlmacenServiceImpl;
 import business.impl.AlmaceneroServiceImpl;
 import business.impl.EmpaquetadoServiceImpl;
+import business.impl.EnvioServiceImpl;
 import business.impl.UserServiceImpl;
 
 public class ServiceFactory {
@@ -32,7 +34,12 @@ public class ServiceFactory {
 		return new EmpaquetadoServiceImpl();
 	}
 
+	public static EnvioService getEnvioService() {
+		return new EnvioServiceImpl();
+	}
+
 	public static UserService getUserService() {
 		return new UserServiceImpl();
 	}
+
 }

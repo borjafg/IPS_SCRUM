@@ -11,8 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Transportistas")
 public class Transportista implements Serializable {
 
 	private static final long serialVersionUID = -6506192766768385279L;

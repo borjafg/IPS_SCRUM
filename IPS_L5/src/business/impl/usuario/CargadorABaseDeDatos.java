@@ -12,7 +12,9 @@ import model.ProductoEnPedido;
 import model.types.EstadoPedido;
 import model.types.MetodosPago;
 import model.types.PedidoPagado;
+import model.types.Tarjeta;
 import model.types.TipoCliente;
+import model.types.TipoTarjeta;
 import persistence.ProductoFinder;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
@@ -25,8 +27,9 @@ public class CargadorABaseDeDatos implements Command {
 	private List<ModeloProductosPedidos> listaCesta;
 	private MetodosPago metodoPago;
 
-	public CargadorABaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta, MetodosPago metodoPago) {
-		
+	public CargadorABaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,
+			MetodosPago metodoPago) {
+
 		this.direccion = direccion;
 		this.nombre = nombre;
 		this.listaCesta = listaCesta;
@@ -34,7 +37,7 @@ public class CargadorABaseDeDatos implements Command {
 	}
 
 	@Override
-	public Object execute() throws BusinessException{
+	public Object execute() throws BusinessException {
 		// ===================================
 		// añado el cliente
 		// ===================================
@@ -43,7 +46,10 @@ public class CargadorABaseDeDatos implements Command {
 
 		cliente.setNombre(nombre);
 		cliente.setDireccionCompleta(direccion);
-		cliente.setTipoCliente(TipoCliente.PARTICULAR);//<---- Cambiar cuando se modifique el log in de la aplicación
+
+		// Cambiar cuando se modifique el log in de la aplicación
+		cliente.setTipoCliente(TipoCliente.PARTICULAR);
+		cliente.setTarjeta(new Tarjeta(58236229L, 4442, new Date(), TipoTarjeta.CRÉDITO));
 
 		Jpa.getManager().persist(cliente);
 
@@ -54,21 +60,20 @@ public class CargadorABaseDeDatos implements Command {
 		Pedido pedido = new Pedido(cliente);
 
 		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
-		
+
 		pedido.setMetodoPago(metodoPago); // <--- Cambiar
-		
-		if(metodoPago.equals(MetodosPago.TRANSFERENCIA)){
+
+		if (metodoPago.equals(MetodosPago.TRANSFERENCIA)) {
 			pedido.setPagado(PedidoPagado.NO);
-		}else {
+		} else {
 			pedido.setPagado(PedidoPagado.SI);
 		}
-		
-		//pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el método de pago sea por transacción
-		
-		
+
+		// pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el
+		// método de pago sea por transacción
+
 		pedido.setDireccionCompleta(direccion);
 		pedido.setFecha(new Date());
-		
 
 		Jpa.getManager().persist(pedido);
 
@@ -80,21 +85,19 @@ public class CargadorABaseDeDatos implements Command {
 		Producto prod;
 
 		for (ModeloProductosPedidos mod : listaCesta) {
-			
+
 			try {
 				prod = ProductoFinder.findById(mod.getProducto());
 				prodPedido = new ProductoEnPedido(pedido, prod);
 				prodPedido.setCantidad(mod.getUnidades());
-				
-				
+
 				Jpa.getManager().merge(prodPedido);
 			} catch (MyPersistenceException e) {
 
 				e.printStackTrace();
 			}
-			//prod = Jpa.getManager().merge(mod.getProducto());
-			
-			
+			// prod = Jpa.getManager().merge(mod.getProducto());
+
 		}
 
 		return null;

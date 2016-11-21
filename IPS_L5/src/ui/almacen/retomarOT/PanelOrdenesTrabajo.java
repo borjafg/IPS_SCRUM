@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -29,7 +27,6 @@ import model.OrdenTrabajo;
 import model.types.EstadoOrdenTrabajo;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaOrdenesTrabajoRetomar;
-import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPedidosOrdenTrabajo;
 
 public class PanelOrdenesTrabajo extends JPanel {
 
@@ -38,7 +35,6 @@ public class PanelOrdenesTrabajo extends JPanel {
 	protected VentanaPrincipalAlmacenero ventanaPrincipal;
 
 	protected ModeloTablaOrdenesTrabajoRetomar modeloTablaOrdenesTrabajo;
-	protected ModeloTablaPedidosOrdenTrabajo modeloTablaPedidosOrdenTrabajo;
 
 	// ===========================================
 	// Componentes de este panel
@@ -56,7 +52,7 @@ public class PanelOrdenesTrabajo extends JPanel {
 
 	private JPanel panelSur;
 	private JButton botonAtras;
-	
+
 	public PanelOrdenesTrabajo() {
 		super();
 
@@ -145,7 +141,9 @@ public class PanelOrdenesTrabajo extends JPanel {
 							retomarOT(modeloTablaOrdenesTrabajo.getOrdenTrabajo(fila));
 						}
 
-					} catch (BusinessException excep) {
+					}
+
+					catch (BusinessException excep) {
 						ventanaPrincipal.gestionarErrorConexion(excep);
 					}
 				}
@@ -156,8 +154,6 @@ public class PanelOrdenesTrabajo extends JPanel {
 	}
 
 	private void retomarOT(OrdenTrabajo ordenTrabajo) throws BusinessException {
-		ServiceFactory.getEmpaquetadoService().asignarAlmaceneroOT(ventanaPrincipal.getAlmacenero(), ordenTrabajo);
-
 		ventanaPrincipal.setOrdenTrabajo(ordenTrabajo);
 
 		if (ordenTrabajo.getEstadoOrdenTrabajo().equals(EstadoOrdenTrabajo.RECOGIDA)) { // RETOMAR
@@ -165,6 +161,7 @@ public class PanelOrdenesTrabajo extends JPanel {
 		}
 
 		else { // EMPAQUETAR
+			ServiceFactory.getEmpaquetadoService().asignarAlmaceneroOT(ventanaPrincipal.getAlmacenero(), ordenTrabajo);
 			ventanaPrincipal.mostrarPanelEmpaquetadoProductos();
 		}
 
@@ -236,23 +233,14 @@ public class PanelOrdenesTrabajo extends JPanel {
 	 */
 	public boolean inicializarDatos() throws BusinessException {
 
-		List<OrdenTrabajo> ordenesTrabajo = ServiceFactory.getEmpaquetadoService()
-				.cargarOT_empaquetar(ventanaPrincipal.getAlmacenero());
+		List<OrdenTrabajo> ordenesTrabajo = ServiceFactory.getAlmaceneroService()
+				.ObtenerOrdenesTrabajoRetomar(ventanaPrincipal.getAlmacenero());
 
 		// --------------------------------------
 		// Si se encontraron ordenes de trabajo
 		// --------------------------------------
 
 		if (ordenesTrabajo.size() > 0) {
-			Collections.sort(ordenesTrabajo, new Comparator<OrdenTrabajo>() {
-
-				@Override
-				public int compare(OrdenTrabajo ot1, OrdenTrabajo ot2) {
-					return new Long(ot1.getId()).compareTo(ot2.getId());
-				}
-
-			});
-
 			modeloTablaOrdenesTrabajo.setOrdenesTrabajo(ordenesTrabajo);
 
 			return true;
@@ -268,7 +256,6 @@ public class PanelOrdenesTrabajo extends JPanel {
 	}
 
 	private void reiniciarPanel() {
-		modeloTablaPedidosOrdenTrabajo.removeAll();
 		modeloTablaOrdenesTrabajo.removeAll();
 	}
 
