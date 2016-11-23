@@ -164,6 +164,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	public void botonesBloqueados(boolean bloquear) {
 		botonGenerar.setEnabled(bloquear);
 		botonRetomar.setEnabled(bloquear);
+		botonEnviar.setEnabled(bloquear);
 	}
 
 	// =================================================
@@ -211,6 +212,18 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JButton getBotonEnviar() {
 		if (botonEnviar == null) {
 			botonEnviar = new JButton("Preparar env\u00EDo");
+			
+			botonEnviar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						ventanaPrincipal.mostrarPanelEnvioPaquetes();
+					}
+					
+					catch (BusinessException excep) {
+						ventanaPrincipal.gestionarErrorConexion(excep);
+					}
+				}
+			});
 
 			botonEnviar.setEnabled(false);
 			botonEnviar.setFont(new Font("Tahoma", Font.BOLD, 13));

@@ -4,6 +4,7 @@ import java.util.List;
 
 import business.EnvioService;
 import business.exception.BusinessException;
+import business.impl.envios.CerrarEnvio;
 import business.impl.envios.ObtenerListaPaquetesSinEnvio;
 import business.impl.envios.ObtenerListaTransportistas;
 import business.impl.util.CommandExecutor;
@@ -20,8 +21,14 @@ public class EnvioServiceImpl implements EnvioService {
 		return (List<Transportista>) executor.execute(new ObtenerListaTransportistas());
 	}
 
+	@Override
 	public List<Paquete> obtenerListaPaquetesSinEnvio() throws BusinessException {
 		return (List<Paquete>) executor.execute(new ObtenerListaPaquetesSinEnvio());
+	}
+
+	@Override
+	public void cerrarEnvio(List<Paquete> paquetesEnvio) throws BusinessException {
+		executor.execute(new CerrarEnvio(paquetesEnvio));
 	}
 
 }
