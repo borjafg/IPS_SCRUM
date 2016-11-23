@@ -139,7 +139,7 @@
 
 
 	<named-query name="Paquete.findNoAsociadosEnvio">
-		<query>select p from Paquete p where p.envio is null Order by p.id ASC</query>
+		<query>select p from Paquete p where p.envio is null and p.estado = model.types.EstadoPaquete.CERRADO Order by p.id ASC</query>
 	</named-query>
 
 
