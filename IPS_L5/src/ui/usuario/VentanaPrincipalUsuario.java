@@ -36,6 +36,7 @@ import business.exception.BusinessException;
 import model.Categoria;
 import model.Producto;
 import model.types.MetodosPago;
+import model.types.TipoCliente;
 import ui.usuario.logica.LogicaVentanaPrincipalUsuario;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
@@ -58,7 +59,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 	/// Valor que nos dice si un usuario está registrado
 	private boolean usuarioReg;
-	
+	private TipoCliente tipoCli = TipoCliente.PARTICULAR;
 	
 	
 	///
@@ -70,7 +71,6 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelPrincipal;
 	private JPanel panelCesta;
 	private JPanel panelProductos;
-	private JLabel lblProductos;
 	private JLabel lblCesta;
 	private JPanel panelSurBotones;
 	private JPanel panelNorteTitulo;
@@ -118,6 +118,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JMenuItem mntmIniciarSesin;
 	private JSeparator separator;
 	private JMenuItem mntmCerrarSesin;
+	private JPanel panelBotonRetroceso;
+	private JPanel panelBotonRetrocesoProductos;
+	private JButton btnAtrasProductos;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -196,20 +200,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelProductos = new JPanel();
 
 			panelProductos.setLayout(new BorderLayout(0, 0));
-			panelProductos.add(getLblProductos(), BorderLayout.NORTH);
 			panelProductos.add(getPanelProductosContenedor(), BorderLayout.CENTER);
 			panelProductos.add(getPanelAuxiliar(), BorderLayout.EAST);
+			panelProductos.add(getPanelBotonRetrocesoProductos(), BorderLayout.NORTH);
 		}
 
 		return panelProductos;
-	}
-
-	private JLabel getLblProductos() {
-		if (lblProductos == null) {
-			lblProductos = new JLabel("Productos");
-		}
-
-		return lblProductos;
 	}
 
 	private JLabel getLblCesta() {
@@ -638,7 +634,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JComboBox<MetodosPago> getComboBox() {// Hay que modificar la
 													// implementación
 		if (comboBox == null) {
-			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.TARJETA, MetodosPago.TRANSFERENCIA};
+			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.TARJETA, MetodosPago.TRANSFERENCIA,MetodosPago.CONTRAREEMBOLSO};
 			modeloComboMetodosDePago = new DefaultComboBoxModel<MetodosPago>(metodosPagoNoRegistrado);
 			comboBox = new JComboBox<MetodosPago>();
 			comboBox.setModel(modeloComboMetodosDePago);
@@ -798,6 +794,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelCategorias.setLayout(new BorderLayout(0, 0));
 			panelCategorias.add(getScrollPaneCategorias(), BorderLayout.CENTER);
 			panelCategorias.add(getPanel(), BorderLayout.EAST);
+			panelCategorias.add(getPanelBotonRetroceso(), BorderLayout.NORTH);
 
 		}
 		return panelCategorias;
@@ -840,8 +837,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 								((CardLayout) panelListasCategoriasYProductos.getLayout())
 										.show(panelListasCategoriasYProductos, "Panel Productos");
 								// reiniciamos la lista de categorias
-								modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-								listCategorias.setModel(modeloListaCategorias);// probar
+								//modeloListaCategorias = logVOUser.getModeloCategoriasPadre();//no reinicio para facilitar la vuelta atrás
+								//listCategorias.setModel(modeloListaCategorias);// probar
 																				// sin
 																				// esto
 							}
@@ -911,7 +908,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						try {
 							if (logVOUser.isUsuarioEnBase(nombre)) {
 								usuarioReg = true;
-								logVOUser.iniciarSesion(nombre);
+								tipoCli =logVOUser.iniciarSesion(nombre);
 								VentanaPrincipalUsuario.this.nombre = nombre;
 								JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión iniciada como " + nombre,
 										"Sesión iniciada", JOptionPane.INFORMATION_MESSAGE);
@@ -956,5 +953,47 @@ public class VentanaPrincipalUsuario extends JFrame {
 			mntmCerrarSesin.setEnabled(false);
 		}
 		return mntmCerrarSesin;
+	}
+	private JPanel getPanelBotonRetroceso() {
+		if (panelBotonRetroceso == null) {
+			panelBotonRetroceso = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelBotonRetroceso.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelBotonRetroceso.add(getBtnNewButton());
+		}
+		return panelBotonRetroceso;
+	}
+	private JPanel getPanelBotonRetrocesoProductos() {
+		if (panelBotonRetrocesoProductos == null) {
+			panelBotonRetrocesoProductos = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelBotonRetrocesoProductos.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelBotonRetrocesoProductos.add(getBtnAtrasProductos());
+		}
+		return panelBotonRetrocesoProductos;
+	}
+	
+	
+	/*
+	 * Boton para dar marcha atrás a los productos
+	 */
+	private JButton getBtnAtrasProductos() {
+		if (btnAtrasProductos == null) {
+			btnAtrasProductos = new JButton("New button");
+			btnAtrasProductos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					
+					
+				}
+			});
+		}
+		return btnAtrasProductos;
+	}
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("New button");
+		}
+		return btnNewButton;
 	}
 }

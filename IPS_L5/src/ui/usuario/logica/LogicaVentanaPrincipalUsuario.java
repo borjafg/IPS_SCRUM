@@ -11,6 +11,7 @@ import model.Categoria;
 import model.Cliente;
 import model.Producto;
 import model.types.MetodosPago;
+import model.types.TipoCliente;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 public class LogicaVentanaPrincipalUsuario {
@@ -210,8 +211,9 @@ public class LogicaVentanaPrincipalUsuario {
 	}
 
 
-	public void iniciarSesion(String nombre) throws BusinessException {
+	public TipoCliente iniciarSesion(String nombre) throws BusinessException {
 		this.clienteReg = ServiceFactory.getUserService().getUsuarioEnBase(nombre);
+		return clienteReg.getTipoCliente();
 	}
 	
 	public void cerrarSesion(){
