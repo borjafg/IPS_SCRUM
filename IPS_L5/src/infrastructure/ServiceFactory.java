@@ -1,11 +1,12 @@
 package infrastructure;
 
+import business.AdministracionService;
 import business.AlmaceneroService;
 import business.EmpaquetadoService;
 import business.EnvioService;
 import business.RecogidaService;
 import business.UserService;
-
+import business.impl.AdministracionServiceImpl;
 import business.impl.AlmacenServiceImpl;
 import business.impl.AlmaceneroServiceImpl;
 import business.impl.EmpaquetadoServiceImpl;
@@ -40,6 +41,10 @@ public class ServiceFactory {
 
 	public static UserService getUserService() {
 		return new UserServiceImpl();
+	}
+	
+	public static AdministracionService getAdministracionService() {
+		return new AdministracionServiceImpl();
 	}
 
 }
