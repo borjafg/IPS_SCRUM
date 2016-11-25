@@ -179,7 +179,7 @@ public class Producto implements Serializable {
 
 	@Override
 	public String toString() {
-		return nombre + ", precio = " + precio + " euros, categoria = " + categoria;
+		return nombre + ", precio = " + precio + " euros, categoria = " + categoria+" volumen = "+volumen+" peso = " + peso;
 	}
 
 	// =======================================

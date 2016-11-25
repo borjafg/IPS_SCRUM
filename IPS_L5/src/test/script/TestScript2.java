@@ -1,5 +1,6 @@
 package test.script;
 
+import infrastructure.Log;
 import business.exception.BusinessException;
 import business.impl.util.Command;
 import model.Categoria;
@@ -108,12 +109,12 @@ public class TestScript2 implements Command {
 				producto.setVolumen(i);
 				Jpa.getManager().persist(producto);
 			}
-			System.out.println("iteracion " + i + " de categorias padre");
+			Log.debug("iteracion " + i + " de categorias padre");
 		}
 
 		Jpa.getManager().flush();
 		Jpa.getManager().clear();
-		System.out.println("Se ha realizado un flush");
+		Log.debug("Se ha realizado un flush");
 		
 		return null;
 	}

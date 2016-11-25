@@ -1,5 +1,7 @@
 package test.script;
 
+import infrastructure.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -37,9 +39,9 @@ public class TestScript1 implements Command {
 		}
 
 		} catch (ParseException e) {
-			System.err.println(e.getMessage());
+			Log.error("Fallo en la creación de clientes minoristas", e);
 		}
-		System.out.println("Se han creado clientes minoristas a cholón");
+		Log.debug("Se han creado clientes minoristas a cholón");
 		// Creamos los almaceneros en la base de datos
 		String[] nombre = { "Pepe", "Manolo", "Alfonso", "Paula" };
 
@@ -50,7 +52,7 @@ public class TestScript1 implements Command {
 			Jpa.getManager().persist(almacenero);
 		}
 
-		System.out.println("Creados almaceneros a cholón");
+		Log.debug("Creados almaceneros a cholón");
 		
 		try {
 		
@@ -81,10 +83,10 @@ public class TestScript1 implements Command {
 		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
-		System.out.println("Creados clientes Minoristas");
+		Log.debug("Creados clientes Minoristas");
 		
 		} catch (ParseException e) {
-			System.err.println(e.getMessage());
+			Log.error("Fallo en la creación de clientes minoristas especiales", e);
 		}
 		
 		Categoria categoriaNormal;
@@ -139,7 +141,7 @@ public class TestScript1 implements Command {
 		prod.setVolumen(2.0);
 		Jpa.getManager().persist(prod);
 
-		System.out.println("Creadas categorías especiales");
+		Log.debug("Creadas categorías especiales");
 		Jpa.getManager().flush();
 		Jpa.getManager().clear();
 		return null;

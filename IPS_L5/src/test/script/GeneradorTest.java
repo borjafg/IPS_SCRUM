@@ -1,5 +1,6 @@
 package test.script;
 
+import infrastructure.Log;
 import business.exception.BusinessException;
 import business.impl.util.CommandExecutor;
 
@@ -11,21 +12,21 @@ public class GeneradorTest {
 		CommandExecutor exe = new CommandExecutor();
 
 		try {
-			System.out.println("Se inicia el test categorias y productos");
+			Log.debug("Se inicia el test categorias y productos");
 			exe.execute(new TestScript2());
-			System.out.println("--------------------");
-			System.out.println("Se finaliza el test categorias y productos");
+			Log.debug("--------------------");
+			Log.debug("Se finaliza el test categorias y productos");
 
-			System.out.println("--------------------");
+			Log.debug("--------------------");
 
-			System.out.println("Se inicia el test almaceneros, clientes minoristas y productos especiales");
+			Log.debug("Se inicia el test almaceneros, clientes minoristas y productos especiales");
 			exe.execute(new TestScript1());
-			System.out.println("--------------------");
-			System.out.println("Se finaliza el test almaceneros, clientes minoristas y productos especiales");
+			Log.debug("--------------------");
+			Log.debug("Se finaliza el test almaceneros, clientes minoristas y productos especiales");
 
 			return;
 		} catch (BusinessException e) {
-			System.err.println(e.getMessage());
+			Log.error("Fallo a la hora de ejecutar una prueba", e);
 		}
 
 	}

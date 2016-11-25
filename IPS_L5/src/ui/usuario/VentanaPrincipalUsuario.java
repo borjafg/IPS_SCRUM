@@ -121,7 +121,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelBotonRetroceso;
 	private JPanel panelBotonRetrocesoProductos;
 	private JButton btnAtrasProductos;
-	private JButton btnNewButton;
+	private JButton btnAtrasCategorias;
+	private JPanel panelDatosBaseUsuario;
+	private JPanel panelTarjetaUsuario;
 
 	/**
 	 * Launch the application.
@@ -132,7 +134,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipalUsuario frame = new VentanaPrincipalUsuario();
-
+					frame.cargarCategorias();
 					frame.setVisible(true); // lo ultimo
 					System.out.println("pase por set visible");
 				} catch (Exception e) {
@@ -471,18 +473,33 @@ public class VentanaPrincipalUsuario extends JFrame {
 						} catch (BusinessException e1) {
 							System.err.println(e1.getMessage());
 						}
+						StringBuilder sb = new StringBuilder();
+						sb.append("Gracias por su compra, su pedido a sido confirmado.\n");
+						if(getComboBox().getSelectedItem().equals(MetodosPago.TRANSFERENCIA)){
+							sb.append("Realice la transferencia la cuenta: \n TiendaIPSLiberBank2016");
+						}
+						
+						
+						JOptionPane.showMessageDialog(null, sb.toString(),"Confirmación de pedido",JOptionPane.INFORMATION_MESSAGE);
 						modeloListaCesta = logVOUser.resetear();
 
 						resetearCamposDeTexto(); // Se eliminan todos los campos
 													// de texto de la
 													// aplicación
-
+						
 						getListCesta().setModel(modeloListaCesta);	
 						getMntmIniciarSesin().setEnabled(true);
 
 						// Cuando este el log-in, se "cerrarÃ¡ la sesión"
-
+						
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
+						btnAtrasCategorias.setEnabled(false);
+						((CardLayout) panelListasCategoriasYProductos.getLayout())
+						.show(panelListasCategoriasYProductos, "Panel Categorias");
+						//rehago los modelos
+						modeloListaProductos.removeAllElements();
+						modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
+						
 					}
 				}
 			});
@@ -535,11 +552,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelAceptarPedidoBase == null) {
 			panelAceptarPedidoBase = new JPanel();
 
-			panelAceptarPedidoBase.setLayout(new GridLayout(5, 0, 0, 0));
-
-			panelAceptarPedidoBase.add(getPanelAuxAceptarPedido1());
-			panelAceptarPedidoBase.add(getPanelDireccionCliente());
-			panelAceptarPedidoBase.add(getPanelMetodoPagoCliente());
+			panelAceptarPedidoBase.setLayout(new GridLayout(2, 0, 0, 0));
+			panelAceptarPedidoBase.add(getPanelDatosBaseUsuario());
+			panelAceptarPedidoBase.add(getPanelTarjetaUsuario());
 		}
 
 		return panelAceptarPedidoBase;
@@ -733,10 +748,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getListCesta().setModel(modeloListaCesta);
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
 
-						// Post añadir producto
-						((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
-								"Panel Categorias");
-						modeloListaProductos.removeAllElements();
+						// Post añadir producto						
 						// se pone a uno el nÃºmero de unidades tras la compra
 						getTextFieldUnidadesProducto().setText("1");
 						// se eliminan las selecciones de la lista
@@ -809,11 +821,15 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return scrollPaneCategorias;
 	}
+	
+	public void cargarCategorias(){
+		modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
+		listCategorias.setModel(modeloListaCategorias);
+	}
 
 	private JList<Categoria> getListCategorias() {
-		if (listCategorias == null) {
-			modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-			listCategorias = new JList<Categoria>(modeloListaCategorias);
+		if (listCategorias == null) {			
+			listCategorias = new JList<Categoria>();
 			listCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listCategorias.putClientProperty("List.isFileList", Boolean.TRUE);
 			listCategorias.addMouseListener(new MouseAdapter() {
@@ -827,12 +843,13 @@ public class VentanaPrincipalUsuario extends JFrame {
 																														// la
 																														// categoria
 																														// no
-																														// contiene
+									getBtnNewButton().setEnabled(true);																					// contiene
 																														// productos
 								cargarCategorias(getListCategorias().getSelectedValue());
 							} else {// si la categoria contiene productos
 									// cargamos la lista de productos de esa
 									// categoria
+								
 								cargarModeloListaProductos(getListCategorias().getSelectedValue());
 								((CardLayout) panelListasCategoriasYProductos.getLayout())
 										.show(panelListasCategoriasYProductos, "Panel Productos");
@@ -979,21 +996,57 @@ public class VentanaPrincipalUsuario extends JFrame {
 	 */
 	private JButton getBtnAtrasProductos() {
 		if (btnAtrasProductos == null) {
-			btnAtrasProductos = new JButton("New button");
+			btnAtrasProductos = new JButton("\u2190");
 			btnAtrasProductos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					
-					
+					((CardLayout) panelListasCategoriasYProductos.getLayout())
+					.show(panelListasCategoriasYProductos, "Panel Categorias");//Lo que hago es volver al otro jpanel del cardlayout 
+					modeloListaProductos.removeAllElements();//vacio el modelo
 				}
 			});
 		}
 		return btnAtrasProductos;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("New button");
+	/*
+	 * Boton para dar marcha atrás a las categorias
+	 */
+	private JButton getBtnNewButton() {//boton marcha atrás en categorias
+		if (btnAtrasCategorias == null) {
+			btnAtrasCategorias = new JButton("\u2190");
+			btnAtrasCategorias.setEnabled(false);//por defecto esta false
+			btnAtrasCategorias.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0){
+					
+					
+					
+					
+				}
+			}
+					
+					
+					
+					
+					);
+			
+			
 		}
-		return btnNewButton;
+		return btnAtrasCategorias;
+	}
+	private JPanel getPanelDatosBaseUsuario() {
+		if (panelDatosBaseUsuario == null) {
+			panelDatosBaseUsuario = new JPanel();
+			panelDatosBaseUsuario.setLayout(new GridLayout(3, 1, 0, 0));
+			panelDatosBaseUsuario.add(getPanelAuxAceptarPedido1());
+			panelDatosBaseUsuario.add(getPanelDireccionCliente());
+			panelDatosBaseUsuario.add(getPanelMetodoPagoCliente());
+		}
+		return panelDatosBaseUsuario;
+	}
+	private JPanel getPanelTarjetaUsuario() {
+		if (panelTarjetaUsuario == null) {
+			panelTarjetaUsuario = new JPanel();
+		}
+		return panelTarjetaUsuario;
 	}
 }

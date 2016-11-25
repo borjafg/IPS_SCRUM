@@ -183,7 +183,7 @@ public class LogicaVentanaPrincipalUsuario {
 		double precio = 0.0;
 
 		for (ModeloProductosPedidos a : listaCesta) {
-			precio = precio + a.getPrecioProductosTotal();
+			precio = precio + a.getPrecioTotalProducto();
 		}
 
 		return precio;
