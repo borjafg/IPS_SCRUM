@@ -113,6 +113,10 @@ public class LogicaVentanaPrincipalUsuario {
 		return hay;
 	}
 	
+	
+	
+	
+	
 
 	/**
 	 * Metodo que añade los productos que pide el usuario al conjunto de pedidos

@@ -39,6 +39,11 @@ import model.types.MetodosPago;
 import model.types.TipoCliente;
 import ui.usuario.logica.LogicaVentanaPrincipalUsuario;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
+import model.types.TipoEnvio;
+import model.types.TipoTarjeta;
+import javax.swing.JPasswordField;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class VentanaPrincipalUsuario extends JFrame {
 
@@ -60,11 +65,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 	/// Valor que nos dice si un usuario está registrado
 	private boolean usuarioReg;
 	private TipoCliente tipoCli = TipoCliente.PARTICULAR;
-	
-	
+
 	///
-	
-	private String nombre ;//nombre usuario registrado
+
+	private String nombre;// nombre usuario registrado
 
 	///
 	private JPanel contentPane;
@@ -83,7 +87,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JLabel lblGastoTotal;
 	private JTextField textGastoTotal;
 	private JPanel panelBase;
-	private JPanel panelAceparPedidoNoRegistrados;
+	private JPanel panelAceparPedido;
 	private JPanel panelBotonesAceptarPedido;
 	private JButton btnCancelarPedido;
 	private JButton btnFinalizarPedido;
@@ -100,7 +104,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelProductosContenedor;
 	private JLabel lblNombreCliente;
 	private JTextField textFieldNombreCliente;
-	private JComboBox<MetodosPago> comboBox;
+	private JComboBox<MetodosPago> comboBoxMetodoPago;
 	private JPanel panelCesta2;
 	private JPanel panelBotonQuitar;
 	private JButton btnQuitar;
@@ -124,6 +128,31 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JButton btnAtrasCategorias;
 	private JPanel panelDatosBaseUsuario;
 	private JPanel panelTarjetaUsuario;
+	private JPanel panelVacio;
+	private JPanel panelDatosTrajeta;
+	private JPanel panelNumeroTarjeta;
+	private JPanel panelFechaCaducidad;
+	private JPanel panelTipoTarjeta;
+	private JPanel panelCodigoSeguridad;
+	private JPanel panelTipoEnvio;
+	private JLabel lblTipoEnvio;
+	private JComboBox<MetodosPago> comboBoxTipoEnvio;
+	private JLabel lblNumeroTarjeta;
+	private JTextField textFieldNumeroTarjeta;
+	private JLabel lblFechaCaducidad;
+	private JTextField textFieldFechaCaducidad;
+	private JLabel lblTipoTarjeta;
+	private JComboBox<MetodosPago> comboBoxTipoTarjeta;
+	private JLabel lblCodigoSeguridad;
+	private JPasswordField passwordFieldCodigoSeguridad;
+	private JPanel panelAceptarPedidoMinorista;
+	private JPanel panelBotonesDatosMinorista;
+	private JButton buttonAceptarPedidoMinorista;
+	private JButton buttonCancelarMinorista;
+	private JPanel panelDatosMinorista;
+	private JPanel panelTipoEnvioMinorista;
+	private JLabel lblTipoDeEnvio;
+	private JComboBox<MetodosPago> comboBox;
 
 	/**
 	 * Launch the application.
@@ -134,7 +163,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipalUsuario frame = new VentanaPrincipalUsuario();
-					frame.cargarCategorias();
+					frame.cargarCategoriasPadre();
 					frame.setVisible(true); // lo ultimo
 					System.out.println("pase por set visible");
 				} catch (Exception e) {
@@ -274,29 +303,33 @@ public class VentanaPrincipalUsuario extends JFrame {
 						// compra directamente
 
 						// Aqui luego ira si se a registrado un usuario
-						if(usuarioReg){//usuario Registrado
-							
-							//realizamos la subida de datos a la base de datos
-							
+						if (usuarioReg) {// usuario Registrado
+
+							// =============================
+							// Esta parte se tiene que volver a rediseñar
+							// (Reaporvechar codigo)
+							// ===============================
+							// realizamos la subida de datos a la base de datos
+
 							try {
 								logVOUser.generarusuarioRegistrado();
 							} catch (BusinessException e) {
 								System.err.println(e.getMessage());
 							}
-							//borramos las acciones
+							// borramos las acciones
 							modeloListaCesta = logVOUser.resetear();
 
-							resetearCamposDeTexto(); // Se eliminan todos los campos
+							resetearCamposDeDatos(); // Se eliminan todos los
+														// campos
 														// de texto de la
 														// aplicación
 
 							getListCesta().setModel(modeloListaCesta);
-						}else{
-						
-						
-						getMntmCerrarSesin().setEnabled(false);
-						getMntmIniciarSesin().setEnabled(false);
-						((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
+						} else {
+
+							getMntmCerrarSesin().setEnabled(false);
+							getMntmIniciarSesin().setEnabled(false);
+							((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
 						}
 
 					}
@@ -396,23 +429,24 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelBase.add(getPanelPrincipal(), "panelPrincipal");
 
 			// sen añade el panel de aceptar pedido al card layout
-			panelBase.add(getPanelAceparPedidoNoRegistrados(), "panelAceptarPedido");
+			panelBase.add(getPanelAceparPedido(), "panelAceptarPedido");
+			panelBase.add(getPanelAceptarPedidoMinorista(), "panelAceptarPedidoMinorista");
 		}
 
 		return panelBase;
 	}
 
-	private JPanel getPanelAceparPedidoNoRegistrados() {
-		if (panelAceparPedidoNoRegistrados == null) {
-			panelAceparPedidoNoRegistrados = new JPanel();
+	private JPanel getPanelAceparPedido() {
+		if (panelAceparPedido == null) {
+			panelAceparPedido = new JPanel();
 
-			panelAceparPedidoNoRegistrados.setLayout(new BorderLayout(0, 0));
+			panelAceparPedido.setLayout(new BorderLayout(0, 0));
 
-			panelAceparPedidoNoRegistrados.add(getPanelBotonesAceptarPedido(), BorderLayout.SOUTH);
-			panelAceparPedidoNoRegistrados.add(getPanelAceptarPedidoBase(), BorderLayout.CENTER);
+			panelAceparPedido.add(getPanelBotonesAceptarPedido(), BorderLayout.SOUTH);
+			panelAceparPedido.add(getPanelAceptarPedidoBase(), BorderLayout.CENTER);
 		}
 
-		return panelAceparPedidoNoRegistrados;
+		return panelAceparPedido;
 	}
 
 	private JPanel getPanelBotonesAceptarPedido() {
@@ -442,8 +476,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			btnCancelarPedido.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
-					getMntmIniciarSesin().setEnabled(true);
+
+					if (usuarioReg == true) {
+						getMntmCerrarSesin().setEnabled(true);
+					} else {
+						getMntmCerrarSesin().setEnabled(false);
+					}
 					((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 				}
 			});
@@ -469,37 +507,38 @@ public class VentanaPrincipalUsuario extends JFrame {
 					} else {
 						// subir a la base de datos y reiniciar la aplicacion;
 						try {
-							logVOUser.generarTodo(textoDireccion, textoNombre, (MetodosPago) getComboBox().getSelectedItem());
+							logVOUser.generarTodo(textoDireccion, textoNombre,
+									(MetodosPago) getComboBoxMetodoPago().getSelectedItem());
 						} catch (BusinessException e1) {
 							System.err.println(e1.getMessage());
 						}
 						StringBuilder sb = new StringBuilder();
 						sb.append("Gracias por su compra, su pedido a sido confirmado.\n");
-						if(getComboBox().getSelectedItem().equals(MetodosPago.TRANSFERENCIA)){
+						if (getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TRANSFERENCIA)) {
 							sb.append("Realice la transferencia la cuenta: \n TiendaIPSLiberBank2016");
 						}
-						
-						
-						JOptionPane.showMessageDialog(null, sb.toString(),"Confirmación de pedido",JOptionPane.INFORMATION_MESSAGE);
+
+						JOptionPane.showMessageDialog(null, sb.toString(), "Confirmación de pedido",
+								JOptionPane.INFORMATION_MESSAGE);
 						modeloListaCesta = logVOUser.resetear();
 
-						resetearCamposDeTexto(); // Se eliminan todos los campos
+						resetearCamposDeDatos(); // Se eliminan todos los campos
 													// de texto de la
 													// aplicación
-						
-						getListCesta().setModel(modeloListaCesta);	
+
+						getListCesta().setModel(modeloListaCesta);
 						getMntmIniciarSesin().setEnabled(true);
 
 						// Cuando este el log-in, se "cerrarÃ¡ la sesión"
-						
+
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 						btnAtrasCategorias.setEnabled(false);
-						((CardLayout) panelListasCategoriasYProductos.getLayout())
-						.show(panelListasCategoriasYProductos, "Panel Categorias");
-						//rehago los modelos
+						((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
+								"Panel Categorias");
+						// rehago los modelos
 						modeloListaProductos.removeAllElements();
 						modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-						
+
 					}
 				}
 			});
@@ -508,7 +547,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return btnFinalizarPedido;
 	}
 
-	private void resetearCamposDeTexto() {
+	private void resetearCamposDeDatos() {
 		getTextFieldDireccionCliente().setText("");
 		getTextFieldNombreCliente().setText("");
 		getTextGastoTotal().setText("0.0");
@@ -586,7 +625,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelMetodoPagoCliente == null) {
 			panelMetodoPagoCliente = new JPanel();
 			panelMetodoPagoCliente.add(getLblMetodoPagoCliente());
-			panelMetodoPagoCliente.add(getComboBox());
+			panelMetodoPagoCliente.add(getComboBoxMetodoPago());
 		}
 
 		return panelMetodoPagoCliente;
@@ -646,16 +685,28 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return textFieldNombreCliente;
 	}
 
-	private JComboBox<MetodosPago> getComboBox() {// Hay que modificar la
-													// implementación
-		if (comboBox == null) {
-			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.TARJETA, MetodosPago.TRANSFERENCIA,MetodosPago.CONTRAREEMBOLSO};
+	private JComboBox<MetodosPago> getComboBoxMetodoPago() {// Hay que modificar
+															// la
+		// implementación
+		if (comboBoxMetodoPago == null) {
+			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.TRANSFERENCIA, MetodosPago.TARJETA,
+					MetodosPago.CONTRAREEMBOLSO };
 			modeloComboMetodosDePago = new DefaultComboBoxModel<MetodosPago>(metodosPagoNoRegistrado);
-			comboBox = new JComboBox<MetodosPago>();
-			comboBox.setModel(modeloComboMetodosDePago);
+			comboBoxMetodoPago = new JComboBox<MetodosPago>();
+			comboBoxMetodoPago.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					if (getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA)) {
+						((CardLayout) panelTarjetaUsuario.getLayout()).show(getPanelTarjetaUsuario(),
+								"panelDatosTarjeta");
+					} else {
+						((CardLayout) panelTarjetaUsuario.getLayout()).show(getPanelTarjetaUsuario(), "panelVacio");
+					}
+				}
+			});
+			comboBoxMetodoPago.setModel(modeloComboMetodosDePago);
 		}
 
-		return comboBox;
+		return comboBoxMetodoPago;
 	}
 
 	private JPanel getPanelCesta2() {
@@ -748,7 +799,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getListCesta().setModel(modeloListaCesta);
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
 
-						// Post añadir producto						
+						// Post añadir producto
 						// se pone a uno el nÃºmero de unidades tras la compra
 						getTextFieldUnidadesProducto().setText("1");
 						// se eliminan las selecciones de la lista
@@ -821,14 +872,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return scrollPaneCategorias;
 	}
-	
-	public void cargarCategorias(){
+
+	public void cargarCategoriasPadre() {
 		modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
 		listCategorias.setModel(modeloListaCategorias);
 	}
 
 	private JList<Categoria> getListCategorias() {
-		if (listCategorias == null) {			
+		if (listCategorias == null) {
 			listCategorias = new JList<Categoria>();
 			listCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listCategorias.putClientProperty("List.isFileList", Boolean.TRUE);
@@ -843,21 +894,24 @@ public class VentanaPrincipalUsuario extends JFrame {
 																														// la
 																														// categoria
 																														// no
-									getBtnNewButton().setEnabled(true);																					// contiene
-																														// productos
-								cargarCategorias(getListCategorias().getSelectedValue());
+								getBtnAtrasCategoria().setEnabled(true); // contiene
+																			// productos
+								cargarCategoriasHijas(getListCategorias().getSelectedValue());
 							} else {// si la categoria contiene productos
 									// cargamos la lista de productos de esa
 									// categoria
-								
+
 								cargarModeloListaProductos(getListCategorias().getSelectedValue());
 								((CardLayout) panelListasCategoriasYProductos.getLayout())
 										.show(panelListasCategoriasYProductos, "Panel Productos");
 								// reiniciamos la lista de categorias
-								//modeloListaCategorias = logVOUser.getModeloCategoriasPadre();//no reinicio para facilitar la vuelta atrás
-								//listCategorias.setModel(modeloListaCategorias);// probar
-																				// sin
-																				// esto
+								// modeloListaCategorias =
+								// logVOUser.getModeloCategoriasPadre();//no
+								// reinicio para facilitar la vuelta atrás
+								// listCategorias.setModel(modeloListaCategorias);//
+								// probar
+								// sin
+								// esto
 							}
 							getListCategorias().clearSelection();
 
@@ -870,7 +924,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	}
 
 	// Metodo que usamos para cargar las categorias
-	private void cargarCategorias(Categoria categoria) {
+	private void cargarCategoriasHijas(Categoria categoria) {
 		modeloListaCategorias.removeAllElements();
 		List<Categoria> listaCategorias = logVOUser.getListaCategoriasHijas(categoria);
 		for (Categoria cat : listaCategorias) {
@@ -925,7 +979,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						try {
 							if (logVOUser.isUsuarioEnBase(nombre)) {
 								usuarioReg = true;
-								tipoCli =logVOUser.iniciarSesion(nombre);
+								tipoCli = logVOUser.iniciarSesion(nombre);
 								VentanaPrincipalUsuario.this.nombre = nombre;
 								JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión iniciada como " + nombre,
 										"Sesión iniciada", JOptionPane.INFORMATION_MESSAGE);
@@ -960,8 +1014,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 			mntmCerrarSesin = new JMenuItem("Cerrar Sesi\u00F3n");
 			mntmCerrarSesin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión "  + VentanaPrincipalUsuario.this.nombre+" cerrada.",
-							"Sesión Cerrada", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(getMntmIniciarSesin(),
+							"Sesión " + VentanaPrincipalUsuario.this.nombre + " cerrada.", "Sesión Cerrada",
+							JOptionPane.INFORMATION_MESSAGE);
 					logVOUser.cerrarSesion();
 					getMntmIniciarSesin().setEnabled(true);
 					getMntmCerrarSesin().setEnabled(false);
@@ -971,15 +1026,17 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return mntmCerrarSesin;
 	}
+
 	private JPanel getPanelBotonRetroceso() {
 		if (panelBotonRetroceso == null) {
 			panelBotonRetroceso = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) panelBotonRetroceso.getLayout();
 			flowLayout.setAlignment(FlowLayout.LEFT);
-			panelBotonRetroceso.add(getBtnNewButton());
+			panelBotonRetroceso.add(getBtnAtrasCategoria());
 		}
 		return panelBotonRetroceso;
 	}
+
 	private JPanel getPanelBotonRetrocesoProductos() {
 		if (panelBotonRetrocesoProductos == null) {
 			panelBotonRetrocesoProductos = new JPanel();
@@ -989,8 +1046,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		}
 		return panelBotonRetrocesoProductos;
 	}
-	
-	
+
 	/*
 	 * Boton para dar marcha atrás a los productos
 	 */
@@ -999,54 +1055,287 @@ public class VentanaPrincipalUsuario extends JFrame {
 			btnAtrasProductos = new JButton("\u2190");
 			btnAtrasProductos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
-					((CardLayout) panelListasCategoriasYProductos.getLayout())
-					.show(panelListasCategoriasYProductos, "Panel Categorias");//Lo que hago es volver al otro jpanel del cardlayout 
-					modeloListaProductos.removeAllElements();//vacio el modelo
+
+					((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
+							"Panel Categorias");// Lo que hago es volver al otro
+												// jpanel del cardlayout
+					modeloListaProductos.removeAllElements();// vacio el modelo
 				}
 			});
 		}
 		return btnAtrasProductos;
 	}
+
 	/*
 	 * Boton para dar marcha atrás a las categorias
 	 */
-	private JButton getBtnNewButton() {//boton marcha atrás en categorias
+	private JButton getBtnAtrasCategoria() {// boton marcha atrás en categorias
 		if (btnAtrasCategorias == null) {
 			btnAtrasCategorias = new JButton("\u2190");
-			btnAtrasCategorias.setEnabled(false);//por defecto esta false
-			btnAtrasCategorias.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent arg0){
-					
-					
-					
-					
+			btnAtrasCategorias.setEnabled(false);// por defecto esta false
+			btnAtrasCategorias.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//si padre es null, es categoria padre
+					getListCategorias().setSelectedIndex(0);
+					if(getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre() == null){//categoria padre
+						getBtnAtrasCategoria().setEnabled(false);
+						cargarCategoriasPadre();
+					}else{						
+						cargarCategoriasHijas(getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre());
+						getBtnAtrasCategoria().setEnabled(true);
+					}
 				}
 			}
-					
-					
-					
-					
-					);
-			
-			
+
+			);
+
 		}
 		return btnAtrasCategorias;
 	}
+
 	private JPanel getPanelDatosBaseUsuario() {
 		if (panelDatosBaseUsuario == null) {
 			panelDatosBaseUsuario = new JPanel();
-			panelDatosBaseUsuario.setLayout(new GridLayout(3, 1, 0, 0));
+			panelDatosBaseUsuario.setLayout(new GridLayout(4, 1, 0, 0));
 			panelDatosBaseUsuario.add(getPanelAuxAceptarPedido1());
 			panelDatosBaseUsuario.add(getPanelDireccionCliente());
 			panelDatosBaseUsuario.add(getPanelMetodoPagoCliente());
+			panelDatosBaseUsuario.add(getPanelTipoEnvio());
 		}
 		return panelDatosBaseUsuario;
 	}
+
 	private JPanel getPanelTarjetaUsuario() {
 		if (panelTarjetaUsuario == null) {
 			panelTarjetaUsuario = new JPanel();
+			panelTarjetaUsuario.setLayout(new CardLayout(0, 0));
+			panelTarjetaUsuario.add(getPanelVacio(), "panelVacio");
+			panelTarjetaUsuario.add(getPanelDatosTrajeta(), "panelDatosTarjeta");
 		}
 		return panelTarjetaUsuario;
+	}
+
+	private JPanel getPanelVacio() {
+		if (panelVacio == null) {
+			panelVacio = new JPanel();
+		}
+		return panelVacio;
+	}
+
+	private JPanel getPanelDatosTrajeta() {
+		if (panelDatosTrajeta == null) {
+			panelDatosTrajeta = new JPanel();
+			panelDatosTrajeta.setLayout(new GridLayout(4, 0, 0, 0));
+			panelDatosTrajeta.add(getPanelNumeroTarjeta());
+			panelDatosTrajeta.add(getPanelFechaCaducidad());
+			panelDatosTrajeta.add(getPanelTipoTarjeta());
+			panelDatosTrajeta.add(getPanelCodigoSeguridad());
+		}
+		return panelDatosTrajeta;
+	}
+
+	private JPanel getPanelNumeroTarjeta() {
+		if (panelNumeroTarjeta == null) {
+			panelNumeroTarjeta = new JPanel();
+			panelNumeroTarjeta.add(getLblNumeroTarjeta());
+			panelNumeroTarjeta.add(getTextFieldNumeroTarjeta());
+		}
+		return panelNumeroTarjeta;
+	}
+
+	private JPanel getPanelFechaCaducidad() {
+		if (panelFechaCaducidad == null) {
+			panelFechaCaducidad = new JPanel();
+			panelFechaCaducidad.add(getLblFechaCaducidad());
+			panelFechaCaducidad.add(getTextField_1());
+		}
+		return panelFechaCaducidad;
+	}
+
+	private JPanel getPanelTipoTarjeta() {
+		if (panelTipoTarjeta == null) {
+			panelTipoTarjeta = new JPanel();
+			panelTipoTarjeta.add(getLblTipoTarjeta());
+			panelTipoTarjeta.add(getComboBoxTipoTarjeta());
+		}
+		return panelTipoTarjeta;
+	}
+
+	private JPanel getPanelCodigoSeguridad() {
+		if (panelCodigoSeguridad == null) {
+			panelCodigoSeguridad = new JPanel();
+			panelCodigoSeguridad.add(getLblCodigoSeguridad());
+			panelCodigoSeguridad.add(getPasswordFieldCodigoSeguridad());
+		}
+		return panelCodigoSeguridad;
+	}
+
+	private JPanel getPanelTipoEnvio() {
+		if (panelTipoEnvio == null) {
+			panelTipoEnvio = new JPanel();
+			panelTipoEnvio.add(getLblTipoEnvio());
+			panelTipoEnvio.add(getComboBoxTipoEnvio());
+		}
+		return panelTipoEnvio;
+	}
+
+	private JLabel getLblTipoEnvio() {
+		if (lblTipoEnvio == null) {
+			lblTipoEnvio = new JLabel("Tipo envio : ");
+		}
+		return lblTipoEnvio;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private JComboBox<MetodosPago> getComboBoxTipoEnvio() {
+		if (comboBoxTipoEnvio == null) {
+			comboBoxTipoEnvio = new JComboBox<MetodosPago>();
+			comboBoxTipoEnvio.setModel(new DefaultComboBoxModel(TipoEnvio.values()));
+		}
+		return comboBoxTipoEnvio;
+	}
+
+	private JLabel getLblNumeroTarjeta() {
+		if (lblNumeroTarjeta == null) {
+			lblNumeroTarjeta = new JLabel("Numero tarjeta :");
+		}
+		return lblNumeroTarjeta;
+	}
+
+	private JTextField getTextFieldNumeroTarjeta() {
+		if (textFieldNumeroTarjeta == null) {
+			textFieldNumeroTarjeta = new JTextField();
+			textFieldNumeroTarjeta.setColumns(10);
+		}
+		return textFieldNumeroTarjeta;
+	}
+
+	private JLabel getLblFechaCaducidad() {
+		if (lblFechaCaducidad == null) {
+			lblFechaCaducidad = new JLabel("Fecha caducidad :");
+		}
+		return lblFechaCaducidad;
+	}
+
+	private JTextField getTextField_1() {
+		if (textFieldFechaCaducidad == null) {
+			textFieldFechaCaducidad = new JTextField();
+			textFieldFechaCaducidad.setText("");
+			textFieldFechaCaducidad.setColumns(10);
+		}
+		return textFieldFechaCaducidad;
+	}
+
+	private JLabel getLblTipoTarjeta() {
+		if (lblTipoTarjeta == null) {
+			lblTipoTarjeta = new JLabel("Tipo tarjeta :");
+		}
+		return lblTipoTarjeta;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private JComboBox<MetodosPago> getComboBoxTipoTarjeta() {
+		if (comboBoxTipoTarjeta == null) {
+			comboBoxTipoTarjeta = new JComboBox<MetodosPago>();
+			comboBoxTipoTarjeta.setModel(new DefaultComboBoxModel(TipoTarjeta.values()));
+		}
+		return comboBoxTipoTarjeta;
+	}
+
+	private JLabel getLblCodigoSeguridad() {
+		if (lblCodigoSeguridad == null) {
+			lblCodigoSeguridad = new JLabel("CodigoSeguridad");
+		}
+		return lblCodigoSeguridad;
+	}
+
+	private JPasswordField getPasswordFieldCodigoSeguridad() {
+		if (passwordFieldCodigoSeguridad == null) {
+			passwordFieldCodigoSeguridad = new JPasswordField();
+			passwordFieldCodigoSeguridad.setColumns(16);
+		}
+		return passwordFieldCodigoSeguridad;
+	}
+
+	private JPanel getPanelAceptarPedidoMinorista() {
+		if (panelAceptarPedidoMinorista == null) {
+			panelAceptarPedidoMinorista = new JPanel();
+			panelAceptarPedidoMinorista.setLayout(new BorderLayout(0, 0));
+			panelAceptarPedidoMinorista.add(getPanelBotonesDatosMinorista(), BorderLayout.SOUTH);
+			panelAceptarPedidoMinorista.add(getPanelDatosMinorista(), BorderLayout.CENTER);
+		}
+		return panelAceptarPedidoMinorista;
+	}
+
+	private JPanel getPanelBotonesDatosMinorista() {
+		if (panelBotonesDatosMinorista == null) {
+			panelBotonesDatosMinorista = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panelBotonesDatosMinorista.getLayout();
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			panelBotonesDatosMinorista.add(getButtonCancelarMinorista());
+			panelBotonesDatosMinorista.add(getButtonAceptarPedidoMinorista());
+		}
+		return panelBotonesDatosMinorista;
+	}
+
+	private JButton getButtonAceptarPedidoMinorista() {
+		if (buttonAceptarPedidoMinorista == null) {
+			buttonAceptarPedidoMinorista = new JButton("Aceptar");
+			buttonAceptarPedidoMinorista.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// generar pedido de usuario minorista
+
+				}
+			});
+		}
+		return buttonAceptarPedidoMinorista;
+	}
+
+	private JButton getButtonCancelarMinorista() {
+		if (buttonCancelarMinorista == null) {
+			buttonCancelarMinorista = new JButton("Cancelar");
+			buttonCancelarMinorista.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					getMntmCerrarSesin().setEnabled(true);// siempre vas a estar
+															// registrado siendo
+															// minorista
+					((CardLayout) panelTarjetaUsuario.getLayout()).show(getPanelPrincipal(), "panelPrincipal");
+				}
+			});
+		}
+		return buttonCancelarMinorista;
+	}
+
+	private JPanel getPanelDatosMinorista() {
+		if (panelDatosMinorista == null) {
+			panelDatosMinorista = new JPanel();
+			panelDatosMinorista.setLayout(new GridLayout(3, 0, 0, 0));
+			panelDatosMinorista.add(getPanelTipoEnvioMinorista());
+		}
+		return panelDatosMinorista;
+	}
+
+	private JPanel getPanelTipoEnvioMinorista() {
+		if (panelTipoEnvioMinorista == null) {
+			panelTipoEnvioMinorista = new JPanel();
+			panelTipoEnvioMinorista.add(getLblTipoDeEnvio());
+			panelTipoEnvioMinorista.add(getComboBox());
+		}
+		return panelTipoEnvioMinorista;
+	}
+
+	private JLabel getLblTipoDeEnvio() {
+		if (lblTipoDeEnvio == null) {
+			lblTipoDeEnvio = new JLabel("Tipo de envio :");
+		}
+		return lblTipoDeEnvio;
+	}
+
+	private JComboBox<MetodosPago> getComboBox() {
+		if (comboBox == null) {
+			comboBox = new JComboBox();
+			comboBox.setModel(new DefaultComboBoxModel(TipoEnvio.values()));
+		}
+		return comboBox;
 	}
 }

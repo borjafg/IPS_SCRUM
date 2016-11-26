@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import business.exception.BusinessException;
 import ui.administracion.paneles.PanelOpciones;
 import ui.administracion.paneles.informes.PanelInformeRecogida;
+import ui.administracion.paneles.informes.PanelSeleccionInforme;
+import ui.administracion.paneles.transferencias.PanelTransferencias;
 
 public class VentanaPrincipalAdministracion extends JFrame {
 
@@ -18,6 +20,8 @@ public class VentanaPrincipalAdministracion extends JFrame {
 	private JPanel contentPane;
 	private PanelOpciones panelOpciones;
 	private PanelInformeRecogida panelInformeRecogida;
+	private PanelTransferencias panelTransferencias;
+	private PanelSeleccionInforme panelSeleccionInforme;
 
 	/**
 	 * Launch the application.
@@ -68,13 +72,31 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		contentPane.add(panelOpciones, "panelOpciones");
 
 		// ==================================
+		// Panel transferencias
+		// ==================================
+
+		panelTransferencias = new PanelTransferencias();
+		panelTransferencias.setVentanaPrincipal(this);
+
+		contentPane.add(panelTransferencias, "panelTransferencias");
+
+		// ==================================
+		// Panel seleccion de informe
+		// ==================================
+
+		panelSeleccionInforme = new PanelSeleccionInforme();
+		panelSeleccionInforme.setVentanaPrincipal(this);
+
+		contentPane.add(panelSeleccionInforme, "panelSeleccionInforme");
+		// ==================================
 		// Panel informes de recogida
 		// ==================================
-		
+
 		panelInformeRecogida = new PanelInformeRecogida();
 		panelInformeRecogida.setVentanaPrincipal(this);
-		
+
 		contentPane.add(panelInformeRecogida, "panelInformeRecogida");
+
 	}
 
 	// ==========================================
@@ -84,13 +106,24 @@ public class VentanaPrincipalAdministracion extends JFrame {
 	public void volverPanelOpciones() {
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelOpciones");
 	}
-	
+
 	public void mostrarInformeRecogida() throws BusinessException {
 		// Procesar datos
 		panelInformeRecogida.inicializar();
-		
+
 		// Mostrar informe
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelOpciones");
+	}
+
+	public void mostrarPanelTransferencia() {
+		// incializar los datos
+
+		// mostrar el panel
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelTransferencias");
+	}
+	
+	public void mostrarPanelSeleccionInforme(){
+		((CardLayout)contentPane.getLayout()).show(contentPane, "panelSeleccionInforme");
 	}
 
 }
