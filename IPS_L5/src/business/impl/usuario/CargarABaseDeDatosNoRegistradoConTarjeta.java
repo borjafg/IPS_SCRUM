@@ -24,7 +24,7 @@ import persistence.util.Jpa;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 public class CargarABaseDeDatosNoRegistradoConTarjeta implements Command {
-	
+
 	private String direccion;
 	private String nombre;
 	private TipoEnvio tipoEnvio;
@@ -33,10 +33,10 @@ public class CargarABaseDeDatosNoRegistradoConTarjeta implements Command {
 	private TipoTarjeta tipoTarjeta;
 	private Date fecha;
 	private List<ModeloProductosPedidos> listaCesta;
-	
-	
-	public CargarABaseDeDatosNoRegistradoConTarjeta(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,TipoEnvio tipoEnvio,
-			Long numeroTarjeta, int codigoSec, TipoTarjeta tipoTarjeta, String fecha) {
+
+	public CargarABaseDeDatosNoRegistradoConTarjeta(String direccion, String nombre,
+			List<ModeloProductosPedidos> listaCesta, TipoEnvio tipoEnvio, Long numeroTarjeta, int codigoSec,
+			TipoTarjeta tipoTarjeta, String fecha) {
 		this.direccion = direccion;
 		this.nombre = nombre;
 		this.tipoEnvio = tipoEnvio;
@@ -54,68 +54,64 @@ public class CargarABaseDeDatosNoRegistradoConTarjeta implements Command {
 
 	@Override
 	public Object execute() throws BusinessException {
-		
+
 		// ===================================
-				// añado el cliente
-				// ===================================
+		// añado el cliente
+		// ===================================
 
-				Cliente cliente = new Cliente();
+		Cliente cliente = new Cliente();
 
-				cliente.setNombre(nombre);
-				cliente.setDireccionCompleta(direccion);
-				
-				// Cambiar cuando se modifique el log in de la aplicación
-				cliente.setTipoCliente(TipoCliente.PARTICULAR);
-				cliente.setTarjeta(new Tarjeta(numeroTarjeta, codigoSec, fecha, tipoTarjeta));
-				
-				Jpa.getManager().persist(cliente);
+		cliente.setNombre(nombre);
+		cliente.setDireccionCompleta(direccion);
 
-				// ===================================
-				// creo el pedido
-				// ===================================
+		// Cambiar cuando se modifique el log in de la aplicación
+		cliente.setTipoCliente(TipoCliente.PARTICULAR);
+		cliente.setTarjeta(new Tarjeta(numeroTarjeta, codigoSec, fecha, tipoTarjeta));
 
-				Pedido pedido = new Pedido(cliente);
+		Jpa.getManager().persist(cliente);
 
-				pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
+		// ===================================
+		// creo el pedido
+		// ===================================
 
-				pedido.setMetodoPago(MetodosPago.TARJETA); // <--- Cambiar
+		Pedido pedido = new Pedido(cliente);
 
-				
+		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
 
-				// pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el
-				// método de pago sea por transacción
+		pedido.setMetodoPago(MetodosPago.TARJETA); // <--- Cambiar
 
-				pedido.setDireccionCompleta(direccion);
-				pedido.setFecha(new Date());
+		// pedido.setPagado(PedidoPagado.SI); // <---- Cambiar por NO, cuando el
+		// método de pago sea por transacción
+		pedido.setPagado(PedidoPagado.SI);
+		pedido.setDireccionCompleta(direccion);
+		pedido.setFecha(new Date());
+		pedido.setTipoEnvio(tipoEnvio);
 
-				Jpa.getManager().persist(pedido);
+		Jpa.getManager().persist(pedido);
 
-				// ===================================
-				// Asocio los productos del pedido
-				// ===================================
+		// ===================================
+		// Asocio los productos del pedido
+		// ===================================
 
-				ProductoEnPedido prodPedido = null;
-				Producto prod;
+		ProductoEnPedido prodPedido = null;
+		Producto prod;
 
-				for (ModeloProductosPedidos mod : listaCesta) {
+		for (ModeloProductosPedidos mod : listaCesta) {
 
-					try {
-						prod = ProductoFinder.findById(mod.getProducto());
-						prodPedido = new ProductoEnPedido(pedido, prod);
-						prodPedido.setCantidad(mod.getUnidades());
+			try {
+				prod = ProductoFinder.findById(mod.getProducto());
+				prodPedido = new ProductoEnPedido(pedido, prod);
+				prodPedido.setCantidad(mod.getUnidades());
 
-						Jpa.getManager().merge(prodPedido);
-					} catch (MyPersistenceException e) {
+				Jpa.getManager().persist(prodPedido);
+			} catch (MyPersistenceException e) {
 
-						e.printStackTrace();
-					}
-					// prod = Jpa.getManager().merge(mod.getProducto());
+				e.printStackTrace();
+			}
+			// prod = Jpa.getManager().merge(mod.getProducto());
 
-				}
+		}
 
-		
-		
-		
 		return null;
 	}
 

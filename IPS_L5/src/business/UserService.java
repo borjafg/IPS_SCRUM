@@ -14,7 +14,7 @@ import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 public interface UserService {
 	public List<Producto> getListaProducto(Categoria categoria) throws BusinessException;
 	
-	public  void cargarBaseDeDatosNoRegistrado(String direccion,  String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago)throws BusinessException;
+	public  void cargarBaseDeDatosNoRegistrado(String direccion,  String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago,TipoEnvio tipoEnvio)throws BusinessException;
 	
 	public void cargarBaseDeDatosNoRegistradoTarjeta(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,TipoEnvio tipoEnvio,Long numeroTarjeta,int codigoSec,TipoTarjeta tipoTarjeta, String fecha)throws BusinessException;
 	
@@ -29,5 +29,7 @@ public interface UserService {
 	public Cliente getUsuarioEnBase(String nombre) throws BusinessException;
 	
 	public void cargarBaseUsuarioMinorista(Cliente cliente, List<ModeloProductosPedidos> listaCesta,TipoEnvio tipoEnvio) throws BusinessException;
+	
+	public void cargarBaseDeDatosParticular(Cliente cliente,String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago,TipoEnvio tipoEnvio,Long numeroTarjeta,int codigoSec,TipoTarjeta tipoTarjeta, String fecha)throws BusinessException;
 
 }

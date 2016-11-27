@@ -14,6 +14,7 @@ import model.types.MetodosPago;
 import model.types.PedidoPagado;
 import model.types.Tarjeta;
 import model.types.TipoCliente;
+import model.types.TipoEnvio;
 import model.types.TipoTarjeta;
 import persistence.ProductoFinder;
 import persistence.exception.MyPersistenceException;
@@ -26,10 +27,11 @@ public class CargadorABaseDeDatosNoRegistrado implements Command {
 	private String nombre;
 	private List<ModeloProductosPedidos> listaCesta;
 	private MetodosPago metodoPago;
+	private TipoEnvio tipoEnvio;
 
 	public CargadorABaseDeDatosNoRegistrado(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,
-			MetodosPago metodoPago) {
-
+			MetodosPago metodoPago,TipoEnvio tipoEnvio) {
+		this.tipoEnvio = tipoEnvio;
 		this.direccion = direccion;
 		this.nombre = nombre;
 		this.listaCesta = listaCesta;
@@ -61,7 +63,8 @@ public class CargadorABaseDeDatosNoRegistrado implements Command {
 
 		pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
 
-		pedido.setMetodoPago(metodoPago); // <--- Cambiar
+		pedido.setMetodoPago(metodoPago); 
+		pedido.setTipoEnvio(tipoEnvio);
 
 		if (metodoPago.equals(MetodosPago.TRANSFERENCIA)) {
 			pedido.setPagado(PedidoPagado.NO);
@@ -90,8 +93,8 @@ public class CargadorABaseDeDatosNoRegistrado implements Command {
 				prod = ProductoFinder.findById(mod.getProducto());
 				prodPedido = new ProductoEnPedido(pedido, prod);
 				prodPedido.setCantidad(mod.getUnidades());
-
-				Jpa.getManager().merge(prodPedido);
+				
+				Jpa.getManager().persist(prodPedido);
 			} catch (MyPersistenceException e) {
 
 				e.printStackTrace();

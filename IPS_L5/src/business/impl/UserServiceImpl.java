@@ -6,6 +6,7 @@ import business.UserService;
 import business.exception.BusinessException;
 import business.impl.usuario.CargadorABaseDeDatosNoRegistrado;
 import business.impl.usuario.CargarABaseDeDatosNoRegistradoConTarjeta;
+import business.impl.usuario.CargarABaseDeDatosParticular;
 import business.impl.usuario.CargarBaseUsuarioMinorista;
 import business.impl.usuario.HayProductosEnCategoria;
 import business.impl.usuario.HayUsuarioEnBase;
@@ -33,10 +34,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void cargarBaseDeDatosNoRegistrado(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago)
+	public void cargarBaseDeDatosNoRegistrado(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago,TipoEnvio tipoEnvio)
 			throws BusinessException {
 
-		executor.execute(new CargadorABaseDeDatosNoRegistrado(direccion, nombre, listaCesta,metodoPago));
+		executor.execute(new CargadorABaseDeDatosNoRegistrado(direccion, nombre, listaCesta,metodoPago,tipoEnvio));
 	}
 
 	@Override
@@ -74,6 +75,14 @@ public class UserServiceImpl implements UserService {
 			Long numeroTarjeta, int codigoSec, TipoTarjeta tipoTarjeta, String fecha) throws BusinessException {
 		executor.execute(new CargarABaseDeDatosNoRegistradoConTarjeta( direccion,  nombre, listaCesta, tipoEnvio,
 				numeroTarjeta,  codigoSec, tipoTarjeta,  fecha));
+		
+	}
+
+	@Override
+	public void cargarBaseDeDatosParticular(Cliente cliente, String direccion, String nombre,
+			List<ModeloProductosPedidos> listaCesta, MetodosPago metodoPago,TipoEnvio tipoEnvio, Long numeroTarjeta, int codigoSec,
+			TipoTarjeta tipoTarjeta, String fecha) throws BusinessException {
+		executor.execute(new CargarABaseDeDatosParticular(cliente,direccion,nombre,listaCesta,metodoPago,tipoEnvio,numeroTarjeta,codigoSec,tipoTarjeta,fecha));
 		
 	}
 	

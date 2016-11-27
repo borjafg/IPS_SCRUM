@@ -193,11 +193,17 @@ public class LogicaVentanaPrincipalUsuario {
 	}
 
 	public void generarTodoSinTarjeta(String direccion, String nombre, MetodosPago metodoPago,TipoEnvio tipoEnvioo) throws BusinessException {
-		ServiceFactory.getUserService().cargarBaseDeDatosNoRegistrado(direccion, nombre, listaCesta, metodoPago);
+		ServiceFactory.getUserService().cargarBaseDeDatosNoRegistrado(direccion, nombre, listaCesta, metodoPago,tipoEnvioo);
 	}
 	
 	public void generarTodoConTarjeta(String direccion, String nombre, TipoEnvio tipoEnvio,Long numeroTarjeta,int codigoSec,TipoTarjeta tipoTarjeta, String fecha) throws BusinessException{
 		ServiceFactory.getUserService().cargarBaseDeDatosNoRegistradoTarjeta(direccion, nombre,  listaCesta,tipoEnvio, numeroTarjeta, codigoSec, tipoTarjeta,  fecha);
+	}
+	
+	public void generarTodoParticular(String direccion, String nombre, MetodosPago metodoPago, TipoEnvio tipoEnvio,Long numeroTarjeta,int codigoSec,TipoTarjeta tipoTarjeta, String fecha)throws BusinessException{
+		ServiceFactory.getUserService().cargarBaseDeDatosParticular(clienteReg, direccion, nombre, listaCesta, metodoPago,tipoEnvio, numeroTarjeta, codigoSec, tipoTarjeta, fecha);
+		//Se ha modificado el usuario
+		iniciarSesion(clienteReg.getLogin());//actualizo al nuevo usuario
 	}
 	
 	
@@ -218,8 +224,8 @@ public class LogicaVentanaPrincipalUsuario {
 
 	}
 
-	private void iniciarSesion(String nombre) throws BusinessException {
-		this.clienteReg = ServiceFactory.getUserService().getUsuarioEnBase(nombre);
+	private void iniciarSesion(String login) throws BusinessException {
+		this.clienteReg = ServiceFactory.getUserService().getUsuarioEnBase(login);
 	}
 
 	public void cerrarSesion() {

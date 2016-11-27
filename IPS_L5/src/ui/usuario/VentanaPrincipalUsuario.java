@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -33,7 +34,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
+import infrastructure.Log;
 import model.Categoria;
+import model.Cliente;
 import model.Producto;
 import model.types.MetodosPago;
 import model.types.TipoCliente;
@@ -64,7 +67,6 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 	/// Valor que nos dice si un usuario está registrado
 	private boolean usuarioReg;
-	
 
 	///
 
@@ -297,7 +299,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 								"Para confirmar pedido, la cesta tiene que tener por lo menos un artÃ­culo", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					} else {
-				
+
 						if (usuarioReg) {// usuario Registrado
 
 							// =============================
@@ -306,42 +308,40 @@ public class VentanaPrincipalUsuario extends JFrame {
 							// ===============================
 							// realizamos la subida de datos a la base de datos
 
-							if (logVOUser.getTipoCliente().equals(TipoCliente.MINORISTA)) {//compra se hace como usuario minorista
+							if (logVOUser.getTipoCliente().equals(TipoCliente.MINORISTA)) {// compra
+																							// se
+																							// hace
+																							// como
+																							// usuario
+																							// minorista
 								getMntmCerrarSesin().setEnabled(false);
 								getMntmIniciarSesin().setEnabled(false);
 								((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedidoMinorista");
-								
-								
-								
-							} else {//compra se hace como usuario particular registrado
-								//rellenamos los datos del cliente
-								
-								
-								//inicializamos el panel
+
+							} else {// compra se hace como usuario particular
+									// registrado
+
+								// inicializamos el panel
 								getMntmCerrarSesin().setEnabled(false);
 								getMntmIniciarSesin().setEnabled(false);
-								
-								//rellenamos los valores
+
+								// rellenamos los valores
 								rellenarCamposTexto();
-								
+
 								((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
-							}	
-					
-					}else{//usuarioNoRegistrado
-						
-						
-						//inicializamos el panel
-						getMntmCerrarSesin().setEnabled(false);
-						getMntmIniciarSesin().setEnabled(false);
-						((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
-						
-						
+							}
+
+						} else {// usuarioNoRegistrado
+
+							// inicializamos el panel
+							getMntmCerrarSesin().setEnabled(false);
+							getMntmIniciarSesin().setEnabled(false);
+							((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
+
+						}
+
 					}
-					
-					
-					
-					}
-					
+
 					// Esto se hace para evitar que alguien escriba una cantidad
 					// y se pueda pasar ese valor a un siguiente usuario o a una
 					// nueva iteración
@@ -351,27 +351,32 @@ public class VentanaPrincipalUsuario extends JFrame {
 					// se eliminan las selecciones de la lista
 					getListProductos().clearSelection();
 					getListCesta().clearSelection();
-					
-					
-				}//actionperformed
-			});//add ation listener
 
-		
+				}// actionperformed
+			});// add ation listener
 
 			btnAceptarPedido.setHorizontalAlignment(SwingConstants.RIGHT);
-		}//== null
+		} // == null
 
 		return btnAceptarPedido;
-	}//clase
+	}// clase
 
-	
-	private void rellenarCamposTexto(){
-		
+	private void rellenarCamposTexto() {
+		Cliente cli = logVOUser.getClienteReg();
+		getTextFieldDireccionCliente().setText(cli.getDireccionCompleta());
+		getTextFieldNombreCliente().setText(cli.getNombre());
+		getTextFieldNumeroTarjeta().setText(String.valueOf(cli.getTarjeta().getNumeroTarjeta()));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+		getTextFieldFechaDeCaducidad().setText(sdf.format(cli.getTarjeta().getFechaCaducidad()));
+
+		getPasswordFieldCodigoSeguridad().setText(String.valueOf(cli.getTarjeta().getCodigoSeguridad()));
+
+		getComboBoxTipoTarjeta().setSelectedItem(cli.getTarjeta().getTipoTarjeta());
+
 	}
-	
-	
-	
-	
+
 	private JPanel getPanel_1_1() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
@@ -530,43 +535,50 @@ public class VentanaPrincipalUsuario extends JFrame {
 					// getComboBox().getSelectedItem();
 
 					String textoNombre = getTextFieldNombreCliente().getText();
-					
-					
-					if((getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA) && (getTextFieldNumeroTarjeta().getText().equals("")||getTextFieldNumeroTarjeta().getText().equals("")||getPasswordFieldCodigoSeguridad().getText().equals("")))||
-							textoDireccion.equals("") || textoNombre.equals("")	){
+
+					if ((getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA)
+							&& (getTextFieldNumeroTarjeta().getText().equals("")
+									|| getTextFieldNumeroTarjeta().getText().equals("")
+									|| getPasswordFieldCodigoSeguridad().getText().equals("")))
+							|| textoDireccion.equals("") || textoNombre.equals("")) {
 						JOptionPane.showMessageDialog(getBtnFinalizarPedido(), "Rellene los campos indicados", "Error",
-							JOptionPane.ERROR_MESSAGE);
-			
-					}else{
-						if(usuarioReg){//particular registrado
-							
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						}else{//particular no registrado
-							
-							
-							if(!getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA)){
-							try{
-								logVOUser.generarTodoSinTarjeta(textoDireccion, textoNombre, (MetodosPago) getComboBoxMetodoPago().getSelectedItem(), (TipoEnvio)getComboBoxTipoEnvioClientes().getSelectedItem());
-							}catch (BusinessException e1) {
-								System.err.println(e1.getMessage());
-								}
-							
-							
-							
-							}else{//pago va a ser por tarjeta
+								JOptionPane.ERROR_MESSAGE);
+
+					} else {
+						if (usuarioReg) {// particular registrado
+
+							try {
+								logVOUser.generarTodoParticular(textoDireccion, textoNombre,
+										(MetodosPago) getComboBoxMetodoPago().getSelectedItem(),
+										(TipoEnvio) getComboBoxTipoEnvioClientes().getSelectedItem(),
+										Long.getLong(getTextFieldNumeroTarjeta().getText()),
+										Integer.parseInt(getPasswordFieldCodigoSeguridad().getText()),
+										(TipoTarjeta) getComboBoxTipoTarjeta().getSelectedItem(),
+										getTextFieldFechaDeCaducidad().getText());
+							} catch (NumberFormatException | BusinessException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+						} else {// particular no registrado
+
+							if (!getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA)) {
 								try {
-									logVOUser.generarTodoConTarjeta(textoDireccion, textoNombre, (TipoEnvio)getComboBoxTipoEnvioClientes().getSelectedItem(), Long.getLong(getTextFieldNumeroTarjeta().getText()), Integer.parseInt(getPasswordFieldCodigoSeguridad().getText()), (TipoTarjeta)getComboBoxTipoTarjeta().getSelectedItem(), getTextFieldFechaDeCaducidad().getText());
+									logVOUser.generarTodoSinTarjeta(textoDireccion, textoNombre,
+											(MetodosPago) getComboBoxMetodoPago().getSelectedItem(),
+											(TipoEnvio) getComboBoxTipoEnvioClientes().getSelectedItem());
+								} catch (BusinessException e1) {
+									System.err.println(e1.getMessage());
+								}
+
+							} else {// pago va a ser por tarjeta
+								try {
+									logVOUser.generarTodoConTarjeta(textoDireccion, textoNombre,
+											(TipoEnvio) getComboBoxTipoEnvioClientes().getSelectedItem(),
+											Long.getLong(getTextFieldNumeroTarjeta().getText()),
+											Integer.parseInt(getPasswordFieldCodigoSeguridad().getText()),
+											(TipoTarjeta) getComboBoxTipoTarjeta().getSelectedItem(),
+											getTextFieldFechaDeCaducidad().getText());
 								} catch (NumberFormatException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
@@ -575,11 +587,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 									e1.printStackTrace();
 								}
 							}
-							
-							
-							
-						}//else 2
-						
+
+						} // else 2
+
 						StringBuilder sb = new StringBuilder();
 						sb.append("Gracias por su compra, su pedido a sido confirmado.\n");
 
@@ -596,16 +606,16 @@ public class VentanaPrincipalUsuario extends JFrame {
 													// aplicación
 
 						getListCesta().setModel(modeloListaCesta);
-						
-						if(usuarioReg == false){
+
+						if (usuarioReg == false) {
 							getMntmIniciarSesin().setEnabled(true);
 							getMntmCerrarSesin().setEnabled(false);
-						}else{
+						} else {
 							getMntmIniciarSesin().setEnabled(false);
 							getMntmCerrarSesin().setEnabled(true);
 						}
 
-
+						getTextGastoTotal().setText("0.0");
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 						btnAtrasCategorias.setEnabled(false);
 						((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
@@ -615,11 +625,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 						modeloListaProductos.removeAllElements();
 						modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
 						
-						
-						
-					}//else 1
-														
-				}//action performed
+					} // else 1
+					Log.debug("la compra ha ido chachi piruli");
+				}// action performed
 			});
 		}
 
@@ -629,7 +637,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private void resetearCamposDeDatos() {
 		getTextFieldDireccionCliente().setText("");
 		getTextFieldNombreCliente().setText("");
-		getTextGastoTotal().setText("0.0");
+		getComboBoxMetodoPago().setSelectedIndex(0);
+		getComboBoxTipoEnvioClientes().setSelectedIndex(0);
+		getComboBoxTipoEnvioMinorista().setSelectedIndex(0);
+		getComboBoxTipoTarjeta().setSelectedIndex(0);
+		getTextFieldFechaDeCaducidad().setText("");
+		getTextFieldNumeroTarjeta().setText("");
+		getTextFieldUnidadesProducto().setText("1");
+		getPasswordFieldCodigoSeguridad().setText("");
 	}
 
 	private JList<ModeloProductosPedidos> getListCesta() {
@@ -1125,7 +1140,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 							JOptionPane.INFORMATION_MESSAGE);
 
 					logVOUser.cerrarSesion();
-					usuarioReg =false;
+					usuarioReg = false;
 					getMntmIniciarSesin().setEnabled(true);
 					getMntmCerrarSesin().setEnabled(false);
 				}
@@ -1434,16 +1449,16 @@ public class VentanaPrincipalUsuario extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// generar pedido de usuario minorista
 					try {
-					logVOUser.generarusuarioMinorista((TipoEnvio)getComboBoxTipoEnvioMinorista().getSelectedItem());
-					
-					
-					
-					} catch (BusinessException e1) {
-					System.err.println(e1.getMessage());
-				}
+						logVOUser
+								.generarusuarioMinorista((TipoEnvio) getComboBoxTipoEnvioMinorista().getSelectedItem());
 
-					JOptionPane.showMessageDialog(null, "Gracias por su compra. \n Se le pasará la factura a final de mes", "Confirmación de pedido",
-							JOptionPane.INFORMATION_MESSAGE);
+					} catch (BusinessException e1) {
+						System.err.println(e1.getMessage());
+					}
+
+					JOptionPane.showMessageDialog(null,
+							"Gracias por su compra. \n Se le pasará la factura a final de mes",
+							"Confirmación de pedido", JOptionPane.INFORMATION_MESSAGE);
 					modeloListaCesta = logVOUser.resetear();
 
 					resetearCamposDeDatos(); // Se eliminan todos los campos
@@ -1453,7 +1468,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					getListCesta().setModel(modeloListaCesta);
 					getMntmCerrarSesin().setEnabled(true);
 
-
+					getTextGastoTotal().setText("0.0");
 					((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 					btnAtrasCategorias.setEnabled(false);
 					((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
@@ -1462,10 +1477,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					// rehago los modelos
 					modeloListaProductos.removeAllElements();
 					modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-				
-				
-				
-				
+
 				}
 			});
 		}
@@ -1518,14 +1530,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return lblTipoDeEnvioMinorista;
 	}
 
-
-
 	private JComboBox<TipoEnvio> getComboBoxTipoEnvioMinorista() {
 		if (comboBoxTipoEnvioMinorista == null) {
 			comboBoxTipoEnvioMinorista = new JComboBox<TipoEnvio>();
 			comboBoxTipoEnvioMinorista.setModel(new DefaultComboBoxModel<TipoEnvio>(TipoEnvio.values()));
 		}
-
 
 		return comboBoxTipoEnvioMinorista;
 	}
