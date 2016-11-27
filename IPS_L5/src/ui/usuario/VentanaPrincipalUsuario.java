@@ -320,9 +320,22 @@ public class VentanaPrincipalUsuario extends JFrame {
 								//inicializamos el panel
 								getMntmCerrarSesin().setEnabled(false);
 								getMntmIniciarSesin().setEnabled(false);
+								
+								//rellenamos los valores
+								rellenarCamposTexto();
+								
 								((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
 							}	
 					
+					}else{//usuarioNoRegistrado
+						
+						
+						//inicializamos el panel
+						getMntmCerrarSesin().setEnabled(false);
+						getMntmIniciarSesin().setEnabled(false);
+						((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
+						
+						
 					}
 					
 					
@@ -351,6 +364,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return btnAceptarPedido;
 	}//clase
 
+	
+	private void rellenarCamposTexto(){
+		
+	}
+	
+	
+	
+	
 	private JPanel getPanel_1_1() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
@@ -500,6 +521,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			btnFinalizarPedido = new JButton("Aceptar");
 
 			btnFinalizarPedido.addActionListener(new ActionListener() {
+				@SuppressWarnings("deprecation")
 				public void actionPerformed(ActionEvent e) {
 					// validar que los campos sean correctos
 					String textoDireccion = getTextFieldDireccionCliente().getText();
@@ -508,19 +530,56 @@ public class VentanaPrincipalUsuario extends JFrame {
 					// getComboBox().getSelectedItem();
 
 					String textoNombre = getTextFieldNombreCliente().getText();
-
-					if (textoDireccion.equals("") || textoNombre.equals("")) {
+					
+					
+					if((getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA) && (getTextFieldNumeroTarjeta().getText().equals("")||getTextFieldNumeroTarjeta().getText().equals("")||getPasswordFieldCodigoSeguridad().getText().equals("")))||
+							textoDireccion.equals("") || textoNombre.equals("")	){
 						JOptionPane.showMessageDialog(getBtnFinalizarPedido(), "Rellene los campos indicados", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					} else {
-						// subir a la base de datos y reiniciar la aplicacion;
-						try {
-							logVOUser.generarTodo(textoDireccion, textoNombre,
-									(MetodosPago) getComboBoxMetodoPago().getSelectedItem());
-						} catch (BusinessException e1) {
-							System.err.println(e1.getMessage());
-						}
-
+							JOptionPane.ERROR_MESSAGE);
+			
+					}else{
+						if(usuarioReg){//particular registrado
+							
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						}else{//particular no registrado
+							
+							
+							if(!getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA)){
+							try{
+								logVOUser.generarTodoSinTarjeta(textoDireccion, textoNombre, (MetodosPago) getComboBoxMetodoPago().getSelectedItem(), (TipoEnvio)getComboBoxTipoEnvioClientes().getSelectedItem());
+							}catch (BusinessException e1) {
+								System.err.println(e1.getMessage());
+								}
+							
+							
+							
+							}else{//pago va a ser por tarjeta
+								try {
+									logVOUser.generarTodoConTarjeta(textoDireccion, textoNombre, (TipoEnvio)getComboBoxTipoEnvioClientes().getSelectedItem(), Long.getLong(getTextFieldNumeroTarjeta().getText()), Integer.parseInt(getPasswordFieldCodigoSeguridad().getText()), (TipoTarjeta)getComboBoxTipoTarjeta().getSelectedItem(), getTextFieldFechaDeCaducidad().getText());
+								} catch (NumberFormatException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (BusinessException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+							
+							
+							
+						}//else 2
+						
 						StringBuilder sb = new StringBuilder();
 						sb.append("Gracias por su compra, su pedido a sido confirmado.\n");
 
@@ -537,9 +596,15 @@ public class VentanaPrincipalUsuario extends JFrame {
 													// aplicación
 
 						getListCesta().setModel(modeloListaCesta);
-						getMntmIniciarSesin().setEnabled(true);
+						
+						if(usuarioReg == false){
+							getMntmIniciarSesin().setEnabled(true);
+							getMntmCerrarSesin().setEnabled(false);
+						}else{
+							getMntmIniciarSesin().setEnabled(false);
+							getMntmCerrarSesin().setEnabled(true);
+						}
 
-						// Cuando este el log-in, se "cerrará la sesión"
 
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 						btnAtrasCategorias.setEnabled(false);
@@ -549,8 +614,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 						// rehago los modelos
 						modeloListaProductos.removeAllElements();
 						modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-					}
-				}
+						
+						
+						
+					}//else 1
+														
+				}//action performed
 			});
 		}
 
@@ -1056,7 +1125,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 							JOptionPane.INFORMATION_MESSAGE);
 
 					logVOUser.cerrarSesion();
-
+					usuarioReg =false;
 					getMntmIniciarSesin().setEnabled(true);
 					getMntmCerrarSesin().setEnabled(false);
 				}
@@ -1207,7 +1276,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelFechaCaducidad == null) {
 			panelFechaCaducidad = new JPanel();
 			panelFechaCaducidad.add(getLblFechaCaducidad());
-			panelFechaCaducidad.add(getTextField_1());
+			panelFechaCaducidad.add(getTextFieldFechaDeCaducidad());
 		}
 
 		return panelFechaCaducidad;
@@ -1285,7 +1354,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return lblFechaCaducidad;
 	}
 
-	private JTextField getTextField_1() {
+	private JTextField getTextFieldFechaDeCaducidad() {
 		if (textFieldFechaCaducidad == null) {
 			textFieldFechaCaducidad = new JTextField();
 
@@ -1365,11 +1434,38 @@ public class VentanaPrincipalUsuario extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// generar pedido de usuario minorista
 					try {
-					logVOUser.generarusuarioRegistrado();
+					logVOUser.generarusuarioMinorista((TipoEnvio)getComboBoxTipoEnvioMinorista().getSelectedItem());
+					
+					
+					
 					} catch (BusinessException e1) {
 					System.err.println(e1.getMessage());
 				}
 
+					JOptionPane.showMessageDialog(null, "Gracias por su compra. \n Se le pasará la factura a final de mes", "Confirmación de pedido",
+							JOptionPane.INFORMATION_MESSAGE);
+					modeloListaCesta = logVOUser.resetear();
+
+					resetearCamposDeDatos(); // Se eliminan todos los campos
+												// de texto de la
+												// aplicación
+
+					getListCesta().setModel(modeloListaCesta);
+					getMntmCerrarSesin().setEnabled(true);
+
+
+					((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
+					btnAtrasCategorias.setEnabled(false);
+					((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
+							"Panel Categorias");
+
+					// rehago los modelos
+					modeloListaProductos.removeAllElements();
+					modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
+				
+				
+				
+				
 				}
 			});
 		}

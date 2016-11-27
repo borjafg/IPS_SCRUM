@@ -4,8 +4,9 @@ import java.util.List;
 
 import business.UserService;
 import business.exception.BusinessException;
-import business.impl.usuario.CargadorABaseDeDatos;
-import business.impl.usuario.CargarBaseUsuarioRegistrado;
+import business.impl.usuario.CargadorABaseDeDatosNoRegistrado;
+import business.impl.usuario.CargarABaseDeDatosNoRegistradoConTarjeta;
+import business.impl.usuario.CargarBaseUsuarioMinorista;
 import business.impl.usuario.HayProductosEnCategoria;
 import business.impl.usuario.HayUsuarioEnBase;
 import business.impl.usuario.ListarCategoriasHijo;
@@ -17,6 +18,8 @@ import model.Categoria;
 import model.Cliente;
 import model.Producto;
 import model.types.MetodosPago;
+import model.types.TipoEnvio;
+import model.types.TipoTarjeta;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 @SuppressWarnings("unchecked")
@@ -30,10 +33,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void cargarBaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago)
+	public void cargarBaseDeDatosNoRegistrado(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,MetodosPago metodoPago)
 			throws BusinessException {
 
-		executor.execute(new CargadorABaseDeDatos(direccion, nombre, listaCesta,metodoPago));//<-----vamos a tener que pasar más parámetros cuando se añadan los log-in y los diferentes tipos de usuario
+		executor.execute(new CargadorABaseDeDatosNoRegistrado(direccion, nombre, listaCesta,metodoPago));
 	}
 
 	@Override
@@ -60,9 +63,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void cargarBaseUsuarioRegistrado(Cliente cliente, List<ModeloProductosPedidos> listaCesta)
+	public void cargarBaseUsuarioMinorista(Cliente cliente, List<ModeloProductosPedidos> listaCesta,TipoEnvio tipoEnvio)
 			throws BusinessException {
-		executor.execute(new CargarBaseUsuarioRegistrado(cliente,listaCesta));
+		executor.execute(new CargarBaseUsuarioMinorista(cliente,listaCesta,tipoEnvio));
+		
+	}
+
+	@Override
+	public void cargarBaseDeDatosNoRegistradoTarjeta(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta, TipoEnvio tipoEnvio,
+			Long numeroTarjeta, int codigoSec, TipoTarjeta tipoTarjeta, String fecha) throws BusinessException {
+		executor.execute(new CargarABaseDeDatosNoRegistradoConTarjeta( direccion,  nombre, listaCesta, tipoEnvio,
+				numeroTarjeta,  codigoSec, tipoTarjeta,  fecha));
 		
 	}
 	

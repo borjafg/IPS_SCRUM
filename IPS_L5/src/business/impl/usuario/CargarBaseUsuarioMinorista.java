@@ -12,21 +12,24 @@ import model.ProductoEnPedido;
 import model.types.EstadoPedido;
 import model.types.MetodosPago;
 import model.types.PedidoPagado;
+import model.types.TipoEnvio;
 import persistence.ClienteFinder;
 import persistence.ProductoFinder;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
-public class CargarBaseUsuarioRegistrado implements Command {
+public class CargarBaseUsuarioMinorista implements Command {
 	
 	
 	private List<ModeloProductosPedidos> listaCesta;
 	private Cliente cliente;
+	private TipoEnvio tipoEnvio;
 	
-	public CargarBaseUsuarioRegistrado(Cliente cliente, List<ModeloProductosPedidos> listaCesta) {
+	public CargarBaseUsuarioMinorista(Cliente cliente, List<ModeloProductosPedidos> listaCesta,TipoEnvio tipoEnvio) {
 		this.cliente = cliente;
 		this.listaCesta = listaCesta;
+		this.tipoEnvio = tipoEnvio;
 	}
 	
 	@Override
@@ -37,6 +40,7 @@ public class CargarBaseUsuarioRegistrado implements Command {
 			Pedido pedido = new Pedido(cliente);
 			pedido.setDireccionCompleta(cliente.getDireccionCompleta());
 			pedido.setFecha(new Date());
+			pedido.setTipoEnvio(tipoEnvio);
 			pedido.setMetodoPago(MetodosPago.FACTURA);
 			pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
 			pedido.setPagado(PedidoPagado.SI);

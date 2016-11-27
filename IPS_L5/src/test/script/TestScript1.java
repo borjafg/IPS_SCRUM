@@ -32,6 +32,7 @@ public class TestScript1 implements Command {
 			cliente = new Cliente();
 			cliente.setDireccionCompleta("Direccion " + i);
 			cliente.setNombre("Cliente" + i);
+			cliente.setLogin("Cliente" + i);
 			cliente.setTipoCliente(TipoCliente.MINORISTA);
 			cliente.setTarjeta(tarjeta);
 			Jpa.getManager().persist(cliente);// vamos generando cada uno de los
@@ -61,6 +62,7 @@ public class TestScript1 implements Command {
 		tarjeta = new Tarjeta(1L, 1254,sdf.parse("12/4/2084"),TipoTarjeta.CRÉDITO);		
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Antonio José");
+		clientenormal.setLogin("Antonio José");
 		clientenormal.setDireccionCompleta("Debajo de un puente");
 		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
 		clientenormal.setTarjeta(tarjeta);
@@ -69,6 +71,7 @@ public class TestScript1 implements Command {
 		tarjeta = new Tarjeta(33L,2033 ,sdf.parse("25/12/2033"),TipoTarjeta.DÉBITO);
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Artyon");
+		clientenormal.setLogin("Artyon");
 		clientenormal.setDireccionCompleta("En el metro de Moscú");
 		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
 		clientenormal.setTarjeta(tarjeta);
@@ -78,6 +81,7 @@ public class TestScript1 implements Command {
 		tarjeta = new Tarjeta(5L, 10101,sdf.parse("27/9/3025"),TipoTarjeta.DÉBITO);
 		clientenormal = new Cliente();
 		clientenormal.setNombre("Jodorowsky");
+		clientenormal.setLogin("Jodorowsky");
 		clientenormal.setDireccionCompleta("En sus mundos psicomágicos");
 		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
 		clientenormal.setTarjeta(tarjeta);

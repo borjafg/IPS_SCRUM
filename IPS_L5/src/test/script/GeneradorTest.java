@@ -23,7 +23,13 @@ public class GeneradorTest {
 			exe.execute(new TestScript1());
 			Log.debug("--------------------");
 			Log.debug("Se finaliza el test almaceneros, clientes minoristas y productos especiales");
-
+			
+			
+			Log.debug("Se inicia el test clientes particulares");
+			exe.execute(new TestScript3());
+			Log.debug("--------------------");
+			Log.debug("Se finaliza el test clientes particulares");
+			
 			return;
 		} catch (BusinessException e) {
 			Log.error("Fallo a la hora de ejecutar una prueba", e);

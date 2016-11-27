@@ -20,14 +20,14 @@ import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
-public class CargadorABaseDeDatos implements Command {
+public class CargadorABaseDeDatosNoRegistrado implements Command {
 
 	private String direccion;
 	private String nombre;
 	private List<ModeloProductosPedidos> listaCesta;
 	private MetodosPago metodoPago;
 
-	public CargadorABaseDeDatos(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,
+	public CargadorABaseDeDatosNoRegistrado(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,
 			MetodosPago metodoPago) {
 
 		this.direccion = direccion;
@@ -49,7 +49,7 @@ public class CargadorABaseDeDatos implements Command {
 
 		// Cambiar cuando se modifique el log in de la aplicación
 		cliente.setTipoCliente(TipoCliente.PARTICULAR);
-		cliente.setTarjeta(new Tarjeta(58236229L, 4442, new Date(), TipoTarjeta.CRÉDITO));
+		
 
 		Jpa.getManager().persist(cliente);
 

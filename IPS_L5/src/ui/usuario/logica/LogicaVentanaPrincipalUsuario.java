@@ -6,12 +6,15 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 import business.exception.BusinessException;
+import infrastructure.Log;
 import infrastructure.ServiceFactory;
 import model.Categoria;
 import model.Cliente;
 import model.Producto;
 import model.types.MetodosPago;
 import model.types.TipoCliente;
+import model.types.TipoEnvio;
+import model.types.TipoTarjeta;
 import ui.usuario.logica.ClasesAuxiliares.ModeloProductosPedidos;
 
 public class LogicaVentanaPrincipalUsuario {
@@ -185,14 +188,19 @@ public class LogicaVentanaPrincipalUsuario {
 		return precio;
 	}
 
-	public void generarusuarioRegistrado() throws BusinessException {
-		ServiceFactory.getUserService().cargarBaseUsuarioRegistrado(clienteReg, listaCesta);
+	public void generarusuarioMinorista(TipoEnvio tipoEnvio) throws BusinessException {
+		ServiceFactory.getUserService().cargarBaseUsuarioMinorista(clienteReg, listaCesta,tipoEnvio);
 	}
 
-	public void generarTodo(String direccion, String nombre, MetodosPago metodoPago) throws BusinessException {
-		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta, metodoPago);
+	public void generarTodoSinTarjeta(String direccion, String nombre, MetodosPago metodoPago,TipoEnvio tipoEnvioo) throws BusinessException {
+		ServiceFactory.getUserService().cargarBaseDeDatosNoRegistrado(direccion, nombre, listaCesta, metodoPago);
 	}
-
+	
+	public void generarTodoConTarjeta(String direccion, String nombre, TipoEnvio tipoEnvio,Long numeroTarjeta,int codigoSec,TipoTarjeta tipoTarjeta, String fecha) throws BusinessException{
+		ServiceFactory.getUserService().cargarBaseDeDatosNoRegistradoTarjeta(direccion, nombre,  listaCesta,tipoEnvio, numeroTarjeta, codigoSec, tipoTarjeta,  fecha);
+	}
+	
+	
 	public DefaultListModel<ModeloProductosPedidos> resetear() {
 		listaCesta = new ArrayList<ModeloProductosPedidos>();
 
@@ -203,6 +211,7 @@ public class LogicaVentanaPrincipalUsuario {
 		boolean usuarioReg = ServiceFactory.getUserService().isUsuarioEnBase(nombre);
 		if (usuarioReg == true) {
 			iniciarSesion(nombre);
+			Log.debug(clienteReg.getLogin());
 		}
 
 		return usuarioReg;
@@ -215,6 +224,10 @@ public class LogicaVentanaPrincipalUsuario {
 
 	public void cerrarSesion() {
 		this.clienteReg = null;
+	}
+	
+	public Cliente getClienteReg(){
+		return clienteReg;
 	}
 	
 	public TipoCliente getTipoCliente(){

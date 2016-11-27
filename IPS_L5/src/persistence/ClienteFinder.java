@@ -45,10 +45,10 @@ public class ClienteFinder {
 	 * @return
 	 * 	 El clinete que se encuentra con ese nombre
 	 */
-	public static Cliente findByNombre(String nombreCliente) {
+	public static Cliente findByLogIn(String nombreCliente) {
 		try {
-			return Jpa.getManager().createNamedQuery("Cliente.findByName", Cliente.class)
-					.setParameter("nombre", nombreCliente).getSingleResult();
+			return Jpa.getManager().createNamedQuery("Cliente.findByLogIn", Cliente.class)
+					.setParameter("login", nombreCliente).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}

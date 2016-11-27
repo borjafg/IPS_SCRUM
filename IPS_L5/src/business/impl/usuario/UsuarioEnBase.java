@@ -5,17 +5,17 @@ import business.impl.util.Command;
 import persistence.ClienteFinder;
 
 public class UsuarioEnBase implements Command{
-String nombre;
+String login;
 	
 	public UsuarioEnBase(String nombre) {
-		this.nombre = nombre;
+		this.login = nombre;
 	}
 	
 	
 	@Override
 	public Object execute() throws BusinessException {
 		
-		return ClienteFinder.findByNombre(nombre);//Buscamos un cliente con ese nombre
+		return ClienteFinder.findByLogIn(login);//Buscamos un cliente con ese nombre
 		
 		
 		

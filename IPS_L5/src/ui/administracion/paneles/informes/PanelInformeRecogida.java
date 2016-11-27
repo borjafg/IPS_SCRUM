@@ -148,7 +148,7 @@ public class PanelInformeRecogida extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					reiniciarPanel();
 
-					ventanaPrincipal.volverPanelOpciones();
+					ventanaPrincipal.mostrarPanelSeleccionInforme();
 				}
 			});
 

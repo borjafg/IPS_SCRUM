@@ -73,8 +73,8 @@
 	<!-- - - - - - - - - - Cliente - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<named-query name="Cliente.findByName">
-		<query>select a from Cliente a where nombre = :nombre</query>
+	<named-query name="Cliente.findByLogIn">
+		<query>select a from Cliente a where login = :login</query>
 	</named-query>
 
 
