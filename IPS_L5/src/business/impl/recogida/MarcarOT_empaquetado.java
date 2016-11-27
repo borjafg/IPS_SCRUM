@@ -1,5 +1,7 @@
 package business.impl.recogida;
 
+import java.util.Date;
+
 import javax.persistence.PersistenceException;
 
 import business.exception.BusinessException;
@@ -28,6 +30,7 @@ public class MarcarOT_empaquetado implements Command {
 			OrdenTrabajo ot = OrdenTrabajoFinder.find(ordenTrabajo);
 
 			ot.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.EMPAQUETADO);
+			ot.setFechaFinRecogida(new Date());
 
 			if (almacenero != null) {
 				ot.setAlmaceneroEmpaquetar(AlmaceneroFinder.find(almacenero));

@@ -2,7 +2,7 @@
 -- Parte de usuario (y de recogida)
 -- ======================================
 
-CREATE TABLE Clientes(id_cliente number(32), nombre varchar(64), tipoCliente varchar(64), direccion varchar(255), tipoTarjeta varchar(16), numeroTarjeta number(32), fecha_caducidad TIMESTAMP, codigoSeguridad number(10), PRIMARY KEY(id_cliente));
+CREATE TABLE Clientes(id_cliente number(32), login varchar(64), nombre varchar(64), tipoCliente varchar(64), direccion varchar(255), tipoTarjeta varchar(16), numeroTarjeta number(32), fecha_caducidad TIMESTAMP, codigoSeguridad number(10), PRIMARY KEY(id_cliente));
 
 
 CREATE TABLE Pedidos(id_pedido number(32), id_cliente number(32), fecha TIMESTAMP, estado varchar(64), pagado varchar(16), direccion varchar(255), metodo_pago varchar(64), tipoEnvio varchar(64), PRIMARY KEY(id_pedido), FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente));
@@ -25,7 +25,7 @@ CREATE TABLE ProductosPedido(id_producto number(32), id_pedido number (32), cant
 -- Parte de recogida (y de empaquetado)
 -- ======================================
 
-CREATE TABLE Almaceneros(id_almacenero number(32), login varchar(64) NOT NULL, UNIQUE(login), PRIMARY KEY(id_almacenero));
+CREATE TABLE Almaceneros(id_almacenero number(32), login varchar(64) NOT NULL, nombre varchar(64), UNIQUE(login), PRIMARY KEY(id_almacenero));
 
 
 CREATE TABLE OrdenesTrabajo(id_ordenTrabajo number(32), fechaCreacion TIMESTAMP, fechaFinRecogida TIMESTAMP, fechaFinEmpaquetado TIMESTAMP, estado varchar(64), id_almacenero_recoger number(32), id_almacenero_empaquetar number(32), primary key(id_ordenTrabajo), foreign key(id_almacenero_recoger) references Almaceneros(id_almacenero), foreign key(id_almacenero_empaquetar) references Almaceneros(id_almacenero));

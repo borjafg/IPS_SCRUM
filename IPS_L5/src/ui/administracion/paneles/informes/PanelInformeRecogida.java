@@ -22,6 +22,7 @@ import ui.administracion.myTypes.modelosTabla.ModeloTablaInformeAlmacenero;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class PanelInformeRecogida extends JPanel {
 
@@ -52,6 +53,8 @@ public class PanelInformeRecogida extends JPanel {
 	private JButton botonAtras;
 
 	public PanelInformeRecogida() {
+		super();
+
 		setPreferredSize(new Dimension(816, 646));
 		setLayout(new BorderLayout(0, 0));
 
@@ -95,6 +98,9 @@ public class PanelInformeRecogida extends JPanel {
 	private JScrollPane getScrollPaneCentro() {
 		if (scrollPaneCentro == null) {
 			scrollPaneCentro = new JScrollPane(getTablaInformeRecogida());
+			scrollPaneCentro.setBorder(new EmptyBorder(0, 3, 0, 3));
+			scrollPaneCentro.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPaneCentro.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		}
 
 		return scrollPaneCentro;

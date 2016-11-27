@@ -1,7 +1,5 @@
 package ui.administracion.myTypes;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,16 +45,6 @@ public class DatosInformeAlmacenero {
 	 */
 	public List<Map<String, Object>> getFechas() {
 		return listaFechas;
-	}
-
-	public static List<Map<String, Object>> generarPlantilla(Date fechaIni, Date fechaFin) {
-		List<Map<String, Object>> listaDeFechas = new ArrayList<Map<String, Object>>();
-
-		Date fechaAux = (Date) fechaIni.clone();
-
-		// while(fechaAux.get)
-
-		return listaDeFechas;
 	}
 
 }

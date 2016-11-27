@@ -136,13 +136,13 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelCodigoSeguridad;
 	private JPanel panelTipoEnvio;
 	private JLabel lblTipoEnvio;
-	private JComboBox<MetodosPago> comboBoxTipoEnvio;
+	private JComboBox<TipoEnvio> comboBoxTipoEnvioClientes;
 	private JLabel lblNumeroTarjeta;
 	private JTextField textFieldNumeroTarjeta;
 	private JLabel lblFechaCaducidad;
 	private JTextField textFieldFechaCaducidad;
 	private JLabel lblTipoTarjeta;
-	private JComboBox<MetodosPago> comboBoxTipoTarjeta;
+	private JComboBox<TipoTarjeta> comboBoxTipoTarjeta;
 	private JLabel lblCodigoSeguridad;
 	private JPasswordField passwordFieldCodigoSeguridad;
 	private JPanel panelAceptarPedidoMinorista;
@@ -152,7 +152,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel panelDatosMinorista;
 	private JPanel panelTipoEnvioMinorista;
 	private JLabel lblTipoDeEnvio;
-	private JComboBox<MetodosPago> comboBox;
+	private JComboBox<TipoEnvio> comboBoxTipoEnvioMinorista;
 
 	/**
 	 * Launch the application.
@@ -203,9 +203,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelPrincipal = new JPanel();
 
 			panelPrincipal.setLayout(new BorderLayout(0, 0));
+
 			panelPrincipal.add(getPanel_4(), BorderLayout.NORTH);
 			panelPrincipal.add(getPanel_1_1(), BorderLayout.CENTER);
-
 			panelPrincipal.add(getPanel_3(), BorderLayout.SOUTH);
 		}
 
@@ -231,6 +231,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelProductos = new JPanel();
 
 			panelProductos.setLayout(new BorderLayout(0, 0));
+
 			panelProductos.add(getPanelProductosContenedor(), BorderLayout.CENTER);
 			panelProductos.add(getPanelAuxiliar(), BorderLayout.EAST);
 			panelProductos.add(getPanelBotonRetrocesoProductos(), BorderLayout.NORTH);
@@ -316,6 +317,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 							} catch (BusinessException e) {
 								System.err.println(e.getMessage());
 							}
+
 							// borramos las acciones
 							modeloListaCesta = logVOUser.resetear();
 
@@ -333,11 +335,13 @@ public class VentanaPrincipalUsuario extends JFrame {
 						}
 
 					}
+
 					// Esto se hace para evitar que alguien escriba una cantidad
 					// y se pueda pasar ese valor a un siguiente usuario o a una
 					// nueva iteración
 					// se pone a uno el nÃºmero de unidades tras la compra
 					getTextFieldUnidadesProducto().setText("1");
+
 					// se eliminan las selecciones de la lista
 					getListProductos().clearSelection();
 					getListCesta().clearSelection();
@@ -355,6 +359,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelCentro = new JPanel();
 
 			panelCentro.setLayout(new BorderLayout(0, 0));
+
 			panelCentro.add(getPanelCesta(), BorderLayout.EAST);
 			// panelCentro.add(getPanelProductos(), BorderLayout.CENTER);
 			panelCentro.add(getPanelListasCategoriasYProductos(), BorderLayout.CENTER);
@@ -404,6 +409,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JTextField getTextGastoTotal() {
 		if (textGastoTotal == null) {
 			textGastoTotal = new JTextField();
+
 			textGastoTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 			textGastoTotal.setText("0.0");
 			textGastoTotal.setEditable(false);
@@ -418,6 +424,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	 * aceptar pedido
 	 * 
 	 * @return
+	 * 
 	 */
 	private JPanel getPanelBase() {
 		if (panelBase == null) {
@@ -482,6 +489,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					} else {
 						getMntmCerrarSesin().setEnabled(false);
 					}
+
 					((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 				}
 			});
@@ -498,9 +506,12 @@ public class VentanaPrincipalUsuario extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// validar que los campos sean correctos
 					String textoDireccion = getTextFieldDireccionCliente().getText();
+
 					// MetodosPago comboMetodo = (MetodosPago)
 					// getComboBox().getSelectedItem();
+
 					String textoNombre = getTextFieldNombreCliente().getText();
+
 					if (textoDireccion.equals("") || textoNombre.equals("")) {
 						JOptionPane.showMessageDialog(getBtnFinalizarPedido(), "Rellene los campos indicados", "Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -512,8 +523,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 						} catch (BusinessException e1) {
 							System.err.println(e1.getMessage());
 						}
+
 						StringBuilder sb = new StringBuilder();
 						sb.append("Gracias por su compra, su pedido a sido confirmado.\n");
+
 						if (getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TRANSFERENCIA)) {
 							sb.append("Realice la transferencia la cuenta: \n TiendaIPSLiberBank2016");
 						}
@@ -529,16 +542,16 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getListCesta().setModel(modeloListaCesta);
 						getMntmIniciarSesin().setEnabled(true);
 
-						// Cuando este el log-in, se "cerrarÃ¡ la sesión"
+						// Cuando este el log-in, se "cerrará la sesión"
 
 						((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 						btnAtrasCategorias.setEnabled(false);
 						((CardLayout) panelListasCategoriasYProductos.getLayout()).show(panelListasCategoriasYProductos,
 								"Panel Categorias");
+
 						// rehago los modelos
 						modeloListaProductos.removeAllElements();
 						modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-
 					}
 				}
 			});
@@ -624,6 +637,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel getPanelMetodoPagoCliente() {
 		if (panelMetodoPagoCliente == null) {
 			panelMetodoPagoCliente = new JPanel();
+
 			panelMetodoPagoCliente.add(getLblMetodoPagoCliente());
 			panelMetodoPagoCliente.add(getComboBoxMetodoPago());
 		}
@@ -661,6 +675,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelProductosContenedor = new JPanel();
 
 			panelProductosContenedor.setLayout(new BorderLayout(0, 0));
+
 			panelProductosContenedor.add(getScrollPaneProductos());
 			panelProductosContenedor.add(getPanelAñadirProductos(), BorderLayout.SOUTH);
 		}
@@ -691,8 +706,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (comboBoxMetodoPago == null) {
 			MetodosPago metodosPagoNoRegistrado[] = { MetodosPago.TRANSFERENCIA, MetodosPago.TARJETA,
 					MetodosPago.CONTRAREEMBOLSO };
+
 			modeloComboMetodosDePago = new DefaultComboBoxModel<MetodosPago>(metodosPagoNoRegistrado);
 			comboBoxMetodoPago = new JComboBox<MetodosPago>();
+
 			comboBoxMetodoPago.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent arg0) {
 					if (getComboBoxMetodoPago().getSelectedItem().equals(MetodosPago.TARJETA)) {
@@ -703,6 +720,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					}
 				}
 			});
+
 			comboBoxMetodoPago.setModel(modeloComboMetodosDePago);
 		}
 
@@ -753,9 +771,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getTextGastoTotal().setText(String.valueOf(logVOUser.calcularPrecioTotal()));
 						getListCesta().setSelectedValue(null, false);
 					}
+
 					// se eliminan las selecciones de las listas
 					getListProductos().clearSelection();
 					getListCesta().clearSelection();
+
 					// se pone a uno el valor de el campo de texto
 					getTextFieldUnidadesProducto().setText("1");
 				}
@@ -768,9 +788,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel getPanelAñadirProductos() {
 		if (panelAñadirProductos == null) {
 			panelAñadirProductos = new JPanel();
+
 			panelAñadirProductos.add(getTextFieldUnidadesProducto());
 			panelAñadirProductos.add(getBtnAñadir());
-
 		}
 
 		return panelAñadirProductos;
@@ -829,6 +849,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelAuxiliar == null) {
 			panelAuxiliar = new JPanel();
 		}
+
 		return panelAuxiliar;
 	}
 
@@ -836,40 +857,47 @@ public class VentanaPrincipalUsuario extends JFrame {
 	 * Panel cardLayout que incluye los paneles de los productos y el panel de
 	 * las categorias
 	 * 
-	 * 
 	 */
 	private JPanel getPanelListasCategoriasYProductos() {
 		if (panelListasCategoriasYProductos == null) {
 			panelListasCategoriasYProductos = new JPanel();
+
 			panelListasCategoriasYProductos.setLayout(new CardLayout(0, 0));
+
 			// Añadimos el panel de las categorias
 			panelListasCategoriasYProductos.add(getPanelCategorias(), "Panel Categorias");
+
 			// añadimos el panel de los productos de las categorias
 			panelListasCategoriasYProductos.add(getPanelProductos(), "Panel Productos");
-
 		}
+
 		return panelListasCategoriasYProductos;
 	}
 
 	private JPanel getPanelCategorias() {
 		if (panelCategorias == null) {
 			panelCategorias = new JPanel();
+
 			panelCategorias.setLayout(new BorderLayout(0, 0));
+
 			panelCategorias.add(getScrollPaneCategorias(), BorderLayout.CENTER);
 			panelCategorias.add(getPanel(), BorderLayout.EAST);
 			panelCategorias.add(getPanelBotonRetroceso(), BorderLayout.NORTH);
 
 		}
+
 		return panelCategorias;
 	}
 
 	private JScrollPane getScrollPaneCategorias() {
 		if (scrollPaneCategorias == null) {
 			scrollPaneCategorias = new JScrollPane();
+
 			scrollPaneCategorias.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPaneCategorias.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			scrollPaneCategorias.setViewportView(getListCategorias());
 		}
+
 		return scrollPaneCategorias;
 	}
 
@@ -881,8 +909,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JList<Categoria> getListCategorias() {
 		if (listCategorias == null) {
 			listCategorias = new JList<Categoria>();
+
 			listCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listCategorias.putClientProperty("List.isFileList", Boolean.TRUE);
+
 			listCategorias.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -913,20 +943,23 @@ public class VentanaPrincipalUsuario extends JFrame {
 								// sin
 								// esto
 							}
-							getListCategorias().clearSelection();
 
+							getListCategorias().clearSelection();
 						}
 					}
 				}
 			});
 		}
+
 		return listCategorias;
 	}
 
 	// Metodo que usamos para cargar las categorias
 	private void cargarCategoriasHijas(Categoria categoria) {
 		modeloListaCategorias.removeAllElements();
+
 		List<Categoria> listaCategorias = logVOUser.getListaCategoriasHijas(categoria);
+
 		for (Categoria cat : listaCategorias) {
 			modeloListaCategorias.addElement(cat);
 		}
@@ -934,6 +967,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 	private void cargarModeloListaProductos(Categoria categoria) {
 		List<Producto> listaProductos = logVOUser.getListaProductos(categoria);
+
 		for (Producto prod : listaProductos) {
 			modeloListaProductos.addElement(prod);
 		}
@@ -943,6 +977,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panel == null) {
 			panel = new JPanel();
 		}
+
 		return panel;
 	}
 
@@ -951,6 +986,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnUsuario());
 		}
+
 		return menuBar;
 	}
 
@@ -961,12 +997,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 			mnUsuario.add(getSeparator());
 			mnUsuario.add(getMntmCerrarSesin());
 		}
+
 		return mnUsuario;
 	}
 
 	private JMenuItem getMntmIniciarSesin() {
 		if (mntmIniciarSesin == null) {
 			mntmIniciarSesin = new JMenuItem("Iniciar Sesi\u00F3n");
+
 			mntmIniciarSesin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					// Sale opción para escoger el nombre del usuario registrado
@@ -999,6 +1037,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 				}
 			});
 		}
+
 		return mntmIniciarSesin;
 	}
 
@@ -1006,44 +1045,56 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (separator == null) {
 			separator = new JSeparator();
 		}
+
 		return separator;
 	}
 
 	private JMenuItem getMntmCerrarSesin() {
 		if (mntmCerrarSesin == null) {
 			mntmCerrarSesin = new JMenuItem("Cerrar Sesi\u00F3n");
+
 			mntmCerrarSesin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					JOptionPane.showMessageDialog(getMntmIniciarSesin(),
 							"Sesión " + VentanaPrincipalUsuario.this.nombre + " cerrada.", "Sesión Cerrada",
 							JOptionPane.INFORMATION_MESSAGE);
+
 					logVOUser.cerrarSesion();
+
 					getMntmIniciarSesin().setEnabled(true);
 					getMntmCerrarSesin().setEnabled(false);
 				}
 			});
+
 			mntmCerrarSesin.setEnabled(false);
 		}
+
 		return mntmCerrarSesin;
 	}
 
 	private JPanel getPanelBotonRetroceso() {
 		if (panelBotonRetroceso == null) {
 			panelBotonRetroceso = new JPanel();
+
 			FlowLayout flowLayout = (FlowLayout) panelBotonRetroceso.getLayout();
 			flowLayout.setAlignment(FlowLayout.LEFT);
+
 			panelBotonRetroceso.add(getBtnAtrasCategoria());
 		}
+
 		return panelBotonRetroceso;
 	}
 
 	private JPanel getPanelBotonRetrocesoProductos() {
 		if (panelBotonRetrocesoProductos == null) {
 			panelBotonRetrocesoProductos = new JPanel();
+
 			FlowLayout flowLayout = (FlowLayout) panelBotonRetrocesoProductos.getLayout();
 			flowLayout.setAlignment(FlowLayout.LEFT);
+
 			panelBotonRetrocesoProductos.add(getBtnAtrasProductos());
 		}
+
 		return panelBotonRetrocesoProductos;
 	}
 
@@ -1053,6 +1104,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JButton getBtnAtrasProductos() {
 		if (btnAtrasProductos == null) {
 			btnAtrasProductos = new JButton("\u2190");
+
 			btnAtrasProductos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
@@ -1063,6 +1115,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 				}
 			});
 		}
+
 		return btnAtrasProductos;
 	}
 
@@ -1073,45 +1126,53 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (btnAtrasCategorias == null) {
 			btnAtrasCategorias = new JButton("\u2190");
 			btnAtrasCategorias.setEnabled(false);// por defecto esta false
+
 			btnAtrasCategorias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//si padre es null, es categoria padre
+					// si padre es null, es categoria padre
 					getListCategorias().setSelectedIndex(0);
-					if(getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre() == null){//categoria padre
+					if (getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre() == null) {// categoria
+																													// padre
 						getBtnAtrasCategoria().setEnabled(false);
 						cargarCategoriasPadre();
-					}else{						
-						cargarCategoriasHijas(getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre());
+					} else {
+						cargarCategoriasHijas(
+								getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre());
 						getBtnAtrasCategoria().setEnabled(true);
 					}
 				}
-			}
-
-			);
+			});
 
 		}
+
 		return btnAtrasCategorias;
 	}
 
 	private JPanel getPanelDatosBaseUsuario() {
 		if (panelDatosBaseUsuario == null) {
 			panelDatosBaseUsuario = new JPanel();
+
 			panelDatosBaseUsuario.setLayout(new GridLayout(4, 1, 0, 0));
+
 			panelDatosBaseUsuario.add(getPanelAuxAceptarPedido1());
 			panelDatosBaseUsuario.add(getPanelDireccionCliente());
 			panelDatosBaseUsuario.add(getPanelMetodoPagoCliente());
 			panelDatosBaseUsuario.add(getPanelTipoEnvio());
 		}
+
 		return panelDatosBaseUsuario;
 	}
 
 	private JPanel getPanelTarjetaUsuario() {
 		if (panelTarjetaUsuario == null) {
 			panelTarjetaUsuario = new JPanel();
+
 			panelTarjetaUsuario.setLayout(new CardLayout(0, 0));
+
 			panelTarjetaUsuario.add(getPanelVacio(), "panelVacio");
 			panelTarjetaUsuario.add(getPanelDatosTrajeta(), "panelDatosTarjeta");
 		}
+
 		return panelTarjetaUsuario;
 	}
 
@@ -1119,6 +1180,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelVacio == null) {
 			panelVacio = new JPanel();
 		}
+
 		return panelVacio;
 	}
 
@@ -1131,6 +1193,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelDatosTrajeta.add(getPanelTipoTarjeta());
 			panelDatosTrajeta.add(getPanelCodigoSeguridad());
 		}
+
 		return panelDatosTrajeta;
 	}
 
@@ -1140,6 +1203,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelNumeroTarjeta.add(getLblNumeroTarjeta());
 			panelNumeroTarjeta.add(getTextFieldNumeroTarjeta());
 		}
+
 		return panelNumeroTarjeta;
 	}
 
@@ -1149,6 +1213,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelFechaCaducidad.add(getLblFechaCaducidad());
 			panelFechaCaducidad.add(getTextField_1());
 		}
+
 		return panelFechaCaducidad;
 	}
 
@@ -1158,6 +1223,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelTipoTarjeta.add(getLblTipoTarjeta());
 			panelTipoTarjeta.add(getComboBoxTipoTarjeta());
 		}
+
 		return panelTipoTarjeta;
 	}
 
@@ -1167,6 +1233,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			panelCodigoSeguridad.add(getLblCodigoSeguridad());
 			panelCodigoSeguridad.add(getPasswordFieldCodigoSeguridad());
 		}
+
 		return panelCodigoSeguridad;
 	}
 
@@ -1174,8 +1241,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (panelTipoEnvio == null) {
 			panelTipoEnvio = new JPanel();
 			panelTipoEnvio.add(getLblTipoEnvio());
-			panelTipoEnvio.add(getComboBoxTipoEnvio());
+			panelTipoEnvio.add(getComboBoxTipoEnvioClientes());
 		}
+
 		return panelTipoEnvio;
 	}
 
@@ -1183,22 +1251,24 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (lblTipoEnvio == null) {
 			lblTipoEnvio = new JLabel("Tipo envio : ");
 		}
+
 		return lblTipoEnvio;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private JComboBox<MetodosPago> getComboBoxTipoEnvio() {
-		if (comboBoxTipoEnvio == null) {
-			comboBoxTipoEnvio = new JComboBox<MetodosPago>();
-			comboBoxTipoEnvio.setModel(new DefaultComboBoxModel(TipoEnvio.values()));
+	private JComboBox<TipoEnvio> getComboBoxTipoEnvioClientes() {
+		if (comboBoxTipoEnvioClientes == null) {
+			comboBoxTipoEnvioClientes = new JComboBox<TipoEnvio>();
+			comboBoxTipoEnvioClientes.setModel(new DefaultComboBoxModel<TipoEnvio>(TipoEnvio.values()));
 		}
-		return comboBoxTipoEnvio;
+
+		return comboBoxTipoEnvioClientes;
 	}
 
 	private JLabel getLblNumeroTarjeta() {
 		if (lblNumeroTarjeta == null) {
 			lblNumeroTarjeta = new JLabel("Numero tarjeta :");
 		}
+
 		return lblNumeroTarjeta;
 	}
 
@@ -1207,6 +1277,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 			textFieldNumeroTarjeta = new JTextField();
 			textFieldNumeroTarjeta.setColumns(10);
 		}
+
 		return textFieldNumeroTarjeta;
 	}
 
@@ -1214,15 +1285,18 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (lblFechaCaducidad == null) {
 			lblFechaCaducidad = new JLabel("Fecha caducidad :");
 		}
+
 		return lblFechaCaducidad;
 	}
 
 	private JTextField getTextField_1() {
 		if (textFieldFechaCaducidad == null) {
 			textFieldFechaCaducidad = new JTextField();
+
 			textFieldFechaCaducidad.setText("");
 			textFieldFechaCaducidad.setColumns(10);
 		}
+
 		return textFieldFechaCaducidad;
 	}
 
@@ -1230,15 +1304,16 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (lblTipoTarjeta == null) {
 			lblTipoTarjeta = new JLabel("Tipo tarjeta :");
 		}
+
 		return lblTipoTarjeta;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private JComboBox<MetodosPago> getComboBoxTipoTarjeta() {
+	private JComboBox<TipoTarjeta> getComboBoxTipoTarjeta() {
 		if (comboBoxTipoTarjeta == null) {
-			comboBoxTipoTarjeta = new JComboBox<MetodosPago>();
-			comboBoxTipoTarjeta.setModel(new DefaultComboBoxModel(TipoTarjeta.values()));
+			comboBoxTipoTarjeta = new JComboBox<TipoTarjeta>();
+			comboBoxTipoTarjeta.setModel(new DefaultComboBoxModel<TipoTarjeta>(TipoTarjeta.values()));
 		}
+
 		return comboBoxTipoTarjeta;
 	}
 
@@ -1246,6 +1321,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (lblCodigoSeguridad == null) {
 			lblCodigoSeguridad = new JLabel("CodigoSeguridad");
 		}
+
 		return lblCodigoSeguridad;
 	}
 
@@ -1254,33 +1330,41 @@ public class VentanaPrincipalUsuario extends JFrame {
 			passwordFieldCodigoSeguridad = new JPasswordField();
 			passwordFieldCodigoSeguridad.setColumns(16);
 		}
+
 		return passwordFieldCodigoSeguridad;
 	}
 
 	private JPanel getPanelAceptarPedidoMinorista() {
 		if (panelAceptarPedidoMinorista == null) {
 			panelAceptarPedidoMinorista = new JPanel();
+
 			panelAceptarPedidoMinorista.setLayout(new BorderLayout(0, 0));
+
 			panelAceptarPedidoMinorista.add(getPanelBotonesDatosMinorista(), BorderLayout.SOUTH);
 			panelAceptarPedidoMinorista.add(getPanelDatosMinorista(), BorderLayout.CENTER);
 		}
+
 		return panelAceptarPedidoMinorista;
 	}
 
 	private JPanel getPanelBotonesDatosMinorista() {
 		if (panelBotonesDatosMinorista == null) {
 			panelBotonesDatosMinorista = new JPanel();
+
 			FlowLayout flowLayout = (FlowLayout) panelBotonesDatosMinorista.getLayout();
 			flowLayout.setAlignment(FlowLayout.RIGHT);
+
 			panelBotonesDatosMinorista.add(getButtonCancelarMinorista());
 			panelBotonesDatosMinorista.add(getButtonAceptarPedidoMinorista());
 		}
+
 		return panelBotonesDatosMinorista;
 	}
 
 	private JButton getButtonAceptarPedidoMinorista() {
 		if (buttonAceptarPedidoMinorista == null) {
 			buttonAceptarPedidoMinorista = new JButton("Aceptar");
+
 			buttonAceptarPedidoMinorista.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// generar pedido de usuario minorista
@@ -1288,12 +1372,14 @@ public class VentanaPrincipalUsuario extends JFrame {
 				}
 			});
 		}
+
 		return buttonAceptarPedidoMinorista;
 	}
 
 	private JButton getButtonCancelarMinorista() {
 		if (buttonCancelarMinorista == null) {
 			buttonCancelarMinorista = new JButton("Cancelar");
+
 			buttonCancelarMinorista.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					getMntmCerrarSesin().setEnabled(true);// siempre vas a estar
@@ -1303,24 +1389,29 @@ public class VentanaPrincipalUsuario extends JFrame {
 				}
 			});
 		}
+
 		return buttonCancelarMinorista;
 	}
 
 	private JPanel getPanelDatosMinorista() {
 		if (panelDatosMinorista == null) {
 			panelDatosMinorista = new JPanel();
+
 			panelDatosMinorista.setLayout(new GridLayout(3, 0, 0, 0));
 			panelDatosMinorista.add(getPanelTipoEnvioMinorista());
 		}
+
 		return panelDatosMinorista;
 	}
 
 	private JPanel getPanelTipoEnvioMinorista() {
 		if (panelTipoEnvioMinorista == null) {
 			panelTipoEnvioMinorista = new JPanel();
+
 			panelTipoEnvioMinorista.add(getLblTipoDeEnvio());
-			panelTipoEnvioMinorista.add(getComboBox());
+			panelTipoEnvioMinorista.add(getComboBoxTipoEnvioMinorista());
 		}
+
 		return panelTipoEnvioMinorista;
 	}
 
@@ -1328,14 +1419,17 @@ public class VentanaPrincipalUsuario extends JFrame {
 		if (lblTipoDeEnvio == null) {
 			lblTipoDeEnvio = new JLabel("Tipo de envio :");
 		}
+
 		return lblTipoDeEnvio;
 	}
 
-	private JComboBox<MetodosPago> getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(TipoEnvio.values()));
+	private JComboBox<TipoEnvio> getComboBoxTipoEnvioMinorista() {
+		if (comboBoxTipoEnvioMinorista == null) {
+			comboBoxTipoEnvioMinorista = new JComboBox<TipoEnvio>();
+			comboBoxTipoEnvioMinorista.setModel(new DefaultComboBoxModel<TipoEnvio>(TipoEnvio.values()));
 		}
-		return comboBox;
+
+		return comboBoxTipoEnvioMinorista;
 	}
+
 }

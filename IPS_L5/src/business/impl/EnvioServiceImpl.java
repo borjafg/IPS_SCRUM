@@ -27,8 +27,8 @@ public class EnvioServiceImpl implements EnvioService {
 	}
 
 	@Override
-	public void cerrarEnvio(List<Paquete> paquetesEnvio) throws BusinessException {
-		executor.execute(new CerrarEnvio(paquetesEnvio));
+	public void cerrarEnvio(List<Paquete> paquetesEnvio, Transportista transportista) throws BusinessException {
+		executor.execute(new CerrarEnvio(paquetesEnvio, transportista));
 	}
 
 }

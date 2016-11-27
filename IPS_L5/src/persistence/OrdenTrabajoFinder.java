@@ -1,5 +1,6 @@
 package persistence;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -77,6 +78,44 @@ public class OrdenTrabajoFinder {
 			StringBuilder sb = new StringBuilder();
 
 			sb.append("Ha ocurrido un problema al buscar una lista de órdenes de trabajo a retomar");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static List<Object[]> findNumOrdenTrabajoRecogidasDia(Almacenero almacenero) throws MyPersistenceException {
+		try {
+			return Jpa.getManager()
+					.createNamedQuery("OrdenTrabajo.findNumOrdenTrabajoRecogidasDia_Almacenero", Object[].class)
+					.setParameter("almacenero", almacenero).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar las ordenes de trabajo recogidas por día");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static Date findOrdenTrabajoTerminadaRecoger_MasAntigua() throws MyPersistenceException {
+		try {
+			List<Date> fechas = Jpa.getManager()
+					.createNamedQuery("OrdenTrabajo.findOrdenTrabajoTerminadaRecoger_MasAntigua", Date.class)
+					.setMaxResults(1).getResultList();
+
+			if (fechas.isEmpty()) {
+				return null;
+			}
+
+			return fechas.get(0);
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar las ordenes de trabajo recogidas por día");
 
 			throw new MyPersistenceException(sb.toString(), e);
 		}
