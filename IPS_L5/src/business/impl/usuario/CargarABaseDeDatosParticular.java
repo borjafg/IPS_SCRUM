@@ -74,9 +74,12 @@ public class CargarABaseDeDatosParticular implements Command {
 			Cliente cli = ClienteFinder.find(cliente);
 			cli.setNombre(nombre);
 			cli.setDireccionCompleta(direccion);
-			cli.setTarjeta(new Tarjeta(numeroTarjeta, codigoSec, fecha, tipoTarjeta));
-			
-			Jpa.getManager().merge(cli);//persistimos los cambios en el cliente
+			cli.getTarjeta().setCodigoSeguridad(codigoSec);
+			cli.getTarjeta().setFechaCaducidad(fecha);
+			cli.getTarjeta().setNumeroTarjeta(numeroTarjeta);
+			cli.getTarjeta().setTipoTarjeta(tipoTarjeta);
+			//cliente ya enlazado con la base d edatos, no haria falta hacer un merge
+			//Jpa.getManager().merge(cli);//persistimos los cambios en el cliente
 			
 			
 			Pedido pedido = new Pedido(cli);

@@ -26,7 +26,8 @@ public class ConfirmarPedido implements Command {
 		try {
 			Pedido ped = PedidoFinder.find(pedido);
 			ped.setPagado(PedidoPagado.SI);
-			Jpa.getManager().merge(ped);
+			//pedido ya enlazado con la base de datos
+			//Jpa.getManager().merge(ped);
 		} catch (MyPersistenceException e) {
 			e.printStackTrace();
 		}
