@@ -115,7 +115,7 @@ public class PanelConfirmacionPedido extends JPanel {
 			scrollPanePedidos = new JScrollPane();
 			scrollPanePedidos.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPanePedidos.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scrollPanePedidos.setColumnHeaderView(getList());
+			scrollPanePedidos.setViewportView(getList());
 		}
 		return scrollPanePedidos;
 	}

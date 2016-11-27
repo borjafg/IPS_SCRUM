@@ -76,7 +76,7 @@ public class CargarABaseDeDatosParticular implements Command {
 			cli.setDireccionCompleta(direccion);
 			cli.setTarjeta(new Tarjeta(numeroTarjeta, codigoSec, fecha, tipoTarjeta));
 			
-			Jpa.getManager().persist(cli);//persistimos los cambios en el cliente
+			Jpa.getManager().merge(cli);//persistimos los cambios en el cliente
 			
 			
 			Pedido pedido = new Pedido(cli);

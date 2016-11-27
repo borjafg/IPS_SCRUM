@@ -7,13 +7,24 @@ import ui.administracion.VentanaPrincipalAdministracion;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import business.AdministracionService;
+import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import model.Pedido;
+
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 
 public class PanelTransferencias extends JPanel {
 
@@ -29,6 +40,8 @@ public class PanelTransferencias extends JPanel {
 	private JPanel panelConfirmarPago;
 	private JButton btnConfirmar;
 	private JScrollPane scrollPane;
+	private JList<Pedido> listPedidos;
+	private DefaultListModel<Pedido> modeloPedidos;
 
 	/**
 	 * Create the panel.
@@ -83,7 +96,7 @@ public class PanelTransferencias extends JPanel {
 
 			botonAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					modeloPedidos.removeAllElements();
 					ventanaPrincipal.volverPanelOpciones();
 				}
 			});
@@ -92,6 +105,15 @@ public class PanelTransferencias extends JPanel {
 		}
 
 		return botonAtras;
+	}
+
+	public void inicializarDatos() throws BusinessException {
+		List<Pedido> listPedido = ServiceFactory.getAdministracionService().generarPedidosNoPagados();
+		if (listPedido != null) {
+			for (Pedido ped : listPedido) {
+				modeloPedidos.addElement(ped);
+			}
+		}
 	}
 
 	// =========================================
@@ -110,6 +132,7 @@ public class PanelTransferencias extends JPanel {
 		}
 		return panelLista;
 	}
+
 	private JPanel getPanelConfirmarPago() {
 		if (panelConfirmarPago == null) {
 			panelConfirmarPago = new JPanel();
@@ -119,19 +142,57 @@ public class PanelTransferencias extends JPanel {
 		}
 		return panelConfirmarPago;
 	}
+
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+
+					if (getListPedidos().getSelectedIndex() == -1) {
+						JOptionPane.showMessageDialog(null, "Selecciones algún pedido para confirmalo");
+					} else {
+
+						Pedido ped = getListPedidos().getSelectedValue();
+						try {
+							ServiceFactory.getAdministracionService().confirmarPedido(ped);
+							// elimino todos los datos
+							modeloPedidos.removeAllElements();
+							inicializarDatos();
+						} catch (BusinessException e1) {
+							e1.printStackTrace();
+						}
+
+						try {
+							inicializarDatos();
+						} catch (BusinessException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
 			btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 18));
 		}
 		return btnConfirmar;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			scrollPane.setViewportView(getListPedidos());
 		}
 		return scrollPane;
+	}
+
+	private JList<Pedido> getListPedidos() {
+		if (listPedidos == null) {
+			modeloPedidos = new DefaultListModel<Pedido>();
+			listPedidos = new JList<Pedido>();
+			listPedidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			listPedidos.setModel(modeloPedidos);
+		}
+		return listPedidos;
 	}
 }

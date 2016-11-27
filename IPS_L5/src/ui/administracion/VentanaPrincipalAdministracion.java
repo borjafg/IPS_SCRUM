@@ -115,9 +115,9 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeRecogida");
 	}
 
-	public void mostrarPanelTransferencia() {
+	public void mostrarPanelTransferencia() throws BusinessException {
 		// incializar los datos
-
+		panelTransferencias.inicializarDatos();
 		// mostrar el panel
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelTransferencias");
 	}

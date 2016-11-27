@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import business.exception.BusinessException;
 import ui.administracion.VentanaPrincipalAdministracion;
 
 public class PanelOpciones extends JPanel {
@@ -130,7 +131,12 @@ public class PanelOpciones extends JPanel {
 			botonTransferecias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					ventanaPrincipal.mostrarPanelTransferencia();
+					try {
+						ventanaPrincipal.mostrarPanelTransferencia();
+					} catch (BusinessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			});
 
