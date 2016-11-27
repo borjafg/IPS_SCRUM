@@ -18,7 +18,7 @@ public class HayUsuarioEnBase implements Command {
 	@Override
 	public Object execute() throws BusinessException {
 		
-		Cliente cli = ClienteFinder.findByNombre(nombre);//Buscamos un cliente con ese nombre
+		Cliente cli = ClienteFinder.findByNombre(nombre);//<--nombreDeUsuario, hay que cambiar el find y la consulta
 		
 		if (cli== null){
 			return false;

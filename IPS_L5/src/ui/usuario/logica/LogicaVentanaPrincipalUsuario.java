@@ -18,61 +18,59 @@ public class LogicaVentanaPrincipalUsuario {
 
 	// Aqui voy añadiendo los productos y sus unidades
 	private List<ModeloProductosPedidos> listaCesta = new ArrayList<ModeloProductosPedidos>();
-	
-	
-	
+
 	private Cliente clienteReg;
 
-//	public DefaultListModel<Producto> getModeloListaProductos() {//le paso la categoria de cada producto
-//		DefaultListModel<Producto> modeloListaProducto = new DefaultListModel<Producto>();
-//
-//		try {
-//			List<Producto> listaProductos = ServiceFactory.getUserService().getListaProducto();
-//
-//			for (Producto producto : listaProductos) {
-//				modeloListaProducto.addElement(producto);
-//			}
-//		} catch (BusinessException e) {
-//			System.err.println(e.getMessage());
-//		}
-//
-//		return modeloListaProducto;
-//	}
-	
-	
-	public List<Producto> getListaProductos(Categoria categoria){
+	// public DefaultListModel<Producto> getModeloListaProductos() {//le paso la
+	// categoria de cada producto
+	// DefaultListModel<Producto> modeloListaProducto = new
+	// DefaultListModel<Producto>();
+	//
+	// try {
+	// List<Producto> listaProductos =
+	// ServiceFactory.getUserService().getListaProducto();
+	//
+	// for (Producto producto : listaProductos) {
+	// modeloListaProducto.addElement(producto);
+	// }
+	// } catch (BusinessException e) {
+	// System.err.println(e.getMessage());
+	// }
+	//
+	// return modeloListaProducto;
+	// }
+
+	public List<Producto> getListaProductos(Categoria categoria) {
 		List<Producto> listaProductos = null;
-		
+
 		try {
 			listaProductos = ServiceFactory.getUserService().getListaProducto(categoria);
 		} catch (BusinessException e) {
-			
+
 			System.err.println(e.getMessage());
 		}
 		return listaProductos;
 	}
-	
-	
-	public DefaultListModel<Categoria> getModeloCategoriasPadre(){
+
+	public DefaultListModel<Categoria> getModeloCategoriasPadre() {
 		DefaultListModel<Categoria> modeloListaCategoriasPadre = new DefaultListModel<Categoria>();
-		
-		try{
+
+		try {
 			List<Categoria> listaCategoriasPadre = ServiceFactory.getUserService().getListaCategoriasPadre();
-			for(Categoria categoriaP: listaCategoriasPadre){
+			for (Categoria categoriaP : listaCategoriasPadre) {
 				modeloListaCategoriasPadre.addElement(categoriaP);
 			}
-		}catch(BusinessException e){
+		} catch (BusinessException e) {
 			System.err.println(e.getMessage());
 		}
 		return modeloListaCategoriasPadre;
 	}
-	
-	
-	public List<Categoria> getListaCategoriasHijas(Categoria catPadre){
+
+	public List<Categoria> getListaCategoriasHijas(Categoria catPadre) {
 		List<Categoria> listaCategoriasHijo = null;
-		try{
+		try {
 			listaCategoriasHijo = ServiceFactory.getUserService().getListaCategoriasHijo(catPadre);
-		}catch(BusinessException e){
+		} catch (BusinessException e) {
 			System.err.println(e.getMessage());
 		}
 
@@ -101,9 +99,8 @@ public class LogicaVentanaPrincipalUsuario {
 		return true;
 
 	}
-	
-	
-	public boolean comprobarQueNoHayProductosEnCategoria(Categoria cat){
+
+	public boolean comprobarQueNoHayProductosEnCategoria(Categoria cat) {
 		boolean hay = true;
 		try {
 			hay = ServiceFactory.getUserService().isProductoEnCategoria(cat);
@@ -112,11 +109,6 @@ public class LogicaVentanaPrincipalUsuario {
 		}
 		return hay;
 	}
-	
-	
-	
-	
-	
 
 	/**
 	 * Metodo que añade los productos que pide el usuario al conjunto de pedidos
@@ -192,14 +184,13 @@ public class LogicaVentanaPrincipalUsuario {
 
 		return precio;
 	}
-	
-	
-	public void generarusuarioRegistrado() throws BusinessException{
-		ServiceFactory.getUserService().cargarBaseUsuarioRegistrado(clienteReg,listaCesta);
+
+	public void generarusuarioRegistrado() throws BusinessException {
+		ServiceFactory.getUserService().cargarBaseUsuarioRegistrado(clienteReg, listaCesta);
 	}
 
-	public void generarTodo(String direccion, String nombre,MetodosPago metodoPago) throws BusinessException {
-		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta,metodoPago);
+	public void generarTodo(String direccion, String nombre, MetodosPago metodoPago) throws BusinessException {
+		ServiceFactory.getUserService().cargarBaseDeDatos(direccion, nombre, listaCesta, metodoPago);
 	}
 
 	public DefaultListModel<ModeloProductosPedidos> resetear() {
@@ -207,21 +198,27 @@ public class LogicaVentanaPrincipalUsuario {
 
 		return new DefaultListModel<ModeloProductosPedidos>();
 	}
-	
-	
-	public boolean isUsuarioEnBase(String nombre) throws BusinessException{
-		return  ServiceFactory.getUserService().isUsuarioEnBase(nombre);
-		
+
+	public boolean isUsuarioEnBase(String nombre) throws BusinessException {
+		boolean usuarioReg = ServiceFactory.getUserService().isUsuarioEnBase(nombre);
+		if (usuarioReg == true) {
+			iniciarSesion(nombre);
+		}
+
+		return usuarioReg;
+
 	}
 
-
-	public TipoCliente iniciarSesion(String nombre) throws BusinessException {
+	private void iniciarSesion(String nombre) throws BusinessException {
 		this.clienteReg = ServiceFactory.getUserService().getUsuarioEnBase(nombre);
-		return clienteReg.getTipoCliente();
+	}
+
+	public void cerrarSesion() {
+		this.clienteReg = null;
 	}
 	
-	public void cerrarSesion(){
-		this.clienteReg = null;
+	public TipoCliente getTipoCliente(){
+		return clienteReg.getTipoCliente();
 	}
 
 }

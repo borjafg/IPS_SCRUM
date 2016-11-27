@@ -151,8 +151,8 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JButton buttonCancelarMinorista;
 	private JPanel panelDatosMinorista;
 	private JPanel panelTipoEnvioMinorista;
-	private JLabel lblTipoDeEnvio;
-	private JComboBox<MetodosPago> comboBox;
+	private JLabel lblTipoDeEnvioMinorista;
+	private JComboBox<MetodosPago> comboBoxTipoEnvioMinorista;
 
 	/**
 	 * Launch the application.
@@ -311,12 +311,30 @@ public class VentanaPrincipalUsuario extends JFrame {
 							// ===============================
 							// realizamos la subida de datos a la base de datos
 
-							try {
-								logVOUser.generarusuarioRegistrado();
-							} catch (BusinessException e) {
-								System.err.println(e.getMessage());
+							if (logVOUser.getTipoCliente().equals(TipoCliente.MINORISTA)) {//compra se hace como usuario minorista
+								getMntmCerrarSesin().setEnabled(false);
+								getMntmIniciarSesin().setEnabled(false);
+								((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedidoMinorista");
+								
+								
+								
+							} else {//compra se hace como usuario particular registrado
+								//rellenamos los datos del cliente
+								
+								
+								//inicializamos el panel
+								getMntmCerrarSesin().setEnabled(false);
+								getMntmIniciarSesin().setEnabled(false);
+								((CardLayout) panelBase.getLayout()).show(panelBase, "panelAceptarPedido");
 							}
+							
+							
+							
+							
+
+
 							// borramos las acciones
+
 							modeloListaCesta = logVOUser.resetear();
 
 							resetearCamposDeDatos(); // Se eliminan todos los
@@ -979,7 +997,6 @@ public class VentanaPrincipalUsuario extends JFrame {
 						try {
 							if (logVOUser.isUsuarioEnBase(nombre)) {
 								usuarioReg = true;
-								tipoCli = logVOUser.iniciarSesion(nombre);
 								VentanaPrincipalUsuario.this.nombre = nombre;
 								JOptionPane.showMessageDialog(getMntmIniciarSesin(), "Sesión iniciada como " + nombre,
 										"Sesión iniciada", JOptionPane.INFORMATION_MESSAGE);
@@ -1075,13 +1092,15 @@ public class VentanaPrincipalUsuario extends JFrame {
 			btnAtrasCategorias.setEnabled(false);// por defecto esta false
 			btnAtrasCategorias.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//si padre es null, es categoria padre
+					// si padre es null, es categoria padre
 					getListCategorias().setSelectedIndex(0);
-					if(getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre() == null){//categoria padre
+					if (getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre() == null) {// categoria
+																													// padre
 						getBtnAtrasCategoria().setEnabled(false);
 						cargarCategoriasPadre();
-					}else{						
-						cargarCategoriasHijas(getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre());
+					} else {
+						cargarCategoriasHijas(
+								getListCategorias().getSelectedValue().getCategoriaPadre().getCategoriaPadre());
 						getBtnAtrasCategoria().setEnabled(true);
 					}
 				}
@@ -1284,6 +1303,11 @@ public class VentanaPrincipalUsuario extends JFrame {
 			buttonAceptarPedidoMinorista.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// generar pedido de usuario minorista
+					try {
+					logVOUser.generarusuarioRegistrado();
+					} catch (BusinessException e1) {
+					System.err.println(e1.getMessage());
+				}
 
 				}
 			});
@@ -1318,24 +1342,24 @@ public class VentanaPrincipalUsuario extends JFrame {
 	private JPanel getPanelTipoEnvioMinorista() {
 		if (panelTipoEnvioMinorista == null) {
 			panelTipoEnvioMinorista = new JPanel();
-			panelTipoEnvioMinorista.add(getLblTipoDeEnvio());
-			panelTipoEnvioMinorista.add(getComboBox());
+			panelTipoEnvioMinorista.add(getLblTipoDeEnvioMinorista());
+			panelTipoEnvioMinorista.add(getComboBoxTipoEnvioMinorista());
 		}
 		return panelTipoEnvioMinorista;
 	}
 
-	private JLabel getLblTipoDeEnvio() {
-		if (lblTipoDeEnvio == null) {
-			lblTipoDeEnvio = new JLabel("Tipo de envio :");
+	private JLabel getLblTipoDeEnvioMinorista() {
+		if (lblTipoDeEnvioMinorista == null) {
+			lblTipoDeEnvioMinorista = new JLabel("Tipo de envio :");
 		}
-		return lblTipoDeEnvio;
+		return lblTipoDeEnvioMinorista;
 	}
 
-	private JComboBox<MetodosPago> getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(TipoEnvio.values()));
+	private JComboBox<MetodosPago> getComboBoxTipoEnvioMinorista() {
+		if (comboBoxTipoEnvioMinorista == null) {
+			comboBoxTipoEnvioMinorista = new JComboBox();
+			comboBoxTipoEnvioMinorista.setModel(new DefaultComboBoxModel(TipoEnvio.values()));
 		}
-		return comboBox;
+		return comboBoxTipoEnvioMinorista;
 	}
 }
