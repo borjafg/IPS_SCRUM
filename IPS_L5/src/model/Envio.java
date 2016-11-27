@@ -40,7 +40,7 @@ public class Envio implements Serializable {
 	@OneToMany(mappedBy = "envio")
 	private Set<Paquete> paquetesEnvio = new HashSet<Paquete>();
 
-	public Envio() {
+	protected Envio() {
 
 	}
 

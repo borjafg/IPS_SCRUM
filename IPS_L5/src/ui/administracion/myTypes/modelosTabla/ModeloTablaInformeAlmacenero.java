@@ -55,11 +55,7 @@ public class ModeloTablaInformeAlmacenero extends AbstractModeloTablaNoEditable 
 		}
 
 		else if (columna > 0) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-			Date fecha = (Date) datosAlmacenero.getInfoFecha(columna - 1).get("valor");
-
-			return sdf.format(fecha);
+			return datosAlmacenero.getInfoFecha(columna - 1).get("valor") + "";
 		}
 
 		else {

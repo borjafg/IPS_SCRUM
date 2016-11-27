@@ -112,7 +112,7 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		panelInformeRecogida.inicializar();
 
 		// Mostrar informe
-		((CardLayout) contentPane.getLayout()).show(contentPane, "panelOpciones");
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeRecogida");
 	}
 
 	public void mostrarPanelTransferencia() {

@@ -12,6 +12,6 @@ public interface EnvioService {
 
 	public List<Paquete> obtenerListaPaquetesSinEnvio() throws BusinessException;
 
-	public void cerrarEnvio(List<Paquete> paquetesEnvio) throws BusinessException;
+	public void cerrarEnvio(List<Paquete> paquetesEnvio, Transportista transportista) throws BusinessException;
 
 }

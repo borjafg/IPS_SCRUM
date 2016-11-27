@@ -28,6 +28,8 @@ public class Almacenero implements Serializable {
 	@Column(unique = true)
 	private String login;
 
+	private String nombre;
+
 	@OneToMany(mappedBy = "almaceneroRecoger")
 	private Set<OrdenTrabajo> ordenesTrabajoRecoger = new HashSet<OrdenTrabajo>();
 
@@ -63,6 +65,18 @@ public class Almacenero implements Serializable {
 	}
 
 	// =======================================
+	// Nombre del almacenero
+	// =======================================
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	// =======================================
 	// Ordenes de trabajo para recoger
 	// =======================================
 
@@ -86,6 +100,19 @@ public class Almacenero implements Serializable {
 		return ordenesTrabajoEmpaquetar;
 	}
 
+	// =======================================
+	// toString --- Para depuración
+	// =======================================
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("[Almacenero --> Login: ").append(login);
+		
+		return sb.toString();
+	}
+	
 	// =======================================
 	// HashCode - Equals
 	// =======================================

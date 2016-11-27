@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import ui.administracion.VentanaPrincipalAdministracion;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -13,42 +15,35 @@ import java.awt.event.ActionEvent;
 
 public class PanelTransferencias extends JPanel {
 
+	private static final long serialVersionUID = -7679569757550310944L;
+
 	private VentanaPrincipalAdministracion ventanaPrincipal;
 
-	private JPanel panelBase;
 	private JPanel panelTitulo;
 	private JPanel panelCentro;
-	private JPanel panelBotones;
-	private JButton btnAtras;
+	private JPanel panelSur;
+	private JButton botonAtras;
 
 	/**
 	 * Create the panel.
+	 * 
 	 */
 	public PanelTransferencias() {
+		super();
+
+		setPreferredSize(new Dimension(816, 646));
 		setLayout(new BorderLayout(0, 0));
-		add(getPanelBase());
 
-	}
-
-	public void setVentanaPrincipal(VentanaPrincipalAdministracion ventanaPrincipal) {
-		this.ventanaPrincipal = ventanaPrincipal;
-	}
-
-	private JPanel getPanelBase() {
-		if (panelBase == null) {
-			panelBase = new JPanel();
-			panelBase.setLayout(new BorderLayout(0, 0));
-			panelBase.add(getPanelTitulo(), BorderLayout.NORTH);
-			panelBase.add(getPanelCentro(), BorderLayout.SOUTH);
-			panelBase.add(getPanelBotones(), BorderLayout.SOUTH);
-		}
-		return panelBase;
+		add(getPanelTitulo(), BorderLayout.NORTH);
+		add(getPanelCentro(), BorderLayout.CENTER);
+		add(getPanelSur(), BorderLayout.SOUTH);
 	}
 
 	private JPanel getPanelTitulo() {
 		if (panelTitulo == null) {
 			panelTitulo = new JPanel();
 		}
+
 		return panelTitulo;
 	}
 
@@ -56,30 +51,46 @@ public class PanelTransferencias extends JPanel {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
 		}
+
 		return panelCentro;
 	}
 
-	private JPanel getPanelBotones() {
-		if (panelBotones == null) {
-			panelBotones = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panelBotones.getLayout();
-			flowLayout.setAlignment(FlowLayout.RIGHT);
-			panelBotones.add(getBtnAtras());
+	private JPanel getPanelSur() {
+		if (panelSur == null) {
+			panelSur = new JPanel();
+
+			FlowLayout fl_panelSur = (FlowLayout) panelSur.getLayout();
+			fl_panelSur.setAlignment(FlowLayout.RIGHT);
+
+			panelSur.add(getBotonAtras());
 		}
-		return panelBotones;
+
+		return panelSur;
 	}
 
-	private JButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new JButton("Atr\u00E1s");
-			btnAtras.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					ventanaPrincipal.volverPanelOpciones();
+	private JButton getBotonAtras() {
+		if (botonAtras == null) {
+			botonAtras = new JButton("Atr\u00E1s");
 
+			botonAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					ventanaPrincipal.volverPanelOpciones();
 				}
 			});
-			btnAtras.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+			botonAtras.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
-		return btnAtras;
+
+		return botonAtras;
 	}
+
+	// =========================================
+	// Controlar el estado del panel
+	// =========================================
+
+	public void setVentanaPrincipal(VentanaPrincipalAdministracion ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
+	}
+
 }

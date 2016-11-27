@@ -1,5 +1,7 @@
 package persistence;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
@@ -43,7 +45,17 @@ public class AlmaceneroFinder {
 			sb.append("Ha ocurrido un problema al buscar el almacenero con id = ");
 			sb.append(almacenero.getId());
 
-			throw new MyPersistenceException(sb.toString());
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static List<Almacenero> findAll() throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Almacenero.findAll", Almacenero.class).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			throw new MyPersistenceException("Ha ocurrido un error al buscar la lista de almaceneros", e);
 		}
 	}
 

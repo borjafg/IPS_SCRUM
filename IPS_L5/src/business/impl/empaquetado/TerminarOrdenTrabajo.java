@@ -1,5 +1,7 @@
 package business.impl.empaquetado;
 
+import java.util.Date;
+
 import javax.persistence.PersistenceException;
 
 import business.exception.BusinessException;
@@ -24,6 +26,7 @@ public class TerminarOrdenTrabajo implements Command {
 			OrdenTrabajo ot = OrdenTrabajoFinder.find(ordenTrabajo);
 
 			ot.setEstadoOrdenTrabajo(EstadoOrdenTrabajo.TERMINADA);
+			ot.setFechaFinEmpaquetado(new Date());
 		}
 
 		catch (MyPersistenceException | PersistenceException e) {

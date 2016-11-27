@@ -31,6 +31,8 @@ public class Cliente implements Serializable {
 	@SequenceGenerator(name = "CLIENTES_SEQ", sequenceName = "CLIENTES_SEQ", allocationSize = 1, initialValue = 1)
 	private long id;
 
+	private String login;
+
 	private String nombre;
 
 	@Enumerated(EnumType.STRING)
@@ -59,6 +61,18 @@ public class Cliente implements Serializable {
 
 	public long getId() {
 		return id;
+	}
+
+	// =======================================
+	// Login del cliente
+	// =======================================
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	// =======================================

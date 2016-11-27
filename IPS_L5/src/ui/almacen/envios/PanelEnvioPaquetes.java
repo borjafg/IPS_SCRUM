@@ -394,7 +394,7 @@ public class PanelEnvioPaquetes extends JPanel {
 			paquetesEnvio.add(modeloTablaPaquetesEnEnvio.getPaquete(fila));
 		}
 
-		ServiceFactory.getEnvioService().cerrarEnvio(paquetesEnvio);
+		ServiceFactory.getEnvioService().cerrarEnvio(paquetesEnvio, ventanaPrincipal.getTransportista());
 
 		ventanaPrincipal.getMessage().info("Envio cerrado", "Se ha cerrado correctamente el envio");
 
