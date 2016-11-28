@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <Configuration status="INFO">
+
+	<!-- <configuration monitorInterval="30"> -->
+	<!-- Esta linea indica que se refresque este fichero cada 30 segundos -->
+
+	<!-- Esto es útil si se quiere cambiar la configuración de este en -->
+	<!-- tiempo de ejecución sin tener que reiniciar la aplicación -->
+
 
 	<!-- Un logger 'A' es padre de otro 'B', si 'A' está -->
 	<!-- en una de las categorias superiores a 'B'. -->
@@ -21,11 +29,14 @@
 	<!-- Para evitar enviar los mensajes a los padres se usa la -->
 	<!-- propiedad additivity="false" que tienen los logger -->
 
+
+
 	<!-- ================ -->
 	<!-- Posibles salidas -->
 	<!-- ================ -->
 
 	<Appenders>
+
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
 		</Console>
@@ -34,7 +45,16 @@
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} %logger{36} -----> %-5level  - %msg%n" />
 		</Console>
+
+
+		<File name="LogFichero" fileName="log/logFile.log">
+
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+		</File>
+
 	</Appenders>
+
+
 
 	<!-- ==================== -->
 	<!-- Loggers configurados -->

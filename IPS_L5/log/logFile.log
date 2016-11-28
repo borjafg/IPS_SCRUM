@@ -1,0 +1,36 @@
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: base_datos
+	...]
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.2.4.Final}
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+21:43:49 [AWT-EventQueue-0] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [oracle.jdbc.OracleDriver] at URL [jdbc:oracle:thin:@156.35.94.99:1521:DESA]
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=IPS_2017_2, password=****}
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+21:43:49 [AWT-EventQueue-0] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: base_datos
+	...]
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.2.4.Final}
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+21:47:53 [AWT-EventQueue-0] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [oracle.jdbc.OracleDriver] at URL [jdbc:oracle:thin:@156.35.94.99:1521:DESA]
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=IPS_2017_2, password=****}
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+21:47:53 [AWT-EventQueue-0] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [
+	name: base_datos
+	...]
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.2.4.Final}
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.cfg.Environment - HHH000021: Bytecode provider name : javassist
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+22:43:35 [AWT-EventQueue-0] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [oracle.jdbc.OracleDriver] at URL [jdbc:oracle:thin:@156.35.94.99:1521:DESA]
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=IPS_2017_2, password=****}
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+22:43:35 [AWT-EventQueue-0] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)

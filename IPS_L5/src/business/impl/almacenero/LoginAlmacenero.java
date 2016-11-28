@@ -23,7 +23,7 @@ public class LoginAlmacenero implements Command {
 		}
 
 		catch (MyPersistenceException | PersistenceException e) {
-			throw new BusinessException("Ha ocurrido un error al intentar loguer a un almacenero", e);
+			throw new BusinessException("Ha ocurrido un error al intentar loguear a un almacenero", e);
 		}
 	}
 

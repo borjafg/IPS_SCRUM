@@ -212,13 +212,13 @@ public class PanelOpcionesAlmacenero extends JPanel {
 	private JButton getBotonEnviar() {
 		if (botonEnviar == null) {
 			botonEnviar = new JButton("Preparar env\u00EDo");
-			
+
 			botonEnviar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						ventanaPrincipal.mostrarPanelEnvioPaquetes();
 					}
-					
+
 					catch (BusinessException excep) {
 						ventanaPrincipal.gestionarErrorConexion(excep);
 					}

@@ -142,6 +142,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	private JTextField getTextFieldOrdenTrabajo() {
 		if (textFieldOrdenTrabajo == null) {
 			textFieldOrdenTrabajo = new JTextField();
+
 			textFieldOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
 			textFieldOrdenTrabajo.setEditable(false);
@@ -160,6 +161,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			panelCentro = new JScrollPane(getTablaProductosOrdenTrabajo());
 
 			panelCentro.setBorder(new EmptyBorder(0, 2, 0, 2));
+
 			panelCentro.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			panelCentro.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		}
@@ -172,9 +174,12 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			modeloTablaProductosEmpaquetar = new ModeloTablaProductosEmpaquetar();
 			tablaProductosOrdenTrabajo = new JTable(modeloTablaProductosEmpaquetar);
 
-			tablaProductosOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			tablaProductosOrdenTrabajo.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
+			tablaProductosOrdenTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+
 			tablaProductosOrdenTrabajo.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 			tablaProductosOrdenTrabajo.setFocusable(false);
+
 			tablaProductosOrdenTrabajo.setRowSelectionAllowed(false);
 			tablaProductosOrdenTrabajo.setCellSelectionEnabled(false);
 		}
@@ -191,6 +196,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 			panelSur = new JPanel();
 
 			panelSur.setLayout(new BorderLayout(0, 0));
+
 			panelSur.add(getPanelPaqueteInfo(), BorderLayout.CENTER);
 			panelSur.add(getPanelOpciones(), BorderLayout.SOUTH);
 		}
@@ -442,7 +448,7 @@ public class PanelEmpaquetadoProductos extends JPanel {
 					Pedido pedido = modeloTablaProductosEmpaquetar.getProducto(0).getproductoPedido().getPedido();
 
 					paq.setPedido(pedido);
-					
+
 					paqueteActual = paq;
 
 					textFieldPaquete.setText(paqueteActual.getNumCaja() + "");
@@ -598,6 +604,10 @@ public class PanelEmpaquetadoProductos extends JPanel {
 	// ==============================================
 	// Controlar el estado del panel
 	// ==============================================
+
+	public VentanaPrincipalAlmacenero getVentanaPrincipal() {
+		return ventanaPrincipal;
+	}
 
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;

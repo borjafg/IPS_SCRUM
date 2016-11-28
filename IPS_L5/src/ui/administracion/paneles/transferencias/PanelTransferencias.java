@@ -1,30 +1,26 @@
 package ui.administracion.paneles.transferencias;
 
-import javax.swing.JPanel;
-
-import ui.administracion.VentanaPrincipalAdministracion;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 
-import business.AdministracionService;
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import model.Pedido;
-
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
+import ui.administracion.VentanaPrincipalAdministracion;
 
 public class PanelTransferencias extends JPanel {
 
@@ -69,7 +65,9 @@ public class PanelTransferencias extends JPanel {
 	private JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
+
 			panelCentro.setLayout(new BorderLayout(0, 0));
+
 			panelCentro.add(getPanelLista(), BorderLayout.CENTER);
 			panelCentro.add(getPanelConfirmarPago(), BorderLayout.EAST);
 		}
@@ -109,6 +107,7 @@ public class PanelTransferencias extends JPanel {
 
 	public void inicializarDatos() throws BusinessException {
 		List<Pedido> listPedido = ServiceFactory.getAdministracionService().generarPedidosNoPagados();
+
 		if (listPedido != null) {
 			for (Pedido ped : listPedido) {
 				modeloPedidos.addElement(ped);
@@ -127,72 +126,93 @@ public class PanelTransferencias extends JPanel {
 	private JPanel getPanelLista() {
 		if (panelLista == null) {
 			panelLista = new JPanel();
+
 			panelLista.setLayout(new BorderLayout(0, 0));
+
 			panelLista.add(getScrollPane(), BorderLayout.CENTER);
 		}
+
 		return panelLista;
 	}
 
 	private JPanel getPanelConfirmarPago() {
 		if (panelConfirmarPago == null) {
 			panelConfirmarPago = new JPanel();
+
 			FlowLayout flowLayout = (FlowLayout) panelConfirmarPago.getLayout();
 			flowLayout.setVgap(200);
+
 			panelConfirmarPago.add(getBtnConfirmar());
 		}
+
 		return panelConfirmarPago;
 	}
 
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
+
 			btnConfirmar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
 					if (getListPedidos().getSelectedIndex() == -1) {
 						JOptionPane.showMessageDialog(null, "Selecciones algún pedido para confirmalo");
-					} else {
+					}
 
+					else {
 						Pedido ped = getListPedidos().getSelectedValue();
+
 						try {
 							ServiceFactory.getAdministracionService().confirmarPedido(ped);
+
 							// elimino todos los datos
 							modeloPedidos.removeAllElements();
 							inicializarDatos();
-						} catch (BusinessException e1) {
+						}
+
+						catch (BusinessException e1) {
 							e1.printStackTrace();
 						}
 
 						try {
 							inicializarDatos();
-						} catch (BusinessException e) {
+						}
+
+						catch (BusinessException e) {
 							e.printStackTrace();
 						}
 					}
 				}
 			});
+
 			btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 18));
 		}
+
 		return btnConfirmar;
 	}
 
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
-			scrollPane = new JScrollPane();
+			scrollPane = new JScrollPane(getListPedidos());
+
 			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			scrollPane.setViewportView(getListPedidos());
 		}
+
 		return scrollPane;
 	}
 
 	private JList<Pedido> getListPedidos() {
 		if (listPedidos == null) {
 			modeloPedidos = new DefaultListModel<Pedido>();
+
 			listPedidos = new JList<Pedido>();
+
 			listPedidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listPedidos.setModel(modeloPedidos);
 		}
+
 		return listPedidos;
 	}
+
 }

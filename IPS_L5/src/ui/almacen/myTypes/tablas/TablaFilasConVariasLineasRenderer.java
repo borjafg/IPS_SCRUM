@@ -2,6 +2,7 @@ package ui.almacen.myTypes.tablas;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -25,7 +26,10 @@ public class TablaFilasConVariasLineasRenderer extends DefaultTableCellRenderer 
 
 		renderer.setLineWrap(true);
 		renderer.setWrapStyleWord(true);
+
 		renderer.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+		renderer.setFont(new Font("Tahoma", Font.PLAIN, 13));
 	}
 
 	@Override
@@ -44,10 +48,10 @@ public class TablaFilasConVariasLineasRenderer extends DefaultTableCellRenderer 
 
 		renderer.setFont(table.getFont());
 		renderer.setText((value == null) ? "" : value.toString());
-		
+
 		JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.add(renderer);
-		
+
 		table.setRowHeight(row, contentPane.getPreferredSize().height);
 
 		return contentPane;

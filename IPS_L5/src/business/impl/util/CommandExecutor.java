@@ -28,12 +28,13 @@ public class CommandExecutor {
 			trx.commit();
 		}
 
-		catch (BusinessException | RuntimeException excep) {
+		catch (BusinessException | PersistenceException excep) {
 			if (trx.isActive()) {
 				trx.rollback();
 			}
 
-			throw excep;
+			throw new BusinessException("Ha ocurrido un error al intentar conectar a la base de datos. Compruebe "
+					+ "la conexión y si el problema persiste avise a un técnico o administrador.", excep);
 		}
 
 		finally {
@@ -44,5 +45,5 @@ public class CommandExecutor {
 
 		return obj;
 	}
-	
+
 }

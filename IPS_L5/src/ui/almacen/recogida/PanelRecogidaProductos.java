@@ -152,8 +152,9 @@ public class PanelRecogidaProductos extends JPanel {
 			tablaProductos = new JTable(modeloTablaProductos);
 
 			tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
 			tablaProductos.setDefaultRenderer(String.class, new TablaFilasConVariasLineasRenderer());
+
+			tablaProductos.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return tablaProductos;

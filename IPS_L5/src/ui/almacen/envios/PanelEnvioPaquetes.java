@@ -107,6 +107,7 @@ public class PanelEnvioPaquetes extends JPanel {
 		escaner.ordenarPaquetes();
 
 		modeloTablaPaquetes.setPaquetes(paquetes);
+		modeloTablaPaquetes.ordenar();
 	}
 
 	// ======================================
@@ -128,7 +129,7 @@ public class PanelEnvioPaquetes extends JPanel {
 		if (labelPaquetesSinEnvio == null) {
 			labelPaquetesSinEnvio = new JLabel("Paquetes sin env\u00EDo");
 
-			labelPaquetesSinEnvio.setFont(new Font("Tahoma", Font.BOLD, 12));
+			labelPaquetesSinEnvio.setFont(new Font("Tahoma", Font.BOLD, 14));
 			labelPaquetesSinEnvio.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -203,6 +204,9 @@ public class PanelEnvioPaquetes extends JPanel {
 			modeloTablaPaquetes = new ModeloTablaPaquetes();
 
 			tablaPaquetes = new JTable(modeloTablaPaquetes);
+
+			tablaPaquetes.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
+			tablaPaquetes.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return tablaPaquetes;
@@ -277,7 +281,7 @@ public class PanelEnvioPaquetes extends JPanel {
 			labelPaquetesEnvio = new JLabel("Paquetes en el env\u00EDo");
 
 			labelPaquetesEnvio.setHorizontalAlignment(SwingConstants.CENTER);
-			labelPaquetesEnvio.setFont(new Font("Tahoma", Font.BOLD, 12));
+			labelPaquetesEnvio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
 
 		return labelPaquetesEnvio;
@@ -295,6 +299,9 @@ public class PanelEnvioPaquetes extends JPanel {
 			modeloTablaPaquetesEnEnvio.removePaquete(paq);
 			escaner.addPaquete(paq);
 		}
+
+		modeloTablaPaquetes.ordenar();
+		escaner.ordenarPaquetes();
 	}
 
 	// ------------------------------------
@@ -317,6 +324,9 @@ public class PanelEnvioPaquetes extends JPanel {
 			modeloTablaPaquetesEnEnvio = new ModeloTablaPaquetes();
 
 			tablaPaquetesEnEnvio = new JTable(modeloTablaPaquetesEnEnvio);
+
+			tablaPaquetes.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
+			tablaPaquetesEnEnvio.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return tablaPaquetesEnEnvio;
@@ -331,7 +341,7 @@ public class PanelEnvioPaquetes extends JPanel {
 			panelSur = new JPanel();
 
 			panelSur.setBorder(new EmptyBorder(5, 5, 5, 5));
-			panelSur.setLayout(new FlowLayout(FlowLayout.RIGHT, 4, 1));
+			panelSur.setLayout(new FlowLayout(FlowLayout.RIGHT, 8, 1));
 
 			panelSur.add(getBotonAtras());
 			panelSur.add(getBotonCerrarEnvio());
@@ -343,6 +353,7 @@ public class PanelEnvioPaquetes extends JPanel {
 	private JButton getBotonAtras() {
 		if (botonAtras == null) {
 			botonAtras = new JButton("Atr\u00E1s");
+			botonAtras.setHorizontalTextPosition(SwingConstants.CENTER);
 
 			botonAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -360,6 +371,7 @@ public class PanelEnvioPaquetes extends JPanel {
 	private JButton getBotonCerrarEnvio() {
 		if (botonCerrarEnvio == null) {
 			botonCerrarEnvio = new JButton("Cerrar env\u00EDo");
+			botonCerrarEnvio.setHorizontalTextPosition(SwingConstants.CENTER);
 
 			botonCerrarEnvio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {

@@ -80,9 +80,9 @@ public class EscanerPaquetesEnviar extends JDialog {
 	public void removePaquete(Paquete paquete) {
 		modeloTablaPaquetes.removePaquete(paquete);
 	}
-	
+
 	public void ordenarPaquetes() {
-		modeloTablaPaquetes.ordenarPorId();
+		modeloTablaPaquetes.ordenar();
 	}
 
 	// ===========================

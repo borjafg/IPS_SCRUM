@@ -16,7 +16,7 @@ import ui.almacen.almacenero.PanelOpcionesAlmacenero;
 import ui.almacen.empaquetado.PanelEmpaquetadoProductos;
 import ui.almacen.envios.PanelEnvioPaquetes;
 import ui.almacen.envios.PanelSeleccionTransportista;
-import ui.almacen.myTypes.ventanaMensaje.MessageDialog;
+import ui.almacen.myTypes.ventanaMensaje.MostrarMensaje;
 import ui.almacen.recogida.PanelRecogidaProductos;
 import ui.almacen.recogida.PanelRegistroIncidencias;
 import ui.almacen.recogida.PanelSeleccionPedido;
@@ -28,7 +28,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 
 	private JPanel contentPane;
 
-	private final MessageDialog message = new MessageDialog(this);
+	private final MostrarMensaje message = new MostrarMensaje(this);
 
 	private Almacenero almacenero; // Almacenero que está usando la aplicación
 	private OrdenTrabajo ordenTrabajo; // Orden de Trabajo que se procesa
@@ -357,7 +357,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 		return almacenero;
 	}
 
-	public MessageDialog getMessage() {
+	public MostrarMensaje getMessage() {
 		return message;
 	}
 

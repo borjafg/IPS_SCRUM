@@ -43,6 +43,8 @@ public class Pedido implements Serializable {
 	@Column(name = "direccion")
 	private String direccionCompleta;
 
+	private String destinatario;
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "metodo_pago")
 	private MetodosPago metodoPago;
@@ -108,6 +110,18 @@ public class Pedido implements Serializable {
 
 	public void setDireccionCompleta(String direccionCompleta) {
 		this.direccionCompleta = direccionCompleta;
+	}
+
+	// ======================================================
+	// Destinatario (nombre de quien recogerá los paquetes)
+	// ======================================================
+
+	public String getDestinatario() {
+		return destinatario;
+	}
+
+	public void setDestinatario(String destinatario) {
+		this.destinatario = destinatario;
 	}
 
 	// ==============================================
@@ -230,9 +244,7 @@ public class Pedido implements Serializable {
 	public String toString() {
 		return "Pedido [id=" + id + ", fecha=" + fecha + ", direccionCompleta=" + direccionCompleta + ", metodoPago="
 				+ metodoPago + ", tipoEnvio=" + tipoEnvio + ", estado=" + estado + ", pagado=" + pagado + ", cliente="
-				+ cliente.getNombre() + "cliente id"+cliente.getId() + "]";
+				+ cliente.getNombre() + "cliente id" + cliente.getId() + "]";
 	}
-	
-	
-	
+
 }

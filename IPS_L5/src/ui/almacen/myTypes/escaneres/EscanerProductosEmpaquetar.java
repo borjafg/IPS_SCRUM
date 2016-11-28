@@ -2,8 +2,8 @@ package ui.almacen.myTypes.escaneres;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -56,6 +57,7 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	private JList<MyProductoEmpaquetar> listaProductos;
 
 	private JPanel panelSimular;
+	private JTextField textFieldCodigo;
 	private JButton botonSimularLecturaProducto;
 
 	// ==== sur ====
@@ -93,10 +95,10 @@ public class EscanerProductosEmpaquetar extends JDialog {
 
 	private JLabel getLabelProductos() {
 		if (labelProductos == null) {
-			labelProductos = new JLabel("Seleccione un producto para simular escaneado");
+			labelProductos = new JLabel("Productos para escanear");
 
 			labelProductos.setBorder(new EmptyBorder(12, 0, 12, 0));
-			labelProductos.setFont(new Font("Tahoma", Font.BOLD, 18));
+			labelProductos.setFont(new Font("Tahoma", Font.BOLD, 16));
 			labelProductos.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -138,6 +140,7 @@ public class EscanerProductosEmpaquetar extends JDialog {
 			modeloProductosEmpaquetar = new DefaultListModel<MyProductoEmpaquetar>();
 
 			listaProductos = new JList<MyProductoEmpaquetar>(modeloProductosEmpaquetar);
+
 			listaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			listaProductos.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
@@ -149,36 +152,82 @@ public class EscanerProductosEmpaquetar extends JDialog {
 		if (panelSimular == null) {
 			panelSimular = new JPanel();
 
-			FlowLayout fl_panelSimular = (FlowLayout) panelSimular.getLayout();
+			GridBagLayout gbl_panelSimular = new GridBagLayout();
 
-			fl_panelSimular.setHgap(20);
-			fl_panelSimular.setVgap(20);
-			fl_panelSimular.setAlignment(FlowLayout.RIGHT);
+			gbl_panelSimular.columnWidths = new int[] { 20, 180, 20, 143, 20, 0 };
+			gbl_panelSimular.rowHeights = new int[] { 20, 35, 20, 0 };
+			gbl_panelSimular.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+			gbl_panelSimular.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 
-			panelSimular.add(getBotonSimularLecturaProducto());
+			panelSimular.setLayout(gbl_panelSimular);
+
+			GridBagConstraints gbc_textFieldCodigo = new GridBagConstraints();
+
+			gbc_textFieldCodigo.fill = GridBagConstraints.BOTH;
+			gbc_textFieldCodigo.insets = new Insets(0, 0, 5, 5);
+			gbc_textFieldCodigo.gridx = 1;
+			gbc_textFieldCodigo.gridy = 1;
+
+			panelSimular.add(getTextFieldCodigo(), gbc_textFieldCodigo);
+
+			GridBagConstraints gbc_botonSimularLecturaProducto = new GridBagConstraints();
+
+			gbc_botonSimularLecturaProducto.insets = new Insets(0, 0, 5, 5);
+			gbc_botonSimularLecturaProducto.fill = GridBagConstraints.BOTH;
+			gbc_botonSimularLecturaProducto.gridx = 3;
+			gbc_botonSimularLecturaProducto.gridy = 1;
+
+			panelSimular.add(getBotonSimularLecturaProducto(), gbc_botonSimularLecturaProducto);
 		}
 
 		return panelSimular;
 	}
 
+	private JTextField getTextFieldCodigo() {
+		if (textFieldCodigo == null) {
+			textFieldCodigo = new JTextField();
+
+			textFieldCodigo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			textFieldCodigo.setHorizontalAlignment(SwingConstants.RIGHT);
+			textFieldCodigo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			textFieldCodigo.setColumns(12);
+		}
+
+		return textFieldCodigo;
+	}
+
 	private JButton getBotonSimularLecturaProducto() {
 		if (botonSimularLecturaProducto == null) {
-			botonSimularLecturaProducto = new JButton("Simular lectura de referencia de producto");
+			botonSimularLecturaProducto = new JButton("Simular lectura");
 
 			botonSimularLecturaProducto.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					int fila = listaProductos.getSelectedIndex();
 
-					if (fila != -1) {
-						panelEmpaquetadoProductos.empaquetar(
-								modeloProductosEmpaquetar.getElementAt(fila).getProductoOT().getRef_OrdenTrabajo());
+					String codigo = getTextFieldCodigo().getText();
+
+					if (codigo != null && codigo != "") {
+
+						if (estaProductoEnLista(codigo)) {
+							panelEmpaquetadoProductos.empaquetar(codigo);
+						}
+
+						else {
+							panelEmpaquetadoProductos.getVentanaPrincipal().getMessage().warning("Aviso",
+									"No hay ningún producto con ese código");
+						}
 					}
+
+					else {
+						panelEmpaquetadoProductos.getVentanaPrincipal().getMessage().warning("Aviso",
+								"Codigo inválido");
+					}
+
 				}
 			});
 
 			botonSimularLecturaProducto.setHorizontalTextPosition(SwingConstants.CENTER);
 			botonSimularLecturaProducto.setAlignmentX(Component.CENTER_ALIGNMENT);
-			botonSimularLecturaProducto.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			botonSimularLecturaProducto.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
 		return botonSimularLecturaProducto;
@@ -204,6 +253,7 @@ public class EscanerProductosEmpaquetar extends JDialog {
 			panelSur.setLayout(gbl_panelSur);
 
 			GridBagConstraints gbc_labelEtiquetas = new GridBagConstraints();
+			gbc_labelEtiquetas.gridheight = 2;
 
 			gbc_labelEtiquetas.fill = GridBagConstraints.BOTH;
 			gbc_labelEtiquetas.insets = new Insets(0, 0, 5, 5);
@@ -228,10 +278,13 @@ public class EscanerProductosEmpaquetar extends JDialog {
 
 	private JLabel getLabelEtiquetas() {
 		if (labelEtiquetas == null) {
-			labelEtiquetas = new JLabel("Etiquetas del paquete:");
+			labelEtiquetas = new JLabel("Etiquetas del\n paquete:");
+			labelEtiquetas.setHorizontalTextPosition(SwingConstants.CENTER);
+			labelEtiquetas.setAlignmentX(Component.CENTER_ALIGNMENT);
+			labelEtiquetas.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 			labelEtiquetas.setHorizontalAlignment(SwingConstants.CENTER);
-			labelEtiquetas.setFont(new Font("Tahoma", Font.BOLD, 18));
+			labelEtiquetas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		}
 
 		return labelEtiquetas;
@@ -252,30 +305,33 @@ public class EscanerProductosEmpaquetar extends JDialog {
 		if (textAreaEtiquetas == null) {
 			textAreaEtiquetas = new JTextArea();
 
+			textAreaEtiquetas.setMargin(new Insets(3, 3, 3, 3));
+			textAreaEtiquetas.setEditable(false);
+
 			textAreaEtiquetas.setLineWrap(true);
 			textAreaEtiquetas.setWrapStyleWord(true);
-			textAreaEtiquetas.setEditable(false);
+
 			textAreaEtiquetas.setText("Todav\u00EDa no generadas");
-			textAreaEtiquetas.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			textAreaEtiquetas.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		}
 
 		return textAreaEtiquetas;
 	}
 
 	// ========================================
-	// Control del estado de la ventana
+	// Controlar del estado de la ventana
 	// ========================================
 
 	public void generarEtiquetas(Paquete paquete) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Direccion: ").append(paquete.getPedido().getDireccionCompleta()).append("\n");
-		sb.append("destinatario: ").append(paquete.getPedido().getCliente().getNombre()).append("\n");
+		sb.append("destinatario: ").append(paquete.getPedido().getDestinatario()).append("\n");
 		sb.append("Codigo paquete: ").append(paquete.getId());
 
 		textAreaEtiquetas.setText(sb.toString());
 	}
-	
+
 	public void reiniciarEtiquetas() {
 		textAreaEtiquetas.setText("Todav\u00EDa no generadas");
 	}
@@ -287,6 +343,17 @@ public class EscanerProductosEmpaquetar extends JDialog {
 				return;
 			}
 		}
+	}
+
+	public boolean estaProductoEnLista(String ref) {
+		for (int i = 0; i < modeloProductosEmpaquetar.size(); i++) {
+
+			if (modeloProductosEmpaquetar.getElementAt(i).getProductoOT().getRef_OrdenTrabajo().equals(ref)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void llenarLista(List<ProductoEnOrdenTrabajo> lista) {
@@ -302,17 +369,18 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	public void removeProductosPedido(Pedido pedido) {
 		List<MyProductoEmpaquetar> elementosBorrar = new ArrayList<MyProductoEmpaquetar>();
 		MyProductoEmpaquetar pe;
-		
+
 		for (Enumeration<MyProductoEmpaquetar> mpe = modeloProductosEmpaquetar.elements(); mpe.hasMoreElements();) {
 			pe = mpe.nextElement();
-			
-			if(!pe.getProductoOT().getproductoPedido().getPedido().equals(pedido)) {
+
+			if (!pe.getProductoOT().getproductoPedido().getPedido().equals(pedido)) {
 				elementosBorrar.add(pe);
 			}
 		}
-		
-		for(MyProductoEmpaquetar mpe : elementosBorrar) {
+
+		for (MyProductoEmpaquetar mpe : elementosBorrar) {
 			modeloProductosEmpaquetar.removeElement(mpe);
 		}
 	}
+
 }

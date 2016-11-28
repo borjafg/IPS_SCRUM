@@ -15,7 +15,6 @@ import model.types.PedidoPagado;
 import model.types.Tarjeta;
 import model.types.TipoCliente;
 import model.types.TipoEnvio;
-import model.types.TipoTarjeta;
 import persistence.ProductoFinder;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;

@@ -148,6 +148,9 @@ public class PanelOrdenesTrabajo extends JPanel {
 					}
 				}
 			});
+
+			tablaOrdenesTrabajo.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
+			tablaOrdenesTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return tablaOrdenesTrabajo;

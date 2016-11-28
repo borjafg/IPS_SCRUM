@@ -139,8 +139,8 @@ public class PanelSeleccionPedido extends JPanel {
 			tablaPedidosPendientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tablaPedidosPendientes.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-			tablaPedidosPendientes.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
-			tablaPedidosPendientes.setFont(new Font("Tahoma", Font.BOLD, 14));
+			tablaPedidosPendientes.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
+			tablaPedidosPendientes.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
 		return tablaPedidosPendientes;

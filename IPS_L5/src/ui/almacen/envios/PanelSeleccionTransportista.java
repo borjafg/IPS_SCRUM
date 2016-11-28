@@ -83,7 +83,7 @@ public class PanelSeleccionTransportista extends JPanel {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
 
-			panelNorte.setBorder(new EmptyBorder(1, 0, 5, 0));
+			panelNorte.setBorder(new EmptyBorder(5, 0, 5, 0));
 			panelNorte.add(getLabelTransportistas());
 		}
 
@@ -94,7 +94,7 @@ public class PanelSeleccionTransportista extends JPanel {
 		if (labelTransportistas == null) {
 			labelTransportistas = new JLabel("Transportistas");
 
-			labelTransportistas.setFont(new Font("Tahoma", Font.BOLD, 12));
+			labelTransportistas.setFont(new Font("Tahoma", Font.BOLD, 14));
 			labelTransportistas.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -141,8 +141,8 @@ public class PanelSeleccionTransportista extends JPanel {
 			tablaTransportistas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tablaTransportistas.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-			tablaTransportistas.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
-			tablaTransportistas.setFont(new Font("Tahoma", Font.BOLD, 14));
+			tablaTransportistas.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
+			tablaTransportistas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return tablaTransportistas;

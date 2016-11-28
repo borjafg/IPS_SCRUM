@@ -65,7 +65,7 @@ public class PanelRegistroIncidencias extends JPanel {
 		if (labelRegistrarIncidencia == null) {
 			labelRegistrarIncidencia = new JLabel("Registrar incidencia");
 
-			labelRegistrarIncidencia.setFont(new Font("Tahoma", Font.BOLD, 12));
+			labelRegistrarIncidencia.setFont(new Font("Tahoma", Font.BOLD, 14));
 			labelRegistrarIncidencia.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -80,7 +80,7 @@ public class PanelRegistroIncidencias extends JPanel {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
 
-			panelNorte.setBorder(new EmptyBorder(4, 0, 8, 0));
+			panelNorte.setBorder(new EmptyBorder(6, 0, 6, 0));
 			panelNorte.add(getLabelRegistrarIncidencia());
 		}
 
@@ -108,7 +108,7 @@ public class PanelRegistroIncidencias extends JPanel {
 
 			textAreaIncidencia.setWrapStyleWord(true);
 			textAreaIncidencia.setLineWrap(true);
-			textAreaIncidencia.setFont(new Font("Monospaced", Font.PLAIN, 13));
+			textAreaIncidencia.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 			// Limitar numero de caracteres
 			((AbstractDocument) textAreaIncidencia.getDocument()).setDocumentFilter(new JTextAreaLimiter(240));
@@ -184,6 +184,7 @@ public class PanelRegistroIncidencias extends JPanel {
 					try {
 						ServiceFactory.getRecogidaService().registrarIncidencia(ventanaPrincipal.getOrdenTrabajo(),
 								textAreaIncidencia.getText());
+
 					} catch (BusinessException e) {
 						ventanaPrincipal.gestionarErrorConexion(e);
 					}
