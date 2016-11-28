@@ -225,4 +225,14 @@ public class Pedido implements Serializable {
 
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Pedido [id=" + id + ", fecha=" + fecha + ", direccionCompleta=" + direccionCompleta + ", metodoPago="
+				+ metodoPago + ", tipoEnvio=" + tipoEnvio + ", estado=" + estado + ", pagado=" + pagado + ", cliente="
+				+ cliente.getNombre() + "cliente id"+cliente.getId() + "]";
+	}
+	
+	
+	
 }

@@ -23,7 +23,7 @@ public class Tarjeta {
 	@Enumerated(EnumType.STRING)
 	private TipoTarjeta tipoTarjeta;
 
-	protected Tarjeta() {
+	public Tarjeta() {
 				
 	}
 	

@@ -508,8 +508,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 
 					if (usuarioReg == true) {
+						getMntmIniciarSesin().setEnabled(false);
 						getMntmCerrarSesin().setEnabled(true);
 					} else {
+						getMntmIniciarSesin().setEnabled(true);
 						getMntmCerrarSesin().setEnabled(false);
 					}
 
@@ -551,7 +553,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 								logVOUser.generarTodoParticular(textoDireccion, textoNombre,
 										(MetodosPago) getComboBoxMetodoPago().getSelectedItem(),
 										(TipoEnvio) getComboBoxTipoEnvioClientes().getSelectedItem(),
-										Long.getLong(getTextFieldNumeroTarjeta().getText()),
+										Long.parseLong(getTextFieldNumeroTarjeta().getText()),
 										Integer.parseInt(getPasswordFieldCodigoSeguridad().getText()),
 										(TipoTarjeta) getComboBoxTipoTarjeta().getSelectedItem(),
 										getTextFieldFechaDeCaducidad().getText());
@@ -573,9 +575,10 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 							} else {// pago va a ser por tarjeta
 								try {
+									
 									logVOUser.generarTodoConTarjeta(textoDireccion, textoNombre,
 											(TipoEnvio) getComboBoxTipoEnvioClientes().getSelectedItem(),
-											Long.getLong(getTextFieldNumeroTarjeta().getText()),
+											Long.parseLong(getTextFieldNumeroTarjeta().getText()),
 											Integer.parseInt(getPasswordFieldCodigoSeguridad().getText()),
 											(TipoTarjeta) getComboBoxTipoTarjeta().getSelectedItem(),
 											getTextFieldFechaDeCaducidad().getText());
@@ -604,8 +607,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 						resetearCamposDeDatos(); // Se eliminan todos los campos
 													// de texto de la
 													// aplicación
-
 						getListCesta().setModel(modeloListaCesta);
+						
+						
 
 						if (usuarioReg == false) {
 							getMntmIniciarSesin().setEnabled(true);
@@ -624,7 +628,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						// rehago los modelos
 						modeloListaProductos.removeAllElements();
 						modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-						
+						getListCategorias().setModel(modeloListaCategorias);
 					} // else 1
 					Log.debug("la compra ha ido chachi piruli");
 				}// action performed
@@ -1477,7 +1481,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 					// rehago los modelos
 					modeloListaProductos.removeAllElements();
 					modeloListaCategorias = logVOUser.getModeloCategoriasPadre();
-
+					listCategorias.setModel(modeloListaCategorias);
 				}
 			});
 		}
@@ -1491,6 +1495,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 
 			buttonCancelarMinorista.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					getMntmIniciarSesin().setEnabled(false);
 					getMntmCerrarSesin().setEnabled(true);// siempre vas a estar
 															// registrado siendo
 															// minorista

@@ -62,7 +62,7 @@ public class CargarABaseDeDatosNoRegistradoConTarjeta implements Command {
 		Cliente cliente = new Cliente();
 
 		cliente.setNombre(nombre);
-		cliente.setDireccionCompleta(direccion);
+		cliente.setDireccionCompleta(direccion);		
 
 		// Cambiar cuando se modifique el log in de la aplicación
 		cliente.setTipoCliente(TipoCliente.PARTICULAR);

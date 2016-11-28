@@ -28,6 +28,7 @@ public class CargadorABaseDeDatosNoRegistrado implements Command {
 	private List<ModeloProductosPedidos> listaCesta;
 	private MetodosPago metodoPago;
 	private TipoEnvio tipoEnvio;
+	private Tarjeta tarjeta = new Tarjeta();
 
 	public CargadorABaseDeDatosNoRegistrado(String direccion, String nombre, List<ModeloProductosPedidos> listaCesta,
 			MetodosPago metodoPago,TipoEnvio tipoEnvio) {
@@ -51,7 +52,7 @@ public class CargadorABaseDeDatosNoRegistrado implements Command {
 
 		// Cambiar cuando se modifique el log in de la aplicación
 		cliente.setTipoCliente(TipoCliente.PARTICULAR);
-		
+		cliente.setTarjeta(tarjeta);
 
 		Jpa.getManager().persist(cliente);
 
