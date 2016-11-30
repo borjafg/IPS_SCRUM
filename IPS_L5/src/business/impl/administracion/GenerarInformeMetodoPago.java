@@ -1,6 +1,8 @@
 package business.impl.administracion;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import business.impl.administracion.util.DateUtil;
 import business.impl.util.Command;
 import model.Almacenero;
 import model.Pedido;
+import model.types.MetodosPago;
 import persistence.AlmaceneroFinder;
 import persistence.OrdenTrabajoFinder;
 import persistence.PedidoFinder;
@@ -37,14 +40,14 @@ public class GenerarInformeMetodoPago implements Command {
 
 			List<Map<String, Object>> plantillaCompleta;
 
-			List<Pedido> pedidos = PedidoFinder.findAll();
+			List<MetodosPago> metodos = Arrays.asList(MetodosPago.CONTRAREEMBOLSO,MetodosPago.FACTURA,MetodosPago.TARJETA,MetodosPago.TRANSFERENCIA);
 
-			for (Pedido pd : pedidos) {
-				List<Object[]> info = PedidoFinder.findNumPedidoDia_MetodoPago(pd.getMetodoPago());
+			for (MetodosPago mp : metodos) {
+				List<Object[]> info = PedidoFinder.findNumPedidoDia_MetodoPago(mp);
 
 				plantillaCompleta = rellenarPlantilla(info);
 
-				informe.add(new DatosInformeMetodoPago(pd.getMetodoPago(), plantillaCompleta));
+				informe.add(new DatosInformeMetodoPago(mp, plantillaCompleta));
 			}
 
 			return informe;

@@ -121,26 +121,20 @@ public class PedidoFinder {
 		}
 	}
 
-<<<<<<< HEAD
-	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
-		try {
-			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
-=======
+
 	public static List<Object[]> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
 		try {
 			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Object[].class)
->>>>>>> 86930f0100e7afe5847697dc064cec697fe10030
+
 					.setParameter("pedido", p).getResultList();
 		}
 
 		catch (PersistenceException pe) {
 			StringBuilder sb = new StringBuilder();
 
-<<<<<<< HEAD
-			sb.append("Ha ocurrido un error al buscar los pedidos disponibles");
-=======
+
 			sb.append("Ha ocurrido un error al buscar los pedidos disponiblesy sus pesos y volumenes");
->>>>>>> 86930f0100e7afe5847697dc064cec697fe10030
+
 
 			throw new MyPersistenceException(sb.toString(), pe);
 		}
