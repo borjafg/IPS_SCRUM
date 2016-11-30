@@ -30,6 +30,11 @@ public class GeneradorTest {
 			Log.debug("--------------------");
 			Log.debug("Se finaliza el test clientes particulares");
 			
+			Log.debug("Se inicia el test transportistas");
+			exe.execute(new TestScript4());
+			Log.debug("--------------------");
+			Log.debug("Se finaliza el test transportistas");
+			
 			return;
 		} catch (BusinessException e) {
 			Log.error("Fallo a la hora de ejecutar una prueba", e);
