@@ -1,10 +1,15 @@
 package ui.administracion.paneles.informes;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -12,23 +17,18 @@ import javax.swing.ListSelectionModel;
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
 import ui.administracion.VentanaPrincipalAdministracion;
-import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeEmpaquetado;
 import ui.administracion.myTypes.modelosTabla.ModeloTablaInformeEmpaquetado;
 
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-
 public class PanelInformeEmpaquetado extends JPanel {
-	
+
+	private static final long serialVersionUID = 3297277323201636010L;
+
 	private VentanaPrincipalAdministracion ventanaPrincipal;
-	
-	//modelo tabla
+
+	// modelo tabla
 	private ModeloTablaInformeEmpaquetado modeloTablaEmpaquetado;
-	
-	
+
 	private JPanel panelNorte;
 	private JPanel panelSur;
 	private JPanel panelCentro;
@@ -47,7 +47,7 @@ public class PanelInformeEmpaquetado extends JPanel {
 		add(getPanelCentro(), BorderLayout.CENTER);
 
 	}
-	
+
 	public void setVentanaPrincipal(VentanaPrincipalAdministracion ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
@@ -59,6 +59,7 @@ public class PanelInformeEmpaquetado extends JPanel {
 		}
 		return panelNorte;
 	}
+
 	private JPanel getPanelSur() {
 		if (panelSur == null) {
 			panelSur = new JPanel();
@@ -68,6 +69,7 @@ public class PanelInformeEmpaquetado extends JPanel {
 		}
 		return panelSur;
 	}
+
 	private JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
@@ -76,13 +78,14 @@ public class PanelInformeEmpaquetado extends JPanel {
 		}
 		return panelCentro;
 	}
+
 	private JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atr\u00E1s");
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					reiniciarPanel();
-					
+
 					ventanaPrincipal.mostrarPanelSeleccionInforme();
 				}
 			});
@@ -90,6 +93,7 @@ public class PanelInformeEmpaquetado extends JPanel {
 		}
 		return btnAtras;
 	}
+
 	private JScrollPane getScrollPaneInforme() {
 		if (scrollPaneInforme == null) {
 			scrollPaneInforme = new JScrollPane();
@@ -97,17 +101,19 @@ public class PanelInformeEmpaquetado extends JPanel {
 		}
 		return scrollPaneInforme;
 	}
+
 	private JTable getTablaInforme() {
 		if (tablaInforme == null) {
-			
+
 			modeloTablaEmpaquetado = new ModeloTablaInformeEmpaquetado();
 			tablaInforme = new JTable(modeloTablaEmpaquetado);
-			
+
 			tablaInforme.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tablaInforme.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return tablaInforme;
 	}
+
 	private JLabel getLblInformeGeneracinDe() {
 		if (lblInformeGeneracinDe == null) {
 			lblInformeGeneracinDe = new JLabel("Informe generaci\u00F3n de paquetes");
@@ -115,14 +121,14 @@ public class PanelInformeEmpaquetado extends JPanel {
 		}
 		return lblInformeGeneracinDe;
 	}
-	
-	
-	//=====================================
-	//Control de la tabla
-	//========================================
-	
+
+	// =====================================
+	// Control de la tabla
+	// ========================================
+
 	public void inicializar() throws BusinessException {
-		List<DatosInformeEmpaquetado> datosinforme = ServiceFactory.getAdministracionService().generarInformeEmpaquetado();
+		List<DatosInformeEmpaquetado> datosinforme = ServiceFactory.getAdministracionService()
+				.generarInformeEmpaquetado();
 
 		// Si la lista no está vacía
 		if (!datosinforme.isEmpty()) {
@@ -140,5 +146,5 @@ public class PanelInformeEmpaquetado extends JPanel {
 	public void reiniciarPanel() {
 		modeloTablaEmpaquetado.reiniciar();
 	}
-	
+
 }

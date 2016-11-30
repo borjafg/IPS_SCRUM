@@ -170,9 +170,9 @@ public class PanelRecogidaProductos extends JPanel {
 
 			GridBagLayout gbl_panelSur = new GridBagLayout();
 
-			gbl_panelSur.columnWidths = new int[] { 40, 40, 20, 10, 0, 10, 0 };
+			gbl_panelSur.columnWidths = new int[] { 40, 40, 20, 15, 0, 0 };
 			gbl_panelSur.rowHeights = new int[] { 12, 34, 10, 34, 9, 0 };
-			gbl_panelSur.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+			gbl_panelSur.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 			gbl_panelSur.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 
 			panelSur.setLayout(gbl_panelSur);
@@ -188,8 +188,6 @@ public class PanelRecogidaProductos extends JPanel {
 			panelSur.add(getLabelIncidencias(), gbc_labelIncidencias);
 
 			GridBagConstraints gbc_spinnerUnidades = new GridBagConstraints();
-
-			gbc_spinnerUnidades.gridwidth = 2;
 			gbc_spinnerUnidades.fill = GridBagConstraints.BOTH;
 			gbc_spinnerUnidades.insets = new Insets(0, 0, 5, 0);
 			gbc_spinnerUnidades.gridx = 4;
@@ -210,7 +208,7 @@ public class PanelRecogidaProductos extends JPanel {
 			GridBagConstraints gbc_botonIncidencias = new GridBagConstraints();
 
 			gbc_botonIncidencias.fill = GridBagConstraints.BOTH;
-			gbc_botonIncidencias.gridwidth = 3;
+			gbc_botonIncidencias.gridwidth = 2;
 			gbc_botonIncidencias.insets = new Insets(0, 0, 5, 0);
 			gbc_botonIncidencias.gridx = 3;
 			gbc_botonIncidencias.gridy = 3;
@@ -439,6 +437,8 @@ public class PanelRecogidaProductos extends JPanel {
 
 		Collections.sort(prods);
 
+		getTextFieldCodOrdenTrabajo().setText(ventanaPrincipal.getOrdenTrabajo() + "");
+		
 		// ----------------------------------
 		// (3) --> Añadir al modelo de la tabla
 		// ----------------------------------

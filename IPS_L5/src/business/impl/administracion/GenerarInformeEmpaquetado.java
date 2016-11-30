@@ -16,7 +16,6 @@ import model.Almacenero;
 import persistence.AlmaceneroFinder;
 import persistence.OrdenTrabajoFinder;
 import persistence.exception.MyPersistenceException;
-import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeEmpaquetado;
 
 public class GenerarInformeEmpaquetado implements Command {

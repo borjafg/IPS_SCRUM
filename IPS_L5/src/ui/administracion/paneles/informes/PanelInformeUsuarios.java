@@ -13,6 +13,8 @@ import javax.swing.JTable;
 
 public class PanelInformeUsuarios extends JPanel {
 
+	private static final long serialVersionUID = 886082235304262380L;
+
 	private VentanaPrincipalAdministracion ventanaPrincipal;
 	private JPanel panelNorte;
 	private JPanel panelCentro;
@@ -21,9 +23,7 @@ public class PanelInformeUsuarios extends JPanel {
 	private JLabel lblTitulo;
 	private JScrollPane scrollPane;
 	private JTable table;
-	
-	
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -34,7 +34,7 @@ public class PanelInformeUsuarios extends JPanel {
 		add(getPanelSur(), BorderLayout.SOUTH);
 
 	}
-	
+
 	public void setVentanaPrincipal(VentanaPrincipalAdministracion ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
@@ -46,15 +46,17 @@ public class PanelInformeUsuarios extends JPanel {
 		}
 		return panelNorte;
 	}
+
 	private JPanel getPanelCentro() {
 		if (panelCentro == null) {
 			panelCentro = new JPanel();
 			panelCentro.setLayout(new BorderLayout(0, 0));
 			panelCentro.add(getScrollPane());
-			
+
 		}
 		return panelCentro;
 	}
+
 	private JPanel getPanelSur() {
 		if (panelSur == null) {
 			panelSur = new JPanel();
@@ -64,6 +66,7 @@ public class PanelInformeUsuarios extends JPanel {
 		}
 		return panelSur;
 	}
+
 	private JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atr\u00E1s");
@@ -71,6 +74,7 @@ public class PanelInformeUsuarios extends JPanel {
 		}
 		return btnAtras;
 	}
+
 	private JLabel getLblTitulo() {
 		if (lblTitulo == null) {
 			lblTitulo = new JLabel("Informe tipo cliente");
@@ -78,6 +82,7 @@ public class PanelInformeUsuarios extends JPanel {
 		}
 		return lblTitulo;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -85,10 +90,11 @@ public class PanelInformeUsuarios extends JPanel {
 		}
 		return scrollPane;
 	}
+
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
-			
+
 		}
 		return table;
 	}

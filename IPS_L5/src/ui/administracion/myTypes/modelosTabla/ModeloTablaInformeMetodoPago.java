@@ -6,23 +6,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeMetodoPago;
 
-public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable{
+public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4544687221625398441L;
-	
-	
+
 	public List<DatosInformeMetodoPago> informe = new ArrayList<DatosInformeMetodoPago>();
-	
-	
-	
-	
-	
+
 	public ModeloTablaInformeMetodoPago() {
 		super();
 
@@ -41,11 +32,7 @@ public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable{
 
 		tipoColumnas.add(String.class);
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public int getRowCount() {
 		return informe.size();
@@ -54,48 +41,45 @@ public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable{
 	@Override
 	public Object getValueAt(int fila, int columna) {
 		DatosInformeMetodoPago datosPago = informe.get(fila);
-		
-		if(columna == 0){
+
+		if (columna == 0) {
 			return datosPago.getMetodo();
-		}else if (columna > 0){
-			return datosPago.getInfoFecha(columna -1).get("valor")+"";
-		}
-		else{
+		} else if (columna > 0) {
+			return datosPago.getInfoFecha(columna - 1).get("valor") + "";
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public void reiniciar() {
 		// ----------------------
-				// Reiniciar datos
-				// ----------------------
+		// Reiniciar datos
+		// ----------------------
 
-				informe.clear();
+		informe.clear();
 
-				fireTableDataChanged(); // Cambiaron los datos
+		fireTableDataChanged(); // Cambiaron los datos
 
-				// -----------------------
-				// Reiniciar columnas
-				// -----------------------
+		// -----------------------
+		// Reiniciar columnas
+		// -----------------------
 
-				tipoColumnas.clear();
+		tipoColumnas.clear();
 
-				asignarNombresColumnas();
-				asignarTiposColumnas();
+		asignarNombresColumnas();
+		asignarTiposColumnas();
 
-				fireTableStructureChanged(); // Cambiaron las columnas
+		fireTableStructureChanged(); // Cambiaron las columnas
 	}
-	
-	
+
 	public void addDatosPedido(DatosInformeMetodoPago datosPago) {
 		informe.add(datosPago);
 
 		fireTableDataChanged();
 	}
-	
-	
+
 	public void addFechasTabla(List<Map<String, Object>> datospago) {
 		for (Map<String, Object> info : datospago) {
 			addFecha((Date) info.get("fecha"));
@@ -103,8 +87,7 @@ public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable{
 
 		fireTableStructureChanged();
 	}
-	
-	
+
 	private void addFecha(Date fecha) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 

@@ -17,6 +17,8 @@ public class CommandExecutor {
 		}
 
 		catch (PersistenceException excep) {
+			Log.error("Error al crear el entity manager", excep);
+
 			throw new BusinessException("Ha ocurrido un error al intentar conectar a la base de datos. Compruebe "
 					+ "la conexión y si el problema persiste avise a un técnico o administrador.", excep);
 		}
