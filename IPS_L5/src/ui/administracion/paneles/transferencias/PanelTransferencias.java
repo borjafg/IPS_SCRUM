@@ -167,19 +167,12 @@ public class PanelTransferencias extends JPanel {
 
 							// elimino todos los datos
 							modeloPedidos.removeAllElements();
+							
 							inicializarDatos();
 						}
 
 						catch (BusinessException e1) {
 							e1.printStackTrace();
-						}
-
-						try {
-							inicializarDatos();
-						}
-
-						catch (BusinessException e) {
-							e.printStackTrace();
 						}
 					}
 				}

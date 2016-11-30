@@ -58,6 +58,10 @@ public class ModeloTablaPaquetes extends AbstractModeloTablaNoEditable {
 		return paquetes.get(fila);
 	}
 
+	public List<Paquete> getPaquetes() {
+		return new ArrayList<Paquete>(paquetes);
+	}
+
 	public Paquete findPaqueteById(Long id) {
 		for (Paquete paquete : paquetes) {
 

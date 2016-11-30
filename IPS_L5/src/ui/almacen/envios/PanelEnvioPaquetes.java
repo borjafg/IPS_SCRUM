@@ -271,7 +271,8 @@ public class PanelEnvioPaquetes extends JPanel {
 						ventanaPrincipal.getMessage().warning("Aviso", "No se ha seleccionado ningún paquete");
 					}
 				}
-			});		}
+			});
+		}
 
 		return botonSacarEnvio;
 	}
@@ -375,11 +376,11 @@ public class PanelEnvioPaquetes extends JPanel {
 
 			botonCerrarEnvio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					int[] filasSeleccionadas = tablaPaquetesEnEnvio.getSelectedRows();
+					List<Paquete> paquetesEnvio = modeloTablaPaquetesEnEnvio.getPaquetes();
 
-					if (filasSeleccionadas.length > 0) {
+					if (paquetesEnvio.size() > 0) {
 						try {
-							evaluarPaquetes(filasSeleccionadas);
+							evaluarPaquetes(paquetesEnvio);
 						}
 
 						catch (BusinessException excep) {
@@ -399,19 +400,12 @@ public class PanelEnvioPaquetes extends JPanel {
 		return botonCerrarEnvio;
 	}
 
-	private void evaluarPaquetes(int[] filasSeleccionadas) throws BusinessException {
-		List<Paquete> paquetesEnvio = new ArrayList<Paquete>();
-
-		for (int fila : filasSeleccionadas) {
-			paquetesEnvio.add(modeloTablaPaquetesEnEnvio.getPaquete(fila));
-		}
-
+	private void evaluarPaquetes(List<Paquete> paquetesEnvio) throws BusinessException {
 		ServiceFactory.getEnvioService().cerrarEnvio(paquetesEnvio, ventanaPrincipal.getTransportista());
 
 		ventanaPrincipal.getMessage().info("Envio cerrado", "Se ha cerrado correctamente el envio");
 
-		escaner.dispose();
-		escaner = null;
+		modeloTablaPaquetesEnEnvio.removeAll();
 	}
 
 	// ==============================================
@@ -437,6 +431,9 @@ public class PanelEnvioPaquetes extends JPanel {
 	public void agregarPaqueteEnvio(Paquete paquete) {
 		modeloTablaPaquetesEnEnvio.addPaquete(paquete);
 		modeloTablaPaquetes.removePaquete(paquete);
+
+		modeloTablaPaquetes.ordenar();
+		modeloTablaPaquetesEnEnvio.ordenar();
 	}
 
 }

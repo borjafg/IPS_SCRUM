@@ -124,7 +124,7 @@ public class PedidoFinder {
 	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
 		try {
 			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
-					.getResultList();
+					.setParameter("pedido", p).getResultList();
 		}
 
 		catch (PersistenceException pe) {
