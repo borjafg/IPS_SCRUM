@@ -86,6 +86,10 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public VentanaPrincipalAlmacenero() throws BusinessException {
+		super();
+
+		setAlwaysOnTop(true);
+
 		setTitle("Gestión del almacén");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -271,6 +275,8 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	 * 
 	 */
 	public void mostrarPanelIncidencias() {
+		panelRecogidaProductos.mostrarEscaner(false);
+
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelRegistroIncidencias");
 	}
 
@@ -281,6 +287,7 @@ public class VentanaPrincipalAlmacenero extends JFrame {
 	public void volverPanelRecogidaProductos() {
 		try {
 			panelRecogidaProductos.comprobarSihuboIncidencias();
+			panelRecogidaProductos.mostrarEscaner(true);
 
 			((CardLayout) contentPane.getLayout()).show(contentPane, "panelRecogidaProductos");
 		} catch (BusinessException e) {

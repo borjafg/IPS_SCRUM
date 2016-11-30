@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
+import business.exception.BusinessException;
 import model.Almacenero;
 import model.OrdenTrabajo;
 import model.Pedido;
@@ -41,9 +42,10 @@ class CrearOrdenTrabajo_UnionPedidos {
 	 * 
 	 * @throws MyPersistenceException
 	 * @throws PersistenceException
+	 * @throws BusinessException
 	 * 
 	 */
-	public OrdenTrabajo crear() throws MyPersistenceException, PersistenceException {
+	public OrdenTrabajo crear() throws MyPersistenceException, PersistenceException, BusinessException {
 
 		List<ProductoEnPedido> productosOT = new ArrayList<ProductoEnPedido>();
 		List<Pedido> pedidosOT = new ArrayList<Pedido>();
@@ -53,12 +55,13 @@ class CrearOrdenTrabajo_UnionPedidos {
 		// --------------------------------------------------------
 
 		meterPedidoOT(productosOT, pedido);
+		pedidosOT.add(pedido);
 
 		// --------------------------------------------------------
 		// (Parte 2) Ahora que ya conocemos el espacio que sobra
 		// --------------------------------------------------------
 
-		List<Object[]> pedidosSinOT = PedidoFinder.findPosibleRecoger_NoPedido(pedido);
+		List<Object[]> pedidosSinOT = findPedidosFaltan(pedido);
 
 		Pedido ped;
 
@@ -70,7 +73,7 @@ class CrearOrdenTrabajo_UnionPedidos {
 			peso = (double) pedInfo[1];
 			volumen = (double) pedInfo[2];
 
-			if (pesoLimite <= peso && volumenLimite <= volumen) {
+			if ((pesoLimite - peso) > 0 && (volumenLimite - volumen) > 0) {
 				meterPedidoOT(productosOT, ped);
 				pedidosOT.add(ped);
 			}
@@ -112,6 +115,14 @@ class CrearOrdenTrabajo_UnionPedidos {
 		return ot;
 	}
 
+	// ==============================================================
+	// ==============================================================
+	//
+	// Gestión del carrito y la Orden de Trabajo
+	//
+	// ==============================================================
+	// ==============================================================
+
 	/**
 	 * Añade a la orden de trabajo los productos del pedido que se le indica y
 	 * actualiza el carrito.
@@ -140,6 +151,49 @@ class CrearOrdenTrabajo_UnionPedidos {
 	private void actualizarCarrito(ProductoEnPedido pep) {
 		pesoLimite = pesoLimite - (pep.getCantidad() * pep.getProducto().getPeso());
 		volumenLimite = volumenLimite - (pep.getCantidad() * pep.getProducto().getVolumen());
+	}
+
+	// ==============================================================
+	// ==============================================================
+	//
+	// Obtener Lista de pedidos junto con sus peso y volumen
+	//
+	// ==============================================================
+	// ==============================================================
+
+	/**
+	 * Devuelve una lista de pedidos junto con su peso y volumen
+	 * 
+	 * @param pedido
+	 *            del que no se quiere buscar informac
+	 * 
+	 * @return lista de pedidos sin OT, junto con su peso y su volumen
+	 * 
+	 * @throws BusinessException
+	 *             Ha ocurrido un error al evaluar extraer la información de la
+	 *             base de datos
+	 * 
+	 */
+	private List<Object[]> findPedidosFaltan(Pedido pedido) throws BusinessException {
+		try {
+			List<Pedido> pedidos = PedidoFinder.findPosibleRecoger_NoPedido(pedido);
+
+			List<Object[]> pedidosInfo = new ArrayList<Object[]>();
+
+			Object[] infoPed;
+
+			for (Pedido ped : pedidos) {
+				infoPed = PedidoFinder.findPesoVolumen(ped);
+
+				pedidosInfo.add(new Object[] { ped, infoPed[0], infoPed[1] });
+			}
+
+			return pedidosInfo;
+		}
+
+		catch (MyPersistenceException mpe) {
+			throw new BusinessException("Ha ocurrido un error al evaluar los pedidos sin OT", mpe);
+		}
 	}
 
 }

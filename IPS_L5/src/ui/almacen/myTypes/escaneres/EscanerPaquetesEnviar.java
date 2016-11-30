@@ -57,6 +57,10 @@ public class EscanerPaquetesEnviar extends JDialog {
 	// ======================================
 
 	public EscanerPaquetesEnviar() {
+		super();
+
+		setAlwaysOnTop(true);
+
 		setResizable(false);
 		setSize(new Dimension(300, 400));
 
@@ -67,6 +71,8 @@ public class EscanerPaquetesEnviar extends JDialog {
 
 	public void setPanelEnvios(PanelEnvioPaquetes panelEnvios) {
 		this.panelEnvios = panelEnvios;
+
+		setLocation(panelEnvios.getVentanaPrincipal().getX() - 315, panelEnvios.getVentanaPrincipal().getY());
 	}
 
 	public void setPaquetes(List<Paquete> paquetes) {

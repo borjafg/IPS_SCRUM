@@ -1,6 +1,7 @@
 package ui.almacen.myTypes.ventanaMensaje;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
@@ -14,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Mensaje extends JDialog {
 
@@ -40,9 +42,11 @@ public class Mensaje extends JDialog {
 	public Mensaje() {
 		super();
 
-		setBounds(100, 100, 285, 290);
+		setBounds(100, 100, 290, 185);
 		getContentPane().setLayout(new BorderLayout());
 		setResizable(false);
+
+		setMaximumSize(new Dimension(285, 290));
 
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
@@ -76,7 +80,8 @@ public class Mensaje extends JDialog {
 	private JTextArea getTextAreaMensaje() {
 		if (textAreaMensaje == null) {
 			textAreaMensaje = new JTextArea();
-
+			textAreaMensaje.setForeground(new Color(0, 0, 0));
+			
 			textAreaMensaje.setEditable(false);
 			textAreaMensaje.setMargin(new Insets(6, 6, 6, 6));
 

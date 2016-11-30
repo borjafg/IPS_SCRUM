@@ -166,6 +166,8 @@ public class PanelRegistroIncidencias extends JPanel {
 			botonAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					ventanaPrincipal.volverPanelRecogidaProductos();
+
+					reiniciarPanel();
 				}
 			});
 
@@ -184,6 +186,8 @@ public class PanelRegistroIncidencias extends JPanel {
 					try {
 						ServiceFactory.getRecogidaService().registrarIncidencia(ventanaPrincipal.getOrdenTrabajo(),
 								textAreaIncidencia.getText());
+
+						textAreaIncidencia.setText("-- Registro completo --");
 
 					} catch (BusinessException e) {
 						ventanaPrincipal.gestionarErrorConexion(e);
@@ -205,4 +209,9 @@ public class PanelRegistroIncidencias extends JPanel {
 	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 	}
+
+	private void reiniciarPanel() {
+		getTextAreaIncidencia().setText("");
+	}
+
 }

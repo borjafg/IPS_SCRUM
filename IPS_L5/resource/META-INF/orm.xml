@@ -14,13 +14,23 @@
 	</named-query>
 
 
+	<named-query name="Pedido.findNoPagados">
+		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
+	</named-query>
+
+
 	<named-query name="Pedido.findPosibleRecoger">
-		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT order by p.fecha ASC</query>
+		<query>select p   from Pedido p   where (p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT)   order by p.fecha ASC</query>
 	</named-query>
 
 
 	<named-query name="Pedido.findPosibleRecoger_NoPedido">
-		<query>select p.pedido, sum(p.producto.peso * p.cantidad), sum(p.producto.volumen * p.cantidad) from ProductoEnPedido p where p.pedido != :pedido and p.pedido.pagado = model.types.PedidoPagado.SI and p.pedido.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT group by p.pedido order by p.pedido.fecha ASC</query>
+		<query>select p   from Pedido p   where (p != :pedido and p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT)   order by p.fecha ASC</query>
+	</named-query>
+
+
+	<named-query name="Pedido.findPeso_Volumen">
+		<query>select sum(p.producto.peso * p.cantidad), sum(p.producto.volumen * p.cantidad) from ProductoEnPedido p where p.pedido = :pedido</query>
 	</named-query>
 
 
@@ -34,15 +44,6 @@
 	</named-query>
 
 
-	<named-query name="Pedido.findPeso_Volumen">
-		<query>select sum(p.producto.peso * p.cantidad), sum(p.producto.volumen * p.cantidad) from ProductoEnPedido p where p.pedido = :pedido</query>
-	</named-query>
-
-
-	<named-query name="Pedido.findNoPagados">
-		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
-	</named-query>
-
 
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -55,6 +56,7 @@
 
 
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Almacenero - - - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -63,9 +65,11 @@
 		<query>select a from Almacenero a</query>
 	</named-query>
 
+
 	<named-query name="Almacenero.findByLogin">
 		<query>select a from Almacenero a where login = :login</query>
 	</named-query>
+
 
 
 
@@ -76,6 +80,7 @@
 	<named-query name="Cliente.findByLogIn">
 		<query>select a from Cliente a where login = :login</query>
 	</named-query>
+
 
 
 
@@ -104,6 +109,7 @@
 
 
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - Producto en orden de trabajo - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -116,6 +122,7 @@
 	<named-query name="ProductoEnOrdenTrabajo.findPendientesEmpaquetarPedido">
 		<query>select p from ProductoEnOrdenTrabajo p where p.unidadesProducto > p.unidadesEmpaquetadas and p.ordenTrabajo = :ordenTrabajo and p.productoPedido.pedido = :pedido order by p.productoPedido.pedido.id ASC</query>
 	</named-query>
+
 
 
 
@@ -134,6 +141,7 @@
 
 
 
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - PosicionesProducto - - - - - - - -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -141,6 +149,7 @@
 	<named-query name="PosicionProducto.findAll">
 		<query>select p from PosicionProducto p</query>
 	</named-query>
+
 
 
 
@@ -156,6 +165,7 @@
 	<named-query name="Paquete.findNoAsociadosEnvio">
 		<query>select p from Paquete p where p.envio is null and p.estado = model.types.EstadoPaquete.CERRADO Order by p.id ASC</query>
 	</named-query>
+
 
 
 

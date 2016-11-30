@@ -158,7 +158,6 @@ public class PanelSeleccionPedido extends JPanel {
 				ventanaPrincipal.mostrarPanelRecogidaProductos();
 
 			} catch (BusinessException excep) {
-				reiniciarPanel();
 				ventanaPrincipal.gestionarErrorConexion(excep);
 			}
 		}

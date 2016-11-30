@@ -23,6 +23,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ListSelectionModel;
+import java.awt.Font;
 
 public class EscanerProductosRecoger extends JDialog {
 
@@ -41,9 +42,11 @@ public class EscanerProductosRecoger extends JDialog {
 
 	public EscanerProductosRecoger() {
 		super();
-		
+
+		setAlwaysOnTop(true);
+
 		setPreferredSize(new Dimension(450, 500));
-		setSize(new Dimension(450, 500));
+		setSize(new Dimension(401, 410));
 
 		añadirComponentes();
 	}
@@ -51,9 +54,9 @@ public class EscanerProductosRecoger extends JDialog {
 	private void añadirComponentes() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 
-		gridBagLayout.columnWidths = new int[] { 30, 100, 0, 30, 220, 30, 0 };
-		gridBagLayout.rowHeights = new int[] { 30, 30, 30, 250, 30, 70, 30, 50, 30, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[] { 30, 100, 30, 220, 30, 0 };
+		gridBagLayout.rowHeights = new int[] { 30, 38, 25, 180, 30, 70, 30, 50, 30, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 
 		getContentPane().setLayout(gridBagLayout);
@@ -61,7 +64,7 @@ public class EscanerProductosRecoger extends JDialog {
 		GridBagConstraints gbc_labelProductos = new GridBagConstraints();
 		gbc_labelProductos.fill = GridBagConstraints.BOTH;
 
-		gbc_labelProductos.gridwidth = 4;
+		gbc_labelProductos.gridwidth = 3;
 		gbc_labelProductos.insets = new Insets(0, 0, 5, 5);
 		gbc_labelProductos.gridx = 1;
 		gbc_labelProductos.gridy = 1;
@@ -70,7 +73,7 @@ public class EscanerProductosRecoger extends JDialog {
 
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 
-		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
@@ -91,7 +94,7 @@ public class EscanerProductosRecoger extends JDialog {
 
 		gbc_textFieldCodigo.insets = new Insets(0, 0, 5, 5);
 		gbc_textFieldCodigo.fill = GridBagConstraints.BOTH;
-		gbc_textFieldCodigo.gridx = 4;
+		gbc_textFieldCodigo.gridx = 3;
 		gbc_textFieldCodigo.gridy = 5;
 
 		getContentPane().add(getTextFieldCodigo(), gbc_textFieldCodigo);
@@ -100,7 +103,7 @@ public class EscanerProductosRecoger extends JDialog {
 
 		gbc_botonSimular.fill = GridBagConstraints.BOTH;
 		gbc_botonSimular.insets = new Insets(0, 0, 5, 5);
-		gbc_botonSimular.gridx = 4;
+		gbc_botonSimular.gridx = 3;
 		gbc_botonSimular.gridy = 7;
 
 		getContentPane().add(getBotonSimular(), gbc_botonSimular);
@@ -109,6 +112,7 @@ public class EscanerProductosRecoger extends JDialog {
 	private JLabel getLabelCodigoProducto() {
 		if (labelCodigoProducto == null) {
 			labelCodigoProducto = new JLabel("C\u00F3d. prod.");
+			labelCodigoProducto.setFont(new Font("Tahoma", Font.BOLD, 14));
 			labelCodigoProducto.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -118,6 +122,8 @@ public class EscanerProductosRecoger extends JDialog {
 	private JTextField getTextFieldCodigo() {
 		if (textFieldCodigo == null) {
 			textFieldCodigo = new JTextField();
+			textFieldCodigo.setHorizontalAlignment(SwingConstants.CENTER);
+			textFieldCodigo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			textFieldCodigo.setColumns(10);
 		}
 
@@ -138,6 +144,7 @@ public class EscanerProductosRecoger extends JDialog {
 	private JLabel getLabelProductos() {
 		if (labelProductos == null) {
 			labelProductos = new JLabel("Id de productos");
+			labelProductos.setFont(new Font("Tahoma", Font.BOLD, 14));
 			labelProductos.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -158,6 +165,7 @@ public class EscanerProductosRecoger extends JDialog {
 	private JButton getBotonSimular() {
 		if (botonSimular == null) {
 			botonSimular = new JButton("Simular lectura");
+			botonSimular.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 			botonSimular.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -182,8 +190,11 @@ public class EscanerProductosRecoger extends JDialog {
 		return this;
 	}
 
-	public void setPanelRecogidaProductos(PanelRecogidaProductos panelRecogidaProductos) {
-		this.panelRecogidaProductos = panelRecogidaProductos;
+	public void setPanelRecogidaProductos(PanelRecogidaProductos panelRecogida) {
+		this.panelRecogidaProductos = panelRecogida;
+
+		setLocation((int) panelRecogida.getVentanaPrincipal().getLocation().getX() - 355,
+				(int) panelRecogida.getVentanaPrincipal().getLocation().getY() - 25);
 	}
 
 	public void llenarLista(List<MyProducto_OrdenadoPosicion> lista) {

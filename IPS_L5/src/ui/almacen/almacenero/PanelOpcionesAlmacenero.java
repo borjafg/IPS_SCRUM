@@ -101,7 +101,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 		if (textField == null) {
 			textField = new JTextField();
 			textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			textField.setHorizontalAlignment(SwingConstants.LEFT);
+			textField.setHorizontalAlignment(SwingConstants.CENTER);
 			textField.setColumns(10);
 		}
 		return textField;
@@ -117,13 +117,21 @@ public class PanelOpcionesAlmacenero extends JPanel {
 						// Quiere loguearse
 						if (ventanaPrincipal.getAlmacenero() == null) {
 
-							if (getTextField().getText() != null && getTextField().getText() != "") {
+							if (getTextField().getText() != null && !getTextField().getText().equals("")) {
 								Almacenero almacenero = ServiceFactory.getAlmaceneroService()
 										.login(getTextField().getText());
 
 								if (almacenero != null) {
 									login(almacenero);
 								}
+
+								else {
+									ventanaPrincipal.getMessage().warning("Aviso", "El login indicado no es correcto");
+								}
+							}
+
+							else {
+								ventanaPrincipal.getMessage().warning("Aviso", "No ha indicado el login");
 							}
 						}
 
@@ -216,7 +224,7 @@ public class PanelOpcionesAlmacenero extends JPanel {
 			botonEnviar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						ventanaPrincipal.mostrarPanelEnvioPaquetes();
+						ventanaPrincipal.mostrarPanelSeleccionTransportista();
 					}
 
 					catch (BusinessException excep) {

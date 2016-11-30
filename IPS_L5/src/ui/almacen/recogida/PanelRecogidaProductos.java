@@ -26,7 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
@@ -167,13 +166,13 @@ public class PanelRecogidaProductos extends JPanel {
 	private JPanel getPanelSur() {
 		if (panelSur == null) {
 			panelSur = new JPanel();
-			panelSur.setBorder(new EmptyBorder(0, 8, 0, 7));
+			panelSur.setBorder(new EmptyBorder(0, 5, 0, 5));
 
 			GridBagLayout gbl_panelSur = new GridBagLayout();
 
-			gbl_panelSur.columnWidths = new int[] { 40, 40, 20, 0, 0, 10, 10, 0 };
+			gbl_panelSur.columnWidths = new int[] { 40, 40, 20, 10, 0, 10, 0 };
 			gbl_panelSur.rowHeights = new int[] { 12, 34, 10, 34, 9, 0 };
-			gbl_panelSur.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+			gbl_panelSur.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 			gbl_panelSur.rowWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 
 			panelSur.setLayout(gbl_panelSur);
@@ -190,9 +189,9 @@ public class PanelRecogidaProductos extends JPanel {
 
 			GridBagConstraints gbc_spinnerUnidades = new GridBagConstraints();
 
-			gbc_spinnerUnidades.gridwidth = 3;
+			gbc_spinnerUnidades.gridwidth = 2;
 			gbc_spinnerUnidades.fill = GridBagConstraints.BOTH;
-			gbc_spinnerUnidades.insets = new Insets(0, 0, 5, 5);
+			gbc_spinnerUnidades.insets = new Insets(0, 0, 5, 0);
 			gbc_spinnerUnidades.gridx = 4;
 			gbc_spinnerUnidades.gridy = 1;
 
@@ -211,8 +210,8 @@ public class PanelRecogidaProductos extends JPanel {
 			GridBagConstraints gbc_botonIncidencias = new GridBagConstraints();
 
 			gbc_botonIncidencias.fill = GridBagConstraints.BOTH;
-			gbc_botonIncidencias.gridwidth = 4;
-			gbc_botonIncidencias.insets = new Insets(0, 0, 5, 5);
+			gbc_botonIncidencias.gridwidth = 3;
+			gbc_botonIncidencias.insets = new Insets(0, 0, 5, 0);
 			gbc_botonIncidencias.gridx = 3;
 			gbc_botonIncidencias.gridy = 3;
 
@@ -227,7 +226,7 @@ public class PanelRecogidaProductos extends JPanel {
 			labelIncidencias = new JLabel("");
 
 			labelIncidencias.setForeground(new Color(165, 42, 42));
-			labelIncidencias.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			labelIncidencias.setFont(new Font("Tahoma", Font.BOLD, 14));
 			labelIncidencias.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
@@ -332,6 +331,7 @@ public class PanelRecogidaProductos extends JPanel {
 											ventanaPrincipal.getOrdenTrabajo(), ventanaPrincipal.getAlmacenero());
 
 									ventanaPrincipal.mostrarPanelEmpaquetadoProductos();
+									reiniciarPanel();
 								}
 
 								// -----------------------------------------
@@ -374,6 +374,14 @@ public class PanelRecogidaProductos extends JPanel {
 	// Control del estado del panel
 	// ========================================
 
+	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
+	}
+
+	public VentanaPrincipalAlmacenero getVentanaPrincipal() {
+		return ventanaPrincipal;
+	}
+
 	private void indicarQueHuboIncidencias() {
 		getLabelIncidencias().setText("Ha habido incidencias");
 	}
@@ -396,10 +404,10 @@ public class PanelRecogidaProductos extends JPanel {
 		if (ServiceFactory.getRecogidaService().huboIncidencias(ventanaPrincipal.getOrdenTrabajo())) {
 			indicarQueHuboIncidencias();
 		}
-	}
 
-	public void setVentanaPrincipal(VentanaPrincipalAlmacenero ventanaPrincipal) {
-		this.ventanaPrincipal = ventanaPrincipal;
+		else {
+			getLabelIncidencias().setText("");
+		}
 	}
 
 	/**
@@ -410,6 +418,8 @@ public class PanelRecogidaProductos extends JPanel {
 	 * 
 	 */
 	public void inicializarDatos() throws BusinessException {
+		comprobarSihuboIncidencias();
+
 		// ----------------------------------
 		// (1) --> Sacar productos en la OT
 		// ----------------------------------
@@ -441,12 +451,17 @@ public class PanelRecogidaProductos extends JPanel {
 	private void cargarEscaner(List<MyProducto_OrdenadoPosicion> lista) {
 		escaner = new EscanerProductosRecoger();
 
-		escaner.setLocationRelativeTo(this);
-		escaner.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
 		escaner.setPanelRecogidaProductos(this);
 		escaner.llenarLista(lista);
+
 		escaner.setVisible(true);
+	}
+
+	public void mostrarEscaner(boolean visible) {
+		if (escaner != null) {
+			escaner.setVisible(visible);
+			escaner.setEnabled(visible);
+		}
 	}
 
 }

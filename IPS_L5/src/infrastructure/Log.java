@@ -31,6 +31,17 @@ public class Log {
 	}
 
 	/**
+	 * Envia un mensaje con nivel de <i><b>info</b></i>
+	 * 
+	 * @param mensaje
+	 *            mensaje que se quiere mandar por la salida del log
+	 * 
+	 */
+	public static void info(String mensaje) {
+		logger.log(Level.INFO, mensaje);
+	}
+
+	/**
 	 * Envia un mensaje con nivel de <i><b>warning</b></i>
 	 * 
 	 * @param mensaje
@@ -53,4 +64,16 @@ public class Log {
 	public static void error(String mensaje, Throwable excepcion) {
 		logger.log(Level.ERROR, mensaje, excepcion);
 	}
+
+	/**
+	 * Envia un mensaje con nivel de <i><b>error</b></i>
+	 * 
+	 * @param mensaje
+	 *            mensaje que se quiere mandar por la salida del log
+	 * 
+	 */
+	public static void error(String mensaje) {
+		logger.log(Level.ERROR, mensaje);
+	}
+
 }

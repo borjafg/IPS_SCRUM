@@ -9,6 +9,7 @@
 	<!-- tiempo de ejecución sin tener que reiniciar la aplicación -->
 
 
+
 	<!-- Un logger 'A' es padre de otro 'B', si 'A' está -->
 	<!-- en una de las categorias superiores a 'B'. -->
 
@@ -31,6 +32,10 @@
 
 
 
+	<Properties>
+		<Property name="dirLog">logFiles</Property>
+	</Properties>
+
 	<!-- ================ -->
 	<!-- Posibles salidas -->
 	<!-- ================ -->
@@ -38,19 +43,59 @@
 	<Appenders>
 
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t]  == %-5level ==  %logger{36} - %msg%n" />
 		</Console>
+
+
 
 		<Console name="My_Logger" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%d{HH:mm:ss.SSS} %logger{36} -----> %-5level  - %msg%n" />
+				pattern="%d{HH:mm:ss.SSS} %logger{36} ---->  == %-5level ==   %msg%n" />
 		</Console>
 
 
-		<File name="LogFichero" fileName="log/logFile.log">
 
-			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+		<File name="LogFichero_Hibernate" fileName="${dirLog}/hibernate/logFile.log">
+
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t]  == %-5level ==  %logger{36} - %msg%n" />
 		</File>
+
+
+
+		<RollingFile name="INFO_file_log" fileName="${dirLog}/info/log_info_base.log"
+			filePattern="${dirLog}/info/log  %d{yyyy-MM-dd  HH-mm-ss}.log"
+			createOnDemand="true">
+
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t]  == %-5level ==  %logger{36} - %msg%n" />
+
+			<Filters>
+				<ThresholdFilter level="WARN" onMatch="DENY"
+					onMismatch="ACCEPT" />
+			</Filters>
+
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="5"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+
+
+
+		<RollingFile name="ERROR_file_log" fileName="${dirLog}/error/log_error_base.log"
+			filePattern="${dirLog}/error/log  %d{yyyy-MM-dd  HH-mm-ss}.log"
+			createOnDemand="true">
+
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t]  == %-5level ==  %logger{36} - %msg%n" />
+
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="5"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
 
 	</Appenders>
 
@@ -68,20 +113,26 @@
 
 		<logger name="org.hibernate" level="info" additivity="false">
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="LogFichero_Hibernate" />
 		</logger>
+
 
 		<!-- - - - - - - - - - -->
 		<!-- Logger para debug -->
 		<!-- - - - - - - - - - -->
+
 		<logger name="MyLogger" level="debug" additivity="false">
 			<AppenderRef ref="My_Logger" />
+			<AppenderRef ref="INFO_file_log" level="info" />
+			<AppenderRef ref="ERROR_file_log" level="error" />
 		</logger>
+
 
 		<!-- - - - - - - - - - -->
 		<!-- Logger por defecto -->
 		<!-- - - - - - - - - - -->
 
-		<Root level="warn">
+		<Root level="fatal">
 			<!-- Salidas -->
 			<AppenderRef ref="Console" />
 		</Root>

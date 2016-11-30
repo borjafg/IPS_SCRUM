@@ -2,11 +2,11 @@ package ui.almacen.myTypes.escaneres;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.Paquete;
@@ -63,10 +64,12 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	// ==== sur ====
 
 	private JPanel panelSur;
-	private JLabel labelEtiquetas;
+	private JLabel labelEtiquetasParte1;
 
 	private JScrollPane scrollPaneEtiquetas;
 	private JTextArea textAreaEtiquetas;
+	private JPanel panelEtiquetas;
+	private JLabel labelEtiquetasParte2;
 
 	/**
 	 * Crea el JDialog, aunque sin llenar la lista de prodctos
@@ -75,8 +78,11 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	public EscanerProductosEmpaquetar() {
 		super();
 
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		setAlwaysOnTop(true);
+
 		setPreferredSize(new Dimension(450, 500));
-		setSize(new Dimension(450, 500));
+		setSize(new Dimension(410, 440));
 
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		getContentPane().add(getLabelProductos(), BorderLayout.NORTH);
@@ -187,8 +193,7 @@ public class EscanerProductosEmpaquetar extends JDialog {
 		if (textFieldCodigo == null) {
 			textFieldCodigo = new JTextField();
 
-			textFieldCodigo.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-			textFieldCodigo.setHorizontalAlignment(SwingConstants.RIGHT);
+			textFieldCodigo.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldCodigo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			textFieldCodigo.setColumns(12);
 		}
@@ -245,49 +250,65 @@ public class EscanerProductosEmpaquetar extends JDialog {
 
 			GridBagLayout gbl_panelSur = new GridBagLayout();
 
-			gbl_panelSur.columnWidths = new int[] { 235, 350, 0 };
-			gbl_panelSur.rowHeights = new int[] { 40, 100, 0, 0 };
+			gbl_panelSur.columnWidths = new int[] { 215, 350, 0 };
+			gbl_panelSur.rowHeights = new int[] { 40, 100, 0 };
 			gbl_panelSur.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-			gbl_panelSur.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
+			gbl_panelSur.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 
 			panelSur.setLayout(gbl_panelSur);
 
-			GridBagConstraints gbc_labelEtiquetas = new GridBagConstraints();
-			gbc_labelEtiquetas.gridheight = 2;
-
-			gbc_labelEtiquetas.fill = GridBagConstraints.BOTH;
-			gbc_labelEtiquetas.insets = new Insets(0, 0, 5, 5);
-			gbc_labelEtiquetas.gridx = 0;
-			gbc_labelEtiquetas.gridy = 0;
-
-			panelSur.add(getLabelEtiquetas(), gbc_labelEtiquetas);
-
 			GridBagConstraints gbc_scrollPaneEtiquetas = new GridBagConstraints();
-
-			gbc_scrollPaneEtiquetas.insets = new Insets(0, 0, 5, 0);
 			gbc_scrollPaneEtiquetas.gridheight = 2;
 			gbc_scrollPaneEtiquetas.fill = GridBagConstraints.BOTH;
 			gbc_scrollPaneEtiquetas.gridx = 1;
 			gbc_scrollPaneEtiquetas.gridy = 0;
 
 			panelSur.add(getScrollPaneEtiquetas(), gbc_scrollPaneEtiquetas);
+			GridBagConstraints gbc_panelEtiquetas = new GridBagConstraints();
+			gbc_panelEtiquetas.gridheight = 2;
+			gbc_panelEtiquetas.insets = new Insets(0, 0, 0, 5);
+			gbc_panelEtiquetas.fill = GridBagConstraints.BOTH;
+			gbc_panelEtiquetas.gridx = 0;
+			gbc_panelEtiquetas.gridy = 0;
+			panelSur.add(getPanelEtiquetas(), gbc_panelEtiquetas);
 		}
 
 		return panelSur;
 	}
 
-	private JLabel getLabelEtiquetas() {
-		if (labelEtiquetas == null) {
-			labelEtiquetas = new JLabel("Etiquetas del\n paquete:");
-			labelEtiquetas.setHorizontalTextPosition(SwingConstants.CENTER);
-			labelEtiquetas.setAlignmentX(Component.CENTER_ALIGNMENT);
-			labelEtiquetas.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+	private JPanel getPanelEtiquetas() {
+		if (panelEtiquetas == null) {
+			panelEtiquetas = new JPanel();
+			panelEtiquetas.setLayout(new GridLayout(2, 1, 0, 3));
+			panelEtiquetas.add(getLabelEtiquetasParte1());
+			panelEtiquetas.add(getLabelEtiquetasParte2());
+		}
+		return panelEtiquetas;
+	}
 
-			labelEtiquetas.setHorizontalAlignment(SwingConstants.CENTER);
-			labelEtiquetas.setFont(new Font("Tahoma", Font.BOLD, 14));
+	private JLabel getLabelEtiquetasParte1() {
+		if (labelEtiquetasParte1 == null) {
+			labelEtiquetasParte1 = new JLabel("Etiquetas\r");
+
+			labelEtiquetasParte1.setVerticalAlignment(SwingConstants.BOTTOM);
+			labelEtiquetasParte1.setHorizontalAlignment(SwingConstants.CENTER);
+
+			labelEtiquetasParte1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 
-		return labelEtiquetas;
+		return labelEtiquetasParte1;
+	}
+
+	private JLabel getLabelEtiquetasParte2() {
+		if (labelEtiquetasParte2 == null) {
+			labelEtiquetasParte2 = new JLabel("\ndel paquete");
+
+			labelEtiquetasParte2.setVerticalAlignment(SwingConstants.TOP);
+			labelEtiquetasParte2.setHorizontalAlignment(SwingConstants.CENTER);
+			labelEtiquetasParte2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		}
+
+		return labelEtiquetasParte2;
 	}
 
 	private JScrollPane getScrollPaneEtiquetas() {
@@ -312,7 +333,7 @@ public class EscanerProductosEmpaquetar extends JDialog {
 			textAreaEtiquetas.setWrapStyleWord(true);
 
 			textAreaEtiquetas.setText("Todav\u00EDa no generadas");
-			textAreaEtiquetas.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			textAreaEtiquetas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		}
 
 		return textAreaEtiquetas;
@@ -321,6 +342,13 @@ public class EscanerProductosEmpaquetar extends JDialog {
 	// ========================================
 	// Controlar del estado de la ventana
 	// ========================================
+
+	public void setPanelEmpaquetadoProductos(PanelEmpaquetadoProductos panelEmpaquetado) {
+		this.panelEmpaquetadoProductos = panelEmpaquetado;
+
+		setLocation((int) panelEmpaquetado.getVentanaPrincipal().getLocation().getX() - 420,
+				(int) panelEmpaquetado.getVentanaPrincipal().getLocation().getY() - 18);
+	}
 
 	public void generarEtiquetas(Paquete paquete) {
 		StringBuilder sb = new StringBuilder();
@@ -360,10 +388,6 @@ public class EscanerProductosEmpaquetar extends JDialog {
 		for (ProductoEnOrdenTrabajo prod : lista) {
 			modeloProductosEmpaquetar.addElement(new MyProductoEmpaquetar(prod));
 		}
-	}
-
-	public void setPanelEmpaquetadoProductos(PanelEmpaquetadoProductos panelEmpaquetadoProductos) {
-		this.panelEmpaquetadoProductos = panelEmpaquetadoProductos;
 	}
 
 	public void removeProductosPedido(Pedido pedido) {

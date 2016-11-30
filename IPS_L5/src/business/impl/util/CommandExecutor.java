@@ -5,6 +5,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 
 import business.exception.BusinessException;
+import infrastructure.Log;
 import persistence.util.Jpa;
 
 public class CommandExecutor {
@@ -13,8 +14,11 @@ public class CommandExecutor {
 
 		try {
 			em = Jpa.createEntityManager();
-		} catch (PersistenceException excep) {
-			throw new BusinessException(excep);
+		}
+
+		catch (PersistenceException excep) {
+			throw new BusinessException("Ha ocurrido un error al intentar conectar a la base de datos. Compruebe "
+					+ "la conexión y si el problema persiste avise a un técnico o administrador.", excep);
 		}
 
 		EntityTransaction trx = em.getTransaction();
@@ -28,17 +32,19 @@ public class CommandExecutor {
 			trx.commit();
 		}
 
-		catch (BusinessException | PersistenceException excep) {
-			if (trx.isActive()) {
+		catch (PersistenceException excep) {
+			if (trx != null && trx.isActive()) {
 				trx.rollback();
 			}
+
+			Log.error("Ha ocurrido un error durante una transacción", excep);
 
 			throw new BusinessException("Ha ocurrido un error al intentar conectar a la base de datos. Compruebe "
 					+ "la conexión y si el problema persiste avise a un técnico o administrador.", excep);
 		}
 
 		finally {
-			if (em.isOpen()) {
+			if (em != null && em.isOpen()) {
 				em.close();
 			}
 		}

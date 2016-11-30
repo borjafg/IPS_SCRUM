@@ -4,14 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -21,13 +29,6 @@ import model.Paquete;
 import ui.almacen.VentanaPrincipalAlmacenero;
 import ui.almacen.myTypes.escaneres.EscanerPaquetesEnviar;
 import ui.almacen.myTypes.tablas.modelosTabla.ModeloTablaPaquetes;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
 
 public class PanelEnvioPaquetes extends JPanel {
 
@@ -99,8 +100,6 @@ public class PanelEnvioPaquetes extends JPanel {
 
 		escaner = new EscanerPaquetesEnviar();
 
-		escaner.setLocation(ventanaPrincipal.getX() - 305, ventanaPrincipal.getY());
-		escaner.setVisible(true);
 		escaner.setPanelEnvios(this);
 
 		escaner.setPaquetes(paquetes);
@@ -108,6 +107,8 @@ public class PanelEnvioPaquetes extends JPanel {
 
 		modeloTablaPaquetes.setPaquetes(paquetes);
 		modeloTablaPaquetes.ordenar();
+
+		escaner.setVisible(true);
 	}
 
 	// ======================================
@@ -223,25 +224,24 @@ public class PanelEnvioPaquetes extends JPanel {
 
 			GridBagLayout gbl_PanelModificacionEnvio = new GridBagLayout();
 
-			gbl_PanelModificacionEnvio.columnWidths = new int[] { 125, 20, 125, 0 };
-			gbl_PanelModificacionEnvio.rowHeights = new int[] { 20, 30 };
-			gbl_PanelModificacionEnvio.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+			gbl_PanelModificacionEnvio.columnWidths = new int[] { 125, 25, 125, 0 };
+			gbl_PanelModificacionEnvio.rowHeights = new int[] { 35, 35 };
+			gbl_PanelModificacionEnvio.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 			gbl_PanelModificacionEnvio.rowWeights = new double[] { 1.0, 4.9E-324 };
 
 			PanelModificacionEnvio.setLayout(gbl_PanelModificacionEnvio);
 
 			GridBagConstraints gbc_botonSacarEnvio = new GridBagConstraints();
+			gbc_botonSacarEnvio.fill = GridBagConstraints.BOTH;
 
 			gbc_botonSacarEnvio.insets = new Insets(0, 0, 5, 5);
-			gbc_botonSacarEnvio.fill = GridBagConstraints.BOTH;
 			gbc_botonSacarEnvio.gridx = 1;
 			gbc_botonSacarEnvio.gridy = 0;
 
 			PanelModificacionEnvio.add(getBotonSacarEnvio(), gbc_botonSacarEnvio);
 
 			GridBagConstraints gbc_labelPaquetesEnvio = new GridBagConstraints();
-
-			gbc_labelPaquetesEnvio.gridwidth = 0;
+			gbc_labelPaquetesEnvio.gridwidth = 3;
 			gbc_labelPaquetesEnvio.fill = GridBagConstraints.BOTH;
 			gbc_labelPaquetesEnvio.gridx = 0;
 			gbc_labelPaquetesEnvio.gridy = 1;
@@ -254,7 +254,21 @@ public class PanelEnvioPaquetes extends JPanel {
 
 	private JButton getBotonSacarEnvio() {
 		if (botonSacarEnvio == null) {
-			botonSacarEnvio = new JButton("\u2191");
+
+			// ==================================
+			//
+			// ==================================
+
+			ImageIcon icon = new ImageIcon(
+					PanelEnvioPaquetes.class.getResource("/ui/almacen/envios/img/flechaHaciaArriba.png"));
+
+			ImageIcon iconButton = new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+
+			// ===================================
+			//
+			// ===================================
+
+			botonSacarEnvio = new JButton(iconButton);
 
 			botonSacarEnvio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -362,7 +376,7 @@ public class PanelEnvioPaquetes extends JPanel {
 				}
 			});
 
-			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return botonAtras;
@@ -393,7 +407,7 @@ public class PanelEnvioPaquetes extends JPanel {
 				}
 			});
 
-			botonCerrarEnvio.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			botonCerrarEnvio.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 
 		return botonCerrarEnvio;
