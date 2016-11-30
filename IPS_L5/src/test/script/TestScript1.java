@@ -50,6 +50,7 @@ public class TestScript1 implements Command {
 		for (String alm : nombre) {
 			almacenero = new Almacenero();
 			almacenero.setLogin(alm);
+			almacenero.setNombre(alm);
 			Jpa.getManager().persist(almacenero);
 		}
 
