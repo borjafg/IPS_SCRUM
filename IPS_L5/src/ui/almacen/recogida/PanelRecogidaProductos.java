@@ -432,13 +432,15 @@ public class PanelRecogidaProductos extends JPanel {
 		List<MyProducto_OrdenadoPosicion> prods = new ArrayList<MyProducto_OrdenadoPosicion>();
 
 		for (ProductoEnOrdenTrabajo prod : productos) {
-			prods.add(new MyProducto_OrdenadoPosicion(prod));
+			if (prod.getUnidadesProducto() > prod.getUnidadesRecogidas()) {
+				prods.add(new MyProducto_OrdenadoPosicion(prod));
+			}
 		}
 
 		Collections.sort(prods);
 
-		getTextFieldCodOrdenTrabajo().setText(ventanaPrincipal.getOrdenTrabajo() + "");
-		
+		getTextFieldCodOrdenTrabajo().setText(ventanaPrincipal.getOrdenTrabajo().getId() + "");
+
 		// ----------------------------------
 		// (3) --> Añadir al modelo de la tabla
 		// ----------------------------------

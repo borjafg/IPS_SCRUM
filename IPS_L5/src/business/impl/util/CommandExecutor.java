@@ -45,6 +45,12 @@ public class CommandExecutor {
 					+ "la conexión y si el problema persiste avise a un técnico o administrador.", excep);
 		}
 
+		catch (BusinessException excep) {
+			Log.error("Ha ocurrido un error durante la transacción", excep);
+
+			throw excep;
+		}
+
 		finally {
 			if (em != null && em.isOpen()) {
 				em.close();
