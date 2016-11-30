@@ -44,6 +44,7 @@ public class CargarBaseUsuarioMinorista implements Command {
 			pedido.setMetodoPago(MetodosPago.FACTURA);
 			pedido.setEstado(EstadoPedido.POSIBLE_ASOCIAR_OT);
 			pedido.setPagado(PedidoPagado.SI);			
+			pedido.setDestinatario(cliente.getNombre());
 			
 			Jpa.getManager().persist(pedido);
 			

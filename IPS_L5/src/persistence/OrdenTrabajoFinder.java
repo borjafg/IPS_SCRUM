@@ -120,5 +120,46 @@ public class OrdenTrabajoFinder {
 			throw new MyPersistenceException(sb.toString(), e);
 		}
 	}
+	
+	
+	public static List<Object[]> findNumOrdenTrabajoEmpaquetadasDia(Almacenero almacenero) throws MyPersistenceException {
+		try {
+			return Jpa.getManager()
+					.createNamedQuery("OrdenTrabajo.findNumOrdenTrabajoEmpaquetadaDia_Almacenero", Object[].class)
+					.setParameter("almacenero", almacenero).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar las ordenes de trabajo empaquetadas por día");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static Date findOrdenTrabajoTerminadaEmpaquetada_MasAntigua() throws MyPersistenceException {
+		try {
+			List<Date> fechas = Jpa.getManager()
+					.createNamedQuery("OrdenTrabajo.findOrdenTrabajoEmpaquetada_MasAntigua", Date.class)
+					.setMaxResults(1).getResultList();
+
+			if (fechas.isEmpty()) {
+				return null;
+			}
+
+			return fechas.get(0);
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar las ordenes de trabajo empaquetadas por día");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+	
+	
 
 }

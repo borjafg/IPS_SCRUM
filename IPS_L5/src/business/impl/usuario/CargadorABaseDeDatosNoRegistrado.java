@@ -65,6 +65,7 @@ public class CargadorABaseDeDatosNoRegistrado implements Command {
 
 		pedido.setMetodoPago(metodoPago); 
 		pedido.setTipoEnvio(tipoEnvio);
+		pedido.setDestinatario(nombre);
 
 		if (metodoPago.equals(MetodosPago.TRANSFERENCIA)) {
 			pedido.setPagado(PedidoPagado.NO);
