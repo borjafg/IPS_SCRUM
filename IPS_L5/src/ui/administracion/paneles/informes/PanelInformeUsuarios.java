@@ -1,15 +1,24 @@
 package ui.administracion.paneles.informes;
 
-import javax.swing.JPanel;
-
-import ui.administracion.VentanaPrincipalAdministracion;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
+import business.exception.BusinessException;
+import infrastructure.ServiceFactory;
+import ui.administracion.VentanaPrincipalAdministracion;
+import ui.administracion.myTypes.DatosInformeTipoCliente;
+import ui.administracion.myTypes.modelosTabla.ModeloTablaInformeTipoUsuario;
 
 public class PanelInformeUsuarios extends JPanel {
 
@@ -23,6 +32,8 @@ public class PanelInformeUsuarios extends JPanel {
 	private JLabel lblTitulo;
 	private JScrollPane scrollPane;
 	private JTable table;
+	
+	private ModeloTablaInformeTipoUsuario modeloTablaUsuario;
 
 	/**
 	 * Create the panel.
@@ -70,6 +81,14 @@ public class PanelInformeUsuarios extends JPanel {
 	private JButton getBtnAtras() {
 		if (btnAtras == null) {
 			btnAtras = new JButton("Atr\u00E1s");
+			btnAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					reiniciarPanel();
+
+					ventanaPrincipal.mostrarPanelSeleccionInforme();
+
+				}
+			});
 			btnAtras.setFont(new Font("Tahoma", Font.BOLD, 13));
 		}
 		return btnAtras;
@@ -93,9 +112,42 @@ public class PanelInformeUsuarios extends JPanel {
 
 	private JTable getTable() {
 		if (table == null) {
-			table = new JTable();
-
+			modeloTablaUsuario = new ModeloTablaInformeTipoUsuario();
+			
+			table = new JTable(modeloTablaUsuario);
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
+		
 		return table;
 	}
+	
+	public void reiniciarPanel() {
+		modeloTablaUsuario.reiniciar();
+	}
+	
+	
+	public void inicializar() throws BusinessException {
+		List<DatosInformeTipoCliente > datosCliente = ServiceFactory.getAdministracionService().generarInformeTipoCliente();
+		
+		if (!datosCliente.isEmpty()) {
+
+			// Cada fecha se corresponde con una fecha
+			modeloTablaUsuario.addFechasTabla(datosCliente.get(0).getFechas());
+
+			// Rellenar con datos
+			for (DatosInformeTipoCliente datos : datosCliente) {
+				modeloTablaUsuario.addDatosPedido(datos);
+			}
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
 }

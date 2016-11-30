@@ -10,6 +10,7 @@ import business.exception.BusinessException;
 import model.OrdenTrabajo;
 import model.Pedido;
 import model.types.MetodosPago;
+import model.types.TipoCliente;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 
@@ -123,7 +124,7 @@ public class PedidoFinder {
 	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
 		try {
 			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
-					.setParameter("pedido", p).getResultList();
+					.getResultList();
 		}
 
 		catch (PersistenceException pe) {
@@ -180,6 +181,21 @@ public class PedidoFinder {
 		try {
 			return Jpa.getManager().createNamedQuery("Pedido.findNumPedidoDia_MetodoPago", Object[].class)
 					.setParameter("metodoPago", mp).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar los pedidos por día");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static List<Object[]> findNumPedidoDia_TipoCliente(TipoCliente tc) throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Pedido.findNumPedidoDia_TipoCliente", Object[].class)
+					.setParameter("tipoCliente", tc).getResultList();
 		}
 
 		catch (PersistenceException e) {

@@ -271,8 +271,7 @@ public class PanelEnvioPaquetes extends JPanel {
 						ventanaPrincipal.getMessage().warning("Aviso", "No se ha seleccionado ningún paquete");
 					}
 				}
-			});
-		}
+			});		}
 
 		return botonSacarEnvio;
 	}

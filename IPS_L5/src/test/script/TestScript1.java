@@ -64,7 +64,7 @@ public class TestScript1 implements Command {
 		clientenormal.setNombre("Antonio José");
 		clientenormal.setLogin("Antonio José");
 		clientenormal.setDireccionCompleta("Debajo de un puente");
-		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
+		clientenormal.setTipoCliente(TipoCliente.PARTICULAR);
 		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
@@ -73,7 +73,7 @@ public class TestScript1 implements Command {
 		clientenormal.setNombre("Artyon");
 		clientenormal.setLogin("Artyon");
 		clientenormal.setDireccionCompleta("En el metro de Moscú");
-		clientenormal.setTipoCliente(TipoCliente.MINORISTA);
+		clientenormal.setTipoCliente(TipoCliente.PARTICULAR);
 		clientenormal.setTarjeta(tarjeta);
 		Jpa.getManager().persist(clientenormal);
 
@@ -90,7 +90,7 @@ public class TestScript1 implements Command {
 		Log.debug("Creados clientes Minoristas");
 		
 		} catch (ParseException e) {
-			Log.error("Fallo en la creación de clientes minoristas especiales", e);
+			Log.error("Fallo en la creación de clientes especiales", e);
 		}
 		
 		Categoria categoriaNormal;

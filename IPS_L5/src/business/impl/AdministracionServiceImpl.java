@@ -8,12 +8,14 @@ import business.impl.administracion.ConfirmarPedido;
 import business.impl.administracion.GenerarInformeEmpaquetado;
 import business.impl.administracion.GenerarInformeMetodoPago;
 import business.impl.administracion.GenerarInformeRecogida;
+import business.impl.administracion.GenerarInformeTipoCliente;
 import business.impl.administracion.ListarPedidosNoPagados;
 import business.impl.util.CommandExecutor;
 import model.Pedido;
 import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeEmpaquetado;
 import ui.administracion.myTypes.DatosInformeMetodoPago;
+import ui.administracion.myTypes.DatosInformeTipoCliente;
 
 @SuppressWarnings("unchecked")
 public class AdministracionServiceImpl implements AdministracionService {
@@ -44,6 +46,11 @@ public class AdministracionServiceImpl implements AdministracionService {
 	@Override
 	public List<DatosInformeMetodoPago> generarInformeMetodoPago() throws BusinessException {
 		return (List<DatosInformeMetodoPago>)executor.execute(new GenerarInformeMetodoPago());
+	}
+
+	@Override
+	public List<DatosInformeTipoCliente> generarInformeTipoCliente() throws BusinessException {
+		return (List<DatosInformeTipoCliente>)executor.execute(new GenerarInformeTipoCliente());
 	}
 
 }

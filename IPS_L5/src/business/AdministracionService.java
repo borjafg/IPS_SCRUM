@@ -7,6 +7,7 @@ import model.Pedido;
 import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeEmpaquetado;
 import ui.administracion.myTypes.DatosInformeMetodoPago;
+import ui.administracion.myTypes.DatosInformeTipoCliente;
 
 public interface AdministracionService {
 
@@ -20,4 +21,5 @@ public interface AdministracionService {
 	
 	public List<DatosInformeMetodoPago> generarInformeMetodoPago() throws BusinessException;
 	
+	public List<DatosInformeTipoCliente> generarInformeTipoCliente() throws BusinessException;
 }

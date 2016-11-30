@@ -149,6 +149,8 @@ public class PanelOrdenesTrabajo extends JPanel {
 				}
 			});
 
+			tablaOrdenesTrabajo.getColumnModel().getColumn(1).setMinWidth(125);
+			tablaOrdenesTrabajo.getColumnModel().getColumn(2).setMinWidth(80);
 			tablaOrdenesTrabajo.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
 			tablaOrdenesTrabajo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
@@ -159,7 +161,7 @@ public class PanelOrdenesTrabajo extends JPanel {
 	private void retomarOT(OrdenTrabajo ordenTrabajo) throws BusinessException {
 		ventanaPrincipal.setOrdenTrabajo(ordenTrabajo);
 
-		if (ordenTrabajo.getEstadoOrdenTrabajo().equals(EstadoOrdenTrabajo.RECOGIDA)) { // RETOMAR
+		if (ordenTrabajo.getEstadoOrdenTrabajo().equals(EstadoOrdenTrabajo.RECOGIDA)) { // RECOGER
 			ventanaPrincipal.mostrarPanelRecogidaProductos();
 		}
 

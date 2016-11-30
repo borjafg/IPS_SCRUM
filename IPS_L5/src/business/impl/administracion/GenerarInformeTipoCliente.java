@@ -13,41 +13,38 @@ import business.exception.BusinessException;
 import business.impl.administracion.util.Cloner;
 import business.impl.administracion.util.DateUtil;
 import business.impl.util.Command;
-import model.types.MetodosPago;
+import model.types.TipoCliente;
 import persistence.PedidoFinder;
 import persistence.exception.MyPersistenceException;
-import ui.administracion.myTypes.DatosInformeMetodoPago;
+import ui.administracion.myTypes.DatosInformeTipoCliente;
 
-public class GenerarInformeMetodoPago implements Command {
+public class GenerarInformeTipoCliente implements Command {
 
-	private List<DatosInformeMetodoPago> informe;
+	private List<DatosInformeTipoCliente> informe;
 	private List<Map<String, Object>> plantillaFechas;
 
 	@Override
 	public Object execute() throws BusinessException {
 		try {
+
 			inicializarInforme(PedidoFinder.findPedido_MasAntiguo(), new Date());
 
 			List<Map<String, Object>> plantillaCompleta;
 
-			List<MetodosPago> metodos = Arrays.asList(MetodosPago.CONTRAREEMBOLSO, MetodosPago.FACTURA,
-					MetodosPago.TARJETA, MetodosPago.TRANSFERENCIA);
+			List<TipoCliente> clientes = Arrays.asList(TipoCliente.MINORISTA, TipoCliente.PARTICULAR);
 
-			for (MetodosPago mp : metodos) {
-				List<Object[]> info = PedidoFinder.findNumPedidoDia_MetodoPago(mp);
+			for (TipoCliente tc : clientes) {
+				List<Object[]> info = PedidoFinder.findNumPedidoDia_TipoCliente(tc);
 
 				plantillaCompleta = rellenarPlantilla(info);
 
-				informe.add(new DatosInformeMetodoPago(mp, plantillaCompleta));
+				informe.add(new DatosInformeTipoCliente(tc, plantillaCompleta));
 			}
 
 			return informe;
-		}
-
-		catch (MyPersistenceException | PersistenceException pe) {
+		} catch (MyPersistenceException | PersistenceException pe) {
 			throw new BusinessException("Ha ocurrido un error al buscar pedidos", pe);
 		}
-
 	}
 
 	private void inicializarInforme(Date fechaIni, Date fechaFin) throws BusinessException {
@@ -66,7 +63,7 @@ public class GenerarInformeMetodoPago implements Command {
 		// Inicializar informe y plantilla de fechas
 		// --------------------------------------------------------------------
 
-		informe = new ArrayList<DatosInformeMetodoPago>();
+		informe = new ArrayList<DatosInformeTipoCliente>();
 		plantillaFechas = new ArrayList<Map<String, Object>>();
 
 		// --------------------------------------------------------------------
@@ -144,4 +141,4 @@ public class GenerarInformeMetodoPago implements Command {
 		return plantillaCompleta;
 	}
 
-}
+}// fin clase

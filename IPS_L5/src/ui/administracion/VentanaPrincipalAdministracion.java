@@ -38,6 +38,8 @@ public class VentanaPrincipalAdministracion extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipalAdministracion frame = new VentanaPrincipalAdministracion();
+
+					frame.setResizable(false);
 					frame.setVisible(true);
 				}
 
@@ -115,22 +117,21 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		// ==================================
 		// Panel informes de usuarios
 		// ==================================
-		
+
 		panelInformeUsuarios = new PanelInformeUsuarios();
 		panelInformeUsuarios.setVentanaPrincipal(this);
 
 		contentPane.add(panelInformeUsuarios, "panelInformeUsuarios");
 
-		
 		// ==================================
 		// Panel informes de metodo de pago
 		// ==================================
-		
+
 		panelInformeMetodoPago = new PanelInformeMetodoPago();
 		panelInformeMetodoPago.setVentanaPrincipal(this);
 
 		contentPane.add(panelInformeMetodoPago, "panelInformeMetodoPago");
-		
+
 	}
 
 	// ==========================================
@@ -148,22 +149,22 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		// Mostrar informe
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeRecogida");
 	}
-	
-	public void mostrarInformeEmpaquetado() throws BusinessException{
+
+	public void mostrarInformeEmpaquetado() throws BusinessException {
 		panelInformeEmpaquetado.inicializar();
-		
+
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeEmpaquetado");
 	}
-	
-	public void mostrarInformeUsuarios() throws BusinessException{
-		//panelInformeUsuarios.inicializar();
-		
+
+	public void mostrarInformeUsuarios() throws BusinessException {
+		panelInformeUsuarios.inicializar();
+
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeUsuarios");
 	}
-	
-	public void mostrarInformeMetodoPago() throws BusinessException{
+
+	public void mostrarInformeMetodoPago() throws BusinessException {
 		panelInformeMetodoPago.inicializar();
-		
+
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeMetodoPago");
 	}
 
