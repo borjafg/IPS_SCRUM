@@ -6,19 +6,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeMetodoPago;
+import ui.administracion.myTypes.DatosInformeTipoCliente;
 
-public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable {
+public class ModeloTablaInformeTipoUsuario extends AbstractModeloTablaNoEditable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4544687221625398441L;
+	private static final long serialVersionUID = -7735289780289550830L;
 
-	public List<DatosInformeMetodoPago> informe = new ArrayList<DatosInformeMetodoPago>();
+	public List<DatosInformeTipoCliente> informe = new ArrayList<DatosInformeTipoCliente>();
 
-	public ModeloTablaInformeMetodoPago() {
+	public ModeloTablaInformeTipoUsuario() {
 		super();
 
 		asignarNombresColumnas();
@@ -28,7 +25,7 @@ public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable 
 	private void asignarNombresColumnas() {
 		nombreColumnas.clear();
 
-		nombreColumnas.add("Metodo de pago");
+		nombreColumnas.add("Tipo Cliente");
 	}
 
 	private void asignarTiposColumnas() {
@@ -44,16 +41,16 @@ public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable 
 
 	@Override
 	public Object getValueAt(int fila, int columna) {
-		DatosInformeMetodoPago datosPago = informe.get(fila);
-
-		if (columna == 0) {
-			return datosPago.getMetodo();
-		} else if (columna > 0) {
-			return datosPago.getInfoFecha(columna - 1).get("valor") + "";
-		} else {
+		DatosInformeTipoCliente datosCliente = informe.get(fila);
+		
+		if(columna == 0){
+			return datosCliente.getMetodo();
+		}else if (columna > 0){
+			return datosCliente.getInfoFecha(columna -1).get("valor")+"";
+		}
+		else{
 			return null;
 		}
-
 	}
 
 	@Override
@@ -76,16 +73,17 @@ public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable 
 		asignarTiposColumnas();
 
 		fireTableStructureChanged(); // Cambiaron las columnas
-	}
 
-	public void addDatosPedido(DatosInformeMetodoPago datosPago) {
-		informe.add(datosPago);
+	}
+	
+	public void addDatosPedido(DatosInformeTipoCliente datosCliente) {
+		informe.add(datosCliente);
 
 		fireTableDataChanged();
 	}
 
-	public void addFechasTabla(List<Map<String, Object>> datospago) {
-		for (Map<String, Object> info : datospago) {
+	public void addFechasTabla(List<Map<String, Object>> datosCliente) {
+		for (Map<String, Object> info : datosCliente) {
 			addFecha((Date) info.get("fecha"));
 		}
 

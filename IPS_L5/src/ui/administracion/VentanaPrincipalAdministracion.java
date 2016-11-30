@@ -156,7 +156,7 @@ public class VentanaPrincipalAdministracion extends JFrame {
 	}
 	
 	public void mostrarInformeUsuarios() throws BusinessException{
-		//panelInformeUsuarios.inicializar();
+		panelInformeUsuarios.inicializar();
 		
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeUsuarios");
 	}

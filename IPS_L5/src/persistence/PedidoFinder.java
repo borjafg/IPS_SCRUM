@@ -11,6 +11,7 @@ import model.Almacenero;
 import model.OrdenTrabajo;
 import model.Pedido;
 import model.types.MetodosPago;
+import model.types.TipoCliente;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 
@@ -198,6 +199,27 @@ public class PedidoFinder {
 			throw new MyPersistenceException(sb.toString(), e);
 		}
 	}
+	
+	public static List<Object[]> findNumPedidoDia_TipoCliente(TipoCliente tc) throws MyPersistenceException {
+		try {
+			return Jpa.getManager()
+					.createNamedQuery("Pedido.findNumPedidoDia_TipoCliente", Object[].class)
+					.setParameter("tipoCliente", tc).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar los pedidos por día");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+	
+	
+	
+	
+	
 
 	public static Date findPedido_MasAntiguo() throws MyPersistenceException {
 		try {

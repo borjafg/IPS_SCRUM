@@ -14,8 +14,6 @@
 	</named-query>
 
 
-
-
 	<named-query name="Pedido.findPosibleRecoger">
 		<query>select p   from Pedido p   where (p.pagado = model.types.PedidoPagado.SI and p.estado = model.types.EstadoPedido.POSIBLE_ASOCIAR_OT)   order by p.fecha ASC</query>
 	</named-query>
@@ -48,7 +46,9 @@
 		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
 	</named-query>
 
-	
+	<named-query name="Pedido.findNumPedidoDia_TipoCliente">
+		<query>select distinct YEAR(o.fecha), MONTH(o.fecha), DAY(o.fecha), count(*) as num    from Pedido o    where o.fecha is not null and o.cliente.tipoCliente = :tipoCliente    Group by YEAR(o.fecha), MONTH(o.fecha), DAY(o.fecha)    Order by YEAR(o.fecha) ASC, MONTH(o.fecha) ASC, DAY(o.fecha) ASC</query>
+	</named-query>
 	
 	
 	<named-query name="Pedido.findNumPedidoDia_MetodoPago">
