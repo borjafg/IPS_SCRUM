@@ -96,6 +96,7 @@ public class CargarABaseDeDatosParticular implements Command {
 			pedido.setDireccionCompleta(direccion);
 			pedido.setFecha(new Date());
 			pedido.setTipoEnvio(tipoEnvio);
+			pedido.setDestinatario(nombre);
 
 			Jpa.getManager().persist(pedido);
 

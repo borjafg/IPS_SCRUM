@@ -9,7 +9,10 @@ import javax.swing.border.EmptyBorder;
 
 import business.exception.BusinessException;
 import ui.administracion.paneles.PanelOpciones;
+import ui.administracion.paneles.informes.PanelInformeEmpaquetado;
+import ui.administracion.paneles.informes.PanelInformeMetodoPago;
 import ui.administracion.paneles.informes.PanelInformeRecogida;
+import ui.administracion.paneles.informes.PanelInformeUsuarios;
 import ui.administracion.paneles.informes.PanelSeleccionInforme;
 import ui.administracion.paneles.transferencias.PanelTransferencias;
 
@@ -22,6 +25,9 @@ public class VentanaPrincipalAdministracion extends JFrame {
 	private PanelInformeRecogida panelInformeRecogida;
 	private PanelTransferencias panelTransferencias;
 	private PanelSeleccionInforme panelSeleccionInforme;
+	private PanelInformeEmpaquetado panelInformeEmpaquetado;
+	private PanelInformeUsuarios panelInformeUsuarios;
+	private PanelInformeMetodoPago panelInformeMetodoPago;
 
 	/**
 	 * Launch the application.
@@ -97,6 +103,34 @@ public class VentanaPrincipalAdministracion extends JFrame {
 
 		contentPane.add(panelInformeRecogida, "panelInformeRecogida");
 
+		// ==================================
+		// Panel informes de empaquetado
+		// ==================================
+
+		panelInformeEmpaquetado = new PanelInformeEmpaquetado();
+		panelInformeEmpaquetado.setVentanaPrincipal(this);
+
+		contentPane.add(panelInformeEmpaquetado, "panelInformeEmpaquetado");
+
+		// ==================================
+		// Panel informes de usuarios
+		// ==================================
+		
+		panelInformeUsuarios = new PanelInformeUsuarios();
+		panelInformeUsuarios.setVentanaPrincipal(this);
+
+		contentPane.add(panelInformeUsuarios, "panelInformeUsuarios");
+
+		
+		// ==================================
+		// Panel informes de metodo de pago
+		// ==================================
+		
+		panelInformeMetodoPago = new PanelInformeMetodoPago();
+		panelInformeMetodoPago.setVentanaPrincipal(this);
+
+		contentPane.add(panelInformeMetodoPago, "panelInformeMetodoPago");
+		
 	}
 
 	// ==========================================
@@ -114,6 +148,24 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		// Mostrar informe
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeRecogida");
 	}
+	
+	public void mostrarInformeEmpaquetado() throws BusinessException{
+		panelInformeEmpaquetado.inicializar();
+		
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeEmpaquetado");
+	}
+	
+	public void mostrarInformeUsuarios() throws BusinessException{
+		//panelInformeUsuarios.inicializar();
+		
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeUsuarios");
+	}
+	
+	public void mostrarInformeMetodoPago() throws BusinessException{
+		panelInformeMetodoPago.inicializar();
+		
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelInformeMetodoPago");
+	}
 
 	public void mostrarPanelTransferencia() throws BusinessException {
 		// incializar los datos
@@ -121,9 +173,9 @@ public class VentanaPrincipalAdministracion extends JFrame {
 		// mostrar el panel
 		((CardLayout) contentPane.getLayout()).show(contentPane, "panelTransferencias");
 	}
-	
-	public void mostrarPanelSeleccionInforme(){
-		((CardLayout)contentPane.getLayout()).show(contentPane, "panelSeleccionInforme");
+
+	public void mostrarPanelSeleccionInforme() {
+		((CardLayout) contentPane.getLayout()).show(contentPane, "panelSeleccionInforme");
 	}
 
 }

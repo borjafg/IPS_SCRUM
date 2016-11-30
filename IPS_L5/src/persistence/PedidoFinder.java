@@ -1,13 +1,16 @@
 package persistence;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import business.exception.BusinessException;
+import model.Almacenero;
 import model.OrdenTrabajo;
 import model.Pedido;
+import model.types.MetodosPago;
 import persistence.exception.MyPersistenceException;
 import persistence.util.Jpa;
 
@@ -118,16 +121,26 @@ public class PedidoFinder {
 		}
 	}
 
+<<<<<<< HEAD
 	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
 		try {
 			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
+=======
+	public static List<Object[]> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
+		try {
+			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Object[].class)
+>>>>>>> 86930f0100e7afe5847697dc064cec697fe10030
 					.setParameter("pedido", p).getResultList();
 		}
 
 		catch (PersistenceException pe) {
 			StringBuilder sb = new StringBuilder();
 
+<<<<<<< HEAD
 			sb.append("Ha ocurrido un error al buscar los pedidos disponibles");
+=======
+			sb.append("Ha ocurrido un error al buscar los pedidos disponiblesy sus pesos y volumenes");
+>>>>>>> 86930f0100e7afe5847697dc064cec697fe10030
 
 			throw new MyPersistenceException(sb.toString(), pe);
 		}
@@ -165,6 +178,50 @@ public class PedidoFinder {
 
 			sb.append("Ha ocurrido un problema pedidos disponibles para la orden de trabajo = ");
 			sb.append(ordenTrabajo.getId());
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	// ===============================================
+	// Informes
+	// ===============================================
+	
+	
+	
+	public static List<Object[]> findNumPedidoDia_MetodoPago(MetodosPago mp) throws MyPersistenceException {
+		try {
+			return Jpa.getManager()
+					.createNamedQuery("Pedido.findNumPedidoDia_MetodoPago", Object[].class)
+					.setParameter("metodoPago", mp).getResultList();
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar los pedidos por día");
+
+			throw new MyPersistenceException(sb.toString(), e);
+		}
+	}
+
+	public static Date findPedido_MasAntiguo() throws MyPersistenceException {
+		try {
+			List<Date> fechas = Jpa.getManager()
+					.createNamedQuery("Pedido.findPedido_MasAntiguo", Date.class)
+					.setMaxResults(1).getResultList();
+
+			if (fechas.isEmpty()) {
+				return null;
+			}
+
+			return fechas.get(0);
+		}
+
+		catch (PersistenceException e) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Ha ocurrido un problema al buscar pedidos por día por día");
 
 			throw new MyPersistenceException(sb.toString(), e);
 		}

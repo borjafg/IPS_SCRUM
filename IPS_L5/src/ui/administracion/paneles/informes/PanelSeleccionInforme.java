@@ -175,6 +175,14 @@ public class PanelSeleccionInforme extends JPanel {
 			botonOrdenesTrabajoEmpaquetado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
+					try {
+						ventanaPrincipal.mostrarInformeEmpaquetado();
+					}
+
+					catch (BusinessException e1) {
+						Log.error("Fallo a la hora de generar el 'Informe de paquetes recogidos'", e1);
+					}
+
 				}
 			});
 
@@ -208,6 +216,14 @@ public class PanelSeleccionInforme extends JPanel {
 			botonTipoPago.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
+					try {
+						ventanaPrincipal.mostrarInformeMetodoPago();
+					}
+
+					catch (BusinessException e1) {
+						Log.error("Fallo a la hora de generar el 'Informe de ventas por metodo de pago'", e1);
+					}
+
 				}
 			});
 
@@ -239,6 +255,14 @@ public class PanelSeleccionInforme extends JPanel {
 
 			botonTipoCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+
+					try {
+						ventanaPrincipal.mostrarInformeUsuarios();
+					}
+
+					catch (BusinessException e1) {
+						Log.error("Fallo a la hora de generar el 'Informe de ventas por tipo de usuario'", e1);
+					}
 
 				}
 			});
