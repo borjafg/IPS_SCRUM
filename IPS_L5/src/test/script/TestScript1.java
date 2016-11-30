@@ -45,12 +45,13 @@ public class TestScript1 implements Command {
 		Log.debug("Se han creado clientes minoristas a cholón");
 		// Creamos los almaceneros en la base de datos
 		String[] nombre = { "Pepe", "Manolo", "Alfonso", "Paula" };
-
+		String[] nombreCompleto = {"Paco Pérez","Pepe Gutierrez","Manolo El Listillo", "Paula Martínez"};
+		
 		Almacenero almacenero;
-		for (String alm : nombre) {
+		for (int i = 0 ; i<nombre.length; i++) {
 			almacenero = new Almacenero();
-			almacenero.setLogin(alm);
-			almacenero.setNombre(alm);
+			almacenero.setLogin(nombre[i]);
+			almacenero.setNombre(nombreCompleto[i]);
 			Jpa.getManager().persist(almacenero);
 		}
 
