@@ -3,20 +3,18 @@ package ui.administracion.myTypes;
 import java.util.List;
 import java.util.Map;
 
-import model.Pedido;
 import model.types.MetodosPago;
 
 public class DatosInformeMetodoPago {
-	
+
 	private MetodosPago metodoPago;
 	private List<Map<String, Object>> listaFechas;
-	
-	public DatosInformeMetodoPago(MetodosPago metodoPago,List<Map<String, Object>> listaFechas) {
+
+	public DatosInformeMetodoPago(MetodosPago metodoPago, List<Map<String, Object>> listaFechas) {
 		this.listaFechas = listaFechas;
 		this.metodoPago = metodoPago;
 	}
 
-	
 	/**
 	 * Obtiene informacion sobre una fecha concreta.
 	 * 
@@ -31,13 +29,11 @@ public class DatosInformeMetodoPago {
 	public Map<String, Object> getInfoFecha(int pos) {
 		return listaFechas.get(pos);
 	}
-	
-	
-	public MetodosPago getMetodo(){
+
+	public MetodosPago getMetodo() {
 		return metodoPago;
 	}
-	
-	
+
 	/**
 	 * Devuelve la informacion sobre todas las fechas del informe asociadas al
 	 * pedido.
@@ -50,5 +46,5 @@ public class DatosInformeMetodoPago {
 	public List<Map<String, Object>> getFechas() {
 		return listaFechas;
 	}
-	
+
 }

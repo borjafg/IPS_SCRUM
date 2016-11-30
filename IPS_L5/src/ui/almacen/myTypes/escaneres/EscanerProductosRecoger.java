@@ -193,8 +193,8 @@ public class EscanerProductosRecoger extends JDialog {
 	public void setPanelRecogidaProductos(PanelRecogidaProductos panelRecogida) {
 		this.panelRecogidaProductos = panelRecogida;
 
-		setLocation((int) panelRecogida.getVentanaPrincipal().getLocation().getX() - 355,
-				(int) panelRecogida.getVentanaPrincipal().getLocation().getY() - 25);
+		setLocation((int) panelRecogida.getVentanaPrincipal().getLocation().getX() - 420,
+				(int) panelRecogida.getVentanaPrincipal().getLocation().getY() - 5);
 	}
 
 	public void llenarLista(List<MyProducto_OrdenadoPosicion> lista) {

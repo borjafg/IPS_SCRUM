@@ -1,6 +1,5 @@
 package business.impl.administracion;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,25 +13,16 @@ import business.exception.BusinessException;
 import business.impl.administracion.util.Cloner;
 import business.impl.administracion.util.DateUtil;
 import business.impl.util.Command;
-import model.Almacenero;
-import model.Pedido;
 import model.types.MetodosPago;
-import persistence.AlmaceneroFinder;
-import persistence.OrdenTrabajoFinder;
 import persistence.PedidoFinder;
 import persistence.exception.MyPersistenceException;
-import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeMetodoPago;
 
 public class GenerarInformeMetodoPago implements Command {
 
 	private List<DatosInformeMetodoPago> informe;
 	private List<Map<String, Object>> plantillaFechas;
-	
-	
-	
-	
-	
+
 	@Override
 	public Object execute() throws BusinessException {
 		try {
@@ -40,7 +30,8 @@ public class GenerarInformeMetodoPago implements Command {
 
 			List<Map<String, Object>> plantillaCompleta;
 
-			List<MetodosPago> metodos = Arrays.asList(MetodosPago.CONTRAREEMBOLSO,MetodosPago.FACTURA,MetodosPago.TARJETA,MetodosPago.TRANSFERENCIA);
+			List<MetodosPago> metodos = Arrays.asList(MetodosPago.CONTRAREEMBOLSO, MetodosPago.FACTURA,
+					MetodosPago.TARJETA, MetodosPago.TRANSFERENCIA);
 
 			for (MetodosPago mp : metodos) {
 				List<Object[]> info = PedidoFinder.findNumPedidoDia_MetodoPago(mp);
@@ -54,108 +45,103 @@ public class GenerarInformeMetodoPago implements Command {
 		}
 
 		catch (MyPersistenceException | PersistenceException pe) {
-			throw new BusinessException(
-					"Ha ocurrido un error al buscar pedidos", pe);
+			throw new BusinessException("Ha ocurrido un error al buscar pedidos", pe);
 		}
-		
+
 	}
-		
-		private void inicializarInforme(Date fechaIni, Date fechaFin) throws BusinessException {
-			if (fechaIni == null) {
-				throw new BusinessException("No hay ningun pedido comprado");
-			}
 
-			// -------------------------------------------------------------------
-			// Las fechas deben tener solo la informacion del día, mes, año
-			// -------------------------------------------------------------------
-
-			Date fechaInicial = DateUtil.truncarHastaDia(fechaIni);
-			Date fechaFinal = DateUtil.truncarHastaDia(fechaFin);
-
-			// --------------------------------------------------------------------
-			// Inicializar informe y plantilla de fechas
-			// --------------------------------------------------------------------
-
-			informe = new ArrayList<DatosInformeMetodoPago>();
-			plantillaFechas = new ArrayList<Map<String, Object>>();
-
-			// --------------------------------------------------------------------
-			// Cargar plantilla de fechas
-			// --------------------------------------------------------------------
-
-			Map<String, Object> infoFecha;
-			Date fechaAux = DateUtil.clonarFecha(fechaInicial);
-
-			while (!fechaAux.after(fechaFinal)) {
-				infoFecha = new HashMap<String, Object>();
-
-				infoFecha.put("fecha", fechaAux);
-				infoFecha.put("valor", 0);
-
-				plantillaFechas.add(infoFecha);
-
-				fechaAux = DateUtil.sumarDia(fechaAux);
-			}
+	private void inicializarInforme(Date fechaIni, Date fechaFin) throws BusinessException {
+		if (fechaIni == null) {
+			throw new BusinessException("No hay ningun pedido comprado");
 		}
 
-		public List<Map<String, Object>> rellenarPlantilla(List<Object[]> infoPedido) {
-			// ====================================================
-			// Copiar la plantilla de fechas
-			// ====================================================
+		// -------------------------------------------------------------------
+		// Las fechas deben tener solo la informacion del día, mes, año
+		// -------------------------------------------------------------------
 
-			List<Map<String, Object>> plantillaCompleta = Cloner.clonarPlantilla(plantillaFechas);
+		Date fechaInicial = DateUtil.truncarHastaDia(fechaIni);
+		Date fechaFinal = DateUtil.truncarHastaDia(fechaFin);
 
-			// Si el almacenero no recogio ninguna orden de trabajo
+		// --------------------------------------------------------------------
+		// Inicializar informe y plantilla de fechas
+		// --------------------------------------------------------------------
 
-			if (infoPedido.isEmpty()) {
-				return plantillaCompleta;
-			}
+		informe = new ArrayList<DatosInformeMetodoPago>();
+		plantillaFechas = new ArrayList<Map<String, Object>>();
 
-			// ====================================================
-			// Rellenar la plantilla de fechas
-			// ====================================================
+		// --------------------------------------------------------------------
+		// Cargar plantilla de fechas
+		// --------------------------------------------------------------------
 
-			int indice = 0;
+		Map<String, Object> infoFecha;
+		Date fechaAux = DateUtil.clonarFecha(fechaInicial);
 
-			Object[] values = infoPedido.get(indice);
-			Date fecha = DateUtil.getDate((int) values[0], (int) values[1], (int) values[2]);
+		while (!fechaAux.after(fechaFinal)) {
+			infoFecha = new HashMap<String, Object>();
 
-			for (Map<String, Object> fechaPlantilla : plantillaCompleta) {
+			infoFecha.put("fecha", fechaAux);
+			infoFecha.put("valor", 0);
 
-				// -----------------------------------------------
-				// Si la fecha coincide con la de la plantilla
-				// -----------------------------------------------
+			plantillaFechas.add(infoFecha);
 
-				if (DateUtil.mismoDia((Date) fechaPlantilla.get("fecha"), fecha)) {
-					fechaPlantilla.put("valor", values[3]);
+			fechaAux = DateUtil.sumarDia(fechaAux);
+		}
+	}
 
-					// -----------------------------------------------
-					// Pasar a evaluar la siguiente fecha
-					// -----------------------------------------------
+	public List<Map<String, Object>> rellenarPlantilla(List<Object[]> infoPedido) {
+		// ====================================================
+		// Copiar la plantilla de fechas
+		// ====================================================
 
-					indice++;
+		List<Map<String, Object>> plantillaCompleta = Cloner.clonarPlantilla(plantillaFechas);
 
-					if (indice < infoPedido.size()) {
-						values = infoPedido.get(indice);
+		// Si el almacenero no recogio ninguna orden de trabajo
 
-						fecha = DateUtil.getDate((int) values[0], (int) values[1], (int) values[2]);
-					}
-
-					else { // No quedan fechas que evaluar
-						break;
-					}
-				}
-			}
-
-			// ====================================================
-			// Devolver la plantilla rellenada
-			// ====================================================
-
+		if (infoPedido.isEmpty()) {
 			return plantillaCompleta;
 		}
-		
-		
-		
-	
+
+		// ====================================================
+		// Rellenar la plantilla de fechas
+		// ====================================================
+
+		int indice = 0;
+
+		Object[] values = infoPedido.get(indice);
+		Date fecha = DateUtil.getDate((int) values[0], (int) values[1], (int) values[2]);
+
+		for (Map<String, Object> fechaPlantilla : plantillaCompleta) {
+
+			// -----------------------------------------------
+			// Si la fecha coincide con la de la plantilla
+			// -----------------------------------------------
+
+			if (DateUtil.mismoDia((Date) fechaPlantilla.get("fecha"), fecha)) {
+				fechaPlantilla.put("valor", values[3]);
+
+				// -----------------------------------------------
+				// Pasar a evaluar la siguiente fecha
+				// -----------------------------------------------
+
+				indice++;
+
+				if (indice < infoPedido.size()) {
+					values = infoPedido.get(indice);
+
+					fecha = DateUtil.getDate((int) values[0], (int) values[1], (int) values[2]);
+				}
+
+				else { // No quedan fechas que evaluar
+					break;
+				}
+			}
+		}
+
+		// ====================================================
+		// Devolver la plantilla rellenada
+		// ====================================================
+
+		return plantillaCompleta;
+	}
 
 }

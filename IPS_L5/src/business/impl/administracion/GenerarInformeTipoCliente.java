@@ -13,30 +13,25 @@ import business.exception.BusinessException;
 import business.impl.administracion.util.Cloner;
 import business.impl.administracion.util.DateUtil;
 import business.impl.util.Command;
-import model.types.MetodosPago;
 import model.types.TipoCliente;
 import persistence.PedidoFinder;
 import persistence.exception.MyPersistenceException;
-import ui.administracion.myTypes.DatosInformeMetodoPago;
 import ui.administracion.myTypes.DatosInformeTipoCliente;
 
 public class GenerarInformeTipoCliente implements Command {
 
 	private List<DatosInformeTipoCliente> informe;
 	private List<Map<String, Object>> plantillaFechas;
-	
-	
-	
+
 	@Override
 	public Object execute() throws BusinessException {
-		try{
-			
-			
+		try {
+
 			inicializarInforme(PedidoFinder.findPedido_MasAntiguo(), new Date());
 
 			List<Map<String, Object>> plantillaCompleta;
 
-			List<TipoCliente> clientes = Arrays.asList(TipoCliente.MINORISTA,TipoCliente.PARTICULAR);
+			List<TipoCliente> clientes = Arrays.asList(TipoCliente.MINORISTA, TipoCliente.PARTICULAR);
 
 			for (TipoCliente tc : clientes) {
 				List<Object[]> info = PedidoFinder.findNumPedidoDia_TipoCliente(tc);
@@ -46,18 +41,12 @@ public class GenerarInformeTipoCliente implements Command {
 				informe.add(new DatosInformeTipoCliente(tc, plantillaCompleta));
 			}
 
-			
-			
-			
-			
 			return informe;
-		}catch(MyPersistenceException | PersistenceException pe){
-			throw new BusinessException(
-					"Ha ocurrido un error al buscar pedidos", pe);
+		} catch (MyPersistenceException | PersistenceException pe) {
+			throw new BusinessException("Ha ocurrido un error al buscar pedidos", pe);
 		}
 	}
 
-	
 	private void inicializarInforme(Date fechaIni, Date fechaFin) throws BusinessException {
 		if (fechaIni == null) {
 			throw new BusinessException("No hay ningun pedido comprado");
@@ -95,8 +84,7 @@ public class GenerarInformeTipoCliente implements Command {
 			fechaAux = DateUtil.sumarDia(fechaAux);
 		}
 	}
-	
-	
+
 	public List<Map<String, Object>> rellenarPlantilla(List<Object[]> infoPedido) {
 		// ====================================================
 		// Copiar la plantilla de fechas
@@ -152,9 +140,5 @@ public class GenerarInformeTipoCliente implements Command {
 
 		return plantillaCompleta;
 	}
-	
-	
-	
-	
-	
-}//fin clase
+
+}// fin clase

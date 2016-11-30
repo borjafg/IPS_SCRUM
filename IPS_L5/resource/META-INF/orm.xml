@@ -24,9 +24,6 @@
 	</named-query>
 
 
-
-
-
 	<named-query name="Pedido.findPosibleEmpaquetar">
 		<query>select distinct p.productoPedido.pedido from ProductoEnOrdenTrabajo p where p.ordenTrabajo = :ordenTrabajo and p.unidadesProducto > p.unidadesEmpaquetadas</query>
 	</named-query>
@@ -46,11 +43,12 @@
 		<query>select p from Pedido p where p.pagado = model.types.PedidoPagado.NO</query>
 	</named-query>
 
+
 	<named-query name="Pedido.findNumPedidoDia_TipoCliente">
 		<query>select distinct YEAR(o.fecha), MONTH(o.fecha), DAY(o.fecha), count(*) as num    from Pedido o    where o.fecha is not null and o.cliente.tipoCliente = :tipoCliente    Group by YEAR(o.fecha), MONTH(o.fecha), DAY(o.fecha)    Order by YEAR(o.fecha) ASC, MONTH(o.fecha) ASC, DAY(o.fecha) ASC</query>
 	</named-query>
-	
-	
+
+
 	<named-query name="Pedido.findNumPedidoDia_MetodoPago">
 		<query>select distinct YEAR(o.fecha), MONTH(o.fecha), DAY(o.fecha), count(*) as num    from Pedido o    where o.fecha is not null and o.metodoPago = :metodoPago    Group by YEAR(o.fecha), MONTH(o.fecha), DAY(o.fecha)    Order by YEAR(o.fecha) ASC, MONTH(o.fecha) ASC, DAY(o.fecha) ASC</query>
 	</named-query>
@@ -59,6 +57,9 @@
 	<named-query name="Pedido.findPedido_MasAntiguo">
 		<query>select distinct o.fecha    from Pedido o    Order by o.fecha ASC</query>
 	</named-query>
+
+
+
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 	<!-- - - - - - - - - - Producto - - - - - - - - - - -->
@@ -179,9 +180,10 @@
 	<named-query name="Paquete.findNoAsociadosEnvio">
 		<query>select p from Paquete p where p.envio is null and p.estado = model.types.EstadoPaquete.CERRADO Order by p.id ASC</query>
 	</named-query>
-	
-	
-	<named-query name="OrdenTrabajo.findNumOrdenTrabajoEmpaquetadaDia_Almacenero">
+
+
+	<named-query
+		name="OrdenTrabajo.findNumOrdenTrabajoEmpaquetadaDia_Almacenero">
 		<query>select YEAR(o.fechaFinEmpaquetado), MONTH(o.fechaFinEmpaquetado), DAY(o.fechaFinEmpaquetado), count(*) as num    from OrdenTrabajo o    where o.fechaFinEmpaquetado is not null and o.almaceneroRecoger = :almacenero    Group by YEAR(o.fechaFinEmpaquetado), MONTH(o.fechaFinEmpaquetado), DAY(o.fechaFinEmpaquetado)    Order by YEAR(o.fechaFinEmpaquetado) ASC, MONTH(o.fechaFinEmpaquetado) ASC, DAY(o.fechaFinEmpaquetado) ASC</query>
 	</named-query>
 

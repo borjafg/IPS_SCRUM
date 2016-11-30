@@ -1,29 +1,28 @@
 package ui.administracion.paneles.informes;
 
-import javax.swing.JPanel;
-
-import ui.administracion.VentanaPrincipalAdministracion;
-import ui.administracion.myTypes.DatosInformeMetodoPago;
-import ui.administracion.myTypes.DatosInformeTipoCliente;
-import ui.administracion.myTypes.modelosTabla.ModeloTablaInformeTipoUsuario;
-
 import java.awt.BorderLayout;
-import javax.swing.JButton;
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import business.exception.BusinessException;
 import infrastructure.ServiceFactory;
-
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import ui.administracion.VentanaPrincipalAdministracion;
+import ui.administracion.myTypes.DatosInformeTipoCliente;
+import ui.administracion.myTypes.modelosTabla.ModeloTablaInformeTipoUsuario;
 
 public class PanelInformeUsuarios extends JPanel {
+
+	private static final long serialVersionUID = 886082235304262380L;
 
 	private VentanaPrincipalAdministracion ventanaPrincipal;
 	private JPanel panelNorte;
@@ -33,6 +32,7 @@ public class PanelInformeUsuarios extends JPanel {
 	private JLabel lblTitulo;
 	private JScrollPane scrollPane;
 	private JTable table;
+	
 	private ModeloTablaInformeTipoUsuario modeloTablaUsuario;
 
 	/**
@@ -118,6 +118,7 @@ public class PanelInformeUsuarios extends JPanel {
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
+		
 		return table;
 	}
 	

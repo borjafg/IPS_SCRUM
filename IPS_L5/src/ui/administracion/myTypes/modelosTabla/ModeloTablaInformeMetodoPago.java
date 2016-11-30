@@ -6,14 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ui.administracion.myTypes.DatosInformeAlmacenero;
 import ui.administracion.myTypes.DatosInformeMetodoPago;
 
 public class ModeloTablaInformeMetodoPago extends AbstractModeloTablaNoEditable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4544687221625398441L;
 
 	public List<DatosInformeMetodoPago> informe = new ArrayList<DatosInformeMetodoPago>();

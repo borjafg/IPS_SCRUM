@@ -7,7 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import business.exception.BusinessException;
-import model.Almacenero;
 import model.OrdenTrabajo;
 import model.Pedido;
 import model.types.MetodosPago;
@@ -122,20 +121,16 @@ public class PedidoFinder {
 		}
 	}
 
-
-	public static List<Object[]> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
+	public static List<Pedido> findPosibleRecoger_NoPedido(Pedido p) throws MyPersistenceException {
 		try {
-			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Object[].class)
-
-					.setParameter("pedido", p).getResultList();
+			return Jpa.getManager().createNamedQuery("Pedido.findPosibleRecoger_NoPedido", Pedido.class)
+					.getResultList();
 		}
 
 		catch (PersistenceException pe) {
 			StringBuilder sb = new StringBuilder();
 
-
-			sb.append("Ha ocurrido un error al buscar los pedidos disponiblesy sus pesos y volumenes");
-
+			sb.append("Ha ocurrido un error al buscar los pedidos disponibles");
 
 			throw new MyPersistenceException(sb.toString(), pe);
 		}
@@ -181,13 +176,10 @@ public class PedidoFinder {
 	// ===============================================
 	// Informes
 	// ===============================================
-	
-	
-	
+
 	public static List<Object[]> findNumPedidoDia_MetodoPago(MetodosPago mp) throws MyPersistenceException {
 		try {
-			return Jpa.getManager()
-					.createNamedQuery("Pedido.findNumPedidoDia_MetodoPago", Object[].class)
+			return Jpa.getManager().createNamedQuery("Pedido.findNumPedidoDia_MetodoPago", Object[].class)
 					.setParameter("metodoPago", mp).getResultList();
 		}
 
@@ -199,11 +191,10 @@ public class PedidoFinder {
 			throw new MyPersistenceException(sb.toString(), e);
 		}
 	}
-	
+
 	public static List<Object[]> findNumPedidoDia_TipoCliente(TipoCliente tc) throws MyPersistenceException {
 		try {
-			return Jpa.getManager()
-					.createNamedQuery("Pedido.findNumPedidoDia_TipoCliente", Object[].class)
+			return Jpa.getManager().createNamedQuery("Pedido.findNumPedidoDia_TipoCliente", Object[].class)
 					.setParameter("tipoCliente", tc).getResultList();
 		}
 
@@ -215,16 +206,10 @@ public class PedidoFinder {
 			throw new MyPersistenceException(sb.toString(), e);
 		}
 	}
-	
-	
-	
-	
-	
 
 	public static Date findPedido_MasAntiguo() throws MyPersistenceException {
 		try {
-			List<Date> fechas = Jpa.getManager()
-					.createNamedQuery("Pedido.findPedido_MasAntiguo", Date.class)
+			List<Date> fechas = Jpa.getManager().createNamedQuery("Pedido.findPedido_MasAntiguo", Date.class)
 					.setMaxResults(1).getResultList();
 
 			if (fechas.isEmpty()) {

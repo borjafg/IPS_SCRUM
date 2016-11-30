@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ui.administracion.myTypes.DatosInformeMetodoPago;
 import ui.administracion.myTypes.DatosInformeTipoCliente;
 
 public class ModeloTablaInformeTipoUsuario extends AbstractModeloTablaNoEditable {
@@ -42,13 +41,12 @@ public class ModeloTablaInformeTipoUsuario extends AbstractModeloTablaNoEditable
 	@Override
 	public Object getValueAt(int fila, int columna) {
 		DatosInformeTipoCliente datosCliente = informe.get(fila);
-		
-		if(columna == 0){
+
+		if (columna == 0) {
 			return datosCliente.getMetodo();
-		}else if (columna > 0){
-			return datosCliente.getInfoFecha(columna -1).get("valor")+"";
-		}
-		else{
+		} else if (columna > 0) {
+			return datosCliente.getInfoFecha(columna - 1).get("valor") + "";
+		} else {
 			return null;
 		}
 	}
@@ -75,7 +73,7 @@ public class ModeloTablaInformeTipoUsuario extends AbstractModeloTablaNoEditable
 		fireTableStructureChanged(); // Cambiaron las columnas
 
 	}
-	
+
 	public void addDatosPedido(DatosInformeTipoCliente datosCliente) {
 		informe.add(datosCliente);
 

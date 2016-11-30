@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -102,10 +101,10 @@ public class PanelEnvioPaquetes extends JPanel {
 
 		escaner.setPanelEnvios(this);
 
-		escaner.setPaquetes(paquetes);
+		escaner.setPaquetes(new ArrayList<Paquete>(paquetes));
 		escaner.ordenarPaquetes();
 
-		modeloTablaPaquetes.setPaquetes(paquetes);
+		modeloTablaPaquetes.setPaquetes(new ArrayList<Paquete>(paquetes));
 		modeloTablaPaquetes.ordenar();
 
 		escaner.setVisible(true);
@@ -255,20 +254,10 @@ public class PanelEnvioPaquetes extends JPanel {
 	private JButton getBotonSacarEnvio() {
 		if (botonSacarEnvio == null) {
 
-			// ==================================
-			//
-			// ==================================
-
 			ImageIcon icon = new ImageIcon(
 					PanelEnvioPaquetes.class.getResource("/ui/almacen/envios/img/flechaHaciaArriba.png"));
 
-			ImageIcon iconButton = new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-
-			// ===================================
-			//
-			// ===================================
-
-			botonSacarEnvio = new JButton(iconButton);
+			botonSacarEnvio = new JButton(icon);
 
 			botonSacarEnvio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -282,10 +271,7 @@ public class PanelEnvioPaquetes extends JPanel {
 						ventanaPrincipal.getMessage().warning("Aviso", "No se ha seleccionado ningún paquete");
 					}
 				}
-			});
-
-			botonSacarEnvio.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		}
+			});		}
 
 		return botonSacarEnvio;
 	}
@@ -339,7 +325,7 @@ public class PanelEnvioPaquetes extends JPanel {
 
 			tablaPaquetesEnEnvio = new JTable(modeloTablaPaquetesEnEnvio);
 
-			tablaPaquetes.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
+			tablaPaquetesEnEnvio.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 13));
 			tablaPaquetesEnEnvio.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		}
 

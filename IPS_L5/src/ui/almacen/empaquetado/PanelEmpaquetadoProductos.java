@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -659,9 +660,9 @@ public class PanelEmpaquetadoProductos extends JPanel {
 		}
 
 		this.paqueteActual = paquete;
-		modeloTablaProductosEmpaquetar.setProductos(productos);
+		modeloTablaProductosEmpaquetar.setProductos(new ArrayList<ProductoEnOrdenTrabajo>(productos));
 
-		cargarEscaner(productos);
+		cargarEscaner(new ArrayList<ProductoEnOrdenTrabajo>(productos));
 
 		// ----------------------------------------------
 		// -> Cambiar texto boton Abrir / Cerrar paquete

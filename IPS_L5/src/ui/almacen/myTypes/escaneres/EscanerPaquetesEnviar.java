@@ -169,7 +169,7 @@ public class EscanerPaquetesEnviar extends JDialog {
 		if (textFieldCodigoPaquete == null) {
 			textFieldCodigoPaquete = new JTextField();
 
-			textFieldCodigoPaquete.setHorizontalAlignment(SwingConstants.RIGHT);
+			textFieldCodigoPaquete.setHorizontalAlignment(SwingConstants.CENTER);
 			textFieldCodigoPaquete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			textFieldCodigoPaquete.setColumns(10);
 		}
