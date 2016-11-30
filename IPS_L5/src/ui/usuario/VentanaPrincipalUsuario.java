@@ -514,7 +514,7 @@ public class VentanaPrincipalUsuario extends JFrame {
 						getMntmIniciarSesin().setEnabled(true);
 						getMntmCerrarSesin().setEnabled(false);
 					}
-
+					resetearCamposDeDatos(); 
 					((CardLayout) panelBase.getLayout()).show(panelBase, "panelPrincipal");
 				}
 			});
@@ -638,6 +638,9 @@ public class VentanaPrincipalUsuario extends JFrame {
 		return btnFinalizarPedido;
 	}
 
+	
+	
+	
 	private void resetearCamposDeDatos() {
 		getTextFieldDireccionCliente().setText("");
 		getTextFieldNombreCliente().setText("");

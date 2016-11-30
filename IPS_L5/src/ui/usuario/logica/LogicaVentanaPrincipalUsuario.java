@@ -184,8 +184,11 @@ public class LogicaVentanaPrincipalUsuario {
 		for (ModeloProductosPedidos a : listaCesta) {
 			precio = precio + a.getPrecioTotalProducto();
 		}
+		
+		int aux =(int)(precio*100);
+		double aux2 = ((double)aux) /100;
 
-		return precio;
+		return aux2;
 	}
 
 	public void generarusuarioMinorista(TipoEnvio tipoEnvio) throws BusinessException {

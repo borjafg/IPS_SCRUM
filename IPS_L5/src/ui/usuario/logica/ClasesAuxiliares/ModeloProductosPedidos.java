@@ -32,6 +32,7 @@ public class ModeloProductosPedidos {
 	private void calcularPrecio() {
 		double iva = (producto.getIva()* producto.getPrecio())/100;
 		precioTotalProducto = unidades * (producto.getPrecio() + iva);
+		
 	}
 
 	public Producto getProducto() {
